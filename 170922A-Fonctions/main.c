@@ -1,0 +1,22 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+int main()
+{
+  int fois3(int nombre) //on crée la fonction "fois3" pour multiplier un nombre par 3
+  {
+    nombre *= 3; //on multiplie nombre par 3 et on change sa valeur
+    return nombre; //la fonction revoit la nouvelle valeur de nombre en sortie
+  }
+
+  int nbUser = 0, resultat = 0;
+
+  printf("Veuillez rentrer un nombre à multiplier par 3: ");
+  scanf("%d", &nbUser); //l'utilisateur rentre le nombre qu'il veut multiplier par 3
+
+  resultat = fois3(nbUser); //On ultilise la fonction "fois3" et on affecte sa sortie à "resultat"
+
+  printf("%d * 3 = %d\n", nbUser, resultat);
+
+  return 0;
+}

@@ -1,0 +1,66 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+/**
+ * Auto-generated code below aims at helping you parse
+ * the standard input according to the problem statement.
+ **/
+
+enum info{ITEM, CHAR};
+enum items{NONE, LIFT, EXIT, GEN};
+enum characters{CLONER = 1, CLONEL, LEADR, LEADL, BLOCKED};
+
+int main()
+{
+  int nbFloors; //number of floors
+  int width; //width of the area
+  int nbRounds; //maximum number of rounds
+  int exitFloor; //floor on which the exit is found
+  int exitPos; //position of the exit on its floor
+  int nbTotalClones; //number of generated clones
+  int nbAdditionalElevators; //ignore (always zero)
+  int nbElevators; //number of elevators
+  scanf("%d%d%d%d%d%d%d%d", &nbFloors, &width, &nbRounds, &exitFloor, &exitPos, &nbTotalClones, &nbAdditionalElevators, &nbElevators);
+
+  /*creates the level array in which every event and element of the game will be stored*/
+  int ***level = (int ***)malloc(nbFloors * sizeof(int **));
+  for(int i = 0; i < nbFloors; i++)
+  {
+    level[i] = (int **)malloc(width * sizeof(int *));
+    for(int j = 0; j < width; j++)
+    {
+      level[i][j] = (int *)malloc(2 * sizeof(int));
+      level[i][j][ITEM] = i == exitFloor && j == exitPos ? EXIT : FREE;
+      level[i][j][CHAR] = NONE;
+    }
+  }
+
+  for(int i = 0; i < nbElevators; i++)
+  {
+    int elevatorFloor; //floor on which this elevator is found
+    int elevatorPos; //position of the elevator on its floor
+    scanf("%d%d", &elevatorFloor, &elevatorPos);
+    level[elevatorFloor][elevatorPos][ITEM] = LIFT;
+  }
+
+  int i = 0; //is gonna count the number of rounds
+
+  //game loop
+  while(1)
+  {
+    int cloneFloor; //floor of the leading clone
+    int clonePos; //position of the leading clone on its floor
+    char direction[11]; //direction of the leading clone: LEFT or RIGHT
+    scanf("%d%d%s", &cloneFloor, &clonePos, direction);
+
+    /*first, get the generator location on first run of the loop*/
+    if(i == 0)
+      level[cloneFloor][clonePos][ITEM] = GEN;
+
+    printf("WAIT\n"); //action: WAIT or BLOCK
+    i++;
+  }
+
+  return 0;
+}

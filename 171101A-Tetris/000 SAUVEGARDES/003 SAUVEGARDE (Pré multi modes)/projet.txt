@@ -1,0 +1,6 @@
+gestion de la résolution
+
+plusieurs modes de jeu (le bouton jouer va rediriger vers un menu où on pourra choisir le mode de jeu)
+mode 125*125 (grille géante)
+
+réorganisation de partie()

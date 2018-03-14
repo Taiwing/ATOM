@@ -1,0 +1,18442 @@
+
+NODE: 0
+lcount: 2
+loc_max: 0
+
+NODE: 1488
+lcount: 3
+loc_max: 1
+
+NODE: 1458
+lcount: 2
+loc_max: 2
+
+NODE: 372
+lcount: 2
+loc_max: 3
+
+NODE: 1902
+lcount: 2
+loc_max: 4
+
+NODE: 1222
+lcount: 3
+loc_max: 5
+
+NODE: 970
+lcount: 1
+loc_max: 6
+
+NODE: 1974
+lcount: 1
+loc_max: 6
+
+NODE: 1657
+lcount: 3
+loc_max: 2
+
+NODE: 971
+lcount: 3
+loc_max: 3
+
+NODE: 1363
+lcount: 3
+loc_max: 4
+
+NODE: 1257
+lcount: 2
+loc_max: 5
+
+NODE: 111
+lcount: 1
+loc_max: 6
+
+NODE: 2149
+lcount: 3
+loc_max: 5
+
+NODE: 553
+lcount: 1
+loc_max: 6
+
+NODE: 1605
+lcount: 1
+loc_max: 6
+
+NODE: 1877
+lcount: 3
+loc_max: 4
+
+NODE: 900
+lcount: 2
+loc_max: 5
+
+NODE: 715
+lcount: 1
+loc_max: 6
+
+NODE: 2041
+lcount: 3
+loc_max: 5
+
+NODE: 358
+lcount: 1
+loc_max: 6
+
+NODE: 1607
+lcount: 1
+loc_max: 6
+
+NODE: 1000
+lcount: 2
+loc_max: 3
+
+NODE: 537
+lcount: 3
+loc_max: 4
+
+NODE: 333
+lcount: 3
+loc_max: 5
+
+NODE: 669
+lcount: 1
+loc_max: 6
+
+NODE: 719
+lcount: 1
+loc_max: 6
+
+NODE: 700
+lcount: 3
+loc_max: 5
+
+NODE: 115
+lcount: 1
+loc_max: 6
+
+NODE: 1500
+lcount: 1
+loc_max: 6
+
+NODE: 2008
+lcount: 2
+loc_max: 1
+
+NODE: 1371
+lcount: 3
+loc_max: 2
+
+NODE: 1330
+lcount: 2
+loc_max: 3
+
+NODE: 1254
+lcount: 3
+loc_max: 4
+
+NODE: 1172
+lcount: 3
+loc_max: 5
+
+NODE: 1521
+lcount: 3
+loc_max: 6
+
+NODE: 675
+lcount: 2
+loc_max: 7
+
+NODE: 593
+lcount: 2
+loc_max: 8
+
+NODE: 382
+lcount: 3
+loc_max: 9
+
+NODE: 1292
+lcount: 3
+loc_max: 10
+
+NODE: 1407
+lcount: 3
+loc_max: 11
+
+NODE: 1451
+lcount: 3
+loc_max: 12
+
+NODE: 524
+lcount: 3
+loc_max: 13
+
+NODE: 1094
+lcount: 1
+loc_max: 14
+
+NODE: 1962
+lcount: 1
+loc_max: 14
+
+NODE: 2144
+lcount: 2
+loc_max: 13
+
+NODE: 1706
+lcount: 1
+loc_max: 14
+
+NODE: 2211
+lcount: 2
+loc_max: 12
+
+NODE: 2258
+lcount: 2
+loc_max: 13
+
+NODE: 2300
+lcount: 1
+loc_max: 14
+
+NODE: 1629
+lcount: 3
+loc_max: 11
+
+NODE: 642
+lcount: 2
+loc_max: 12
+
+NODE: 255
+lcount: 3
+loc_max: 13
+
+NODE: 52
+lcount: 1
+loc_max: 14
+
+NODE: 1142
+lcount: 1
+loc_max: 14
+
+NODE: 1982
+lcount: 3
+loc_max: 12
+
+NODE: 1704
+lcount: 2
+loc_max: 13
+
+NODE: 1506
+lcount: 1
+loc_max: 14
+
+NODE: 1915
+lcount: 2
+loc_max: 13
+
+NODE: 1848
+lcount: 1
+loc_max: 14
+
+NODE: 1356
+lcount: 3
+loc_max: 10
+
+NODE: 393
+lcount: 2
+loc_max: 11
+
+NODE: 518
+lcount: 2
+loc_max: 12
+
+NODE: 1733
+lcount: 2
+loc_max: 13
+
+NODE: 197
+lcount: 1
+loc_max: 14
+
+NODE: 1152
+lcount: 2
+loc_max: 11
+
+NODE: 879
+lcount: 2
+loc_max: 12
+
+NODE: 186
+lcount: 2
+loc_max: 13
+
+NODE: 1455
+lcount: 1
+loc_max: 14
+
+NODE: 1120
+lcount: 3
+loc_max: 7
+
+NODE: 1067
+lcount: 2
+loc_max: 8
+
+NODE: 546
+lcount: 2
+loc_max: 9
+
+NODE: 790
+lcount: 2
+loc_max: 10
+
+NODE: 1494
+lcount: 2
+loc_max: 11
+
+NODE: 439
+lcount: 2
+loc_max: 12
+
+NODE: 1349
+lcount: 2
+loc_max: 13
+
+NODE: 1163
+lcount: 1
+loc_max: 14
+
+NODE: 1898
+lcount: 3
+loc_max: 8
+
+NODE: 1350
+lcount: 3
+loc_max: 9
+
+NODE: 147
+lcount: 3
+loc_max: 10
+
+NODE: 1191
+lcount: 2
+loc_max: 11
+
+NODE: 252
+lcount: 2
+loc_max: 12
+
+NODE: 144
+lcount: 2
+loc_max: 13
+
+NODE: 856
+lcount: 1
+loc_max: 14
+
+NODE: 1346
+lcount: 3
+loc_max: 11
+
+NODE: 1557
+lcount: 3
+loc_max: 12
+
+NODE: 698
+lcount: 3
+loc_max: 13
+
+NODE: 320
+lcount: 1
+loc_max: 14
+
+NODE: 1184
+lcount: 1
+loc_max: 14
+
+NODE: 1741
+lcount: 2
+loc_max: 13
+
+NODE: 132
+lcount: 1
+loc_max: 14
+
+NODE: 1806
+lcount: 2
+loc_max: 12
+
+NODE: 1467
+lcount: 3
+loc_max: 13
+
+NODE: 986
+lcount: 1
+loc_max: 14
+
+NODE: 1855
+lcount: 1
+loc_max: 14
+
+NODE: 1808
+lcount: 3
+loc_max: 10
+
+NODE: 457
+lcount: 2
+loc_max: 11
+
+NODE: 1881
+lcount: 3
+loc_max: 12
+
+NODE: 29
+lcount: 2
+loc_max: 13
+
+NODE: 782
+lcount: 1
+loc_max: 14
+
+NODE: 631
+lcount: 3
+loc_max: 13
+
+NODE: 53
+lcount: 1
+loc_max: 14
+
+NODE: 930
+lcount: 1
+loc_max: 14
+
+NODE: 1098
+lcount: 2
+loc_max: 11
+
+NODE: 2124
+lcount: 3
+loc_max: 12
+
+NODE: 443
+lcount: 2
+loc_max: 13
+
+NODE: 1908
+lcount: 1
+loc_max: 14
+
+NODE: 2115
+lcount: 2
+loc_max: 13
+
+NODE: 1968
+lcount: 1
+loc_max: 14
+
+NODE: 1530
+lcount: 3
+loc_max: 9
+
+NODE: 32
+lcount: 3
+loc_max: 10
+
+NODE: 555
+lcount: 2
+loc_max: 11
+
+NODE: 1050
+lcount: 3
+loc_max: 12
+
+NODE: 1563
+lcount: 2
+loc_max: 13
+
+NODE: 1751
+lcount: 1
+loc_max: 14
+
+NODE: 2197
+lcount: 3
+loc_max: 13
+
+NODE: 1077
+lcount: 1
+loc_max: 14
+
+NODE: 2047
+lcount: 1
+loc_max: 14
+
+NODE: 968
+lcount: 3
+loc_max: 11
+
+NODE: 541
+lcount: 2
+loc_max: 12
+
+NODE: 1871
+lcount: 2
+loc_max: 13
+
+NODE: 2001
+lcount: 1
+loc_max: 14
+
+NODE: 1900
+lcount: 2
+loc_max: 12
+
+NODE: 1149
+lcount: 2
+loc_max: 13
+
+NODE: 1183
+lcount: 1
+loc_max: 14
+
+NODE: 209
+lcount: 3
+loc_max: 10
+
+NODE: 68
+lcount: 3
+loc_max: 11
+
+NODE: 401
+lcount: 2
+loc_max: 12
+
+NODE: 55
+lcount: 2
+loc_max: 13
+
+NODE: 908
+lcount: 1
+loc_max: 14
+
+NODE: 2270
+lcount: 2
+loc_max: 12
+
+NODE: 4
+lcount: 2
+loc_max: 13
+
+NODE: 938
+lcount: 1
+loc_max: 14
+
+NODE: 802
+lcount: 3
+loc_max: 11
+
+NODE: 11
+lcount: 3
+loc_max: 12
+
+NODE: 1026
+lcount: 3
+loc_max: 13
+
+NODE: 1348
+lcount: 1
+loc_max: 14
+
+NODE: 2108
+lcount: 1
+loc_max: 14
+
+NODE: 1190
+lcount: 2
+loc_max: 13
+
+NODE: 183
+lcount: 1
+loc_max: 14
+
+NODE: 1480
+lcount: 3
+loc_max: 12
+
+NODE: 411
+lcount: 3
+loc_max: 13
+
+NODE: 1818
+lcount: 1
+loc_max: 14
+
+NODE: 2012
+lcount: 1
+loc_max: 14
+
+NODE: 1701
+lcount: 3
+loc_max: 13
+
+NODE: 341
+lcount: 1
+loc_max: 14
+
+NODE: 469
+lcount: 1
+loc_max: 14
+
+NODE: 2249
+lcount: 2
+loc_max: 6
+
+NODE: 486
+lcount: 3
+loc_max: 7
+
+NODE: 646
+lcount: 2
+loc_max: 8
+
+NODE: 1636
+lcount: 3
+loc_max: 9
+
+NODE: 704
+lcount: 3
+loc_max: 10
+
+NODE: 287
+lcount: 3
+loc_max: 11
+
+NODE: 420
+lcount: 2
+loc_max: 12
+
+NODE: 1308
+lcount: 3
+loc_max: 13
+
+NODE: 479
+lcount: 1
+loc_max: 14
+
+NODE: 1108
+lcount: 1
+loc_max: 14
+
+NODE: 2233
+lcount: 2
+loc_max: 12
+
+NODE: 654
+lcount: 2
+loc_max: 13
+
+NODE: 1583
+lcount: 1
+loc_max: 14
+
+NODE: 2070
+lcount: 2
+loc_max: 11
+
+NODE: 1113
+lcount: 3
+loc_max: 12
+
+NODE: 1773
+lcount: 3
+loc_max: 13
+
+NODE: 389
+lcount: 1
+loc_max: 14
+
+NODE: 1822
+lcount: 1
+loc_max: 14
+
+NODE: 1840
+lcount: 2
+loc_max: 13
+
+NODE: 796
+lcount: 1
+loc_max: 14
+
+NODE: 1776
+lcount: 2
+loc_max: 10
+
+NODE: 658
+lcount: 3
+loc_max: 11
+
+NODE: 157
+lcount: 3
+loc_max: 12
+
+NODE: 22
+lcount: 3
+loc_max: 13
+
+NODE: 1388
+lcount: 1
+loc_max: 14
+
+NODE: 1482
+lcount: 1
+loc_max: 14
+
+NODE: 371
+lcount: 2
+loc_max: 13
+
+NODE: 1836
+lcount: 1
+loc_max: 14
+
+NODE: 1220
+lcount: 2
+loc_max: 12
+
+NODE: 254
+lcount: 2
+loc_max: 13
+
+NODE: 1044
+lcount: 1
+loc_max: 14
+
+NODE: 981
+lcount: 2
+loc_max: 8
+
+NODE: 906
+lcount: 2
+loc_max: 9
+
+NODE: 1850
+lcount: 2
+loc_max: 10
+
+NODE: 2133
+lcount: 2
+loc_max: 11
+
+NODE: 1459
+lcount: 3
+loc_max: 12
+
+NODE: 1524
+lcount: 2
+loc_max: 13
+
+NODE: 485
+lcount: 1
+loc_max: 14
+
+NODE: 2281
+lcount: 2
+loc_max: 13
+
+NODE: 1949
+lcount: 1
+loc_max: 14
+
+NODE: 1497
+lcount: 3
+loc_max: 5
+
+NODE: 1490
+lcount: 2
+loc_max: 6
+
+NODE: 58
+lcount: 3
+loc_max: 7
+
+NODE: 636
+lcount: 3
+loc_max: 8
+
+NODE: 1327
+lcount: 2
+loc_max: 9
+
+NODE: 1553
+lcount: 3
+loc_max: 10
+
+NODE: 1208
+lcount: 2
+loc_max: 11
+
+NODE: 1517
+lcount: 2
+loc_max: 12
+
+NODE: 281
+lcount: 3
+loc_max: 13
+
+NODE: 310
+lcount: 3
+loc_max: 14
+
+NODE: 470
+lcount: 3
+loc_max: 15
+
+NODE: 116
+lcount: 2
+loc_max: 16
+
+NODE: 1143
+lcount: 3
+loc_max: 17
+
+NODE: 117
+lcount: 3
+loc_max: 18
+
+NODE: 430
+lcount: 2
+loc_max: 19
+
+NODE: 1611
+lcount: 2
+loc_max: 20
+
+NODE: 2235
+lcount: 3
+loc_max: 21
+
+NODE: 1131
+lcount: 3
+loc_max: 22
+
+NODE: 1057
+lcount: 2
+loc_max: 23
+
+NODE: 2141
+lcount: 1
+loc_max: 24
+
+NODE: 1374
+lcount: 3
+loc_max: 23
+
+NODE: 230
+lcount: 1
+loc_max: 24
+
+NODE: 587
+lcount: 1
+loc_max: 24
+
+NODE: 1781
+lcount: 3
+loc_max: 22
+
+NODE: 1392
+lcount: 3
+loc_max: 23
+
+NODE: 1402
+lcount: 1
+loc_max: 24
+
+NODE: 2160
+lcount: 1
+loc_max: 24
+
+NODE: 1735
+lcount: 3
+loc_max: 23
+
+NODE: 279
+lcount: 1
+loc_max: 24
+
+NODE: 2079
+lcount: 1
+loc_max: 24
+
+NODE: 1554
+lcount: 3
+loc_max: 19
+
+NODE: 62
+lcount: 3
+loc_max: 20
+
+NODE: 1069
+lcount: 2
+loc_max: 21
+
+NODE: 2005
+lcount: 3
+loc_max: 22
+
+NODE: 1412
+lcount: 3
+loc_max: 23
+
+NODE: 398
+lcount: 1
+loc_max: 24
+
+NODE: 1899
+lcount: 1
+loc_max: 24
+
+NODE: 2061
+lcount: 2
+loc_max: 23
+
+NODE: 1868
+lcount: 1
+loc_max: 24
+
+NODE: 1249
+lcount: 3
+loc_max: 21
+
+NODE: 760
+lcount: 3
+loc_max: 22
+
+NODE: 705
+lcount: 3
+loc_max: 23
+
+NODE: 1235
+lcount: 1
+loc_max: 24
+
+NODE: 2146
+lcount: 1
+loc_max: 24
+
+NODE: 1762
+lcount: 2
+loc_max: 23
+
+NODE: 302
+lcount: 1
+loc_max: 24
+
+NODE: 1456
+lcount: 2
+loc_max: 22
+
+NODE: 1984
+lcount: 3
+loc_max: 23
+
+NODE: 1841
+lcount: 1
+loc_max: 24
+
+NODE: 1994
+lcount: 1
+loc_max: 24
+
+NODE: 272
+lcount: 3
+loc_max: 20
+
+NODE: 1165
+lcount: 2
+loc_max: 21
+
+NODE: 1834
+lcount: 3
+loc_max: 22
+
+NODE: 722
+lcount: 2
+loc_max: 23
+
+NODE: 576
+lcount: 1
+loc_max: 24
+
+NODE: 1555
+lcount: 2
+loc_max: 23
+
+NODE: 2268
+lcount: 1
+loc_max: 24
+
+NODE: 1372
+lcount: 3
+loc_max: 21
+
+NODE: 77
+lcount: 3
+loc_max: 22
+
+NODE: 1566
+lcount: 2
+loc_max: 23
+
+NODE: 1677
+lcount: 1
+loc_max: 24
+
+NODE: 2260
+lcount: 3
+loc_max: 23
+
+NODE: 95
+lcount: 1
+loc_max: 24
+
+NODE: 2034
+lcount: 1
+loc_max: 24
+
+NODE: 1329
+lcount: 2
+loc_max: 22
+
+NODE: 1361
+lcount: 2
+loc_max: 23
+
+NODE: 1038
+lcount: 1
+loc_max: 24
+
+NODE: 833
+lcount: 3
+loc_max: 18
+
+NODE: 565
+lcount: 3
+loc_max: 19
+
+NODE: 239
+lcount: 2
+loc_max: 20
+
+NODE: 1596
+lcount: 2
+loc_max: 21
+
+NODE: 1589
+lcount: 2
+loc_max: 22
+
+NODE: 643
+lcount: 2
+loc_max: 23
+
+NODE: 832
+lcount: 1
+loc_max: 24
+
+NODE: 589
+lcount: 2
+loc_max: 20
+
+NODE: 227
+lcount: 3
+loc_max: 21
+
+NODE: 137
+lcount: 2
+loc_max: 22
+
+NODE: 1947
+lcount: 2
+loc_max: 23
+
+NODE: 14
+lcount: 1
+loc_max: 24
+
+NODE: 2066
+lcount: 3
+loc_max: 22
+
+NODE: 948
+lcount: 2
+loc_max: 23
+
+NODE: 1992
+lcount: 1
+loc_max: 24
+
+NODE: 1909
+lcount: 2
+loc_max: 23
+
+NODE: 1913
+lcount: 1
+loc_max: 24
+
+NODE: 703
+lcount: 3
+loc_max: 19
+
+NODE: 912
+lcount: 3
+loc_max: 20
+
+NODE: 9
+lcount: 2
+loc_max: 21
+
+NODE: 2064
+lcount: 3
+loc_max: 22
+
+NODE: 683
+lcount: 2
+loc_max: 23
+
+NODE: 660
+lcount: 1
+loc_max: 24
+
+NODE: 1233
+lcount: 2
+loc_max: 23
+
+NODE: 1461
+lcount: 1
+loc_max: 24
+
+NODE: 1343
+lcount: 3
+loc_max: 21
+
+NODE: 437
+lcount: 2
+loc_max: 22
+
+NODE: 726
+lcount: 3
+loc_max: 23
+
+NODE: 1680
+lcount: 1
+loc_max: 24
+
+NODE: 1827
+lcount: 1
+loc_max: 24
+
+NODE: 1991
+lcount: 2
+loc_max: 22
+
+NODE: 1114
+lcount: 2
+loc_max: 23
+
+NODE: 1952
+lcount: 1
+loc_max: 24
+
+NODE: 1970
+lcount: 3
+loc_max: 20
+
+NODE: 405
+lcount: 2
+loc_max: 21
+
+NODE: 466
+lcount: 3
+loc_max: 22
+
+NODE: 422
+lcount: 2
+loc_max: 23
+
+NODE: 308
+lcount: 1
+loc_max: 24
+
+NODE: 1280
+lcount: 2
+loc_max: 23
+
+NODE: 1100
+lcount: 1
+loc_max: 24
+
+NODE: 2150
+lcount: 3
+loc_max: 21
+
+NODE: 33
+lcount: 3
+loc_max: 22
+
+NODE: 246
+lcount: 2
+loc_max: 23
+
+NODE: 628
+lcount: 1
+loc_max: 24
+
+NODE: 860
+lcount: 2
+loc_max: 23
+
+NODE: 560
+lcount: 1
+loc_max: 24
+
+NODE: 296
+lcount: 3
+loc_max: 22
+
+NODE: 267
+lcount: 2
+loc_max: 23
+
+NODE: 1396
+lcount: 1
+loc_max: 24
+
+NODE: 2104
+lcount: 3
+loc_max: 23
+
+NODE: 135
+lcount: 1
+loc_max: 24
+
+NODE: 1243
+lcount: 1
+loc_max: 24
+
+NODE: 2081
+lcount: 3
+loc_max: 16
+
+NODE: 963
+lcount: 3
+loc_max: 17
+
+NODE: 404
+lcount: 3
+loc_max: 18
+
+NODE: 232
+lcount: 3
+loc_max: 19
+
+NODE: 1800
+lcount: 3
+loc_max: 20
+
+NODE: 1028
+lcount: 3
+loc_max: 21
+
+NODE: 959
+lcount: 3
+loc_max: 22
+
+NODE: 336
+lcount: 2
+loc_max: 23
+
+NODE: 2132
+lcount: 1
+loc_max: 24
+
+NODE: 2218
+lcount: 3
+loc_max: 23
+
+NODE: 128
+lcount: 1
+loc_max: 24
+
+NODE: 413
+lcount: 1
+loc_max: 24
+
+NODE: 1161
+lcount: 3
+loc_max: 22
+
+NODE: 1513
+lcount: 2
+loc_max: 23
+
+NODE: 394
+lcount: 1
+loc_max: 24
+
+NODE: 1713
+lcount: 2
+loc_max: 23
+
+NODE: 2181
+lcount: 1
+loc_max: 24
+
+NODE: 1394
+lcount: 3
+loc_max: 21
+
+NODE: 778
+lcount: 2
+loc_max: 22
+
+NODE: 1614
+lcount: 3
+loc_max: 23
+
+NODE: 987
+lcount: 1
+loc_max: 24
+
+NODE: 2243
+lcount: 1
+loc_max: 24
+
+NODE: 1128
+lcount: 3
+loc_max: 22
+
+NODE: 436
+lcount: 2
+loc_max: 23
+
+NODE: 761
+lcount: 1
+loc_max: 24
+
+NODE: 2201
+lcount: 3
+loc_max: 23
+
+NODE: 322
+lcount: 1
+loc_max: 24
+
+NODE: 1313
+lcount: 1
+loc_max: 24
+
+NODE: 2088
+lcount: 2
+loc_max: 20
+
+NODE: 547
+lcount: 3
+loc_max: 21
+
+NODE: 1226
+lcount: 2
+loc_max: 22
+
+NODE: 195
+lcount: 3
+loc_max: 23
+
+NODE: 122
+lcount: 1
+loc_max: 24
+
+NODE: 476
+lcount: 1
+loc_max: 24
+
+NODE: 2247
+lcount: 3
+loc_max: 22
+
+NODE: 242
+lcount: 3
+loc_max: 23
+
+NODE: 408
+lcount: 1
+loc_max: 24
+
+NODE: 1263
+lcount: 1
+loc_max: 24
+
+NODE: 1849
+lcount: 3
+loc_max: 23
+
+NODE: 198
+lcount: 1
+loc_max: 24
+
+NODE: 1058
+lcount: 1
+loc_max: 24
+
+NODE: 465
+lcount: 3
+loc_max: 19
+
+NODE: 1582
+lcount: 2
+loc_max: 20
+
+NODE: 1740
+lcount: 2
+loc_max: 21
+
+NODE: 1931
+lcount: 2
+loc_max: 22
+
+NODE: 1676
+lcount: 3
+loc_max: 23
+
+NODE: 278
+lcount: 1
+loc_max: 24
+
+NODE: 1018
+lcount: 1
+loc_max: 24
+
+NODE: 1950
+lcount: 2
+loc_max: 20
+
+NODE: 562
+lcount: 3
+loc_max: 21
+
+NODE: 87
+lcount: 3
+loc_max: 22
+
+NODE: 216
+lcount: 3
+loc_max: 23
+
+NODE: 762
+lcount: 1
+loc_max: 24
+
+NODE: 825
+lcount: 1
+loc_max: 24
+
+NODE: 1418
+lcount: 3
+loc_max: 23
+
+NODE: 1468
+lcount: 1
+loc_max: 24
+
+NODE: 2153
+lcount: 1
+loc_max: 24
+
+NODE: 1075
+lcount: 3
+loc_max: 22
+
+NODE: 517
+lcount: 3
+loc_max: 23
+
+NODE: 917
+lcount: 1
+loc_max: 24
+
+NODE: 923
+lcount: 1
+loc_max: 24
+
+NODE: 891
+lcount: 2
+loc_max: 23
+
+NODE: 448
+lcount: 1
+loc_max: 24
+
+NODE: 442
+lcount: 2
+loc_max: 18
+
+NODE: 904
+lcount: 3
+loc_max: 19
+
+NODE: 668
+lcount: 2
+loc_max: 20
+
+NODE: 580
+lcount: 2
+loc_max: 21
+
+NODE: 444
+lcount: 2
+loc_max: 22
+
+NODE: 270
+lcount: 3
+loc_max: 23
+
+NODE: 799
+lcount: 1
+loc_max: 24
+
+NODE: 2028
+lcount: 1
+loc_max: 24
+
+NODE: 1099
+lcount: 3
+loc_max: 20
+
+NODE: 2026
+lcount: 2
+loc_max: 21
+
+NODE: 2069
+lcount: 2
+loc_max: 22
+
+NODE: 1643
+lcount: 3
+loc_max: 23
+
+NODE: 149
+lcount: 1
+loc_max: 24
+
+NODE: 1552
+lcount: 1
+loc_max: 24
+
+NODE: 2195
+lcount: 2
+loc_max: 21
+
+NODE: 2091
+lcount: 2
+loc_max: 22
+
+NODE: 1954
+lcount: 3
+loc_max: 23
+
+NODE: 542
+lcount: 1
+loc_max: 24
+
+NODE: 1906
+lcount: 1
+loc_max: 24
+
+NODE: 1168
+lcount: 3
+loc_max: 17
+
+NODE: 462
+lcount: 2
+loc_max: 18
+
+NODE: 20
+lcount: 2
+loc_max: 19
+
+NODE: 2003
+lcount: 3
+loc_max: 20
+
+NODE: 513
+lcount: 2
+loc_max: 21
+
+NODE: 815
+lcount: 3
+loc_max: 22
+
+NODE: 321
+lcount: 3
+loc_max: 23
+
+NODE: 545
+lcount: 1
+loc_max: 24
+
+NODE: 1024
+lcount: 1
+loc_max: 24
+
+NODE: 2194
+lcount: 3
+loc_max: 23
+
+NODE: 90
+lcount: 1
+loc_max: 24
+
+NODE: 993
+lcount: 1
+loc_max: 24
+
+NODE: 2073
+lcount: 3
+loc_max: 21
+
+NODE: 274
+lcount: 2
+loc_max: 22
+
+NODE: 399
+lcount: 3
+loc_max: 23
+
+NODE: 199
+lcount: 1
+loc_max: 24
+
+NODE: 1378
+lcount: 1
+loc_max: 24
+
+NODE: 327
+lcount: 2
+loc_max: 22
+
+NODE: 945
+lcount: 2
+loc_max: 23
+
+NODE: 1853
+lcount: 1
+loc_max: 24
+
+NODE: 1928
+lcount: 3
+loc_max: 18
+
+NODE: 662
+lcount: 2
+loc_max: 19
+
+NODE: 1692
+lcount: 3
+loc_max: 20
+
+NODE: 1549
+lcount: 2
+loc_max: 21
+
+NODE: 1339
+lcount: 2
+loc_max: 22
+
+NODE: 2011
+lcount: 2
+loc_max: 23
+
+NODE: 1001
+lcount: 1
+loc_max: 24
+
+NODE: 1618
+lcount: 2
+loc_max: 21
+
+NODE: 901
+lcount: 3
+loc_max: 22
+
+NODE: 530
+lcount: 2
+loc_max: 23
+
+NODE: 713
+lcount: 1
+loc_max: 24
+
+NODE: 1658
+lcount: 2
+loc_max: 23
+
+NODE: 1987
+lcount: 1
+loc_max: 24
+
+NODE: 771
+lcount: 2
+loc_max: 19
+
+NODE: 984
+lcount: 2
+loc_max: 20
+
+NODE: 1061
+lcount: 2
+loc_max: 21
+
+NODE: 558
+lcount: 3
+loc_max: 22
+
+NODE: 223
+lcount: 2
+loc_max: 23
+
+NODE: 601
+lcount: 1
+loc_max: 24
+
+NODE: 1872
+lcount: 3
+loc_max: 23
+
+NODE: 1245
+lcount: 1
+loc_max: 24
+
+NODE: 2016
+lcount: 1
+loc_max: 24
+
+NODE: 610
+lcount: 3
+loc_max: 15
+
+NODE: 1123
+lcount: 3
+loc_max: 16
+
+NODE: 1334
+lcount: 3
+loc_max: 17
+
+NODE: 1722
+lcount: 2
+loc_max: 18
+
+NODE: 1452
+lcount: 2
+loc_max: 19
+
+NODE: 2051
+lcount: 2
+loc_max: 20
+
+NODE: 1882
+lcount: 2
+loc_max: 21
+
+NODE: 1811
+lcount: 2
+loc_max: 22
+
+NODE: 1603
+lcount: 3
+loc_max: 23
+
+NODE: 583
+lcount: 1
+loc_max: 24
+
+NODE: 1689
+lcount: 1
+loc_max: 24
+
+NODE: 1757
+lcount: 2
+loc_max: 18
+
+NODE: 1508
+lcount: 2
+loc_max: 19
+
+NODE: 693
+lcount: 3
+loc_max: 20
+
+NODE: 911
+lcount: 2
+loc_max: 21
+
+NODE: 1522
+lcount: 3
+loc_max: 22
+
+NODE: 71
+lcount: 2
+loc_max: 23
+
+NODE: 1780
+lcount: 1
+loc_max: 24
+
+NODE: 1483
+lcount: 2
+loc_max: 23
+
+NODE: 74
+lcount: 1
+loc_max: 24
+
+NODE: 2188
+lcount: 2
+loc_max: 21
+
+NODE: 2284
+lcount: 2
+loc_max: 22
+
+NODE: 2137
+lcount: 3
+loc_max: 23
+
+NODE: 446
+lcount: 1
+loc_max: 24
+
+NODE: 1295
+lcount: 1
+loc_max: 24
+
+NODE: 1606
+lcount: 3
+loc_max: 17
+
+NODE: 167
+lcount: 2
+loc_max: 18
+
+NODE: 1072
+lcount: 2
+loc_max: 19
+
+NODE: 1963
+lcount: 3
+loc_max: 20
+
+NODE: 1182
+lcount: 3
+loc_max: 21
+
+NODE: 109
+lcount: 2
+loc_max: 22
+
+NODE: 954
+lcount: 3
+loc_max: 23
+
+NODE: 325
+lcount: 1
+loc_max: 24
+
+NODE: 1397
+lcount: 1
+loc_max: 24
+
+NODE: 301
+lcount: 3
+loc_max: 22
+
+NODE: 1516
+lcount: 3
+loc_max: 23
+
+NODE: 234
+lcount: 1
+loc_max: 24
+
+NODE: 735
+lcount: 1
+loc_max: 24
+
+NODE: 1874
+lcount: 2
+loc_max: 23
+
+NODE: 529
+lcount: 1
+loc_max: 24
+
+NODE: 1491
+lcount: 2
+loc_max: 21
+
+NODE: 2224
+lcount: 3
+loc_max: 22
+
+NODE: 826
+lcount: 3
+loc_max: 23
+
+NODE: 2176
+lcount: 1
+loc_max: 24
+
+NODE: 2193
+lcount: 1
+loc_max: 24
+
+NODE: 1698
+lcount: 2
+loc_max: 23
+
+NODE: 1328
+lcount: 1
+loc_max: 24
+
+NODE: 1832
+lcount: 3
+loc_max: 18
+
+NODE: 1273
+lcount: 3
+loc_max: 19
+
+NODE: 388
+lcount: 3
+loc_max: 20
+
+NODE: 1338
+lcount: 3
+loc_max: 21
+
+NODE: 178
+lcount: 2
+loc_max: 22
+
+NODE: 1535
+lcount: 3
+loc_max: 23
+
+NODE: 129
+lcount: 1
+loc_max: 24
+
+NODE: 849
+lcount: 1
+loc_max: 24
+
+NODE: 1944
+lcount: 2
+loc_max: 22
+
+NODE: 564
+lcount: 2
+loc_max: 23
+
+NODE: 1078
+lcount: 1
+loc_max: 24
+
+NODE: 2173
+lcount: 2
+loc_max: 21
+
+NODE: 205
+lcount: 2
+loc_max: 22
+
+NODE: 1470
+lcount: 3
+loc_max: 23
+
+NODE: 854
+lcount: 1
+loc_max: 24
+
+NODE: 1438
+lcount: 1
+loc_max: 24
+
+NODE: 1014
+lcount: 3
+loc_max: 20
+
+NODE: 21
+lcount: 3
+loc_max: 21
+
+NODE: 1156
+lcount: 3
+loc_max: 22
+
+NODE: 863
+lcount: 3
+loc_max: 23
+
+NODE: 445
+lcount: 1
+loc_max: 24
+
+NODE: 2168
+lcount: 1
+loc_max: 24
+
+NODE: 1729
+lcount: 3
+loc_max: 23
+
+NODE: 383
+lcount: 1
+loc_max: 24
+
+NODE: 1096
+lcount: 1
+loc_max: 24
+
+NODE: 1252
+lcount: 3
+loc_max: 22
+
+NODE: 594
+lcount: 2
+loc_max: 23
+
+NODE: 1148
+lcount: 1
+loc_max: 24
+
+NODE: 1997
+lcount: 3
+loc_max: 23
+
+NODE: 1043
+lcount: 1
+loc_max: 24
+
+NODE: 2084
+lcount: 1
+loc_max: 24
+
+NODE: 1435
+lcount: 2
+loc_max: 21
+
+NODE: 2127
+lcount: 3
+loc_max: 22
+
+NODE: 640
+lcount: 2
+loc_max: 23
+
+NODE: 1345
+lcount: 1
+loc_max: 24
+
+NODE: 690
+lcount: 3
+loc_max: 23
+
+NODE: 1271
+lcount: 1
+loc_max: 24
+
+NODE: 1602
+lcount: 1
+loc_max: 24
+
+NODE: 2038
+lcount: 2
+loc_max: 19
+
+NODE: 458
+lcount: 3
+loc_max: 20
+
+NODE: 935
+lcount: 2
+loc_max: 21
+
+NODE: 818
+lcount: 2
+loc_max: 22
+
+NODE: 1117
+lcount: 3
+loc_max: 23
+
+NODE: 1269
+lcount: 1
+loc_max: 24
+
+NODE: 1570
+lcount: 1
+loc_max: 24
+
+NODE: 1253
+lcount: 3
+loc_max: 21
+
+NODE: 50
+lcount: 2
+loc_max: 22
+
+NODE: 828
+lcount: 3
+loc_max: 23
+
+NODE: 397
+lcount: 1
+loc_max: 24
+
+NODE: 1062
+lcount: 1
+loc_max: 24
+
+NODE: 2198
+lcount: 3
+loc_max: 22
+
+NODE: 257
+lcount: 3
+loc_max: 23
+
+NODE: 282
+lcount: 1
+loc_max: 24
+
+NODE: 724
+lcount: 1
+loc_max: 24
+
+NODE: 1975
+lcount: 2
+loc_max: 23
+
+NODE: 1714
+lcount: 1
+loc_max: 24
+
+NODE: 1702
+lcount: 3
+loc_max: 16
+
+NODE: 664
+lcount: 3
+loc_max: 17
+
+NODE: 1439
+lcount: 3
+loc_max: 18
+
+NODE: 1260
+lcount: 3
+loc_max: 19
+
+NODE: 105
+lcount: 3
+loc_max: 20
+
+NODE: 1534
+lcount: 2
+loc_max: 21
+
+NODE: 1031
+lcount: 2
+loc_max: 22
+
+NODE: 1302
+lcount: 3
+loc_max: 23
+
+NODE: 402
+lcount: 1
+loc_max: 24
+
+NODE: 831
+lcount: 1
+loc_max: 24
+
+NODE: 1766
+lcount: 3
+loc_max: 21
+
+NODE: 1042
+lcount: 2
+loc_max: 22
+
+NODE: 433
+lcount: 3
+loc_max: 23
+
+NODE: 952
+lcount: 1
+loc_max: 24
+
+NODE: 1270
+lcount: 1
+loc_max: 24
+
+NODE: 1880
+lcount: 2
+loc_max: 22
+
+NODE: 19
+lcount: 3
+loc_max: 23
+
+NODE: 2077
+lcount: 1
+loc_max: 24
+
+NODE: 2221
+lcount: 1
+loc_max: 24
+
+NODE: 520
+lcount: 2
+loc_max: 20
+
+NODE: 28
+lcount: 2
+loc_max: 21
+
+NODE: 461
+lcount: 2
+loc_max: 22
+
+NODE: 1033
+lcount: 3
+loc_max: 23
+
+NODE: 40
+lcount: 1
+loc_max: 24
+
+NODE: 1930
+lcount: 1
+loc_max: 24
+
+NODE: 2000
+lcount: 2
+loc_max: 19
+
+NODE: 27
+lcount: 3
+loc_max: 20
+
+NODE: 1404
+lcount: 2
+loc_max: 21
+
+NODE: 189
+lcount: 3
+loc_max: 22
+
+NODE: 385
+lcount: 2
+loc_max: 23
+
+NODE: 69
+lcount: 1
+loc_max: 24
+
+NODE: 1727
+lcount: 2
+loc_max: 23
+
+NODE: 59
+lcount: 1
+loc_max: 24
+
+NODE: 1936
+lcount: 3
+loc_max: 21
+
+NODE: 414
+lcount: 2
+loc_max: 22
+
+NODE: 1828
+lcount: 2
+loc_max: 23
+
+NODE: 1309
+lcount: 1
+loc_max: 24
+
+NODE: 2123
+lcount: 2
+loc_max: 22
+
+NODE: 644
+lcount: 3
+loc_max: 23
+
+NODE: 1668
+lcount: 1
+loc_max: 24
+
+NODE: 2145
+lcount: 1
+loc_max: 24
+
+NODE: 2096
+lcount: 3
+loc_max: 18
+
+NODE: 73
+lcount: 3
+loc_max: 19
+
+NODE: 1478
+lcount: 3
+loc_max: 20
+
+NODE: 78
+lcount: 3
+loc_max: 21
+
+NODE: 1437
+lcount: 2
+loc_max: 22
+
+NODE: 571
+lcount: 3
+loc_max: 23
+
+NODE: 934
+lcount: 1
+loc_max: 24
+
+NODE: 1195
+lcount: 1
+loc_max: 24
+
+NODE: 2157
+lcount: 3
+loc_max: 22
+
+NODE: 18
+lcount: 2
+loc_max: 23
+
+NODE: 1160
+lcount: 1
+loc_max: 24
+
+NODE: 592
+lcount: 3
+loc_max: 23
+
+NODE: 1242
+lcount: 1
+loc_max: 24
+
+NODE: 2138
+lcount: 1
+loc_max: 24
+
+NODE: 293
+lcount: 2
+loc_max: 21
+
+NODE: 798
+lcount: 3
+loc_max: 22
+
+NODE: 387
+lcount: 2
+loc_max: 23
+
+NODE: 412
+lcount: 1
+loc_max: 24
+
+NODE: 1449
+lcount: 3
+loc_max: 23
+
+NODE: 695
+lcount: 1
+loc_max: 24
+
+NODE: 2175
+lcount: 1
+loc_max: 24
+
+NODE: 2167
+lcount: 2
+loc_max: 20
+
+NODE: 1369
+lcount: 3
+loc_max: 21
+
+NODE: 1760
+lcount: 2
+loc_max: 22
+
+NODE: 1870
+lcount: 3
+loc_max: 23
+
+NODE: 54
+lcount: 1
+loc_max: 24
+
+NODE: 2098
+lcount: 1
+loc_max: 24
+
+NODE: 1967
+lcount: 2
+loc_max: 22
+
+NODE: 650
+lcount: 3
+loc_max: 23
+
+NODE: 355
+lcount: 1
+loc_max: 24
+
+NODE: 632
+lcount: 1
+loc_max: 24
+
+NODE: 2121
+lcount: 3
+loc_max: 19
+
+NODE: 235
+lcount: 3
+loc_max: 20
+
+NODE: 1212
+lcount: 2
+loc_max: 21
+
+NODE: 1531
+lcount: 2
+loc_max: 22
+
+NODE: 1951
+lcount: 2
+loc_max: 23
+
+NODE: 367
+lcount: 1
+loc_max: 24
+
+NODE: 2179
+lcount: 3
+loc_max: 21
+
+NODE: 1268
+lcount: 2
+loc_max: 22
+
+NODE: 400
+lcount: 3
+loc_max: 23
+
+NODE: 344
+lcount: 1
+loc_max: 24
+
+NODE: 1296
+lcount: 1
+loc_max: 24
+
+NODE: 1311
+lcount: 2
+loc_max: 22
+
+NODE: 933
+lcount: 3
+loc_max: 23
+
+NODE: 554
+lcount: 1
+loc_max: 24
+
+NODE: 1938
+lcount: 1
+loc_max: 24
+
+NODE: 1879
+lcount: 3
+loc_max: 20
+
+NODE: 1272
+lcount: 3
+loc_max: 21
+
+NODE: 791
+lcount: 3
+loc_max: 22
+
+NODE: 1115
+lcount: 2
+loc_max: 23
+
+NODE: 577
+lcount: 1
+loc_max: 24
+
+NODE: 1162
+lcount: 3
+loc_max: 23
+
+NODE: 119
+lcount: 1
+loc_max: 24
+
+NODE: 1019
+lcount: 1
+loc_max: 24
+
+NODE: 1234
+lcount: 3
+loc_max: 22
+
+NODE: 89
+lcount: 2
+loc_max: 23
+
+NODE: 507
+lcount: 1
+loc_max: 24
+
+NODE: 460
+lcount: 3
+loc_max: 23
+
+NODE: 623
+lcount: 1
+loc_max: 24
+
+NODE: 1032
+lcount: 1
+loc_max: 24
+
+NODE: 1966
+lcount: 2
+loc_max: 21
+
+NODE: 123
+lcount: 3
+loc_max: 22
+
+NODE: 1091
+lcount: 3
+loc_max: 23
+
+NODE: 522
+lcount: 1
+loc_max: 24
+
+NODE: 748
+lcount: 1
+loc_max: 24
+
+NODE: 1684
+lcount: 3
+loc_max: 23
+
+NODE: 1229
+lcount: 1
+loc_max: 24
+
+NODE: 2183
+lcount: 1
+loc_max: 24
+
+NODE: 1321
+lcount: 2
+loc_max: 17
+
+NODE: 1051
+lcount: 2
+loc_max: 18
+
+NODE: 8
+lcount: 3
+loc_max: 19
+
+NODE: 1422
+lcount: 3
+loc_max: 20
+
+NODE: 843
+lcount: 3
+loc_max: 21
+
+NODE: 1179
+lcount: 3
+loc_max: 22
+
+NODE: 549
+lcount: 2
+loc_max: 23
+
+NODE: 1805
+lcount: 1
+loc_max: 24
+
+NODE: 1948
+lcount: 3
+loc_max: 23
+
+NODE: 63
+lcount: 1
+loc_max: 24
+
+NODE: 2287
+lcount: 1
+loc_max: 24
+
+NODE: 1641
+lcount: 3
+loc_max: 22
+
+NODE: 1307
+lcount: 3
+loc_max: 23
+
+NODE: 505
+lcount: 1
+loc_max: 24
+
+NODE: 1022
+lcount: 1
+loc_max: 24
+
+NODE: 1492
+lcount: 2
+loc_max: 23
+
+NODE: 243
+lcount: 1
+loc_max: 24
+
+NODE: 862
+lcount: 3
+loc_max: 21
+
+NODE: 1141
+lcount: 2
+loc_max: 22
+
+NODE: 1652
+lcount: 2
+loc_max: 23
+
+NODE: 2236
+lcount: 1
+loc_max: 24
+
+NODE: 1519
+lcount: 2
+loc_max: 22
+
+NODE: 840
+lcount: 2
+loc_max: 23
+
+NODE: 45
+lcount: 1
+loc_max: 24
+
+NODE: 1845
+lcount: 3
+loc_max: 20
+
+NODE: 621
+lcount: 3
+loc_max: 21
+
+NODE: 143
+lcount: 3
+loc_max: 22
+
+NODE: 1174
+lcount: 3
+loc_max: 23
+
+NODE: 426
+lcount: 1
+loc_max: 24
+
+NODE: 2062
+lcount: 1
+loc_max: 24
+
+NODE: 1376
+lcount: 2
+loc_max: 23
+
+NODE: 1750
+lcount: 1
+loc_max: 24
+
+NODE: 521
+lcount: 2
+loc_max: 22
+
+NODE: 1087
+lcount: 2
+loc_max: 23
+
+NODE: 1007
+lcount: 1
+loc_max: 24
+
+NODE: 2291
+lcount: 2
+loc_max: 21
+
+NODE: 881
+lcount: 2
+loc_max: 22
+
+NODE: 1382
+lcount: 3
+loc_max: 23
+
+NODE: 783
+lcount: 1
+loc_max: 24
+
+NODE: 985
+lcount: 1
+loc_max: 24
+
+NODE: 356
+lcount: 2
+loc_max: 14
+
+NODE: 1823
+lcount: 2
+loc_max: 15
+
+NODE: 1594
+lcount: 2
+loc_max: 16
+
+NODE: 728
+lcount: 3
+loc_max: 17
+
+NODE: 1223
+lcount: 2
+loc_max: 18
+
+NODE: 1796
+lcount: 2
+loc_max: 19
+
+NODE: 266
+lcount: 2
+loc_max: 20
+
+NODE: 893
+lcount: 3
+loc_max: 21
+
+NODE: 1040
+lcount: 3
+loc_max: 22
+
+NODE: 163
+lcount: 2
+loc_max: 23
+
+NODE: 895
+lcount: 1
+loc_max: 24
+
+NODE: 958
+lcount: 2
+loc_max: 23
+
+NODE: 822
+lcount: 1
+loc_max: 24
+
+NODE: 1411
+lcount: 3
+loc_max: 22
+
+NODE: 152
+lcount: 3
+loc_max: 23
+
+NODE: 720
+lcount: 1
+loc_max: 24
+
+NODE: 2143
+lcount: 1
+loc_max: 24
+
+NODE: 452
+lcount: 2
+loc_max: 23
+
+NODE: 1424
+lcount: 1
+loc_max: 24
+
+NODE: 2263
+lcount: 2
+loc_max: 18
+
+NODE: 1060
+lcount: 3
+loc_max: 19
+
+NODE: 113
+lcount: 2
+loc_max: 20
+
+NODE: 865
+lcount: 2
+loc_max: 21
+
+NODE: 1753
+lcount: 3
+loc_max: 22
+
+NODE: 450
+lcount: 3
+loc_max: 23
+
+NODE: 723
+lcount: 1
+loc_max: 24
+
+NODE: 2013
+lcount: 1
+loc_max: 24
+
+NODE: 1178
+lcount: 3
+loc_max: 23
+
+NODE: 803
+lcount: 1
+loc_max: 24
+
+NODE: 1712
+lcount: 1
+loc_max: 24
+
+NODE: 1085
+lcount: 3
+loc_max: 20
+
+NODE: 988
+lcount: 3
+loc_max: 21
+
+NODE: 1685
+lcount: 3
+loc_max: 22
+
+NODE: 884
+lcount: 3
+loc_max: 23
+
+NODE: 1485
+lcount: 1
+loc_max: 24
+
+NODE: 1626
+lcount: 1
+loc_max: 24
+
+NODE: 1932
+lcount: 2
+loc_max: 23
+
+NODE: 1690
+lcount: 1
+loc_max: 24
+
+NODE: 2089
+lcount: 2
+loc_max: 22
+
+NODE: 2128
+lcount: 3
+loc_max: 23
+
+NODE: 570
+lcount: 1
+loc_max: 24
+
+NODE: 1587
+lcount: 1
+loc_max: 24
+
+NODE: 2283
+lcount: 2
+loc_max: 21
+
+NODE: 146
+lcount: 2
+loc_max: 22
+
+NODE: 1699
+lcount: 2
+loc_max: 23
+
+NODE: 1256
+lcount: 1
+loc_max: 24
+
+NODE: 2216
+lcount: 2
+loc_max: 11
+
+NODE: 941
+lcount: 2
+loc_max: 12
+
+NODE: 857
+lcount: 3
+loc_max: 13
+
+NODE: 686
+lcount: 2
+loc_max: 14
+
+NODE: 1743
+lcount: 3
+loc_max: 15
+
+NODE: 51
+lcount: 2
+loc_max: 16
+
+NODE: 1663
+lcount: 3
+loc_max: 17
+
+NODE: 100
+lcount: 3
+loc_max: 18
+
+NODE: 526
+lcount: 3
+loc_max: 19
+
+NODE: 226
+lcount: 2
+loc_max: 20
+
+NODE: 2140
+lcount: 3
+loc_max: 21
+
+NODE: 98
+lcount: 3
+loc_max: 22
+
+NODE: 882
+lcount: 3
+loc_max: 23
+
+NODE: 652
+lcount: 1
+loc_max: 24
+
+NODE: 1401
+lcount: 1
+loc_max: 24
+
+NODE: 1306
+lcount: 2
+loc_max: 23
+
+NODE: 673
+lcount: 1
+loc_max: 24
+
+NODE: 331
+lcount: 3
+loc_max: 22
+
+NODE: 104
+lcount: 2
+loc_max: 23
+
+NODE: 1679
+lcount: 1
+loc_max: 24
+
+NODE: 501
+lcount: 2
+loc_max: 23
+
+NODE: 284
+lcount: 1
+loc_max: 24
+
+NODE: 2240
+lcount: 2
+loc_max: 20
+
+NODE: 2010
+lcount: 2
+loc_max: 21
+
+NODE: 1785
+lcount: 3
+loc_max: 22
+
+NODE: 1333
+lcount: 2
+loc_max: 23
+
+NODE: 182
+lcount: 1
+loc_max: 24
+
+NODE: 1749
+lcount: 2
+loc_max: 23
+
+NODE: 110
+lcount: 1
+loc_max: 24
+
+NODE: 873
+lcount: 3
+loc_max: 19
+
+NODE: 16
+lcount: 2
+loc_max: 20
+
+NODE: 2225
+lcount: 3
+loc_max: 21
+
+NODE: 1533
+lcount: 3
+loc_max: 22
+
+NODE: 540
+lcount: 2
+loc_max: 23
+
+NODE: 1935
+lcount: 1
+loc_max: 24
+
+NODE: 1864
+lcount: 3
+loc_max: 23
+
+NODE: 678
+lcount: 1
+loc_max: 24
+
+NODE: 1598
+lcount: 1
+loc_max: 24
+
+NODE: 1798
+lcount: 2
+loc_max: 22
+
+NODE: 441
+lcount: 3
+loc_max: 23
+
+NODE: 35
+lcount: 1
+loc_max: 24
+
+NODE: 1262
+lcount: 1
+loc_max: 24
+
+NODE: 161
+lcount: 2
+loc_max: 20
+
+NODE: 766
+lcount: 3
+loc_max: 21
+
+NODE: 415
+lcount: 3
+loc_max: 22
+
+NODE: 821
+lcount: 2
+loc_max: 23
+
+NODE: 1284
+lcount: 1
+loc_max: 24
+
+NODE: 1996
+lcount: 2
+loc_max: 23
+
+NODE: 1097
+lcount: 1
+loc_max: 24
+
+NODE: 605
+lcount: 2
+loc_max: 22
+
+NODE: 2078
+lcount: 3
+loc_max: 23
+
+NODE: 490
+lcount: 1
+loc_max: 24
+
+NODE: 1654
+lcount: 1
+loc_max: 24
+
+NODE: 1986
+lcount: 2
+loc_max: 18
+
+NODE: 150
+lcount: 2
+loc_max: 19
+
+NODE: 777
+lcount: 3
+loc_max: 20
+
+NODE: 1180
+lcount: 3
+loc_max: 21
+
+NODE: 202
+lcount: 2
+loc_max: 22
+
+NODE: 880
+lcount: 2
+loc_max: 23
+
+NODE: 858
+lcount: 1
+loc_max: 24
+
+NODE: 2040
+lcount: 2
+loc_max: 22
+
+NODE: 1580
+lcount: 2
+loc_max: 23
+
+NODE: 1837
+lcount: 1
+loc_max: 24
+
+NODE: 1923
+lcount: 3
+loc_max: 21
+
+NODE: 600
+lcount: 3
+loc_max: 22
+
+NODE: 248
+lcount: 3
+loc_max: 23
+
+NODE: 774
+lcount: 1
+loc_max: 24
+
+NODE: 2165
+lcount: 1
+loc_max: 24
+
+NODE: 407
+lcount: 3
+loc_max: 23
+
+NODE: 861
+lcount: 1
+loc_max: 24
+
+NODE: 1918
+lcount: 1
+loc_max: 24
+
+NODE: 977
+lcount: 3
+loc_max: 22
+
+NODE: 751
+lcount: 2
+loc_max: 23
+
+NODE: 391
+lcount: 1
+loc_max: 24
+
+NODE: 898
+lcount: 3
+loc_max: 23
+
+NODE: 611
+lcount: 1
+loc_max: 24
+
+NODE: 1616
+lcount: 1
+loc_max: 24
+
+NODE: 942
+lcount: 3
+loc_max: 16
+
+NODE: 953
+lcount: 3
+loc_max: 17
+
+NODE: 842
+lcount: 2
+loc_max: 18
+
+NODE: 1186
+lcount: 2
+loc_max: 19
+
+NODE: 207
+lcount: 2
+loc_max: 20
+
+NODE: 1317
+lcount: 2
+loc_max: 21
+
+NODE: 864
+lcount: 2
+loc_max: 22
+
+NODE: 1732
+lcount: 3
+loc_max: 23
+
+NODE: 1377
+lcount: 1
+loc_max: 24
+
+NODE: 2254
+lcount: 1
+loc_max: 24
+
+NODE: 2158
+lcount: 2
+loc_max: 18
+
+NODE: 1048
+lcount: 2
+loc_max: 19
+
+NODE: 440
+lcount: 2
+loc_max: 20
+
+NODE: 1316
+lcount: 2
+loc_max: 21
+
+NODE: 1787
+lcount: 3
+loc_max: 22
+
+NODE: 1240
+lcount: 3
+loc_max: 23
+
+NODE: 1336
+lcount: 1
+loc_max: 24
+
+NODE: 1496
+lcount: 1
+loc_max: 24
+
+NODE: 2177
+lcount: 2
+loc_max: 23
+
+NODE: 666
+lcount: 1
+loc_max: 24
+
+NODE: 1154
+lcount: 3
+loc_max: 17
+
+NODE: 1830
+lcount: 2
+loc_max: 18
+
+NODE: 937
+lcount: 3
+loc_max: 19
+
+NODE: 1671
+lcount: 2
+loc_max: 20
+
+NODE: 806
+lcount: 3
+loc_max: 21
+
+NODE: 403
+lcount: 3
+loc_max: 22
+
+NODE: 837
+lcount: 3
+loc_max: 23
+
+NODE: 236
+lcount: 1
+loc_max: 24
+
+NODE: 2246
+lcount: 1
+loc_max: 24
+
+NODE: 1259
+lcount: 2
+loc_max: 23
+
+NODE: 1465
+lcount: 1
+loc_max: 24
+
+NODE: 1564
+lcount: 2
+loc_max: 22
+
+NODE: 835
+lcount: 3
+loc_max: 23
+
+NODE: 1264
+lcount: 1
+loc_max: 24
+
+NODE: 1315
+lcount: 1
+loc_max: 24
+
+NODE: 2282
+lcount: 3
+loc_max: 20
+
+NODE: 348
+lcount: 3
+loc_max: 21
+
+NODE: 925
+lcount: 3
+loc_max: 22
+
+NODE: 290
+lcount: 3
+loc_max: 23
+
+NODE: 707
+lcount: 1
+loc_max: 24
+
+NODE: 876
+lcount: 1
+loc_max: 24
+
+NODE: 1139
+lcount: 2
+loc_max: 23
+
+NODE: 1926
+lcount: 1
+loc_max: 24
+
+NODE: 2192
+lcount: 2
+loc_max: 22
+
+NODE: 480
+lcount: 2
+loc_max: 23
+
+NODE: 916
+lcount: 1
+loc_max: 24
+
+NODE: 1746
+lcount: 2
+loc_max: 21
+
+NODE: 1784
+lcount: 3
+loc_max: 22
+
+NODE: 2129
+lcount: 3
+loc_max: 23
+
+NODE: 75
+lcount: 1
+loc_max: 24
+
+NODE: 512
+lcount: 1
+loc_max: 24
+
+NODE: 2302
+lcount: 3
+loc_max: 23
+
+NODE: 91
+lcount: 1
+loc_max: 24
+
+NODE: 1919
+lcount: 1
+loc_max: 24
+
+NODE: 2048
+lcount: 3
+loc_max: 18
+
+NODE: 1375
+lcount: 3
+loc_max: 19
+
+NODE: 584
+lcount: 3
+loc_max: 20
+
+NODE: 173
+lcount: 2
+loc_max: 21
+
+NODE: 313
+lcount: 3
+loc_max: 22
+
+NODE: 532
+lcount: 2
+loc_max: 23
+
+NODE: 464
+lcount: 1
+loc_max: 24
+
+NODE: 1728
+lcount: 2
+loc_max: 23
+
+NODE: 615
+lcount: 1
+loc_max: 24
+
+NODE: 2174
+lcount: 2
+loc_max: 21
+
+NODE: 717
+lcount: 3
+loc_max: 22
+
+NODE: 1095
+lcount: 2
+loc_max: 23
+
+NODE: 671
+lcount: 1
+loc_max: 24
+
+NODE: 1681
+lcount: 2
+loc_max: 23
+
+NODE: 432
+lcount: 1
+loc_max: 24
+
+NODE: 1691
+lcount: 2
+loc_max: 20
+
+NODE: 2297
+lcount: 3
+loc_max: 21
+
+NODE: 575
+lcount: 3
+loc_max: 22
+
+NODE: 210
+lcount: 2
+loc_max: 23
+
+NODE: 1360
+lcount: 1
+loc_max: 24
+
+NODE: 1844
+lcount: 2
+loc_max: 23
+
+NODE: 2207
+lcount: 1
+loc_max: 24
+
+NODE: 1076
+lcount: 3
+loc_max: 22
+
+NODE: 43
+lcount: 3
+loc_max: 23
+
+NODE: 1778
+lcount: 1
+loc_max: 24
+
+NODE: 2266
+lcount: 1
+loc_max: 24
+
+NODE: 99
+lcount: 3
+loc_max: 23
+
+NODE: 697
+lcount: 1
+loc_max: 24
+
+NODE: 936
+lcount: 1
+loc_max: 24
+
+NODE: 2169
+lcount: 3
+loc_max: 19
+
+NODE: 1324
+lcount: 2
+loc_max: 20
+
+NODE: 1387
+lcount: 3
+loc_max: 21
+
+NODE: 1453
+lcount: 3
+loc_max: 22
+
+NODE: 544
+lcount: 2
+loc_max: 23
+
+NODE: 888
+lcount: 1
+loc_max: 24
+
+NODE: 2301
+lcount: 3
+loc_max: 23
+
+NODE: 1768
+lcount: 1
+loc_max: 24
+
+NODE: 1821
+lcount: 1
+loc_max: 24
+
+NODE: 1814
+lcount: 3
+loc_max: 22
+
+NODE: 1239
+lcount: 3
+loc_max: 23
+
+NODE: 211
+lcount: 1
+loc_max: 24
+
+NODE: 2156
+lcount: 1
+loc_max: 24
+
+NODE: 1953
+lcount: 3
+loc_max: 23
+
+NODE: 1122
+lcount: 1
+loc_max: 24
+
+NODE: 1995
+lcount: 1
+loc_max: 24
+
+NODE: 1884
+lcount: 3
+loc_max: 20
+
+NODE: 1810
+lcount: 3
+loc_max: 21
+
+NODE: 392
+lcount: 3
+loc_max: 22
+
+NODE: 1562
+lcount: 3
+loc_max: 23
+
+NODE: 297
+lcount: 1
+loc_max: 24
+
+NODE: 805
+lcount: 1
+loc_max: 24
+
+NODE: 2032
+lcount: 2
+loc_max: 23
+
+NODE: 1771
+lcount: 1
+loc_max: 24
+
+NODE: 1215
+lcount: 2
+loc_max: 22
+
+NODE: 2204
+lcount: 2
+loc_max: 23
+
+NODE: 92
+lcount: 1
+loc_max: 24
+
+NODE: 2148
+lcount: 2
+loc_max: 21
+
+NODE: 1074
+lcount: 3
+loc_max: 22
+
+NODE: 1305
+lcount: 3
+loc_max: 23
+
+NODE: 1342
+lcount: 1
+loc_max: 24
+
+NODE: 2295
+lcount: 1
+loc_max: 24
+
+NODE: 2231
+lcount: 3
+loc_max: 23
+
+NODE: 381
+lcount: 1
+loc_max: 24
+
+NODE: 2075
+lcount: 1
+loc_max: 24
+
+NODE: 1755
+lcount: 2
+loc_max: 14
+
+NODE: 1265
+lcount: 2
+loc_max: 15
+
+NODE: 478
+lcount: 2
+loc_max: 16
+
+NODE: 176
+lcount: 3
+loc_max: 17
+
+NODE: 973
+lcount: 2
+loc_max: 18
+
+NODE: 1301
+lcount: 3
+loc_max: 19
+
+NODE: 451
+lcount: 2
+loc_max: 20
+
+NODE: 1865
+lcount: 2
+loc_max: 21
+
+NODE: 674
+lcount: 3
+loc_max: 22
+
+NODE: 921
+lcount: 2
+loc_max: 23
+
+NODE: 868
+lcount: 1
+loc_max: 24
+
+NODE: 2019
+lcount: 3
+loc_max: 23
+
+NODE: 447
+lcount: 1
+loc_max: 24
+
+NODE: 852
+lcount: 1
+loc_max: 24
+
+NODE: 1653
+lcount: 3
+loc_max: 20
+
+NODE: 495
+lcount: 2
+loc_max: 21
+
+NODE: 1005
+lcount: 3
+loc_max: 22
+
+NODE: 170
+lcount: 3
+loc_max: 23
+
+NODE: 1221
+lcount: 1
+loc_max: 24
+
+NODE: 1608
+lcount: 1
+loc_max: 24
+
+NODE: 2279
+lcount: 2
+loc_max: 23
+
+NODE: 188
+lcount: 1
+loc_max: 24
+
+NODE: 691
+lcount: 2
+loc_max: 21
+
+NODE: 2067
+lcount: 3
+loc_max: 22
+
+NODE: 238
+lcount: 2
+loc_max: 23
+
+NODE: 656
+lcount: 1
+loc_max: 24
+
+NODE: 2217
+lcount: 2
+loc_max: 23
+
+NODE: 217
+lcount: 1
+loc_max: 24
+
+NODE: 1473
+lcount: 2
+loc_max: 18
+
+NODE: 688
+lcount: 3
+loc_max: 19
+
+NODE: 160
+lcount: 2
+loc_max: 20
+
+NODE: 1527
+lcount: 2
+loc_max: 21
+
+NODE: 1999
+lcount: 3
+loc_max: 22
+
+NODE: 204
+lcount: 3
+loc_max: 23
+
+NODE: 905
+lcount: 1
+loc_max: 24
+
+NODE: 1211
+lcount: 1
+loc_max: 24
+
+NODE: 233
+lcount: 2
+loc_max: 23
+
+NODE: 1210
+lcount: 1
+loc_max: 24
+
+NODE: 1462
+lcount: 3
+loc_max: 20
+
+NODE: 1380
+lcount: 2
+loc_max: 21
+
+NODE: 1089
+lcount: 3
+loc_max: 22
+
+NODE: 747
+lcount: 2
+loc_max: 23
+
+NODE: 2178
+lcount: 1
+loc_max: 24
+
+NODE: 1228
+lcount: 2
+loc_max: 23
+
+NODE: 1890
+lcount: 1
+loc_max: 24
+
+NODE: 1669
+lcount: 3
+loc_max: 21
+
+NODE: 203
+lcount: 2
+loc_max: 22
+
+NODE: 1707
+lcount: 3
+loc_max: 23
+
+NODE: 61
+lcount: 1
+loc_max: 24
+
+NODE: 1166
+lcount: 1
+loc_max: 24
+
+NODE: 1675
+lcount: 2
+loc_max: 22
+
+NODE: 306
+lcount: 2
+loc_max: 23
+
+NODE: 630
+lcount: 1
+loc_max: 24
+
+NODE: 1585
+lcount: 3
+loc_max: 9
+
+NODE: 475
+lcount: 2
+loc_max: 10
+
+NODE: 1503
+lcount: 3
+loc_max: 11
+
+NODE: 634
+lcount: 3
+loc_max: 12
+
+NODE: 677
+lcount: 3
+loc_max: 13
+
+NODE: 2015
+lcount: 2
+loc_max: 14
+
+NODE: 56
+lcount: 2
+loc_max: 15
+
+NODE: 353
+lcount: 3
+loc_max: 16
+
+NODE: 1528
+lcount: 3
+loc_max: 17
+
+NODE: 309
+lcount: 3
+loc_max: 18
+
+NODE: 1133
+lcount: 2
+loc_max: 19
+
+NODE: 924
+lcount: 3
+loc_max: 20
+
+NODE: 1783
+lcount: 2
+loc_max: 21
+
+NODE: 788
+lcount: 1
+loc_max: 22
+
+NODE: 2280
+lcount: 3
+loc_max: 21
+
+NODE: 1695
+lcount: 1
+loc_max: 22
+
+NODE: 1824
+lcount: 1
+loc_max: 22
+
+NODE: 1790
+lcount: 2
+loc_max: 19
+
+NODE: 2074
+lcount: 2
+loc_max: 20
+
+NODE: 1738
+lcount: 2
+loc_max: 21
+
+NODE: 347
+lcount: 1
+loc_max: 22
+
+NODE: 406
+lcount: 2
+loc_max: 18
+
+NODE: 1054
+lcount: 3
+loc_max: 19
+
+NODE: 80
+lcount: 3
+loc_max: 20
+
+NODE: 208
+lcount: 3
+loc_max: 21
+
+NODE: 582
+lcount: 1
+loc_max: 22
+
+NODE: 744
+lcount: 1
+loc_max: 22
+
+NODE: 1255
+lcount: 2
+loc_max: 21
+
+NODE: 1347
+lcount: 1
+loc_max: 22
+
+NODE: 1425
+lcount: 2
+loc_max: 20
+
+NODE: 1620
+lcount: 3
+loc_max: 21
+
+NODE: 659
+lcount: 1
+loc_max: 22
+
+NODE: 1132
+lcount: 1
+loc_max: 22
+
+NODE: 1645
+lcount: 3
+loc_max: 17
+
+NODE: 1656
+lcount: 2
+loc_max: 18
+
+NODE: 1214
+lcount: 3
+loc_max: 19
+
+NODE: 692
+lcount: 3
+loc_max: 20
+
+NODE: 1159
+lcount: 3
+loc_max: 21
+
+NODE: 1009
+lcount: 1
+loc_max: 22
+
+NODE: 2239
+lcount: 1
+loc_max: 22
+
+NODE: 1718
+lcount: 2
+loc_max: 21
+
+NODE: 1443
+lcount: 1
+loc_max: 22
+
+NODE: 1945
+lcount: 3
+loc_max: 20
+
+NODE: 793
+lcount: 3
+loc_max: 21
+
+NODE: 836
+lcount: 1
+loc_max: 22
+
+NODE: 2125
+lcount: 1
+loc_max: 22
+
+NODE: 1312
+lcount: 3
+loc_max: 21
+
+NODE: 158
+lcount: 1
+loc_max: 22
+
+NODE: 976
+lcount: 1
+loc_max: 22
+
+NODE: 1820
+lcount: 2
+loc_max: 18
+
+NODE: 527
+lcount: 3
+loc_max: 19
+
+NODE: 739
+lcount: 3
+loc_max: 20
+
+NODE: 459
+lcount: 3
+loc_max: 21
+
+NODE: 1807
+lcount: 1
+loc_max: 22
+
+NODE: 2009
+lcount: 1
+loc_max: 22
+
+NODE: 1276
+lcount: 2
+loc_max: 21
+
+NODE: 2232
+lcount: 1
+loc_max: 22
+
+NODE: 1981
+lcount: 3
+loc_max: 20
+
+NODE: 141
+lcount: 2
+loc_max: 21
+
+NODE: 1650
+lcount: 1
+loc_max: 22
+
+NODE: 390
+lcount: 2
+loc_max: 21
+
+NODE: 125
+lcount: 1
+loc_max: 22
+
+NODE: 2180
+lcount: 2
+loc_max: 14
+
+NODE: 1173
+lcount: 3
+loc_max: 15
+
+NODE: 343
+lcount: 2
+loc_max: 16
+
+NODE: 2244
+lcount: 2
+loc_max: 17
+
+NODE: 1104
+lcount: 2
+loc_max: 18
+
+NODE: 2037
+lcount: 2
+loc_max: 19
+
+NODE: 773
+lcount: 3
+loc_max: 20
+
+NODE: 939
+lcount: 3
+loc_max: 21
+
+NODE: 548
+lcount: 1
+loc_max: 22
+
+NODE: 2203
+lcount: 1
+loc_max: 22
+
+NODE: 1218
+lcount: 2
+loc_max: 21
+
+NODE: 1756
+lcount: 1
+loc_max: 22
+
+NODE: 956
+lcount: 3
+loc_max: 16
+
+NODE: 1509
+lcount: 3
+loc_max: 17
+
+NODE: 84
+lcount: 3
+loc_max: 18
+
+NODE: 897
+lcount: 3
+loc_max: 19
+
+NODE: 1682
+lcount: 3
+loc_max: 20
+
+NODE: 1758
+lcount: 2
+loc_max: 21
+
+NODE: 154
+lcount: 1
+loc_max: 22
+
+NODE: 2245
+lcount: 3
+loc_max: 21
+
+NODE: 345
+lcount: 1
+loc_max: 22
+
+NODE: 528
+lcount: 1
+loc_max: 22
+
+NODE: 1846
+lcount: 2
+loc_max: 20
+
+NODE: 995
+lcount: 3
+loc_max: 21
+
+NODE: 1090
+lcount: 1
+loc_max: 22
+
+NODE: 2219
+lcount: 1
+loc_max: 22
+
+NODE: 929
+lcount: 2
+loc_max: 19
+
+NODE: 1941
+lcount: 2
+loc_max: 20
+
+NODE: 1135
+lcount: 2
+loc_max: 21
+
+NODE: 1299
+lcount: 1
+loc_max: 22
+
+NODE: 1196
+lcount: 2
+loc_max: 18
+
+NODE: 1504
+lcount: 3
+loc_max: 19
+
+NODE: 384
+lcount: 2
+loc_max: 20
+
+NODE: 2043
+lcount: 3
+loc_max: 21
+
+NODE: 47
+lcount: 1
+loc_max: 22
+
+NODE: 1326
+lcount: 1
+loc_max: 22
+
+NODE: 1224
+lcount: 2
+loc_max: 20
+
+NODE: 1759
+lcount: 2
+loc_max: 21
+
+NODE: 903
+lcount: 1
+loc_max: 22
+
+NODE: 2293
+lcount: 2
+loc_max: 17
+
+NODE: 1660
+lcount: 3
+loc_max: 18
+
+NODE: 866
+lcount: 2
+loc_max: 19
+
+NODE: 1416
+lcount: 2
+loc_max: 20
+
+NODE: 39
+lcount: 3
+loc_max: 21
+
+NODE: 1294
+lcount: 1
+loc_max: 22
+
+NODE: 1779
+lcount: 1
+loc_max: 22
+
+NODE: 2090
+lcount: 2
+loc_max: 19
+
+NODE: 1419
+lcount: 3
+loc_max: 20
+
+NODE: 335
+lcount: 2
+loc_max: 21
+
+NODE: 1646
+lcount: 1
+loc_max: 22
+
+NODE: 2255
+lcount: 2
+loc_max: 21
+
+NODE: 1526
+lcount: 1
+loc_max: 22
+
+NODE: 1409
+lcount: 2
+loc_max: 13
+
+NODE: 138
+lcount: 3
+loc_max: 14
+
+NODE: 785
+lcount: 2
+loc_max: 15
+
+NODE: 2120
+lcount: 2
+loc_max: 16
+
+NODE: 1158
+lcount: 3
+loc_max: 17
+
+NODE: 124
+lcount: 2
+loc_max: 18
+
+NODE: 164
+lcount: 3
+loc_max: 19
+
+NODE: 741
+lcount: 2
+loc_max: 20
+
+NODE: 286
+lcount: 2
+loc_max: 21
+
+NODE: 889
+lcount: 1
+loc_max: 22
+
+NODE: 1632
+lcount: 2
+loc_max: 20
+
+NODE: 872
+lcount: 3
+loc_max: 21
+
+NODE: 241
+lcount: 1
+loc_max: 22
+
+NODE: 1092
+lcount: 1
+loc_max: 22
+
+NODE: 990
+lcount: 2
+loc_max: 18
+
+NODE: 155
+lcount: 3
+loc_max: 19
+
+NODE: 1472
+lcount: 2
+loc_max: 20
+
+NODE: 1129
+lcount: 3
+loc_max: 21
+
+NODE: 556
+lcount: 1
+loc_max: 22
+
+NODE: 795
+lcount: 1
+loc_max: 22
+
+NODE: 2257
+lcount: 2
+loc_max: 20
+
+NODE: 756
+lcount: 3
+loc_max: 21
+
+NODE: 2063
+lcount: 1
+loc_max: 22
+
+NODE: 2080
+lcount: 1
+loc_max: 22
+
+NODE: 1291
+lcount: 3
+loc_max: 15
+
+NODE: 431
+lcount: 3
+loc_max: 16
+
+NODE: 3
+lcount: 3
+loc_max: 17
+
+NODE: 499
+lcount: 3
+loc_max: 18
+
+NODE: 595
+lcount: 3
+loc_max: 19
+
+NODE: 1367
+lcount: 3
+loc_max: 20
+
+NODE: 907
+lcount: 3
+loc_max: 21
+
+NODE: 609
+lcount: 1
+loc_max: 22
+
+NODE: 1352
+lcount: 1
+loc_max: 22
+
+NODE: 2110
+lcount: 3
+loc_max: 21
+
+NODE: 629
+lcount: 1
+loc_max: 22
+
+NODE: 1460
+lcount: 1
+loc_max: 22
+
+NODE: 2220
+lcount: 2
+loc_max: 20
+
+NODE: 2275
+lcount: 2
+loc_max: 21
+
+NODE: 64
+lcount: 1
+loc_max: 22
+
+NODE: 1064
+lcount: 3
+loc_max: 19
+
+NODE: 523
+lcount: 2
+loc_max: 20
+
+NODE: 1434
+lcount: 2
+loc_max: 21
+
+NODE: 2170
+lcount: 1
+loc_max: 22
+
+NODE: 1417
+lcount: 3
+loc_max: 20
+
+NODE: 299
+lcount: 2
+loc_max: 21
+
+NODE: 1463
+lcount: 1
+loc_max: 22
+
+NODE: 1511
+lcount: 3
+loc_max: 21
+
+NODE: 1408
+lcount: 1
+loc_max: 22
+
+NODE: 1719
+lcount: 1
+loc_max: 22
+
+NODE: 709
+lcount: 2
+loc_max: 18
+
+NODE: 23
+lcount: 3
+loc_max: 19
+
+NODE: 1279
+lcount: 3
+loc_max: 20
+
+NODE: 118
+lcount: 2
+loc_max: 21
+
+NODE: 194
+lcount: 1
+loc_max: 22
+
+NODE: 307
+lcount: 2
+loc_max: 21
+
+NODE: 351
+lcount: 1
+loc_max: 22
+
+NODE: 1990
+lcount: 3
+loc_max: 20
+
+NODE: 972
+lcount: 3
+loc_max: 21
+
+NODE: 338
+lcount: 1
+loc_max: 22
+
+NODE: 2036
+lcount: 1
+loc_max: 22
+
+NODE: 1505
+lcount: 2
+loc_max: 21
+
+NODE: 869
+lcount: 1
+loc_max: 22
+
+NODE: 1742
+lcount: 3
+loc_max: 17
+
+NODE: 315
+lcount: 3
+loc_max: 18
+
+NODE: 606
+lcount: 3
+loc_max: 19
+
+NODE: 892
+lcount: 2
+loc_max: 20
+
+NODE: 1642
+lcount: 2
+loc_max: 21
+
+NODE: 1686
+lcount: 1
+loc_max: 22
+
+NODE: 1687
+lcount: 2
+loc_max: 20
+
+NODE: 127
+lcount: 3
+loc_max: 21
+
+NODE: 557
+lcount: 1
+loc_max: 22
+
+NODE: 1063
+lcount: 1
+loc_max: 22
+
+NODE: 1770
+lcount: 2
+loc_max: 19
+
+NODE: 2274
+lcount: 3
+loc_max: 20
+
+NODE: 329
+lcount: 3
+loc_max: 21
+
+NODE: 1079
+lcount: 1
+loc_max: 22
+
+NODE: 1578
+lcount: 1
+loc_max: 22
+
+NODE: 1863
+lcount: 2
+loc_max: 21
+
+NODE: 1520
+lcount: 1
+loc_max: 22
+
+NODE: 727
+lcount: 2
+loc_max: 18
+
+NODE: 1194
+lcount: 3
+loc_max: 19
+
+NODE: 438
+lcount: 2
+loc_max: 20
+
+NODE: 34
+lcount: 3
+loc_max: 21
+
+NODE: 245
+lcount: 1
+loc_max: 22
+
+NODE: 1027
+lcount: 1
+loc_max: 22
+
+NODE: 569
+lcount: 2
+loc_max: 20
+
+NODE: 1700
+lcount: 3
+loc_max: 21
+
+NODE: 133
+lcount: 1
+loc_max: 22
+
+NODE: 1171
+lcount: 1
+loc_max: 22
+
+NODE: 1034
+lcount: 3
+loc_max: 16
+
+NODE: 30
+lcount: 3
+loc_max: 17
+
+NODE: 1357
+lcount: 2
+loc_max: 18
+
+NODE: 60
+lcount: 2
+loc_max: 19
+
+NODE: 1711
+lcount: 2
+loc_max: 20
+
+NODE: 946
+lcount: 3
+loc_max: 21
+
+NODE: 85
+lcount: 1
+loc_max: 22
+
+NODE: 153
+lcount: 1
+loc_max: 22
+
+NODE: 1829
+lcount: 3
+loc_max: 18
+
+NODE: 538
+lcount: 2
+loc_max: 19
+
+NODE: 1
+lcount: 2
+loc_max: 20
+
+NODE: 38
+lcount: 3
+loc_max: 21
+
+NODE: 730
+lcount: 1
+loc_max: 22
+
+NODE: 1916
+lcount: 1
+loc_max: 22
+
+NODE: 1625
+lcount: 3
+loc_max: 19
+
+NODE: 421
+lcount: 3
+loc_max: 20
+
+NODE: 1393
+lcount: 3
+loc_max: 21
+
+NODE: 244
+lcount: 1
+loc_max: 22
+
+NODE: 2265
+lcount: 1
+loc_max: 22
+
+NODE: 1556
+lcount: 3
+loc_max: 21
+
+NODE: 1744
+lcount: 1
+loc_max: 22
+
+NODE: 1973
+lcount: 1
+loc_max: 22
+
+NODE: 962
+lcount: 2
+loc_max: 20
+
+NODE: 978
+lcount: 2
+loc_max: 21
+
+NODE: 419
+lcount: 1
+loc_max: 22
+
+NODE: 823
+lcount: 3
+loc_max: 17
+
+NODE: 41
+lcount: 2
+loc_max: 18
+
+NODE: 159
+lcount: 3
+loc_max: 19
+
+NODE: 102
+lcount: 2
+loc_max: 20
+
+NODE: 369
+lcount: 2
+loc_max: 21
+
+NODE: 1648
+lcount: 1
+loc_max: 22
+
+NODE: 2097
+lcount: 3
+loc_max: 20
+
+NODE: 1286
+lcount: 2
+loc_max: 21
+
+NODE: 979
+lcount: 1
+loc_max: 22
+
+NODE: 1989
+lcount: 3
+loc_max: 21
+
+NODE: 2029
+lcount: 1
+loc_max: 22
+
+NODE: 2259
+lcount: 1
+loc_max: 22
+
+NODE: 746
+lcount: 2
+loc_max: 18
+
+NODE: 1862
+lcount: 3
+loc_max: 19
+
+NODE: 543
+lcount: 3
+loc_max: 20
+
+NODE: 2059
+lcount: 3
+loc_max: 21
+
+NODE: 213
+lcount: 1
+loc_max: 22
+
+NODE: 2139
+lcount: 1
+loc_max: 22
+
+NODE: 2298
+lcount: 2
+loc_max: 21
+
+NODE: 1896
+lcount: 1
+loc_max: 22
+
+NODE: 1012
+lcount: 2
+loc_max: 20
+
+NODE: 1819
+lcount: 3
+loc_max: 21
+
+NODE: 1046
+lcount: 1
+loc_max: 22
+
+NODE: 1894
+lcount: 1
+loc_max: 22
+
+NODE: 1037
+lcount: 2
+loc_max: 12
+
+NODE: 1055
+lcount: 2
+loc_max: 13
+
+NODE: 787
+lcount: 2
+loc_max: 14
+
+NODE: 949
+lcount: 2
+loc_max: 15
+
+NODE: 1567
+lcount: 2
+loc_max: 16
+
+NODE: 1121
+lcount: 3
+loc_max: 17
+
+NODE: 867
+lcount: 2
+loc_max: 18
+
+NODE: 991
+lcount: 2
+loc_max: 19
+
+NODE: 484
+lcount: 3
+loc_max: 20
+
+NODE: 661
+lcount: 3
+loc_max: 21
+
+NODE: 1599
+lcount: 1
+loc_max: 22
+
+NODE: 2106
+lcount: 1
+loc_max: 22
+
+NODE: 1886
+lcount: 2
+loc_max: 21
+
+NODE: 1125
+lcount: 1
+loc_max: 22
+
+NODE: 1957
+lcount: 3
+loc_max: 18
+
+NODE: 94
+lcount: 3
+loc_max: 19
+
+NODE: 1136
+lcount: 3
+loc_max: 20
+
+NODE: 682
+lcount: 3
+loc_max: 21
+
+NODE: 2
+lcount: 1
+loc_max: 22
+
+NODE: 2252
+lcount: 1
+loc_max: 22
+
+NODE: 1786
+lcount: 2
+loc_max: 21
+
+NODE: 1106
+lcount: 1
+loc_max: 22
+
+NODE: 1192
+lcount: 3
+loc_max: 20
+
+NODE: 969
+lcount: 2
+loc_max: 21
+
+NODE: 943
+lcount: 1
+loc_max: 22
+
+NODE: 1444
+lcount: 3
+loc_max: 21
+
+NODE: 425
+lcount: 1
+loc_max: 22
+
+NODE: 776
+lcount: 1
+loc_max: 22
+
+NODE: 106
+lcount: 2
+loc_max: 19
+
+NODE: 487
+lcount: 3
+loc_max: 20
+
+NODE: 10
+lcount: 2
+loc_max: 21
+
+NODE: 626
+lcount: 1
+loc_max: 22
+
+NODE: 684
+lcount: 3
+loc_max: 21
+
+NODE: 1023
+lcount: 1
+loc_max: 22
+
+NODE: 1116
+lcount: 1
+loc_max: 22
+
+NODE: 1547
+lcount: 2
+loc_max: 10
+
+NODE: 1610
+lcount: 3
+loc_max: 11
+
+NODE: 1852
+lcount: 3
+loc_max: 12
+
+NODE: 192
+lcount: 3
+loc_max: 13
+
+NODE: 65
+lcount: 2
+loc_max: 14
+
+NODE: 1127
+lcount: 3
+loc_max: 15
+
+NODE: 1403
+lcount: 2
+loc_max: 16
+
+NODE: 312
+lcount: 3
+loc_max: 17
+
+NODE: 303
+lcount: 3
+loc_max: 18
+
+NODE: 7
+lcount: 3
+loc_max: 19
+
+NODE: 1428
+lcount: 2
+loc_max: 20
+
+NODE: 1694
+lcount: 2
+loc_max: 21
+
+NODE: 603
+lcount: 1
+loc_max: 22
+
+NODE: 2285
+lcount: 2
+loc_max: 20
+
+NODE: 1102
+lcount: 2
+loc_max: 21
+
+NODE: 1198
+lcount: 1
+loc_max: 22
+
+NODE: 1479
+lcount: 2
+loc_max: 19
+
+NODE: 511
+lcount: 2
+loc_max: 20
+
+NODE: 1395
+lcount: 2
+loc_max: 21
+
+NODE: 1858
+lcount: 1
+loc_max: 22
+
+NODE: 1977
+lcount: 3
+loc_max: 18
+
+NODE: 699
+lcount: 2
+loc_max: 19
+
+NODE: 1322
+lcount: 2
+loc_max: 20
+
+NODE: 764
+lcount: 3
+loc_max: 21
+
+NODE: 1476
+lcount: 1
+loc_max: 22
+
+NODE: 1588
+lcount: 1
+loc_max: 22
+
+NODE: 768
+lcount: 2
+loc_max: 19
+
+NODE: 361
+lcount: 2
+loc_max: 20
+
+NODE: 2111
+lcount: 3
+loc_max: 21
+
+NODE: 670
+lcount: 1
+loc_max: 22
+
+NODE: 878
+lcount: 1
+loc_max: 22
+
+NODE: 1489
+lcount: 2
+loc_max: 16
+
+NODE: 1431
+lcount: 2
+loc_max: 17
+
+NODE: 1942
+lcount: 3
+loc_max: 18
+
+NODE: 711
+lcount: 3
+loc_max: 19
+
+NODE: 1959
+lcount: 3
+loc_max: 20
+
+NODE: 1004
+lcount: 2
+loc_max: 21
+
+NODE: 1244
+lcount: 1
+loc_max: 22
+
+NODE: 2114
+lcount: 3
+loc_max: 21
+
+NODE: 767
+lcount: 1
+loc_max: 22
+
+NODE: 1572
+lcount: 1
+loc_max: 22
+
+NODE: 2290
+lcount: 3
+loc_max: 20
+
+NODE: 1041
+lcount: 2
+loc_max: 21
+
+NODE: 1421
+lcount: 1
+loc_max: 22
+
+NODE: 1540
+lcount: 3
+loc_max: 21
+
+NODE: 1002
+lcount: 1
+loc_max: 22
+
+NODE: 2196
+lcount: 1
+loc_max: 22
+
+NODE: 1573
+lcount: 3
+loc_max: 19
+
+NODE: 608
+lcount: 3
+loc_max: 20
+
+NODE: 1124
+lcount: 2
+loc_max: 21
+
+NODE: 1637
+lcount: 1
+loc_max: 22
+
+NODE: 1595
+lcount: 3
+loc_max: 21
+
+NODE: 1550
+lcount: 1
+loc_max: 22
+
+NODE: 1907
+lcount: 1
+loc_max: 22
+
+NODE: 663
+lcount: 2
+loc_max: 20
+
+NODE: 1835
+lcount: 3
+loc_max: 21
+
+NODE: 130
+lcount: 1
+loc_max: 22
+
+NODE: 277
+lcount: 1
+loc_max: 22
+
+NODE: 516
+lcount: 2
+loc_max: 14
+
+NODE: 107
+lcount: 3
+loc_max: 15
+
+NODE: 509
+lcount: 2
+loc_max: 16
+
+NODE: 1878
+lcount: 3
+loc_max: 17
+
+NODE: 535
+lcount: 3
+loc_max: 18
+
+NODE: 76
+lcount: 3
+loc_max: 19
+
+NODE: 363
+lcount: 2
+loc_max: 20
+
+NODE: 2134
+lcount: 2
+loc_max: 21
+
+NODE: 1988
+lcount: 1
+loc_max: 22
+
+NODE: 617
+lcount: 2
+loc_max: 20
+
+NODE: 885
+lcount: 3
+loc_max: 21
+
+NODE: 174
+lcount: 1
+loc_max: 22
+
+NODE: 2206
+lcount: 1
+loc_max: 22
+
+NODE: 534
+lcount: 2
+loc_max: 19
+
+NODE: 177
+lcount: 2
+loc_max: 20
+
+NODE: 2044
+lcount: 2
+loc_max: 21
+
+NODE: 346
+lcount: 1
+loc_max: 22
+
+NODE: 2072
+lcount: 3
+loc_max: 18
+
+NODE: 1230
+lcount: 3
+loc_max: 19
+
+NODE: 378
+lcount: 2
+loc_max: 20
+
+NODE: 1624
+lcount: 2
+loc_max: 21
+
+NODE: 871
+lcount: 1
+loc_max: 22
+
+NODE: 1723
+lcount: 2
+loc_max: 20
+
+NODE: 1086
+lcount: 3
+loc_max: 21
+
+NODE: 145
+lcount: 1
+loc_max: 22
+
+NODE: 1972
+lcount: 1
+loc_max: 22
+
+NODE: 2273
+lcount: 2
+loc_max: 19
+
+NODE: 1039
+lcount: 3
+loc_max: 20
+
+NODE: 504
+lcount: 3
+loc_max: 21
+
+NODE: 449
+lcount: 1
+loc_max: 22
+
+NODE: 951
+lcount: 1
+loc_max: 22
+
+NODE: 588
+lcount: 3
+loc_max: 21
+
+NODE: 82
+lcount: 1
+loc_max: 22
+
+NODE: 1640
+lcount: 1
+loc_max: 22
+
+NODE: 597
+lcount: 3
+loc_max: 16
+
+NODE: 237
+lcount: 3
+loc_max: 17
+
+NODE: 1193
+lcount: 2
+loc_max: 18
+
+NODE: 156
+lcount: 2
+loc_max: 19
+
+NODE: 1370
+lcount: 3
+loc_max: 20
+
+NODE: 789
+lcount: 2
+loc_max: 21
+
+NODE: 742
+lcount: 1
+loc_max: 22
+
+NODE: 910
+lcount: 3
+loc_max: 21
+
+NODE: 718
+lcount: 1
+loc_max: 22
+
+NODE: 2004
+lcount: 1
+loc_max: 22
+
+NODE: 2214
+lcount: 2
+loc_max: 18
+
+NODE: 219
+lcount: 3
+loc_max: 19
+
+NODE: 261
+lcount: 2
+loc_max: 20
+
+NODE: 1782
+lcount: 2
+loc_max: 21
+
+NODE: 1146
+lcount: 1
+loc_max: 22
+
+NODE: 324
+lcount: 2
+loc_max: 20
+
+NODE: 1047
+lcount: 2
+loc_max: 21
+
+NODE: 1791
+lcount: 1
+loc_max: 22
+
+NODE: 2085
+lcount: 3
+loc_max: 17
+
+NODE: 725
+lcount: 3
+loc_max: 18
+
+NODE: 311
+lcount: 3
+loc_max: 19
+
+NODE: 975
+lcount: 3
+loc_max: 20
+
+NODE: 1362
+lcount: 3
+loc_max: 21
+
+NODE: 168
+lcount: 1
+loc_max: 22
+
+NODE: 1739
+lcount: 1
+loc_max: 22
+
+NODE: 1672
+lcount: 3
+loc_max: 21
+
+NODE: 1319
+lcount: 1
+loc_max: 22
+
+NODE: 1803
+lcount: 1
+loc_max: 22
+
+NODE: 1303
+lcount: 3
+loc_max: 20
+
+NODE: 1241
+lcount: 2
+loc_max: 21
+
+NODE: 1795
+lcount: 1
+loc_max: 22
+
+NODE: 1441
+lcount: 3
+loc_max: 21
+
+NODE: 635
+lcount: 1
+loc_max: 22
+
+NODE: 1843
+lcount: 1
+loc_max: 22
+
+NODE: 2093
+lcount: 2
+loc_max: 19
+
+NODE: 1847
+lcount: 3
+loc_max: 20
+
+NODE: 12
+lcount: 2
+loc_max: 21
+
+NODE: 813
+lcount: 1
+loc_max: 22
+
+NODE: 999
+lcount: 2
+loc_max: 21
+
+NODE: 786
+lcount: 1
+loc_max: 22
+
+NODE: 1199
+lcount: 2
+loc_max: 18
+
+NODE: 2030
+lcount: 3
+loc_max: 19
+
+NODE: 1523
+lcount: 2
+loc_max: 20
+
+NODE: 1813
+lcount: 3
+loc_max: 21
+
+NODE: 249
+lcount: 1
+loc_max: 22
+
+NODE: 258
+lcount: 1
+loc_max: 22
+
+NODE: 1715
+lcount: 3
+loc_max: 20
+
+NODE: 708
+lcount: 3
+loc_max: 21
+
+NODE: 599
+lcount: 1
+loc_max: 22
+
+NODE: 1355
+lcount: 1
+loc_max: 22
+
+NODE: 2055
+lcount: 3
+loc_max: 21
+
+NODE: 506
+lcount: 1
+loc_max: 22
+
+NODE: 1278
+lcount: 1
+loc_max: 22
+
+NODE: 1885
+lcount: 3
+loc_max: 13
+
+NODE: 497
+lcount: 2
+loc_max: 14
+
+NODE: 453
+lcount: 3
+loc_max: 15
+
+NODE: 49
+lcount: 2
+loc_max: 16
+
+NODE: 283
+lcount: 3
+loc_max: 17
+
+NODE: 37
+lcount: 2
+loc_max: 18
+
+NODE: 362
+lcount: 3
+loc_max: 19
+
+NODE: 940
+lcount: 3
+loc_max: 20
+
+NODE: 1111
+lcount: 3
+loc_max: 21
+
+NODE: 1283
+lcount: 1
+loc_max: 22
+
+NODE: 1804
+lcount: 1
+loc_max: 22
+
+NODE: 1201
+lcount: 2
+loc_max: 21
+
+NODE: 1287
+lcount: 1
+loc_max: 22
+
+NODE: 1209
+lcount: 3
+loc_max: 20
+
+NODE: 103
+lcount: 2
+loc_max: 21
+
+NODE: 340
+lcount: 1
+loc_max: 22
+
+NODE: 214
+lcount: 2
+loc_max: 21
+
+NODE: 1258
+lcount: 1
+loc_max: 22
+
+NODE: 874
+lcount: 3
+loc_max: 18
+
+NODE: 919
+lcount: 2
+loc_max: 19
+
+NODE: 190
+lcount: 3
+loc_max: 20
+
+NODE: 770
+lcount: 3
+loc_max: 21
+
+NODE: 1187
+lcount: 1
+loc_max: 22
+
+NODE: 1842
+lcount: 1
+loc_max: 22
+
+NODE: 1331
+lcount: 2
+loc_max: 21
+
+NODE: 784
+lcount: 1
+loc_max: 22
+
+NODE: 1164
+lcount: 2
+loc_max: 19
+
+NODE: 2068
+lcount: 3
+loc_max: 20
+
+NODE: 250
+lcount: 2
+loc_max: 21
+
+NODE: 816
+lcount: 1
+loc_max: 22
+
+NODE: 2212
+lcount: 3
+loc_max: 21
+
+NODE: 590
+lcount: 1
+loc_max: 22
+
+NODE: 1248
+lcount: 1
+loc_max: 22
+
+NODE: 1929
+lcount: 3
+loc_max: 16
+
+NODE: 1826
+lcount: 2
+loc_max: 17
+
+NODE: 800
+lcount: 2
+loc_max: 18
+
+NODE: 180
+lcount: 3
+loc_max: 19
+
+NODE: 964
+lcount: 3
+loc_max: 20
+
+NODE: 1267
+lcount: 2
+loc_max: 21
+
+NODE: 240
+lcount: 1
+loc_max: 22
+
+NODE: 1323
+lcount: 2
+loc_max: 21
+
+NODE: 851
+lcount: 1
+loc_max: 22
+
+NODE: 1630
+lcount: 3
+loc_max: 20
+
+NODE: 729
+lcount: 3
+loc_max: 21
+
+NODE: 1536
+lcount: 1
+loc_max: 22
+
+NODE: 1574
+lcount: 1
+loc_max: 22
+
+NODE: 2210
+lcount: 2
+loc_max: 21
+
+NODE: 1809
+lcount: 1
+loc_max: 22
+
+NODE: 2209
+lcount: 2
+loc_max: 17
+
+NODE: 1581
+lcount: 2
+loc_max: 18
+
+NODE: 797
+lcount: 2
+loc_max: 19
+
+NODE: 834
+lcount: 3
+loc_max: 20
+
+NODE: 618
+lcount: 3
+loc_max: 21
+
+NODE: 81
+lcount: 1
+loc_max: 22
+
+NODE: 1816
+lcount: 1
+loc_max: 22
+
+NODE: 1140
+lcount: 2
+loc_max: 21
+
+NODE: 24
+lcount: 1
+loc_max: 22
+
+NODE: 1281
+lcount: 3
+loc_max: 14
+
+NODE: 578
+lcount: 2
+loc_max: 15
+
+NODE: 1940
+lcount: 2
+loc_max: 16
+
+NODE: 757
+lcount: 3
+loc_max: 17
+
+NODE: 1399
+lcount: 2
+loc_max: 18
+
+NODE: 1495
+lcount: 3
+loc_max: 19
+
+NODE: 850
+lcount: 2
+loc_max: 20
+
+NODE: 488
+lcount: 2
+loc_max: 21
+
+NODE: 396
+lcount: 1
+loc_max: 22
+
+NODE: 1366
+lcount: 3
+loc_max: 20
+
+NODE: 769
+lcount: 3
+loc_max: 21
+
+NODE: 17
+lcount: 1
+loc_max: 22
+
+NODE: 352
+lcount: 1
+loc_max: 22
+
+NODE: 2018
+lcount: 2
+loc_max: 21
+
+NODE: 2060
+lcount: 1
+loc_max: 22
+
+NODE: 1627
+lcount: 3
+loc_max: 18
+
+NODE: 477
+lcount: 3
+loc_max: 19
+
+NODE: 875
+lcount: 2
+loc_max: 20
+
+NODE: 471
+lcount: 2
+loc_max: 21
+
+NODE: 886
+lcount: 1
+loc_max: 22
+
+NODE: 1101
+lcount: 3
+loc_max: 20
+
+NODE: 423
+lcount: 2
+loc_max: 21
+
+NODE: 743
+lcount: 1
+loc_max: 22
+
+NODE: 1126
+lcount: 2
+loc_max: 21
+
+NODE: 2184
+lcount: 1
+loc_max: 22
+
+NODE: 638
+lcount: 2
+loc_max: 19
+
+NODE: 1082
+lcount: 3
+loc_max: 20
+
+NODE: 645
+lcount: 2
+loc_max: 21
+
+NODE: 2230
+lcount: 1
+loc_max: 22
+
+NODE: 1251
+lcount: 3
+loc_max: 21
+
+NODE: 259
+lcount: 1
+loc_max: 22
+
+NODE: 750
+lcount: 1
+loc_max: 22
+
+NODE: 1446
+lcount: 3
+loc_max: 15
+
+NODE: 1432
+lcount: 3
+loc_max: 16
+
+NODE: 1261
+lcount: 3
+loc_max: 17
+
+NODE: 434
+lcount: 2
+loc_max: 18
+
+NODE: 847
+lcount: 2
+loc_max: 19
+
+NODE: 1469
+lcount: 3
+loc_max: 20
+
+NODE: 814
+lcount: 2
+loc_max: 21
+
+NODE: 364
+lcount: 1
+loc_max: 22
+
+NODE: 1893
+lcount: 3
+loc_max: 21
+
+NODE: 1433
+lcount: 1
+loc_max: 22
+
+NODE: 2271
+lcount: 1
+loc_max: 22
+
+NODE: 1151
+lcount: 3
+loc_max: 18
+
+NODE: 602
+lcount: 3
+loc_max: 19
+
+NODE: 586
+lcount: 2
+loc_max: 20
+
+NODE: 622
+lcount: 3
+loc_max: 21
+
+NODE: 812
+lcount: 1
+loc_max: 22
+
+NODE: 855
+lcount: 1
+loc_max: 22
+
+NODE: 736
+lcount: 2
+loc_max: 20
+
+NODE: 779
+lcount: 3
+loc_max: 21
+
+NODE: 1647
+lcount: 1
+loc_max: 22
+
+NODE: 2304
+lcount: 1
+loc_max: 22
+
+NODE: 649
+lcount: 2
+loc_max: 19
+
+NODE: 1081
+lcount: 2
+loc_max: 20
+
+NODE: 2292
+lcount: 2
+loc_max: 21
+
+NODE: 574
+lcount: 1
+loc_max: 22
+
+NODE: 1839
+lcount: 3
+loc_max: 17
+
+NODE: 1379
+lcount: 2
+loc_max: 18
+
+NODE: 801
+lcount: 2
+loc_max: 19
+
+NODE: 350
+lcount: 2
+loc_max: 20
+
+NODE: 148
+lcount: 2
+loc_max: 21
+
+NODE: 1613
+lcount: 1
+loc_max: 22
+
+NODE: 1856
+lcount: 3
+loc_max: 18
+
+NODE: 289
+lcount: 3
+loc_max: 19
+
+NODE: 1507
+lcount: 3
+loc_max: 20
+
+NODE: 765
+lcount: 3
+loc_max: 21
+
+NODE: 316
+lcount: 1
+loc_max: 22
+
+NODE: 2191
+lcount: 1
+loc_max: 22
+
+NODE: 1448
+lcount: 3
+loc_max: 21
+
+NODE: 263
+lcount: 1
+loc_max: 22
+
+NODE: 1318
+lcount: 1
+loc_max: 22
+
+NODE: 2065
+lcount: 3
+loc_max: 20
+
+NODE: 231
+lcount: 3
+loc_max: 21
+
+NODE: 808
+lcount: 1
+loc_max: 22
+
+NODE: 1597
+lcount: 1
+loc_max: 22
+
+NODE: 377
+lcount: 3
+loc_max: 21
+
+NODE: 228
+lcount: 1
+loc_max: 22
+
+NODE: 1304
+lcount: 1
+loc_max: 22
+
+NODE: 1353
+lcount: 2
+loc_max: 19
+
+NODE: 275
+lcount: 2
+loc_max: 20
+
+NODE: 2154
+lcount: 2
+loc_max: 21
+
+NODE: 305
+lcount: 1
+loc_max: 22
+
+NODE: 1983
+lcount: 3
+loc_max: 16
+
+NODE: 1410
+lcount: 2
+loc_max: 17
+
+NODE: 687
+lcount: 2
+loc_max: 18
+
+NODE: 1493
+lcount: 3
+loc_max: 19
+
+NODE: 304
+lcount: 2
+loc_max: 20
+
+NODE: 1731
+lcount: 3
+loc_max: 21
+
+NODE: 641
+lcount: 1
+loc_max: 22
+
+NODE: 961
+lcount: 1
+loc_max: 22
+
+NODE: 1925
+lcount: 3
+loc_max: 20
+
+NODE: 598
+lcount: 2
+loc_max: 21
+
+NODE: 1010
+lcount: 1
+loc_max: 22
+
+NODE: 1440
+lcount: 3
+loc_max: 21
+
+NODE: 772
+lcount: 1
+loc_max: 22
+
+NODE: 1638
+lcount: 1
+loc_max: 22
+
+NODE: 1696
+lcount: 2
+loc_max: 17
+
+NODE: 330
+lcount: 2
+loc_max: 18
+
+NODE: 2162
+lcount: 3
+loc_max: 19
+
+NODE: 256
+lcount: 2
+loc_max: 20
+
+NODE: 1049
+lcount: 2
+loc_max: 21
+
+NODE: 1912
+lcount: 1
+loc_max: 22
+
+NODE: 1888
+lcount: 3
+loc_max: 20
+
+NODE: 218
+lcount: 3
+loc_max: 21
+
+NODE: 780
+lcount: 1
+loc_max: 22
+
+NODE: 1664
+lcount: 1
+loc_max: 22
+
+NODE: 1498
+lcount: 3
+loc_max: 21
+
+NODE: 193
+lcount: 1
+loc_max: 22
+
+NODE: 1639
+lcount: 1
+loc_max: 22
+
+NODE: 1901
+lcount: 3
+loc_max: 12
+
+NODE: 268
+lcount: 2
+loc_max: 13
+
+NODE: 1502
+lcount: 2
+loc_max: 14
+
+NODE: 247
+lcount: 2
+loc_max: 15
+
+NODE: 1666
+lcount: 2
+loc_max: 16
+
+NODE: 585
+lcount: 3
+loc_max: 17
+
+NODE: 896
+lcount: 2
+loc_max: 18
+
+NODE: 581
+lcount: 2
+loc_max: 19
+
+NODE: 1390
+lcount: 3
+loc_max: 20
+
+NODE: 1065
+lcount: 3
+loc_max: 21
+
+NODE: 481
+lcount: 1
+loc_max: 22
+
+NODE: 1851
+lcount: 1
+loc_max: 22
+
+NODE: 1354
+lcount: 3
+loc_max: 21
+
+NODE: 101
+lcount: 1
+loc_max: 22
+
+NODE: 493
+lcount: 1
+loc_max: 22
+
+NODE: 1080
+lcount: 2
+loc_max: 18
+
+NODE: 373
+lcount: 2
+loc_max: 19
+
+NODE: 1958
+lcount: 2
+loc_max: 20
+
+NODE: 2116
+lcount: 3
+loc_max: 21
+
+NODE: 1247
+lcount: 1
+loc_max: 22
+
+NODE: 1794
+lcount: 1
+loc_max: 22
+
+NODE: 2213
+lcount: 2
+loc_max: 13
+
+NODE: 992
+lcount: 3
+loc_max: 14
+
+NODE: 1381
+lcount: 2
+loc_max: 15
+
+NODE: 525
+lcount: 3
+loc_max: 16
+
+NODE: 288
+lcount: 3
+loc_max: 17
+
+NODE: 1030
+lcount: 3
+loc_max: 18
+
+NODE: 1088
+lcount: 2
+loc_max: 19
+
+NODE: 2248
+lcount: 2
+loc_max: 20
+
+NODE: 1592
+lcount: 3
+loc_max: 21
+
+NODE: 36
+lcount: 1
+loc_max: 22
+
+NODE: 625
+lcount: 1
+loc_max: 22
+
+NODE: 1763
+lcount: 3
+loc_max: 19
+
+NODE: 108
+lcount: 2
+loc_max: 20
+
+NODE: 807
+lcount: 2
+loc_max: 21
+
+NODE: 1591
+lcount: 1
+loc_max: 22
+
+NODE: 566
+lcount: 2
+loc_max: 20
+
+NODE: 326
+lcount: 2
+loc_max: 21
+
+NODE: 2086
+lcount: 1
+loc_max: 22
+
+NODE: 2264
+lcount: 3
+loc_max: 18
+
+NODE: 1903
+lcount: 3
+loc_max: 19
+
+NODE: 13
+lcount: 2
+loc_max: 20
+
+NODE: 1293
+lcount: 2
+loc_max: 21
+
+NODE: 1726
+lcount: 1
+loc_max: 22
+
+NODE: 1035
+lcount: 3
+loc_max: 20
+
+NODE: 1176
+lcount: 2
+loc_max: 21
+
+NODE: 1052
+lcount: 1
+loc_max: 22
+
+NODE: 2117
+lcount: 2
+loc_max: 21
+
+NODE: 1384
+lcount: 1
+loc_max: 22
+
+NODE: 2187
+lcount: 3
+loc_max: 19
+
+NODE: 48
+lcount: 2
+loc_max: 20
+
+NODE: 2024
+lcount: 2
+loc_max: 21
+
+NODE: 88
+lcount: 1
+loc_max: 22
+
+NODE: 1542
+lcount: 3
+loc_max: 20
+
+NODE: 455
+lcount: 2
+loc_max: 21
+
+NODE: 1548
+lcount: 1
+loc_max: 22
+
+NODE: 1964
+lcount: 3
+loc_max: 21
+
+NODE: 1538
+lcount: 1
+loc_max: 22
+
+NODE: 1802
+lcount: 1
+loc_max: 22
+
+NODE: 859
+lcount: 3
+loc_max: 17
+
+NODE: 273
+lcount: 3
+loc_max: 18
+
+NODE: 561
+lcount: 3
+loc_max: 19
+
+NODE: 97
+lcount: 2
+loc_max: 20
+
+NODE: 931
+lcount: 3
+loc_max: 21
+
+NODE: 591
+lcount: 1
+loc_max: 22
+
+NODE: 614
+lcount: 1
+loc_max: 22
+
+NODE: 2087
+lcount: 2
+loc_max: 20
+
+NODE: 2261
+lcount: 3
+loc_max: 21
+
+NODE: 665
+lcount: 1
+loc_max: 22
+
+NODE: 1561
+lcount: 1
+loc_max: 22
+
+NODE: 639
+lcount: 3
+loc_max: 19
+
+NODE: 998
+lcount: 3
+loc_max: 20
+
+NODE: 702
+lcount: 3
+loc_max: 21
+
+NODE: 1204
+lcount: 1
+loc_max: 22
+
+NODE: 2071
+lcount: 1
+loc_max: 22
+
+NODE: 2242
+lcount: 3
+loc_max: 21
+
+NODE: 360
+lcount: 1
+loc_max: 22
+
+NODE: 974
+lcount: 1
+loc_max: 22
+
+NODE: 1869
+lcount: 2
+loc_max: 20
+
+NODE: 1070
+lcount: 2
+loc_max: 21
+
+NODE: 1765
+lcount: 1
+loc_max: 22
+
+NODE: 1867
+lcount: 2
+loc_max: 18
+
+NODE: 1917
+lcount: 3
+loc_max: 19
+
+NODE: 1604
+lcount: 3
+loc_max: 20
+
+NODE: 31
+lcount: 2
+loc_max: 21
+
+NODE: 1892
+lcount: 1
+loc_max: 22
+
+NODE: 1593
+lcount: 2
+loc_max: 21
+
+NODE: 86
+lcount: 1
+loc_max: 22
+
+NODE: 1971
+lcount: 3
+loc_max: 20
+
+NODE: 701
+lcount: 3
+loc_max: 21
+
+NODE: 271
+lcount: 1
+loc_max: 22
+
+NODE: 890
+lcount: 1
+loc_max: 22
+
+NODE: 1883
+lcount: 3
+loc_max: 21
+
+NODE: 126
+lcount: 1
+loc_max: 22
+
+NODE: 1559
+lcount: 1
+loc_max: 22
+
+NODE: 1825
+lcount: 3
+loc_max: 15
+
+NODE: 1150
+lcount: 2
+loc_max: 16
+
+NODE: 1584
+lcount: 3
+loc_max: 17
+
+NODE: 915
+lcount: 3
+loc_max: 18
+
+NODE: 1112
+lcount: 2
+loc_max: 19
+
+NODE: 792
+lcount: 2
+loc_max: 20
+
+NODE: 435
+lcount: 3
+loc_max: 21
+
+NODE: 637
+lcount: 1
+loc_max: 22
+
+NODE: 2223
+lcount: 1
+loc_max: 22
+
+NODE: 1688
+lcount: 3
+loc_max: 19
+
+NODE: 1792
+lcount: 3
+loc_max: 20
+
+NODE: 1406
+lcount: 3
+loc_max: 21
+
+NODE: 456
+lcount: 1
+loc_max: 22
+
+NODE: 680
+lcount: 1
+loc_max: 22
+
+NODE: 1414
+lcount: 2
+loc_max: 21
+
+NODE: 1635
+lcount: 1
+loc_max: 22
+
+NODE: 2052
+lcount: 3
+loc_max: 20
+
+NODE: 131
+lcount: 2
+loc_max: 21
+
+NODE: 169
+lcount: 1
+loc_max: 22
+
+NODE: 1921
+lcount: 2
+loc_max: 21
+
+NODE: 1340
+lcount: 1
+loc_max: 22
+
+NODE: 1266
+lcount: 2
+loc_max: 18
+
+NODE: 1512
+lcount: 2
+loc_max: 19
+
+NODE: 817
+lcount: 2
+loc_max: 20
+
+NODE: 269
+lcount: 2
+loc_max: 21
+
+NODE: 5
+lcount: 1
+loc_max: 22
+
+NODE: 1546
+lcount: 3
+loc_max: 16
+
+NODE: 386
+lcount: 3
+loc_max: 17
+
+NODE: 201
+lcount: 2
+loc_max: 18
+
+NODE: 70
+lcount: 2
+loc_max: 19
+
+NODE: 467
+lcount: 3
+loc_max: 20
+
+NODE: 804
+lcount: 2
+loc_max: 21
+
+NODE: 1429
+lcount: 1
+loc_max: 22
+
+NODE: 1514
+lcount: 3
+loc_max: 21
+
+NODE: 794
+lcount: 1
+loc_max: 22
+
+NODE: 1920
+lcount: 1
+loc_max: 22
+
+NODE: 1709
+lcount: 2
+loc_max: 18
+
+NODE: 846
+lcount: 3
+loc_max: 19
+
+NODE: 1045
+lcount: 2
+loc_max: 20
+
+NODE: 1231
+lcount: 2
+loc_max: 21
+
+NODE: 251
+lcount: 1
+loc_max: 22
+
+NODE: 1665
+lcount: 3
+loc_max: 20
+
+NODE: 1298
+lcount: 3
+loc_max: 21
+
+NODE: 276
+lcount: 1
+loc_max: 22
+
+NODE: 1545
+lcount: 1
+loc_max: 22
+
+NODE: 1590
+lcount: 2
+loc_max: 21
+
+NODE: 2057
+lcount: 1
+loc_max: 22
+
+NODE: 922
+lcount: 3
+loc_max: 17
+
+NODE: 1167
+lcount: 2
+loc_max: 18
+
+NODE: 1181
+lcount: 2
+loc_max: 19
+
+NODE: 676
+lcount: 2
+loc_max: 20
+
+NODE: 1071
+lcount: 2
+loc_max: 21
+
+NODE: 1579
+lcount: 1
+loc_max: 22
+
+NODE: 1789
+lcount: 2
+loc_max: 18
+
+NODE: 1093
+lcount: 3
+loc_max: 19
+
+NODE: 612
+lcount: 2
+loc_max: 20
+
+NODE: 1615
+lcount: 3
+loc_max: 21
+
+NODE: 667
+lcount: 1
+loc_max: 22
+
+NODE: 1558
+lcount: 1
+loc_max: 22
+
+NODE: 2095
+lcount: 3
+loc_max: 20
+
+NODE: 498
+lcount: 2
+loc_max: 21
+
+NODE: 1537
+lcount: 1
+loc_max: 22
+
+NODE: 1752
+lcount: 3
+loc_max: 21
+
+NODE: 755
+lcount: 1
+loc_max: 22
+
+NODE: 1859
+lcount: 1
+loc_max: 22
+
+NODE: 1320
+lcount: 2
+loc_max: 8
+
+NODE: 514
+lcount: 3
+loc_max: 9
+
+NODE: 172
+lcount: 2
+loc_max: 10
+
+NODE: 175
+lcount: 3
+loc_max: 11
+
+NODE: 1466
+lcount: 2
+loc_max: 12
+
+NODE: 1341
+lcount: 3
+loc_max: 13
+
+NODE: 1510
+lcount: 3
+loc_max: 14
+
+NODE: 323
+lcount: 3
+loc_max: 15
+
+NODE: 42
+lcount: 2
+loc_max: 16
+
+NODE: 2136
+lcount: 3
+loc_max: 17
+
+NODE: 1413
+lcount: 3
+loc_max: 18
+
+NODE: 716
+lcount: 3
+loc_max: 19
+
+NODE: 264
+lcount: 1
+loc_max: 20
+
+NODE: 694
+lcount: 1
+loc_max: 20
+
+NODE: 1568
+lcount: 3
+loc_max: 19
+
+NODE: 482
+lcount: 1
+loc_max: 20
+
+NODE: 536
+lcount: 1
+loc_max: 20
+
+NODE: 1697
+lcount: 2
+loc_max: 18
+
+NODE: 318
+lcount: 2
+loc_max: 19
+
+NODE: 294
+lcount: 1
+loc_max: 20
+
+NODE: 342
+lcount: 3
+loc_max: 16
+
+NODE: 410
+lcount: 2
+loc_max: 17
+
+NODE: 1144
+lcount: 2
+loc_max: 18
+
+NODE: 6
+lcount: 2
+loc_max: 19
+
+NODE: 2269
+lcount: 1
+loc_max: 20
+
+NODE: 714
+lcount: 3
+loc_max: 17
+
+NODE: 184
+lcount: 2
+loc_max: 18
+
+NODE: 1107
+lcount: 2
+loc_max: 19
+
+NODE: 2151
+lcount: 1
+loc_max: 20
+
+NODE: 1013
+lcount: 3
+loc_max: 18
+
+NODE: 989
+lcount: 3
+loc_max: 19
+
+NODE: 429
+lcount: 1
+loc_max: 20
+
+NODE: 1619
+lcount: 1
+loc_max: 20
+
+NODE: 1314
+lcount: 3
+loc_max: 19
+
+NODE: 196
+lcount: 1
+loc_max: 20
+
+NODE: 740
+lcount: 1
+loc_max: 20
+
+NODE: 1978
+lcount: 3
+loc_max: 15
+
+NODE: 1745
+lcount: 2
+loc_max: 16
+
+NODE: 902
+lcount: 2
+loc_max: 17
+
+NODE: 841
+lcount: 2
+loc_max: 18
+
+NODE: 1710
+lcount: 3
+loc_max: 19
+
+NODE: 734
+lcount: 1
+loc_max: 20
+
+NODE: 1831
+lcount: 1
+loc_max: 20
+
+NODE: 2014
+lcount: 2
+loc_max: 16
+
+NODE: 295
+lcount: 2
+loc_max: 17
+
+NODE: 1103
+lcount: 3
+loc_max: 18
+
+NODE: 332
+lcount: 2
+loc_max: 19
+
+NODE: 745
+lcount: 1
+loc_max: 20
+
+NODE: 651
+lcount: 2
+loc_max: 19
+
+NODE: 139
+lcount: 1
+loc_max: 20
+
+NODE: 1817
+lcount: 2
+loc_max: 14
+
+NODE: 2186
+lcount: 2
+loc_max: 15
+
+NODE: 913
+lcount: 3
+loc_max: 16
+
+NODE: 1017
+lcount: 3
+loc_max: 17
+
+NODE: 1617
+lcount: 2
+loc_max: 18
+
+NODE: 1621
+lcount: 2
+loc_max: 19
+
+NODE: 2163
+lcount: 1
+loc_max: 20
+
+NODE: 2299
+lcount: 2
+loc_max: 18
+
+NODE: 1565
+lcount: 3
+loc_max: 19
+
+NODE: 1207
+lcount: 1
+loc_max: 20
+
+NODE: 1661
+lcount: 1
+loc_max: 20
+
+NODE: 1857
+lcount: 3
+loc_max: 17
+
+NODE: 1185
+lcount: 3
+loc_max: 18
+
+NODE: 151
+lcount: 2
+loc_max: 19
+
+NODE: 1430
+lcount: 1
+loc_max: 20
+
+NODE: 225
+lcount: 3
+loc_max: 19
+
+NODE: 380
+lcount: 1
+loc_max: 20
+
+NODE: 1250
+lcount: 1
+loc_max: 20
+
+NODE: 1860
+lcount: 3
+loc_max: 18
+
+NODE: 551
+lcount: 3
+loc_max: 19
+
+NODE: 1205
+lcount: 1
+loc_max: 20
+
+NODE: 1649
+lcount: 1
+loc_max: 20
+
+NODE: 996
+lcount: 3
+loc_max: 19
+
+NODE: 1445
+lcount: 1
+loc_max: 20
+
+NODE: 2166
+lcount: 1
+loc_max: 20
+
+NODE: 2053
+lcount: 2
+loc_max: 12
+
+NODE: 463
+lcount: 2
+loc_max: 13
+
+NODE: 1525
+lcount: 2
+loc_max: 14
+
+NODE: 838
+lcount: 3
+loc_max: 15
+
+NODE: 944
+lcount: 3
+loc_max: 16
+
+NODE: 376
+lcount: 2
+loc_max: 17
+
+NODE: 2054
+lcount: 2
+loc_max: 18
+
+NODE: 1980
+lcount: 3
+loc_max: 19
+
+NODE: 619
+lcount: 1
+loc_max: 20
+
+NODE: 2289
+lcount: 1
+loc_max: 20
+
+NODE: 759
+lcount: 3
+loc_max: 17
+
+NODE: 508
+lcount: 2
+loc_max: 18
+
+NODE: 510
+lcount: 2
+loc_max: 19
+
+NODE: 1423
+lcount: 1
+loc_max: 20
+
+NODE: 1297
+lcount: 2
+loc_max: 18
+
+NODE: 781
+lcount: 3
+loc_max: 19
+
+NODE: 1927
+lcount: 1
+loc_max: 20
+
+NODE: 1937
+lcount: 1
+loc_max: 20
+
+NODE: 982
+lcount: 2
+loc_max: 16
+
+NODE: 1601
+lcount: 2
+loc_max: 17
+
+NODE: 319
+lcount: 3
+loc_max: 18
+
+NODE: 418
+lcount: 2
+loc_max: 19
+
+NODE: 473
+lcount: 1
+loc_max: 20
+
+NODE: 1876
+lcount: 3
+loc_max: 19
+
+NODE: 1246
+lcount: 1
+loc_max: 20
+
+NODE: 1447
+lcount: 1
+loc_max: 20
+
+NODE: 2099
+lcount: 3
+loc_max: 10
+
+NODE: 914
+lcount: 3
+loc_max: 11
+
+NODE: 215
+lcount: 3
+loc_max: 12
+
+NODE: 1155
+lcount: 3
+loc_max: 13
+
+NODE: 1922
+lcount: 3
+loc_max: 14
+
+NODE: 1569
+lcount: 3
+loc_max: 15
+
+NODE: 1200
+lcount: 2
+loc_max: 16
+
+NODE: 1029
+lcount: 2
+loc_max: 17
+
+NODE: 533
+lcount: 2
+loc_max: 18
+
+NODE: 496
+lcount: 2
+loc_max: 19
+
+NODE: 1385
+lcount: 1
+loc_max: 20
+
+NODE: 1960
+lcount: 2
+loc_max: 16
+
+NODE: 887
+lcount: 3
+loc_max: 17
+
+NODE: 696
+lcount: 3
+loc_max: 18
+
+NODE: 1170
+lcount: 3
+loc_max: 19
+
+NODE: 292
+lcount: 1
+loc_max: 20
+
+NODE: 1769
+lcount: 1
+loc_max: 20
+
+NODE: 1644
+lcount: 3
+loc_max: 19
+
+NODE: 613
+lcount: 1
+loc_max: 20
+
+NODE: 1674
+lcount: 1
+loc_max: 20
+
+NODE: 749
+lcount: 3
+loc_max: 18
+
+NODE: 563
+lcount: 2
+loc_max: 19
+
+NODE: 492
+lcount: 1
+loc_max: 20
+
+NODE: 1979
+lcount: 3
+loc_max: 19
+
+NODE: 339
+lcount: 1
+loc_max: 20
+
+NODE: 417
+lcount: 1
+loc_max: 20
+
+NODE: 2021
+lcount: 2
+loc_max: 15
+
+NODE: 753
+lcount: 2
+loc_max: 16
+
+NODE: 1761
+lcount: 3
+loc_max: 17
+
+NODE: 1442
+lcount: 3
+loc_max: 18
+
+NODE: 624
+lcount: 3
+loc_max: 19
+
+NODE: 357
+lcount: 1
+loc_max: 20
+
+NODE: 374
+lcount: 1
+loc_max: 20
+
+NODE: 1737
+lcount: 2
+loc_max: 19
+
+NODE: 181
+lcount: 1
+loc_max: 20
+
+NODE: 1662
+lcount: 3
+loc_max: 18
+
+NODE: 67
+lcount: 3
+loc_max: 19
+
+NODE: 134
+lcount: 1
+loc_max: 20
+
+NODE: 2208
+lcount: 1
+loc_max: 20
+
+NODE: 2202
+lcount: 3
+loc_max: 19
+
+NODE: 1914
+lcount: 1
+loc_max: 20
+
+NODE: 2112
+lcount: 1
+loc_max: 20
+
+NODE: 2035
+lcount: 3
+loc_max: 14
+
+NODE: 1118
+lcount: 2
+loc_max: 15
+
+NODE: 1891
+lcount: 2
+loc_max: 16
+
+NODE: 1083
+lcount: 3
+loc_max: 17
+
+NODE: 568
+lcount: 3
+loc_max: 18
+
+NODE: 820
+lcount: 2
+loc_max: 19
+
+NODE: 2056
+lcount: 1
+loc_max: 20
+
+NODE: 1016
+lcount: 2
+loc_max: 19
+
+NODE: 2294
+lcount: 1
+loc_max: 20
+
+NODE: 830
+lcount: 3
+loc_max: 18
+
+NODE: 1532
+lcount: 3
+loc_max: 19
+
+NODE: 559
+lcount: 1
+loc_max: 20
+
+NODE: 2267
+lcount: 1
+loc_max: 20
+
+NODE: 2200
+lcount: 3
+loc_max: 19
+
+NODE: 416
+lcount: 1
+loc_max: 20
+
+NODE: 2023
+lcount: 1
+loc_max: 20
+
+NODE: 1543
+lcount: 3
+loc_max: 15
+
+NODE: 1576
+lcount: 2
+loc_max: 16
+
+NODE: 121
+lcount: 2
+loc_max: 17
+
+NODE: 409
+lcount: 2
+loc_max: 18
+
+NODE: 1678
+lcount: 3
+loc_max: 19
+
+NODE: 1659
+lcount: 1
+loc_max: 20
+
+NODE: 1911
+lcount: 1
+loc_max: 20
+
+NODE: 1703
+lcount: 3
+loc_max: 16
+
+NODE: 370
+lcount: 3
+loc_max: 17
+
+NODE: 927
+lcount: 2
+loc_max: 18
+
+NODE: 365
+lcount: 3
+loc_max: 19
+
+NODE: 1895
+lcount: 1
+loc_max: 20
+
+NODE: 1946
+lcount: 1
+loc_max: 20
+
+NODE: 2226
+lcount: 3
+loc_max: 18
+
+NODE: 300
+lcount: 3
+loc_max: 19
+
+NODE: 1110
+lcount: 1
+loc_max: 20
+
+NODE: 2234
+lcount: 1
+loc_max: 20
+
+NODE: 1206
+lcount: 3
+loc_max: 19
+
+NODE: 1011
+lcount: 1
+loc_max: 20
+
+NODE: 1600
+lcount: 1
+loc_max: 20
+
+NODE: 679
+lcount: 2
+loc_max: 17
+
+NODE: 1275
+lcount: 2
+loc_max: 18
+
+NODE: 1772
+lcount: 2
+loc_max: 19
+
+NODE: 1651
+lcount: 1
+loc_max: 20
+
+NODE: 2102
+lcount: 2
+loc_max: 13
+
+NODE: 2164
+lcount: 2
+loc_max: 14
+
+NODE: 1202
+lcount: 2
+loc_max: 15
+
+NODE: 366
+lcount: 3
+loc_max: 16
+
+NODE: 1003
+lcount: 3
+loc_max: 17
+
+NODE: 280
+lcount: 3
+loc_max: 18
+
+NODE: 291
+lcount: 2
+loc_max: 19
+
+NODE: 616
+lcount: 1
+loc_max: 20
+
+NODE: 1119
+lcount: 3
+loc_max: 19
+
+NODE: 1724
+lcount: 1
+loc_max: 20
+
+NODE: 2083
+lcount: 1
+loc_max: 20
+
+NODE: 966
+lcount: 2
+loc_max: 18
+
+NODE: 83
+lcount: 2
+loc_max: 19
+
+NODE: 2152
+lcount: 1
+loc_max: 20
+
+NODE: 2113
+lcount: 2
+loc_max: 17
+
+NODE: 1177
+lcount: 3
+loc_max: 18
+
+NODE: 1612
+lcount: 3
+loc_max: 19
+
+NODE: 1188
+lcount: 1
+loc_max: 20
+
+NODE: 2122
+lcount: 1
+loc_max: 20
+
+NODE: 2296
+lcount: 2
+loc_max: 19
+
+NODE: 1551
+lcount: 1
+loc_max: 20
+
+NODE: 1734
+lcount: 3
+loc_max: 12
+
+NODE: 1720
+lcount: 3
+loc_max: 13
+
+NODE: 1289
+lcount: 2
+loc_max: 14
+
+NODE: 1623
+lcount: 2
+loc_max: 15
+
+NODE: 474
+lcount: 2
+loc_max: 16
+
+NODE: 1910
+lcount: 3
+loc_max: 17
+
+NODE: 775
+lcount: 3
+loc_max: 18
+
+NODE: 596
+lcount: 3
+loc_max: 19
+
+NODE: 314
+lcount: 1
+loc_max: 20
+
+NODE: 957
+lcount: 1
+loc_max: 20
+
+NODE: 1217
+lcount: 2
+loc_max: 19
+
+NODE: 2182
+lcount: 1
+loc_max: 20
+
+NODE: 1219
+lcount: 3
+loc_max: 18
+
+NODE: 1539
+lcount: 2
+loc_max: 19
+
+NODE: 494
+lcount: 1
+loc_max: 20
+
+NODE: 1670
+lcount: 3
+loc_max: 19
+
+NODE: 1560
+lcount: 1
+loc_max: 20
+
+NODE: 2185
+lcount: 1
+loc_max: 20
+
+NODE: 2101
+lcount: 3
+loc_max: 14
+
+NODE: 950
+lcount: 3
+loc_max: 15
+
+NODE: 1137
+lcount: 2
+loc_max: 16
+
+NODE: 179
+lcount: 2
+loc_max: 17
+
+NODE: 1998
+lcount: 3
+loc_max: 18
+
+NODE: 844
+lcount: 2
+loc_max: 19
+
+NODE: 1801
+lcount: 1
+loc_max: 20
+
+NODE: 1708
+lcount: 3
+loc_max: 19
+
+NODE: 166
+lcount: 1
+loc_max: 20
+
+NODE: 2205
+lcount: 1
+loc_max: 20
+
+NODE: 1391
+lcount: 3
+loc_max: 16
+
+NODE: 877
+lcount: 3
+loc_max: 17
+
+NODE: 909
+lcount: 3
+loc_max: 18
+
+NODE: 819
+lcount: 2
+loc_max: 19
+
+NODE: 454
+lcount: 1
+loc_max: 20
+
+NODE: 1059
+lcount: 3
+loc_max: 19
+
+NODE: 1169
+lcount: 1
+loc_max: 20
+
+NODE: 1216
+lcount: 1
+loc_max: 20
+
+NODE: 1474
+lcount: 3
+loc_max: 18
+
+NODE: 567
+lcount: 2
+loc_max: 19
+
+NODE: 932
+lcount: 1
+loc_max: 20
+
+NODE: 1203
+lcount: 2
+loc_max: 19
+
+NODE: 955
+lcount: 1
+loc_max: 20
+
+NODE: 1969
+lcount: 2
+loc_max: 17
+
+NODE: 503
+lcount: 2
+loc_max: 18
+
+NODE: 220
+lcount: 2
+loc_max: 19
+
+NODE: 1405
+lcount: 1
+loc_max: 20
+
+NODE: 2107
+lcount: 3
+loc_max: 15
+
+NODE: 2017
+lcount: 3
+loc_max: 16
+
+NODE: 721
+lcount: 2
+loc_max: 17
+
+NODE: 1484
+lcount: 3
+loc_max: 18
+
+NODE: 1138
+lcount: 2
+loc_max: 19
+
+NODE: 136
+lcount: 1
+loc_max: 20
+
+NODE: 2278
+lcount: 3
+loc_max: 19
+
+NODE: 1232
+lcount: 1
+loc_max: 20
+
+NODE: 1351
+lcount: 1
+loc_max: 20
+
+NODE: 1571
+lcount: 2
+loc_max: 17
+
+NODE: 489
+lcount: 2
+loc_max: 18
+
+NODE: 260
+lcount: 3
+loc_max: 19
+
+NODE: 1793
+lcount: 1
+loc_max: 20
+
+NODE: 1943
+lcount: 1
+loc_max: 20
+
+NODE: 2103
+lcount: 3
+loc_max: 16
+
+NODE: 685
+lcount: 3
+loc_max: 17
+
+NODE: 1365
+lcount: 2
+loc_max: 18
+
+NODE: 883
+lcount: 3
+loc_max: 19
+
+NODE: 994
+lcount: 1
+loc_max: 20
+
+NODE: 2022
+lcount: 1
+loc_max: 20
+
+NODE: 1398
+lcount: 3
+loc_max: 18
+
+NODE: 983
+lcount: 2
+loc_max: 19
+
+NODE: 491
+lcount: 1
+loc_max: 20
+
+NODE: 2109
+lcount: 3
+loc_max: 19
+
+NODE: 15
+lcount: 1
+loc_max: 20
+
+NODE: 1633
+lcount: 1
+loc_max: 20
+
+NODE: 1337
+lcount: 3
+loc_max: 17
+
+NODE: 185
+lcount: 3
+loc_max: 18
+
+NODE: 1153
+lcount: 3
+loc_max: 19
+
+NODE: 1373
+lcount: 1
+loc_max: 20
+
+NODE: 2286
+lcount: 1
+loc_max: 20
+
+NODE: 1332
+lcount: 2
+loc_max: 19
+
+NODE: 229
+lcount: 1
+loc_max: 20
+
+NODE: 1213
+lcount: 2
+loc_max: 18
+
+NODE: 980
+lcount: 3
+loc_max: 19
+
+NODE: 647
+lcount: 1
+loc_max: 20
+
+NODE: 1175
+lcount: 1
+loc_max: 20
+
+NODE: 2045
+lcount: 2
+loc_max: 13
+
+NODE: 579
+lcount: 2
+loc_max: 14
+
+NODE: 142
+lcount: 3
+loc_max: 15
+
+NODE: 965
+lcount: 3
+loc_max: 16
+
+NODE: 1777
+lcount: 3
+loc_max: 17
+
+NODE: 265
+lcount: 2
+loc_max: 18
+
+NODE: 653
+lcount: 2
+loc_max: 19
+
+NODE: 428
+lcount: 1
+loc_max: 20
+
+NODE: 2094
+lcount: 2
+loc_max: 18
+
+NODE: 1518
+lcount: 2
+loc_max: 19
+
+NODE: 1109
+lcount: 1
+loc_max: 20
+
+NODE: 1985
+lcount: 3
+loc_max: 17
+
+NODE: 531
+lcount: 2
+loc_max: 18
+
+NODE: 2039
+lcount: 3
+loc_max: 19
+
+NODE: 317
+lcount: 1
+loc_max: 20
+
+NODE: 1274
+lcount: 1
+loc_max: 20
+
+NODE: 1934
+lcount: 2
+loc_max: 18
+
+NODE: 162
+lcount: 2
+loc_max: 19
+
+NODE: 1721
+lcount: 1
+loc_max: 20
+
+NODE: 2033
+lcount: 2
+loc_max: 16
+
+NODE: 829
+lcount: 2
+loc_max: 17
+
+NODE: 1730
+lcount: 3
+loc_max: 18
+
+NODE: 1436
+lcount: 3
+loc_max: 19
+
+NODE: 1748
+lcount: 1
+loc_max: 20
+
+NODE: 2222
+lcount: 1
+loc_max: 20
+
+NODE: 2131
+lcount: 2
+loc_max: 19
+
+NODE: 1056
+lcount: 1
+loc_max: 20
+
+NODE: 2189
+lcount: 2
+loc_max: 11
+
+NODE: 899
+lcount: 2
+loc_max: 12
+
+NODE: 2082
+lcount: 3
+loc_max: 13
+
+NODE: 1634
+lcount: 2
+loc_max: 14
+
+NODE: 918
+lcount: 3
+loc_max: 15
+
+NODE: 853
+lcount: 2
+loc_max: 16
+
+NODE: 1529
+lcount: 3
+loc_max: 17
+
+NODE: 379
+lcount: 2
+loc_max: 18
+
+NODE: 1499
+lcount: 3
+loc_max: 19
+
+NODE: 165
+lcount: 1
+loc_max: 20
+
+NODE: 1420
+lcount: 1
+loc_max: 20
+
+NODE: 1464
+lcount: 3
+loc_max: 18
+
+NODE: 1236
+lcount: 2
+loc_max: 19
+
+NODE: 1854
+lcount: 1
+loc_max: 20
+
+NODE: 1933
+lcount: 2
+loc_max: 19
+
+NODE: 112
+lcount: 1
+loc_max: 20
+
+NODE: 1325
+lcount: 2
+loc_max: 16
+
+NODE: 2105
+lcount: 2
+loc_max: 17
+
+NODE: 1956
+lcount: 3
+loc_max: 18
+
+NODE: 427
+lcount: 3
+loc_max: 19
+
+NODE: 114
+lcount: 1
+loc_max: 20
+
+NODE: 2135
+lcount: 1
+loc_max: 20
+
+NODE: 655
+lcount: 2
+loc_max: 19
+
+NODE: 1993
+lcount: 1
+loc_max: 20
+
+NODE: 1873
+lcount: 2
+loc_max: 14
+
+NODE: 1775
+lcount: 2
+loc_max: 15
+
+NODE: 894
+lcount: 3
+loc_max: 16
+
+NODE: 253
+lcount: 2
+loc_max: 17
+
+NODE: 657
+lcount: 2
+loc_max: 18
+
+NODE: 1277
+lcount: 3
+loc_max: 19
+
+NODE: 472
+lcount: 1
+loc_max: 20
+
+NODE: 1130
+lcount: 1
+loc_max: 20
+
+NODE: 1006
+lcount: 2
+loc_max: 17
+
+NODE: 1501
+lcount: 2
+loc_max: 18
+
+NODE: 1227
+lcount: 2
+loc_max: 19
+
+NODE: 2262
+lcount: 1
+loc_max: 20
+
+NODE: 2251
+lcount: 2
+loc_max: 6
+
+NODE: 1475
+lcount: 3
+loc_max: 7
+
+NODE: 26
+lcount: 3
+loc_max: 8
+
+NODE: 1189
+lcount: 2
+loc_max: 9
+
+NODE: 298
+lcount: 2
+loc_max: 10
+
+NODE: 672
+lcount: 3
+loc_max: 11
+
+NODE: 1609
+lcount: 2
+loc_max: 12
+
+NODE: 1716
+lcount: 3
+loc_max: 13
+
+NODE: 947
+lcount: 3
+loc_max: 14
+
+NODE: 550
+lcount: 3
+loc_max: 15
+
+NODE: 1134
+lcount: 1
+loc_max: 16
+
+NODE: 1364
+lcount: 1
+loc_max: 16
+
+NODE: 1955
+lcount: 2
+loc_max: 15
+
+NODE: 191
+lcount: 1
+loc_max: 16
+
+NODE: 1815
+lcount: 2
+loc_max: 14
+
+NODE: 1383
+lcount: 2
+loc_max: 15
+
+NODE: 502
+lcount: 1
+loc_max: 16
+
+NODE: 1797
+lcount: 2
+loc_max: 12
+
+NODE: 368
+lcount: 2
+loc_max: 13
+
+NODE: 1577
+lcount: 2
+loc_max: 14
+
+NODE: 2238
+lcount: 2
+loc_max: 15
+
+NODE: 359
+lcount: 1
+loc_max: 16
+
+NODE: 1904
+lcount: 2
+loc_max: 9
+
+NODE: 1450
+lcount: 3
+loc_max: 10
+
+NODE: 845
+lcount: 3
+loc_max: 11
+
+NODE: 515
+lcount: 2
+loc_max: 12
+
+NODE: 1157
+lcount: 3
+loc_max: 13
+
+NODE: 1238
+lcount: 3
+loc_max: 14
+
+NODE: 2042
+lcount: 2
+loc_max: 15
+
+NODE: 120
+lcount: 1
+loc_max: 16
+
+NODE: 2276
+lcount: 3
+loc_max: 15
+
+NODE: 483
+lcount: 1
+loc_max: 16
+
+NODE: 1036
+lcount: 1
+loc_max: 16
+
+NODE: 1487
+lcount: 2
+loc_max: 14
+
+NODE: 1788
+lcount: 2
+loc_max: 15
+
+NODE: 1767
+lcount: 1
+loc_max: 16
+
+NODE: 1774
+lcount: 2
+loc_max: 12
+
+NODE: 57
+lcount: 3
+loc_max: 13
+
+NODE: 1300
+lcount: 3
+loc_max: 14
+
+NODE: 1673
+lcount: 2
+loc_max: 15
+
+NODE: 1924
+lcount: 1
+loc_max: 16
+
+NODE: 2272
+lcount: 3
+loc_max: 15
+
+NODE: 1358
+lcount: 1
+loc_max: 16
+
+NODE: 1481
+lcount: 1
+loc_max: 16
+
+NODE: 1471
+lcount: 3
+loc_max: 14
+
+NODE: 1667
+lcount: 3
+loc_max: 15
+
+NODE: 1457
+lcount: 1
+loc_max: 16
+
+NODE: 2250
+lcount: 1
+loc_max: 16
+
+NODE: 2050
+lcount: 2
+loc_max: 15
+
+NODE: 2241
+lcount: 1
+loc_max: 16
+
+NODE: 2049
+lcount: 2
+loc_max: 11
+
+NODE: 354
+lcount: 2
+loc_max: 12
+
+NODE: 689
+lcount: 3
+loc_max: 13
+
+NODE: 375
+lcount: 3
+loc_max: 14
+
+NODE: 1427
+lcount: 2
+loc_max: 15
+
+NODE: 1875
+lcount: 1
+loc_max: 16
+
+NODE: 2155
+lcount: 3
+loc_max: 15
+
+NODE: 712
+lcount: 1
+loc_max: 16
+
+NODE: 1068
+lcount: 1
+loc_max: 16
+
+NODE: 1285
+lcount: 3
+loc_max: 14
+
+NODE: 1628
+lcount: 2
+loc_max: 15
+
+NODE: 1747
+lcount: 1
+loc_max: 16
+
+NODE: 2237
+lcount: 2
+loc_max: 15
+
+NODE: 2119
+lcount: 1
+loc_max: 16
+
+NODE: 2172
+lcount: 3
+loc_max: 8
+
+NODE: 262
+lcount: 2
+loc_max: 9
+
+NODE: 870
+lcount: 3
+loc_max: 10
+
+NODE: 1015
+lcount: 2
+loc_max: 11
+
+NODE: 1105
+lcount: 2
+loc_max: 12
+
+NODE: 1622
+lcount: 2
+loc_max: 13
+
+NODE: 648
+lcount: 3
+loc_max: 14
+
+NODE: 395
+lcount: 3
+loc_max: 15
+
+NODE: 1961
+lcount: 1
+loc_max: 16
+
+NODE: 2027
+lcount: 1
+loc_max: 16
+
+NODE: 573
+lcount: 3
+loc_max: 15
+
+NODE: 1225
+lcount: 1
+loc_max: 16
+
+NODE: 2031
+lcount: 1
+loc_max: 16
+
+NODE: 1736
+lcount: 2
+loc_max: 11
+
+NODE: 1705
+lcount: 2
+loc_max: 12
+
+NODE: 2303
+lcount: 2
+loc_max: 13
+
+NODE: 2228
+lcount: 2
+loc_max: 14
+
+NODE: 928
+lcount: 2
+loc_max: 15
+
+NODE: 1477
+lcount: 1
+loc_max: 16
+
+NODE: 737
+lcount: 3
+loc_max: 9
+
+NODE: 1368
+lcount: 3
+loc_max: 10
+
+NODE: 96
+lcount: 3
+loc_max: 11
+
+NODE: 552
+lcount: 3
+loc_max: 12
+
+NODE: 1008
+lcount: 2
+loc_max: 13
+
+NODE: 2092
+lcount: 2
+loc_max: 14
+
+NODE: 1693
+lcount: 2
+loc_max: 15
+
+NODE: 328
+lcount: 1
+loc_max: 16
+
+NODE: 1889
+lcount: 3
+loc_max: 13
+
+NODE: 572
+lcount: 3
+loc_max: 14
+
+NODE: 733
+lcount: 2
+loc_max: 15
+
+NODE: 920
+lcount: 1
+loc_max: 16
+
+NODE: 960
+lcount: 3
+loc_max: 15
+
+NODE: 848
+lcount: 1
+loc_max: 16
+
+NODE: 1905
+lcount: 1
+loc_max: 16
+
+NODE: 2171
+lcount: 2
+loc_max: 14
+
+NODE: 1282
+lcount: 3
+loc_max: 15
+
+NODE: 738
+lcount: 1
+loc_max: 16
+
+NODE: 2229
+lcount: 1
+loc_max: 16
+
+NODE: 1897
+lcount: 3
+loc_max: 12
+
+NODE: 46
+lcount: 2
+loc_max: 13
+
+NODE: 519
+lcount: 3
+loc_max: 14
+
+NODE: 1833
+lcount: 2
+loc_max: 15
+
+NODE: 2161
+lcount: 1
+loc_max: 16
+
+NODE: 2215
+lcount: 2
+loc_max: 15
+
+NODE: 620
+lcount: 1
+loc_max: 16
+
+NODE: 349
+lcount: 2
+loc_max: 13
+
+NODE: 2100
+lcount: 3
+loc_max: 14
+
+NODE: 171
+lcount: 2
+loc_max: 15
+
+NODE: 1020
+lcount: 1
+loc_max: 16
+
+NODE: 824
+lcount: 2
+loc_max: 15
+
+NODE: 500
+lcount: 1
+loc_max: 16
+
+NODE: 839
+lcount: 2
+loc_max: 11
+
+NODE: 1486
+lcount: 2
+loc_max: 12
+
+NODE: 1812
+lcount: 2
+loc_max: 13
+
+NODE: 2002
+lcount: 3
+loc_max: 14
+
+NODE: 1197
+lcount: 3
+loc_max: 15
+
+NODE: 424
+lcount: 1
+loc_max: 16
+
+NODE: 1386
+lcount: 1
+loc_max: 16
+
+NODE: 1515
+lcount: 3
+loc_max: 15
+
+NODE: 468
+lcount: 1
+loc_max: 16
+
+NODE: 1415
+lcount: 1
+loc_max: 16
+
+NODE: 1861
+lcount: 3
+loc_max: 10
+
+NODE: 758
+lcount: 2
+loc_max: 11
+
+NODE: 1866
+lcount: 3
+loc_max: 12
+
+NODE: 731
+lcount: 2
+loc_max: 13
+
+NODE: 810
+lcount: 3
+loc_max: 14
+
+NODE: 1631
+lcount: 2
+loc_max: 15
+
+NODE: 2118
+lcount: 1
+loc_max: 16
+
+NODE: 1799
+lcount: 2
+loc_max: 15
+
+NODE: 827
+lcount: 1
+loc_max: 16
+
+NODE: 2046
+lcount: 2
+loc_max: 13
+
+NODE: 1084
+lcount: 2
+loc_max: 14
+
+NODE: 2142
+lcount: 3
+loc_max: 15
+
+NODE: 967
+lcount: 1
+loc_max: 16
+
+NODE: 1764
+lcount: 1
+loc_max: 16
+
+NODE: 1717
+lcount: 3
+loc_max: 11
+
+NODE: 1066
+lcount: 2
+loc_max: 12
+
+NODE: 2256
+lcount: 3
+loc_max: 13
+
+NODE: 1683
+lcount: 3
+loc_max: 14
+
+NODE: 79
+lcount: 3
+loc_max: 15
+
+NODE: 752
+lcount: 1
+loc_max: 16
+
+NODE: 811
+lcount: 1
+loc_max: 16
+
+NODE: 2076
+lcount: 2
+loc_max: 15
+
+NODE: 710
+lcount: 1
+loc_max: 16
+
+NODE: 2006
+lcount: 2
+loc_max: 14
+
+NODE: 754
+lcount: 3
+loc_max: 15
+
+NODE: 334
+lcount: 1
+loc_max: 16
+
+NODE: 1965
+lcount: 1
+loc_max: 16
+
+NODE: 2058
+lcount: 2
+loc_max: 12
+
+NODE: 1586
+lcount: 3
+loc_max: 13
+
+NODE: 926
+lcount: 2
+loc_max: 14
+
+NODE: 1754
+lcount: 3
+loc_max: 15
+
+NODE: 93
+lcount: 1
+loc_max: 16
+
+NODE: 212
+lcount: 1
+loc_max: 16
+
+NODE: 1147
+lcount: 2
+loc_max: 14
+
+NODE: 1544
+lcount: 3
+loc_max: 15
+
+NODE: 607
+lcount: 1
+loc_max: 16
+
+NODE: 1575
+lcount: 1
+loc_max: 16
+
+NODE: 2126
+lcount: 3
+loc_max: 3
+
+NODE: 1025
+lcount: 2
+loc_max: 4
+
+NODE: 627
+lcount: 3
+loc_max: 5
+
+NODE: 1335
+lcount: 3
+loc_max: 6
+
+NODE: 1053
+lcount: 3
+loc_max: 7
+
+NODE: 1237
+lcount: 2
+loc_max: 8
+
+NODE: 72
+lcount: 2
+loc_max: 9
+
+NODE: 187
+lcount: 1
+loc_max: 10
+
+NODE: 1887
+lcount: 3
+loc_max: 8
+
+NODE: 2147
+lcount: 3
+loc_max: 9
+
+NODE: 539
+lcount: 1
+loc_max: 10
+
+NODE: 2190
+lcount: 1
+loc_max: 10
+
+NODE: 2199
+lcount: 3
+loc_max: 9
+
+NODE: 1021
+lcount: 1
+loc_max: 10
+
+NODE: 1838
+lcount: 1
+loc_max: 10
+
+NODE: 2130
+lcount: 2
+loc_max: 7
+
+NODE: 206
+lcount: 2
+loc_max: 8
+
+NODE: 1310
+lcount: 3
+loc_max: 9
+
+NODE: 224
+lcount: 1
+loc_max: 10
+
+NODE: 2020
+lcount: 1
+loc_max: 10
+
+NODE: 1359
+lcount: 2
+loc_max: 6
+
+NODE: 2227
+lcount: 2
+loc_max: 7
+
+NODE: 1288
+lcount: 3
+loc_max: 8
+
+NODE: 66
+lcount: 3
+loc_max: 9
+
+NODE: 1290
+lcount: 1
+loc_max: 10
+
+NODE: 1655
+lcount: 1
+loc_max: 10
+
+NODE: 1344
+lcount: 3
+loc_max: 9
+
+NODE: 1145
+lcount: 1
+loc_max: 10
+
+NODE: 2277
+lcount: 1
+loc_max: 10
+
+NODE: 2159
+lcount: 3
+loc_max: 4
+
+NODE: 2007
+lcount: 2
+loc_max: 5
+
+NODE: 1939
+lcount: 2
+loc_max: 6
+
+NODE: 1541
+lcount: 3
+loc_max: 7
+
+NODE: 25
+lcount: 2
+loc_max: 8
+
+NODE: 1073
+lcount: 2
+loc_max: 9
+
+NODE: 222
+lcount: 1
+loc_max: 10
+
+NODE: 809
+lcount: 3
+loc_max: 8
+
+NODE: 140
+lcount: 3
+loc_max: 9
+
+NODE: 1976
+lcount: 1
+loc_max: 10
+
+NODE: 2288
+lcount: 1
+loc_max: 10
+
+NODE: 1400
+lcount: 2
+loc_max: 9
+
+NODE: 1389
+lcount: 1
+loc_max: 10
+
+NODE: 2025
+lcount: 2
+loc_max: 5
+
+NODE: 681
+lcount: 3
+loc_max: 6
+
+NODE: 44
+lcount: 2
+loc_max: 7
+
+NODE: 1725
+lcount: 3
+loc_max: 8
+
+NODE: 285
+lcount: 3
+loc_max: 9
+
+NODE: 604
+lcount: 1
+loc_max: 10
+
+NODE: 763
+lcount: 1
+loc_max: 10
+
+NODE: 633
+lcount: 3
+loc_max: 9
+
+NODE: 706
+lcount: 1
+loc_max: 10
+
+NODE: 997
+lcount: 1
+loc_max: 10
+
+NODE: 337
+lcount: 2
+loc_max: 7
+
+NODE: 221
+lcount: 3
+loc_max: 8
+
+NODE: 1426
+lcount: 3
+loc_max: 9
+
+NODE: 200
+lcount: 1
+loc_max: 10
+
+NODE: 1454
+lcount: 1
+loc_max: 10
+
+NODE: 2253
+lcount: 2
+loc_max: 9
+
+NODE: 732
+lcount: 1
+loc_max: 10
+
+NODE: 0
+lcount: 2
+loc_max: 0
+
+NODE: 1488
+lcount: 3
+loc_max: 1
+
+NODE: 1458
+lcount: 2
+loc_max: 2
+
+NODE: 372
+lcount: 2
+loc_max: 3
+
+NODE: 1902
+lcount: 2
+loc_max: 4
+
+NODE: 1222
+lcount: 3
+loc_max: 5
+
+NODE: 970
+lcount: 1
+loc_max: 6
+
+NODE: 1974
+lcount: 1
+loc_max: 6
+
+NODE: 1657
+lcount: 3
+loc_max: 2
+
+NODE: 971
+lcount: 3
+loc_max: 3
+
+NODE: 1363
+lcount: 3
+loc_max: 4
+
+NODE: 1257
+lcount: 2
+loc_max: 5
+
+NODE: 111
+lcount: 1
+loc_max: 6
+
+NODE: 2149
+lcount: 3
+loc_max: 5
+
+NODE: 553
+lcount: 1
+loc_max: 6
+
+NODE: 1605
+lcount: 1
+loc_max: 6
+
+NODE: 1877
+lcount: 3
+loc_max: 4
+
+NODE: 900
+lcount: 2
+loc_max: 5
+
+NODE: 715
+lcount: 1
+loc_max: 6
+
+NODE: 2041
+lcount: 3
+loc_max: 5
+
+NODE: 358
+lcount: 1
+loc_max: 6
+
+NODE: 1607
+lcount: 1
+loc_max: 6
+
+NODE: 1000
+lcount: 2
+loc_max: 3
+
+NODE: 537
+lcount: 3
+loc_max: 4
+
+NODE: 333
+lcount: 3
+loc_max: 5
+
+NODE: 669
+lcount: 1
+loc_max: 6
+
+NODE: 719
+lcount: 1
+loc_max: 6
+
+NODE: 700
+lcount: 3
+loc_max: 5
+
+NODE: 115
+lcount: 1
+loc_max: 6
+
+NODE: 1500
+lcount: 1
+loc_max: 6
+
+NODE: 2008
+lcount: 2
+loc_max: 1
+
+NODE: 1371
+lcount: 3
+loc_max: 2
+
+NODE: 1330
+lcount: 2
+loc_max: 3
+
+NODE: 1254
+lcount: 3
+loc_max: 4
+
+NODE: 1172
+lcount: 3
+loc_max: 5
+
+NODE: 1521
+lcount: 3
+loc_max: 6
+
+NODE: 675
+lcount: 2
+loc_max: 7
+
+NODE: 593
+lcount: 2
+loc_max: 8
+
+NODE: 382
+lcount: 3
+loc_max: 9
+
+NODE: 1292
+lcount: 3
+loc_max: 10
+
+NODE: 1407
+lcount: 3
+loc_max: 11
+
+NODE: 1451
+lcount: 3
+loc_max: 12
+
+NODE: 524
+lcount: 3
+loc_max: 13
+
+NODE: 1094
+lcount: 1
+loc_max: 14
+
+NODE: 1962
+lcount: 1
+loc_max: 14
+
+NODE: 2144
+lcount: 2
+loc_max: 13
+
+NODE: 1706
+lcount: 1
+loc_max: 14
+
+NODE: 2211
+lcount: 2
+loc_max: 12
+
+NODE: 2258
+lcount: 2
+loc_max: 13
+
+NODE: 2300
+lcount: 1
+loc_max: 14
+
+NODE: 1629
+lcount: 3
+loc_max: 11
+
+NODE: 642
+lcount: 2
+loc_max: 12
+
+NODE: 255
+lcount: 3
+loc_max: 13
+
+NODE: 52
+lcount: 1
+loc_max: 14
+
+NODE: 1142
+lcount: 1
+loc_max: 14
+
+NODE: 1982
+lcount: 3
+loc_max: 12
+
+NODE: 1704
+lcount: 2
+loc_max: 13
+
+NODE: 1506
+lcount: 1
+loc_max: 14
+
+NODE: 1915
+lcount: 2
+loc_max: 13
+
+NODE: 1848
+lcount: 1
+loc_max: 14
+
+NODE: 1356
+lcount: 3
+loc_max: 10
+
+NODE: 393
+lcount: 2
+loc_max: 11
+
+NODE: 518
+lcount: 2
+loc_max: 12
+
+NODE: 1733
+lcount: 2
+loc_max: 13
+
+NODE: 197
+lcount: 1
+loc_max: 14
+
+NODE: 1152
+lcount: 2
+loc_max: 11
+
+NODE: 879
+lcount: 2
+loc_max: 12
+
+NODE: 186
+lcount: 2
+loc_max: 13
+
+NODE: 1455
+lcount: 1
+loc_max: 14
+
+NODE: 1120
+lcount: 3
+loc_max: 7
+
+NODE: 1067
+lcount: 2
+loc_max: 8
+
+NODE: 546
+lcount: 2
+loc_max: 9
+
+NODE: 790
+lcount: 2
+loc_max: 10
+
+NODE: 1494
+lcount: 2
+loc_max: 11
+
+NODE: 439
+lcount: 2
+loc_max: 12
+
+NODE: 1349
+lcount: 2
+loc_max: 13
+
+NODE: 1163
+lcount: 1
+loc_max: 14
+
+NODE: 1898
+lcount: 3
+loc_max: 8
+
+NODE: 1350
+lcount: 3
+loc_max: 9
+
+NODE: 147
+lcount: 3
+loc_max: 10
+
+NODE: 1191
+lcount: 2
+loc_max: 11
+
+NODE: 252
+lcount: 2
+loc_max: 12
+
+NODE: 144
+lcount: 2
+loc_max: 13
+
+NODE: 856
+lcount: 1
+loc_max: 14
+
+NODE: 1346
+lcount: 3
+loc_max: 11
+
+NODE: 1557
+lcount: 3
+loc_max: 12
+
+NODE: 698
+lcount: 3
+loc_max: 13
+
+NODE: 320
+lcount: 1
+loc_max: 14
+
+NODE: 1184
+lcount: 1
+loc_max: 14
+
+NODE: 1741
+lcount: 2
+loc_max: 13
+
+NODE: 132
+lcount: 1
+loc_max: 14
+
+NODE: 1806
+lcount: 2
+loc_max: 12
+
+NODE: 1467
+lcount: 3
+loc_max: 13
+
+NODE: 986
+lcount: 1
+loc_max: 14
+
+NODE: 1855
+lcount: 1
+loc_max: 14
+
+NODE: 1808
+lcount: 3
+loc_max: 10
+
+NODE: 457
+lcount: 2
+loc_max: 11
+
+NODE: 1881
+lcount: 3
+loc_max: 12
+
+NODE: 29
+lcount: 2
+loc_max: 13
+
+NODE: 782
+lcount: 1
+loc_max: 14
+
+NODE: 631
+lcount: 3
+loc_max: 13
+
+NODE: 53
+lcount: 1
+loc_max: 14
+
+NODE: 930
+lcount: 1
+loc_max: 14
+
+NODE: 1098
+lcount: 2
+loc_max: 11
+
+NODE: 2124
+lcount: 3
+loc_max: 12
+
+NODE: 443
+lcount: 2
+loc_max: 13
+
+NODE: 1908
+lcount: 1
+loc_max: 14
+
+NODE: 2115
+lcount: 2
+loc_max: 13
+
+NODE: 1968
+lcount: 1
+loc_max: 14
+
+NODE: 1530
+lcount: 3
+loc_max: 9
+
+NODE: 32
+lcount: 3
+loc_max: 10
+
+NODE: 555
+lcount: 2
+loc_max: 11
+
+NODE: 1050
+lcount: 3
+loc_max: 12
+
+NODE: 1563
+lcount: 2
+loc_max: 13
+
+NODE: 1751
+lcount: 1
+loc_max: 14
+
+NODE: 2197
+lcount: 3
+loc_max: 13
+
+NODE: 1077
+lcount: 1
+loc_max: 14
+
+NODE: 2047
+lcount: 1
+loc_max: 14
+
+NODE: 968
+lcount: 3
+loc_max: 11
+
+NODE: 541
+lcount: 2
+loc_max: 12
+
+NODE: 1871
+lcount: 2
+loc_max: 13
+
+NODE: 2001
+lcount: 1
+loc_max: 14
+
+NODE: 1900
+lcount: 2
+loc_max: 12
+
+NODE: 1149
+lcount: 2
+loc_max: 13
+
+NODE: 1183
+lcount: 1
+loc_max: 14
+
+NODE: 209
+lcount: 3
+loc_max: 10
+
+NODE: 68
+lcount: 3
+loc_max: 11
+
+NODE: 401
+lcount: 2
+loc_max: 12
+
+NODE: 55
+lcount: 2
+loc_max: 13
+
+NODE: 908
+lcount: 1
+loc_max: 14
+
+NODE: 2270
+lcount: 2
+loc_max: 12
+
+NODE: 4
+lcount: 2
+loc_max: 13
+
+NODE: 938
+lcount: 1
+loc_max: 14
+
+NODE: 802
+lcount: 3
+loc_max: 11
+
+NODE: 11
+lcount: 3
+loc_max: 12
+
+NODE: 1026
+lcount: 3
+loc_max: 13
+
+NODE: 1348
+lcount: 1
+loc_max: 14
+
+NODE: 2108
+lcount: 1
+loc_max: 14
+
+NODE: 1190
+lcount: 2
+loc_max: 13
+
+NODE: 183
+lcount: 1
+loc_max: 14
+
+NODE: 1480
+lcount: 3
+loc_max: 12
+
+NODE: 411
+lcount: 3
+loc_max: 13
+
+NODE: 1818
+lcount: 1
+loc_max: 14
+
+NODE: 2012
+lcount: 1
+loc_max: 14
+
+NODE: 1701
+lcount: 3
+loc_max: 13
+
+NODE: 341
+lcount: 1
+loc_max: 14
+
+NODE: 469
+lcount: 1
+loc_max: 14
+
+NODE: 2249
+lcount: 2
+loc_max: 6
+
+NODE: 486
+lcount: 3
+loc_max: 7
+
+NODE: 646
+lcount: 2
+loc_max: 8
+
+NODE: 1636
+lcount: 3
+loc_max: 9
+
+NODE: 704
+lcount: 3
+loc_max: 10
+
+NODE: 287
+lcount: 3
+loc_max: 11
+
+NODE: 420
+lcount: 2
+loc_max: 12
+
+NODE: 1308
+lcount: 3
+loc_max: 13
+
+NODE: 479
+lcount: 1
+loc_max: 14
+
+NODE: 1108
+lcount: 1
+loc_max: 14
+
+NODE: 2233
+lcount: 2
+loc_max: 12
+
+NODE: 654
+lcount: 2
+loc_max: 13
+
+NODE: 1583
+lcount: 1
+loc_max: 14
+
+NODE: 2070
+lcount: 2
+loc_max: 11
+
+NODE: 1113
+lcount: 3
+loc_max: 12
+
+NODE: 1773
+lcount: 3
+loc_max: 13
+
+NODE: 389
+lcount: 1
+loc_max: 14
+
+NODE: 1822
+lcount: 1
+loc_max: 14
+
+NODE: 1840
+lcount: 2
+loc_max: 13
+
+NODE: 796
+lcount: 1
+loc_max: 14
+
+NODE: 1776
+lcount: 2
+loc_max: 10
+
+NODE: 658
+lcount: 3
+loc_max: 11
+
+NODE: 157
+lcount: 3
+loc_max: 12
+
+NODE: 22
+lcount: 3
+loc_max: 13
+
+NODE: 1388
+lcount: 1
+loc_max: 14
+
+NODE: 1482
+lcount: 1
+loc_max: 14
+
+NODE: 371
+lcount: 2
+loc_max: 13
+
+NODE: 1836
+lcount: 1
+loc_max: 14
+
+NODE: 1220
+lcount: 2
+loc_max: 12
+
+NODE: 254
+lcount: 2
+loc_max: 13
+
+NODE: 1044
+lcount: 1
+loc_max: 14
+
+NODE: 981
+lcount: 2
+loc_max: 8
+
+NODE: 906
+lcount: 2
+loc_max: 9
+
+NODE: 1850
+lcount: 2
+loc_max: 10
+
+NODE: 2133
+lcount: 2
+loc_max: 11
+
+NODE: 1459
+lcount: 3
+loc_max: 12
+
+NODE: 1524
+lcount: 2
+loc_max: 13
+
+NODE: 485
+lcount: 1
+loc_max: 14
+
+NODE: 2281
+lcount: 2
+loc_max: 13
+
+NODE: 1949
+lcount: 1
+loc_max: 14
+
+NODE: 1497
+lcount: 3
+loc_max: 5
+
+NODE: 1490
+lcount: 2
+loc_max: 6
+
+NODE: 58
+lcount: 3
+loc_max: 7
+
+NODE: 636
+lcount: 3
+loc_max: 8
+
+NODE: 1327
+lcount: 2
+loc_max: 9
+
+NODE: 1553
+lcount: 3
+loc_max: 10
+
+NODE: 1208
+lcount: 2
+loc_max: 11
+
+NODE: 1517
+lcount: 2
+loc_max: 12
+
+NODE: 281
+lcount: 3
+loc_max: 13
+
+NODE: 310
+lcount: 3
+loc_max: 14
+
+NODE: 470
+lcount: 3
+loc_max: 15
+
+NODE: 116
+lcount: 2
+loc_max: 16
+
+NODE: 1143
+lcount: 3
+loc_max: 17
+
+NODE: 117
+lcount: 3
+loc_max: 18
+
+NODE: 430
+lcount: 2
+loc_max: 19
+
+NODE: 1611
+lcount: 2
+loc_max: 20
+
+NODE: 2235
+lcount: 3
+loc_max: 21
+
+NODE: 1131
+lcount: 3
+loc_max: 22
+
+NODE: 1057
+lcount: 2
+loc_max: 23
+
+NODE: 2141
+lcount: 1
+loc_max: 24
+
+NODE: 1374
+lcount: 3
+loc_max: 23
+
+NODE: 230
+lcount: 1
+loc_max: 24
+
+NODE: 587
+lcount: 1
+loc_max: 24
+
+NODE: 1781
+lcount: 3
+loc_max: 22
+
+NODE: 1392
+lcount: 3
+loc_max: 23
+
+NODE: 1402
+lcount: 1
+loc_max: 24
+
+NODE: 2160
+lcount: 1
+loc_max: 24
+
+NODE: 1735
+lcount: 3
+loc_max: 23
+
+NODE: 279
+lcount: 1
+loc_max: 24
+
+NODE: 2079
+lcount: 1
+loc_max: 24
+
+NODE: 1554
+lcount: 3
+loc_max: 19
+
+NODE: 62
+lcount: 3
+loc_max: 20
+
+NODE: 1069
+lcount: 2
+loc_max: 21
+
+NODE: 2005
+lcount: 3
+loc_max: 22
+
+NODE: 1412
+lcount: 3
+loc_max: 23
+
+NODE: 398
+lcount: 1
+loc_max: 24
+
+NODE: 1899
+lcount: 1
+loc_max: 24
+
+NODE: 2061
+lcount: 2
+loc_max: 23
+
+NODE: 1868
+lcount: 1
+loc_max: 24
+
+NODE: 1249
+lcount: 3
+loc_max: 21
+
+NODE: 760
+lcount: 3
+loc_max: 22
+
+NODE: 705
+lcount: 3
+loc_max: 23
+
+NODE: 1235
+lcount: 1
+loc_max: 24
+
+NODE: 2146
+lcount: 1
+loc_max: 24
+
+NODE: 1762
+lcount: 2
+loc_max: 23
+
+NODE: 302
+lcount: 1
+loc_max: 24
+
+NODE: 1456
+lcount: 2
+loc_max: 22
+
+NODE: 1984
+lcount: 3
+loc_max: 23
+
+NODE: 1841
+lcount: 1
+loc_max: 24
+
+NODE: 1994
+lcount: 1
+loc_max: 24
+
+NODE: 272
+lcount: 3
+loc_max: 20
+
+NODE: 1165
+lcount: 2
+loc_max: 21
+
+NODE: 1834
+lcount: 3
+loc_max: 22
+
+NODE: 722
+lcount: 2
+loc_max: 23
+
+NODE: 576
+lcount: 1
+loc_max: 24
+
+NODE: 1555
+lcount: 2
+loc_max: 23
+
+NODE: 2268
+lcount: 1
+loc_max: 24
+
+NODE: 1372
+lcount: 3
+loc_max: 21
+
+NODE: 77
+lcount: 3
+loc_max: 22
+
+NODE: 1566
+lcount: 2
+loc_max: 23
+
+NODE: 1677
+lcount: 1
+loc_max: 24
+
+NODE: 2260
+lcount: 3
+loc_max: 23
+
+NODE: 95
+lcount: 1
+loc_max: 24
+
+NODE: 2034
+lcount: 1
+loc_max: 24
+
+NODE: 1329
+lcount: 2
+loc_max: 22
+
+NODE: 1361
+lcount: 2
+loc_max: 23
+
+NODE: 1038
+lcount: 1
+loc_max: 24
+
+NODE: 833
+lcount: 3
+loc_max: 18
+
+NODE: 565
+lcount: 3
+loc_max: 19
+
+NODE: 239
+lcount: 2
+loc_max: 20
+
+NODE: 1596
+lcount: 2
+loc_max: 21
+
+NODE: 1589
+lcount: 2
+loc_max: 22
+
+NODE: 643
+lcount: 2
+loc_max: 23
+
+NODE: 832
+lcount: 1
+loc_max: 24
+
+NODE: 589
+lcount: 2
+loc_max: 20
+
+NODE: 227
+lcount: 3
+loc_max: 21
+
+NODE: 137
+lcount: 2
+loc_max: 22
+
+NODE: 1947
+lcount: 2
+loc_max: 23
+
+NODE: 14
+lcount: 1
+loc_max: 24
+
+NODE: 2066
+lcount: 3
+loc_max: 22
+
+NODE: 948
+lcount: 2
+loc_max: 23
+
+NODE: 1992
+lcount: 1
+loc_max: 24
+
+NODE: 1909
+lcount: 2
+loc_max: 23
+
+NODE: 1913
+lcount: 1
+loc_max: 24
+
+NODE: 703
+lcount: 3
+loc_max: 19
+
+NODE: 912
+lcount: 3
+loc_max: 20
+
+NODE: 9
+lcount: 2
+loc_max: 21
+
+NODE: 2064
+lcount: 3
+loc_max: 22
+
+NODE: 683
+lcount: 2
+loc_max: 23
+
+NODE: 660
+lcount: 1
+loc_max: 24
+
+NODE: 1233
+lcount: 2
+loc_max: 23
+
+NODE: 1461
+lcount: 1
+loc_max: 24
+
+NODE: 1343
+lcount: 3
+loc_max: 21
+
+NODE: 437
+lcount: 2
+loc_max: 22
+
+NODE: 726
+lcount: 3
+loc_max: 23
+
+NODE: 1680
+lcount: 1
+loc_max: 24
+
+NODE: 1827
+lcount: 1
+loc_max: 24
+
+NODE: 1991
+lcount: 2
+loc_max: 22
+
+NODE: 1114
+lcount: 2
+loc_max: 23
+
+NODE: 1952
+lcount: 1
+loc_max: 24
+
+NODE: 1970
+lcount: 3
+loc_max: 20
+
+NODE: 405
+lcount: 2
+loc_max: 21
+
+NODE: 466
+lcount: 3
+loc_max: 22
+
+NODE: 422
+lcount: 2
+loc_max: 23
+
+NODE: 308
+lcount: 1
+loc_max: 24
+
+NODE: 1280
+lcount: 2
+loc_max: 23
+
+NODE: 1100
+lcount: 1
+loc_max: 24
+
+NODE: 2150
+lcount: 3
+loc_max: 21
+
+NODE: 33
+lcount: 3
+loc_max: 22
+
+NODE: 246
+lcount: 2
+loc_max: 23
+
+NODE: 628
+lcount: 1
+loc_max: 24
+
+NODE: 860
+lcount: 2
+loc_max: 23
+
+NODE: 560
+lcount: 1
+loc_max: 24
+
+NODE: 296
+lcount: 3
+loc_max: 22
+
+NODE: 267
+lcount: 2
+loc_max: 23
+
+NODE: 1396
+lcount: 1
+loc_max: 24
+
+NODE: 2104
+lcount: 3
+loc_max: 23
+
+NODE: 135
+lcount: 1
+loc_max: 24
+
+NODE: 1243
+lcount: 1
+loc_max: 24
+
+NODE: 2081
+lcount: 3
+loc_max: 16
+
+NODE: 963
+lcount: 3
+loc_max: 17
+
+NODE: 404
+lcount: 3
+loc_max: 18
+
+NODE: 232
+lcount: 3
+loc_max: 19
+
+NODE: 1800
+lcount: 3
+loc_max: 20
+
+NODE: 1028
+lcount: 3
+loc_max: 21
+
+NODE: 959
+lcount: 3
+loc_max: 22
+
+NODE: 336
+lcount: 2
+loc_max: 23
+
+NODE: 2132
+lcount: 1
+loc_max: 24
+
+NODE: 2218
+lcount: 3
+loc_max: 23
+
+NODE: 128
+lcount: 1
+loc_max: 24
+
+NODE: 413
+lcount: 1
+loc_max: 24
+
+NODE: 1161
+lcount: 3
+loc_max: 22
+
+NODE: 1513
+lcount: 2
+loc_max: 23
+
+NODE: 394
+lcount: 1
+loc_max: 24
+
+NODE: 1713
+lcount: 2
+loc_max: 23
+
+NODE: 2181
+lcount: 1
+loc_max: 24
+
+NODE: 1394
+lcount: 3
+loc_max: 21
+
+NODE: 778
+lcount: 2
+loc_max: 22
+
+NODE: 1614
+lcount: 3
+loc_max: 23
+
+NODE: 987
+lcount: 1
+loc_max: 24
+
+NODE: 2243
+lcount: 1
+loc_max: 24
+
+NODE: 1128
+lcount: 3
+loc_max: 22
+
+NODE: 436
+lcount: 2
+loc_max: 23
+
+NODE: 761
+lcount: 1
+loc_max: 24
+
+NODE: 2201
+lcount: 3
+loc_max: 23
+
+NODE: 322
+lcount: 1
+loc_max: 24
+
+NODE: 1313
+lcount: 1
+loc_max: 24
+
+NODE: 2088
+lcount: 2
+loc_max: 20
+
+NODE: 547
+lcount: 3
+loc_max: 21
+
+NODE: 1226
+lcount: 2
+loc_max: 22
+
+NODE: 195
+lcount: 3
+loc_max: 23
+
+NODE: 122
+lcount: 1
+loc_max: 24
+
+NODE: 476
+lcount: 1
+loc_max: 24
+
+NODE: 2247
+lcount: 3
+loc_max: 22
+
+NODE: 242
+lcount: 3
+loc_max: 23
+
+NODE: 408
+lcount: 1
+loc_max: 24
+
+NODE: 1263
+lcount: 1
+loc_max: 24
+
+NODE: 1849
+lcount: 3
+loc_max: 23
+
+NODE: 198
+lcount: 1
+loc_max: 24
+
+NODE: 1058
+lcount: 1
+loc_max: 24
+
+NODE: 465
+lcount: 3
+loc_max: 19
+
+NODE: 1582
+lcount: 2
+loc_max: 20
+
+NODE: 1740
+lcount: 2
+loc_max: 21
+
+NODE: 1931
+lcount: 2
+loc_max: 22
+
+NODE: 1676
+lcount: 3
+loc_max: 23
+
+NODE: 278
+lcount: 1
+loc_max: 24
+
+NODE: 1018
+lcount: 1
+loc_max: 24
+
+NODE: 1950
+lcount: 2
+loc_max: 20
+
+NODE: 562
+lcount: 3
+loc_max: 21
+
+NODE: 87
+lcount: 3
+loc_max: 22
+
+NODE: 216
+lcount: 3
+loc_max: 23
+
+NODE: 762
+lcount: 1
+loc_max: 24
+
+NODE: 825
+lcount: 1
+loc_max: 24
+
+NODE: 1418
+lcount: 3
+loc_max: 23
+
+NODE: 1468
+lcount: 1
+loc_max: 24
+
+NODE: 2153
+lcount: 1
+loc_max: 24
+
+NODE: 1075
+lcount: 3
+loc_max: 22
+
+NODE: 517
+lcount: 3
+loc_max: 23
+
+NODE: 917
+lcount: 1
+loc_max: 24
+
+NODE: 923
+lcount: 1
+loc_max: 24
+
+NODE: 891
+lcount: 2
+loc_max: 23
+
+NODE: 448
+lcount: 1
+loc_max: 24
+
+NODE: 442
+lcount: 2
+loc_max: 18
+
+NODE: 904
+lcount: 3
+loc_max: 19
+
+NODE: 668
+lcount: 2
+loc_max: 20
+
+NODE: 580
+lcount: 2
+loc_max: 21
+
+NODE: 444
+lcount: 2
+loc_max: 22
+
+NODE: 270
+lcount: 3
+loc_max: 23
+
+NODE: 799
+lcount: 1
+loc_max: 24
+
+NODE: 2028
+lcount: 1
+loc_max: 24
+
+NODE: 1099
+lcount: 3
+loc_max: 20
+
+NODE: 2026
+lcount: 2
+loc_max: 21
+
+NODE: 2069
+lcount: 2
+loc_max: 22
+
+NODE: 1643
+lcount: 3
+loc_max: 23
+
+NODE: 149
+lcount: 1
+loc_max: 24
+
+NODE: 1552
+lcount: 1
+loc_max: 24
+
+NODE: 2195
+lcount: 2
+loc_max: 21
+
+NODE: 2091
+lcount: 2
+loc_max: 22
+
+NODE: 1954
+lcount: 3
+loc_max: 23
+
+NODE: 542
+lcount: 1
+loc_max: 24
+
+NODE: 1906
+lcount: 1
+loc_max: 24
+
+NODE: 1168
+lcount: 3
+loc_max: 17
+
+NODE: 462
+lcount: 2
+loc_max: 18
+
+NODE: 20
+lcount: 2
+loc_max: 19
+
+NODE: 2003
+lcount: 3
+loc_max: 20
+
+NODE: 513
+lcount: 2
+loc_max: 21
+
+NODE: 815
+lcount: 3
+loc_max: 22
+
+NODE: 321
+lcount: 3
+loc_max: 23
+
+NODE: 545
+lcount: 1
+loc_max: 24
+
+NODE: 1024
+lcount: 1
+loc_max: 24
+
+NODE: 2194
+lcount: 3
+loc_max: 23
+
+NODE: 90
+lcount: 1
+loc_max: 24
+
+NODE: 993
+lcount: 1
+loc_max: 24
+
+NODE: 2073
+lcount: 3
+loc_max: 21
+
+NODE: 274
+lcount: 2
+loc_max: 22
+
+NODE: 399
+lcount: 3
+loc_max: 23
+
+NODE: 199
+lcount: 1
+loc_max: 24
+
+NODE: 1378
+lcount: 1
+loc_max: 24
+
+NODE: 327
+lcount: 2
+loc_max: 22
+
+NODE: 945
+lcount: 2
+loc_max: 23
+
+NODE: 1853
+lcount: 1
+loc_max: 24
+
+NODE: 1928
+lcount: 3
+loc_max: 18
+
+NODE: 662
+lcount: 2
+loc_max: 19
+
+NODE: 1692
+lcount: 3
+loc_max: 20
+
+NODE: 1549
+lcount: 2
+loc_max: 21
+
+NODE: 1339
+lcount: 2
+loc_max: 22
+
+NODE: 2011
+lcount: 2
+loc_max: 23
+
+NODE: 1001
+lcount: 1
+loc_max: 24
+
+NODE: 1618
+lcount: 2
+loc_max: 21
+
+NODE: 901
+lcount: 3
+loc_max: 22
+
+NODE: 530
+lcount: 2
+loc_max: 23
+
+NODE: 713
+lcount: 1
+loc_max: 24
+
+NODE: 1658
+lcount: 2
+loc_max: 23
+
+NODE: 1987
+lcount: 1
+loc_max: 24
+
+NODE: 771
+lcount: 2
+loc_max: 19
+
+NODE: 984
+lcount: 2
+loc_max: 20
+
+NODE: 1061
+lcount: 2
+loc_max: 21
+
+NODE: 558
+lcount: 3
+loc_max: 22
+
+NODE: 223
+lcount: 2
+loc_max: 23
+
+NODE: 601
+lcount: 1
+loc_max: 24
+
+NODE: 1872
+lcount: 3
+loc_max: 23
+
+NODE: 1245
+lcount: 1
+loc_max: 24
+
+NODE: 2016
+lcount: 1
+loc_max: 24
+
+NODE: 610
+lcount: 3
+loc_max: 15
+
+NODE: 1123
+lcount: 3
+loc_max: 16
+
+NODE: 1334
+lcount: 3
+loc_max: 17
+
+NODE: 1722
+lcount: 2
+loc_max: 18
+
+NODE: 1452
+lcount: 2
+loc_max: 19
+
+NODE: 2051
+lcount: 2
+loc_max: 20
+
+NODE: 1882
+lcount: 2
+loc_max: 21
+
+NODE: 1811
+lcount: 2
+loc_max: 22
+
+NODE: 1603
+lcount: 3
+loc_max: 23
+
+NODE: 583
+lcount: 1
+loc_max: 24
+
+NODE: 1689
+lcount: 1
+loc_max: 24
+
+NODE: 1757
+lcount: 2
+loc_max: 18
+
+NODE: 1508
+lcount: 2
+loc_max: 19
+
+NODE: 693
+lcount: 3
+loc_max: 20
+
+NODE: 911
+lcount: 2
+loc_max: 21
+
+NODE: 1522
+lcount: 3
+loc_max: 22
+
+NODE: 71
+lcount: 2
+loc_max: 23
+
+NODE: 1780
+lcount: 1
+loc_max: 24
+
+NODE: 1483
+lcount: 2
+loc_max: 23
+
+NODE: 74
+lcount: 1
+loc_max: 24
+
+NODE: 2188
+lcount: 2
+loc_max: 21
+
+NODE: 2284
+lcount: 2
+loc_max: 22
+
+NODE: 2137
+lcount: 3
+loc_max: 23
+
+NODE: 446
+lcount: 1
+loc_max: 24
+
+NODE: 1295
+lcount: 1
+loc_max: 24
+
+NODE: 1606
+lcount: 3
+loc_max: 17
+
+NODE: 167
+lcount: 2
+loc_max: 18
+
+NODE: 1072
+lcount: 2
+loc_max: 19
+
+NODE: 1963
+lcount: 3
+loc_max: 20
+
+NODE: 1182
+lcount: 3
+loc_max: 21
+
+NODE: 109
+lcount: 2
+loc_max: 22
+
+NODE: 954
+lcount: 3
+loc_max: 23
+
+NODE: 325
+lcount: 1
+loc_max: 24
+
+NODE: 1397
+lcount: 1
+loc_max: 24
+
+NODE: 301
+lcount: 3
+loc_max: 22
+
+NODE: 1516
+lcount: 3
+loc_max: 23
+
+NODE: 234
+lcount: 1
+loc_max: 24
+
+NODE: 735
+lcount: 1
+loc_max: 24
+
+NODE: 1874
+lcount: 2
+loc_max: 23
+
+NODE: 529
+lcount: 1
+loc_max: 24
+
+NODE: 1491
+lcount: 2
+loc_max: 21
+
+NODE: 2224
+lcount: 3
+loc_max: 22
+
+NODE: 826
+lcount: 3
+loc_max: 23
+
+NODE: 2176
+lcount: 1
+loc_max: 24
+
+NODE: 2193
+lcount: 1
+loc_max: 24
+
+NODE: 1698
+lcount: 2
+loc_max: 23
+
+NODE: 1328
+lcount: 1
+loc_max: 24
+
+NODE: 1832
+lcount: 3
+loc_max: 18
+
+NODE: 1273
+lcount: 3
+loc_max: 19
+
+NODE: 388
+lcount: 3
+loc_max: 20
+
+NODE: 1338
+lcount: 3
+loc_max: 21
+
+NODE: 178
+lcount: 2
+loc_max: 22
+
+NODE: 1535
+lcount: 3
+loc_max: 23
+
+NODE: 129
+lcount: 1
+loc_max: 24
+
+NODE: 849
+lcount: 1
+loc_max: 24
+
+NODE: 1944
+lcount: 2
+loc_max: 22
+
+NODE: 564
+lcount: 2
+loc_max: 23
+
+NODE: 1078
+lcount: 1
+loc_max: 24
+
+NODE: 2173
+lcount: 2
+loc_max: 21
+
+NODE: 205
+lcount: 2
+loc_max: 22
+
+NODE: 1470
+lcount: 3
+loc_max: 23
+
+NODE: 854
+lcount: 1
+loc_max: 24
+
+NODE: 1438
+lcount: 1
+loc_max: 24
+
+NODE: 1014
+lcount: 3
+loc_max: 20
+
+NODE: 21
+lcount: 3
+loc_max: 21
+
+NODE: 1156
+lcount: 3
+loc_max: 22
+
+NODE: 863
+lcount: 3
+loc_max: 23
+
+NODE: 445
+lcount: 1
+loc_max: 24
+
+NODE: 2168
+lcount: 1
+loc_max: 24
+
+NODE: 1729
+lcount: 3
+loc_max: 23
+
+NODE: 383
+lcount: 1
+loc_max: 24
+
+NODE: 1096
+lcount: 1
+loc_max: 24
+
+NODE: 1252
+lcount: 3
+loc_max: 22
+
+NODE: 594
+lcount: 2
+loc_max: 23
+
+NODE: 1148
+lcount: 1
+loc_max: 24
+
+NODE: 1997
+lcount: 3
+loc_max: 23
+
+NODE: 1043
+lcount: 1
+loc_max: 24
+
+NODE: 2084
+lcount: 1
+loc_max: 24
+
+NODE: 1435
+lcount: 2
+loc_max: 21
+
+NODE: 2127
+lcount: 3
+loc_max: 22
+
+NODE: 640
+lcount: 2
+loc_max: 23
+
+NODE: 1345
+lcount: 1
+loc_max: 24
+
+NODE: 690
+lcount: 3
+loc_max: 23
+
+NODE: 1271
+lcount: 1
+loc_max: 24
+
+NODE: 1602
+lcount: 1
+loc_max: 24
+
+NODE: 2038
+lcount: 2
+loc_max: 19
+
+NODE: 458
+lcount: 3
+loc_max: 20
+
+NODE: 935
+lcount: 2
+loc_max: 21
+
+NODE: 818
+lcount: 2
+loc_max: 22
+
+NODE: 1117
+lcount: 3
+loc_max: 23
+
+NODE: 1269
+lcount: 1
+loc_max: 24
+
+NODE: 1570
+lcount: 1
+loc_max: 24
+
+NODE: 1253
+lcount: 3
+loc_max: 21
+
+NODE: 50
+lcount: 2
+loc_max: 22
+
+NODE: 828
+lcount: 3
+loc_max: 23
+
+NODE: 397
+lcount: 1
+loc_max: 24
+
+NODE: 1062
+lcount: 1
+loc_max: 24
+
+NODE: 2198
+lcount: 3
+loc_max: 22
+
+NODE: 257
+lcount: 3
+loc_max: 23
+
+NODE: 282
+lcount: 1
+loc_max: 24
+
+NODE: 724
+lcount: 1
+loc_max: 24
+
+NODE: 1975
+lcount: 2
+loc_max: 23
+
+NODE: 1714
+lcount: 1
+loc_max: 24
+
+NODE: 1702
+lcount: 3
+loc_max: 16
+
+NODE: 664
+lcount: 3
+loc_max: 17
+
+NODE: 1439
+lcount: 3
+loc_max: 18
+
+NODE: 1260
+lcount: 3
+loc_max: 19
+
+NODE: 105
+lcount: 3
+loc_max: 20
+
+NODE: 1534
+lcount: 2
+loc_max: 21
+
+NODE: 1031
+lcount: 2
+loc_max: 22
+
+NODE: 1302
+lcount: 3
+loc_max: 23
+
+NODE: 402
+lcount: 1
+loc_max: 24
+
+NODE: 831
+lcount: 1
+loc_max: 24
+
+NODE: 1766
+lcount: 3
+loc_max: 21
+
+NODE: 1042
+lcount: 2
+loc_max: 22
+
+NODE: 433
+lcount: 3
+loc_max: 23
+
+NODE: 952
+lcount: 1
+loc_max: 24
+
+NODE: 1270
+lcount: 1
+loc_max: 24
+
+NODE: 1880
+lcount: 2
+loc_max: 22
+
+NODE: 19
+lcount: 3
+loc_max: 23
+
+NODE: 2077
+lcount: 1
+loc_max: 24
+
+NODE: 2221
+lcount: 1
+loc_max: 24
+
+NODE: 520
+lcount: 2
+loc_max: 20
+
+NODE: 28
+lcount: 2
+loc_max: 21
+
+NODE: 461
+lcount: 2
+loc_max: 22
+
+NODE: 1033
+lcount: 3
+loc_max: 23
+
+NODE: 40
+lcount: 1
+loc_max: 24
+
+NODE: 1930
+lcount: 1
+loc_max: 24
+
+NODE: 2000
+lcount: 2
+loc_max: 19
+
+NODE: 27
+lcount: 3
+loc_max: 20
+
+NODE: 1404
+lcount: 2
+loc_max: 21
+
+NODE: 189
+lcount: 3
+loc_max: 22
+
+NODE: 385
+lcount: 2
+loc_max: 23
+
+NODE: 69
+lcount: 1
+loc_max: 24
+
+NODE: 1727
+lcount: 2
+loc_max: 23
+
+NODE: 59
+lcount: 1
+loc_max: 24
+
+NODE: 1936
+lcount: 3
+loc_max: 21
+
+NODE: 414
+lcount: 2
+loc_max: 22
+
+NODE: 1828
+lcount: 2
+loc_max: 23
+
+NODE: 1309
+lcount: 1
+loc_max: 24
+
+NODE: 2123
+lcount: 2
+loc_max: 22
+
+NODE: 644
+lcount: 3
+loc_max: 23
+
+NODE: 1668
+lcount: 1
+loc_max: 24
+
+NODE: 2145
+lcount: 1
+loc_max: 24
+
+NODE: 2096
+lcount: 3
+loc_max: 18
+
+NODE: 73
+lcount: 3
+loc_max: 19
+
+NODE: 1478
+lcount: 3
+loc_max: 20
+
+NODE: 78
+lcount: 3
+loc_max: 21
+
+NODE: 1437
+lcount: 2
+loc_max: 22
+
+NODE: 571
+lcount: 3
+loc_max: 23
+
+NODE: 934
+lcount: 1
+loc_max: 24
+
+NODE: 1195
+lcount: 1
+loc_max: 24
+
+NODE: 2157
+lcount: 3
+loc_max: 22
+
+NODE: 18
+lcount: 2
+loc_max: 23
+
+NODE: 1160
+lcount: 1
+loc_max: 24
+
+NODE: 592
+lcount: 3
+loc_max: 23
+
+NODE: 1242
+lcount: 1
+loc_max: 24
+
+NODE: 2138
+lcount: 1
+loc_max: 24
+
+NODE: 293
+lcount: 2
+loc_max: 21
+
+NODE: 798
+lcount: 3
+loc_max: 22
+
+NODE: 387
+lcount: 2
+loc_max: 23
+
+NODE: 412
+lcount: 1
+loc_max: 24
+
+NODE: 1449
+lcount: 3
+loc_max: 23
+
+NODE: 695
+lcount: 1
+loc_max: 24
+
+NODE: 2175
+lcount: 1
+loc_max: 24
+
+NODE: 2167
+lcount: 2
+loc_max: 20
+
+NODE: 1369
+lcount: 3
+loc_max: 21
+
+NODE: 1760
+lcount: 2
+loc_max: 22
+
+NODE: 1870
+lcount: 3
+loc_max: 23
+
+NODE: 54
+lcount: 1
+loc_max: 24
+
+NODE: 2098
+lcount: 1
+loc_max: 24
+
+NODE: 1967
+lcount: 2
+loc_max: 22
+
+NODE: 650
+lcount: 3
+loc_max: 23
+
+NODE: 355
+lcount: 1
+loc_max: 24
+
+NODE: 632
+lcount: 1
+loc_max: 24
+
+NODE: 2121
+lcount: 3
+loc_max: 19
+
+NODE: 235
+lcount: 3
+loc_max: 20
+
+NODE: 1212
+lcount: 2
+loc_max: 21
+
+NODE: 1531
+lcount: 2
+loc_max: 22
+
+NODE: 1951
+lcount: 2
+loc_max: 23
+
+NODE: 367
+lcount: 1
+loc_max: 24
+
+NODE: 2179
+lcount: 3
+loc_max: 21
+
+NODE: 1268
+lcount: 2
+loc_max: 22
+
+NODE: 400
+lcount: 3
+loc_max: 23
+
+NODE: 344
+lcount: 1
+loc_max: 24
+
+NODE: 1296
+lcount: 1
+loc_max: 24
+
+NODE: 1311
+lcount: 2
+loc_max: 22
+
+NODE: 933
+lcount: 3
+loc_max: 23
+
+NODE: 554
+lcount: 1
+loc_max: 24
+
+NODE: 1938
+lcount: 1
+loc_max: 24
+
+NODE: 1879
+lcount: 3
+loc_max: 20
+
+NODE: 1272
+lcount: 3
+loc_max: 21
+
+NODE: 791
+lcount: 3
+loc_max: 22
+
+NODE: 1115
+lcount: 2
+loc_max: 23
+
+NODE: 577
+lcount: 1
+loc_max: 24
+
+NODE: 1162
+lcount: 3
+loc_max: 23
+
+NODE: 119
+lcount: 1
+loc_max: 24
+
+NODE: 1019
+lcount: 1
+loc_max: 24
+
+NODE: 1234
+lcount: 3
+loc_max: 22
+
+NODE: 89
+lcount: 2
+loc_max: 23
+
+NODE: 507
+lcount: 1
+loc_max: 24
+
+NODE: 460
+lcount: 3
+loc_max: 23
+
+NODE: 623
+lcount: 1
+loc_max: 24
+
+NODE: 1032
+lcount: 1
+loc_max: 24
+
+NODE: 1966
+lcount: 2
+loc_max: 21
+
+NODE: 123
+lcount: 3
+loc_max: 22
+
+NODE: 1091
+lcount: 3
+loc_max: 23
+
+NODE: 522
+lcount: 1
+loc_max: 24
+
+NODE: 748
+lcount: 1
+loc_max: 24
+
+NODE: 1684
+lcount: 3
+loc_max: 23
+
+NODE: 1229
+lcount: 1
+loc_max: 24
+
+NODE: 2183
+lcount: 1
+loc_max: 24
+
+NODE: 1321
+lcount: 2
+loc_max: 17
+
+NODE: 1051
+lcount: 2
+loc_max: 18
+
+NODE: 8
+lcount: 3
+loc_max: 19
+
+NODE: 1422
+lcount: 3
+loc_max: 20
+
+NODE: 843
+lcount: 3
+loc_max: 21
+
+NODE: 1179
+lcount: 3
+loc_max: 22
+
+NODE: 549
+lcount: 2
+loc_max: 23
+
+NODE: 1805
+lcount: 1
+loc_max: 24
+
+NODE: 1948
+lcount: 3
+loc_max: 23
+
+NODE: 63
+lcount: 1
+loc_max: 24
+
+NODE: 2287
+lcount: 1
+loc_max: 24
+
+NODE: 1641
+lcount: 3
+loc_max: 22
+
+NODE: 1307
+lcount: 3
+loc_max: 23
+
+NODE: 505
+lcount: 1
+loc_max: 24
+
+NODE: 1022
+lcount: 1
+loc_max: 24
+
+NODE: 1492
+lcount: 2
+loc_max: 23
+
+NODE: 243
+lcount: 1
+loc_max: 24
+
+NODE: 862
+lcount: 3
+loc_max: 21
+
+NODE: 1141
+lcount: 2
+loc_max: 22
+
+NODE: 1652
+lcount: 2
+loc_max: 23
+
+NODE: 2236
+lcount: 1
+loc_max: 24
+
+NODE: 1519
+lcount: 2
+loc_max: 22
+
+NODE: 840
+lcount: 2
+loc_max: 23
+
+NODE: 45
+lcount: 1
+loc_max: 24
+
+NODE: 1845
+lcount: 3
+loc_max: 20
+
+NODE: 621
+lcount: 3
+loc_max: 21
+
+NODE: 143
+lcount: 3
+loc_max: 22
+
+NODE: 1174
+lcount: 3
+loc_max: 23
+
+NODE: 426
+lcount: 1
+loc_max: 24
+
+NODE: 2062
+lcount: 1
+loc_max: 24
+
+NODE: 1376
+lcount: 2
+loc_max: 23
+
+NODE: 1750
+lcount: 1
+loc_max: 24
+
+NODE: 521
+lcount: 2
+loc_max: 22
+
+NODE: 1087
+lcount: 2
+loc_max: 23
+
+NODE: 1007
+lcount: 1
+loc_max: 24
+
+NODE: 2291
+lcount: 2
+loc_max: 21
+
+NODE: 881
+lcount: 2
+loc_max: 22
+
+NODE: 1382
+lcount: 3
+loc_max: 23
+
+NODE: 783
+lcount: 1
+loc_max: 24
+
+NODE: 985
+lcount: 1
+loc_max: 24
+
+NODE: 356
+lcount: 2
+loc_max: 14
+
+NODE: 1823
+lcount: 2
+loc_max: 15
+
+NODE: 1594
+lcount: 2
+loc_max: 16
+
+NODE: 728
+lcount: 3
+loc_max: 17
+
+NODE: 1223
+lcount: 2
+loc_max: 18
+
+NODE: 1796
+lcount: 2
+loc_max: 19
+
+NODE: 266
+lcount: 2
+loc_max: 20
+
+NODE: 893
+lcount: 3
+loc_max: 21
+
+NODE: 1040
+lcount: 3
+loc_max: 22
+
+NODE: 163
+lcount: 2
+loc_max: 23
+
+NODE: 895
+lcount: 1
+loc_max: 24
+
+NODE: 958
+lcount: 2
+loc_max: 23
+
+NODE: 822
+lcount: 1
+loc_max: 24
+
+NODE: 1411
+lcount: 3
+loc_max: 22
+
+NODE: 152
+lcount: 3
+loc_max: 23
+
+NODE: 720
+lcount: 1
+loc_max: 24
+
+NODE: 2143
+lcount: 1
+loc_max: 24
+
+NODE: 452
+lcount: 2
+loc_max: 23
+
+NODE: 1424
+lcount: 1
+loc_max: 24
+
+NODE: 2263
+lcount: 2
+loc_max: 18
+
+NODE: 1060
+lcount: 3
+loc_max: 19
+
+NODE: 113
+lcount: 2
+loc_max: 20
+
+NODE: 865
+lcount: 2
+loc_max: 21
+
+NODE: 1753
+lcount: 3
+loc_max: 22
+
+NODE: 450
+lcount: 3
+loc_max: 23
+
+NODE: 723
+lcount: 1
+loc_max: 24
+
+NODE: 2013
+lcount: 1
+loc_max: 24
+
+NODE: 1178
+lcount: 3
+loc_max: 23
+
+NODE: 803
+lcount: 1
+loc_max: 24
+
+NODE: 1712
+lcount: 1
+loc_max: 24
+
+NODE: 1085
+lcount: 3
+loc_max: 20
+
+NODE: 988
+lcount: 3
+loc_max: 21
+
+NODE: 1685
+lcount: 3
+loc_max: 22
+
+NODE: 884
+lcount: 3
+loc_max: 23
+
+NODE: 1485
+lcount: 1
+loc_max: 24
+
+NODE: 1626
+lcount: 1
+loc_max: 24
+
+NODE: 1932
+lcount: 2
+loc_max: 23
+
+NODE: 1690
+lcount: 1
+loc_max: 24
+
+NODE: 2089
+lcount: 2
+loc_max: 22
+
+NODE: 2128
+lcount: 3
+loc_max: 23
+
+NODE: 570
+lcount: 1
+loc_max: 24
+
+NODE: 1587
+lcount: 1
+loc_max: 24
+
+NODE: 2283
+lcount: 2
+loc_max: 21
+
+NODE: 146
+lcount: 2
+loc_max: 22
+
+NODE: 1699
+lcount: 2
+loc_max: 23
+
+NODE: 1256
+lcount: 1
+loc_max: 24
+
+NODE: 2216
+lcount: 2
+loc_max: 11
+
+NODE: 941
+lcount: 2
+loc_max: 12
+
+NODE: 857
+lcount: 3
+loc_max: 13
+
+NODE: 686
+lcount: 2
+loc_max: 14
+
+NODE: 1743
+lcount: 3
+loc_max: 15
+
+NODE: 51
+lcount: 2
+loc_max: 16
+
+NODE: 1663
+lcount: 3
+loc_max: 17
+
+NODE: 100
+lcount: 3
+loc_max: 18
+
+NODE: 526
+lcount: 3
+loc_max: 19
+
+NODE: 226
+lcount: 2
+loc_max: 20
+
+NODE: 2140
+lcount: 3
+loc_max: 21
+
+NODE: 98
+lcount: 3
+loc_max: 22
+
+NODE: 882
+lcount: 3
+loc_max: 23
+
+NODE: 652
+lcount: 1
+loc_max: 24
+
+NODE: 1401
+lcount: 1
+loc_max: 24
+
+NODE: 1306
+lcount: 2
+loc_max: 23
+
+NODE: 673
+lcount: 1
+loc_max: 24
+
+NODE: 331
+lcount: 3
+loc_max: 22
+
+NODE: 104
+lcount: 2
+loc_max: 23
+
+NODE: 1679
+lcount: 1
+loc_max: 24
+
+NODE: 501
+lcount: 2
+loc_max: 23
+
+NODE: 284
+lcount: 1
+loc_max: 24
+
+NODE: 2240
+lcount: 2
+loc_max: 20
+
+NODE: 2010
+lcount: 2
+loc_max: 21
+
+NODE: 1785
+lcount: 3
+loc_max: 22
+
+NODE: 1333
+lcount: 2
+loc_max: 23
+
+NODE: 182
+lcount: 1
+loc_max: 24
+
+NODE: 1749
+lcount: 2
+loc_max: 23
+
+NODE: 110
+lcount: 1
+loc_max: 24
+
+NODE: 873
+lcount: 3
+loc_max: 19
+
+NODE: 16
+lcount: 2
+loc_max: 20
+
+NODE: 2225
+lcount: 3
+loc_max: 21
+
+NODE: 1533
+lcount: 3
+loc_max: 22
+
+NODE: 540
+lcount: 2
+loc_max: 23
+
+NODE: 1935
+lcount: 1
+loc_max: 24
+
+NODE: 1864
+lcount: 3
+loc_max: 23
+
+NODE: 678
+lcount: 1
+loc_max: 24
+
+NODE: 1598
+lcount: 1
+loc_max: 24
+
+NODE: 1798
+lcount: 2
+loc_max: 22
+
+NODE: 441
+lcount: 3
+loc_max: 23
+
+NODE: 35
+lcount: 1
+loc_max: 24
+
+NODE: 1262
+lcount: 1
+loc_max: 24
+
+NODE: 161
+lcount: 2
+loc_max: 20
+
+NODE: 766
+lcount: 3
+loc_max: 21
+
+NODE: 415
+lcount: 3
+loc_max: 22
+
+NODE: 821
+lcount: 2
+loc_max: 23
+
+NODE: 1284
+lcount: 1
+loc_max: 24
+
+NODE: 1996
+lcount: 2
+loc_max: 23
+
+NODE: 1097
+lcount: 1
+loc_max: 24
+
+NODE: 605
+lcount: 2
+loc_max: 22
+
+NODE: 2078
+lcount: 3
+loc_max: 23
+
+NODE: 490
+lcount: 1
+loc_max: 24
+
+NODE: 1654
+lcount: 1
+loc_max: 24
+
+NODE: 1986
+lcount: 2
+loc_max: 18
+
+NODE: 150
+lcount: 2
+loc_max: 19
+
+NODE: 777
+lcount: 3
+loc_max: 20
+
+NODE: 1180
+lcount: 3
+loc_max: 21
+
+NODE: 202
+lcount: 2
+loc_max: 22
+
+NODE: 880
+lcount: 2
+loc_max: 23
+
+NODE: 858
+lcount: 1
+loc_max: 24
+
+NODE: 2040
+lcount: 2
+loc_max: 22
+
+NODE: 1580
+lcount: 2
+loc_max: 23
+
+NODE: 1837
+lcount: 1
+loc_max: 24
+
+NODE: 1923
+lcount: 3
+loc_max: 21
+
+NODE: 600
+lcount: 3
+loc_max: 22
+
+NODE: 248
+lcount: 3
+loc_max: 23
+
+NODE: 774
+lcount: 1
+loc_max: 24
+
+NODE: 2165
+lcount: 1
+loc_max: 24
+
+NODE: 407
+lcount: 3
+loc_max: 23
+
+NODE: 861
+lcount: 1
+loc_max: 24
+
+NODE: 1918
+lcount: 1
+loc_max: 24
+
+NODE: 977
+lcount: 3
+loc_max: 22
+
+NODE: 751
+lcount: 2
+loc_max: 23
+
+NODE: 391
+lcount: 1
+loc_max: 24
+
+NODE: 898
+lcount: 3
+loc_max: 23
+
+NODE: 611
+lcount: 1
+loc_max: 24
+
+NODE: 1616
+lcount: 1
+loc_max: 24
+
+NODE: 942
+lcount: 3
+loc_max: 16
+
+NODE: 953
+lcount: 3
+loc_max: 17
+
+NODE: 842
+lcount: 2
+loc_max: 18
+
+NODE: 1186
+lcount: 2
+loc_max: 19
+
+NODE: 207
+lcount: 2
+loc_max: 20
+
+NODE: 1317
+lcount: 2
+loc_max: 21
+
+NODE: 864
+lcount: 2
+loc_max: 22
+
+NODE: 1732
+lcount: 3
+loc_max: 23
+
+NODE: 1377
+lcount: 1
+loc_max: 24
+
+NODE: 2254
+lcount: 1
+loc_max: 24
+
+NODE: 2158
+lcount: 2
+loc_max: 18
+
+NODE: 1048
+lcount: 2
+loc_max: 19
+
+NODE: 440
+lcount: 2
+loc_max: 20
+
+NODE: 1316
+lcount: 2
+loc_max: 21
+
+NODE: 1787
+lcount: 3
+loc_max: 22
+
+NODE: 1240
+lcount: 3
+loc_max: 23
+
+NODE: 1336
+lcount: 1
+loc_max: 24
+
+NODE: 1496
+lcount: 1
+loc_max: 24
+
+NODE: 2177
+lcount: 2
+loc_max: 23
+
+NODE: 666
+lcount: 1
+loc_max: 24
+
+NODE: 1154
+lcount: 3
+loc_max: 17
+
+NODE: 1830
+lcount: 2
+loc_max: 18
+
+NODE: 937
+lcount: 3
+loc_max: 19
+
+NODE: 1671
+lcount: 2
+loc_max: 20
+
+NODE: 806
+lcount: 3
+loc_max: 21
+
+NODE: 403
+lcount: 3
+loc_max: 22
+
+NODE: 837
+lcount: 3
+loc_max: 23
+
+NODE: 236
+lcount: 1
+loc_max: 24
+
+NODE: 2246
+lcount: 1
+loc_max: 24
+
+NODE: 1259
+lcount: 2
+loc_max: 23
+
+NODE: 1465
+lcount: 1
+loc_max: 24
+
+NODE: 1564
+lcount: 2
+loc_max: 22
+
+NODE: 835
+lcount: 3
+loc_max: 23
+
+NODE: 1264
+lcount: 1
+loc_max: 24
+
+NODE: 1315
+lcount: 1
+loc_max: 24
+
+NODE: 2282
+lcount: 3
+loc_max: 20
+
+NODE: 348
+lcount: 3
+loc_max: 21
+
+NODE: 925
+lcount: 3
+loc_max: 22
+
+NODE: 290
+lcount: 3
+loc_max: 23
+
+NODE: 707
+lcount: 1
+loc_max: 24
+
+NODE: 876
+lcount: 1
+loc_max: 24
+
+NODE: 1139
+lcount: 2
+loc_max: 23
+
+NODE: 1926
+lcount: 1
+loc_max: 24
+
+NODE: 2192
+lcount: 2
+loc_max: 22
+
+NODE: 480
+lcount: 2
+loc_max: 23
+
+NODE: 916
+lcount: 1
+loc_max: 24
+
+NODE: 1746
+lcount: 2
+loc_max: 21
+
+NODE: 1784
+lcount: 3
+loc_max: 22
+
+NODE: 2129
+lcount: 3
+loc_max: 23
+
+NODE: 75
+lcount: 1
+loc_max: 24
+
+NODE: 512
+lcount: 1
+loc_max: 24
+
+NODE: 2302
+lcount: 3
+loc_max: 23
+
+NODE: 91
+lcount: 1
+loc_max: 24
+
+NODE: 1919
+lcount: 1
+loc_max: 24
+
+NODE: 2048
+lcount: 3
+loc_max: 18
+
+NODE: 1375
+lcount: 3
+loc_max: 19
+
+NODE: 584
+lcount: 3
+loc_max: 20
+
+NODE: 173
+lcount: 2
+loc_max: 21
+
+NODE: 313
+lcount: 3
+loc_max: 22
+
+NODE: 532
+lcount: 2
+loc_max: 23
+
+NODE: 464
+lcount: 1
+loc_max: 24
+
+NODE: 1728
+lcount: 2
+loc_max: 23
+
+NODE: 615
+lcount: 1
+loc_max: 24
+
+NODE: 2174
+lcount: 2
+loc_max: 21
+
+NODE: 717
+lcount: 3
+loc_max: 22
+
+NODE: 1095
+lcount: 2
+loc_max: 23
+
+NODE: 671
+lcount: 1
+loc_max: 24
+
+NODE: 1681
+lcount: 2
+loc_max: 23
+
+NODE: 432
+lcount: 1
+loc_max: 24
+
+NODE: 1691
+lcount: 2
+loc_max: 20
+
+NODE: 2297
+lcount: 3
+loc_max: 21
+
+NODE: 575
+lcount: 3
+loc_max: 22
+
+NODE: 210
+lcount: 2
+loc_max: 23
+
+NODE: 1360
+lcount: 1
+loc_max: 24
+
+NODE: 1844
+lcount: 2
+loc_max: 23
+
+NODE: 2207
+lcount: 1
+loc_max: 24
+
+NODE: 1076
+lcount: 3
+loc_max: 22
+
+NODE: 43
+lcount: 3
+loc_max: 23
+
+NODE: 1778
+lcount: 1
+loc_max: 24
+
+NODE: 2266
+lcount: 1
+loc_max: 24
+
+NODE: 99
+lcount: 3
+loc_max: 23
+
+NODE: 697
+lcount: 1
+loc_max: 24
+
+NODE: 936
+lcount: 1
+loc_max: 24
+
+NODE: 2169
+lcount: 3
+loc_max: 19
+
+NODE: 1324
+lcount: 2
+loc_max: 20
+
+NODE: 1387
+lcount: 3
+loc_max: 21
+
+NODE: 1453
+lcount: 3
+loc_max: 22
+
+NODE: 544
+lcount: 2
+loc_max: 23
+
+NODE: 888
+lcount: 1
+loc_max: 24
+
+NODE: 2301
+lcount: 3
+loc_max: 23
+
+NODE: 1768
+lcount: 1
+loc_max: 24
+
+NODE: 1821
+lcount: 1
+loc_max: 24
+
+NODE: 1814
+lcount: 3
+loc_max: 22
+
+NODE: 1239
+lcount: 3
+loc_max: 23
+
+NODE: 211
+lcount: 1
+loc_max: 24
+
+NODE: 2156
+lcount: 1
+loc_max: 24
+
+NODE: 1953
+lcount: 3
+loc_max: 23
+
+NODE: 1122
+lcount: 1
+loc_max: 24
+
+NODE: 1995
+lcount: 1
+loc_max: 24
+
+NODE: 1884
+lcount: 3
+loc_max: 20
+
+NODE: 1810
+lcount: 3
+loc_max: 21
+
+NODE: 392
+lcount: 3
+loc_max: 22
+
+NODE: 1562
+lcount: 3
+loc_max: 23
+
+NODE: 297
+lcount: 1
+loc_max: 24
+
+NODE: 805
+lcount: 1
+loc_max: 24
+
+NODE: 2032
+lcount: 2
+loc_max: 23
+
+NODE: 1771
+lcount: 1
+loc_max: 24
+
+NODE: 1215
+lcount: 2
+loc_max: 22
+
+NODE: 2204
+lcount: 2
+loc_max: 23
+
+NODE: 92
+lcount: 1
+loc_max: 24
+
+NODE: 2148
+lcount: 2
+loc_max: 21
+
+NODE: 1074
+lcount: 3
+loc_max: 22
+
+NODE: 1305
+lcount: 3
+loc_max: 23
+
+NODE: 1342
+lcount: 1
+loc_max: 24
+
+NODE: 2295
+lcount: 1
+loc_max: 24
+
+NODE: 2231
+lcount: 3
+loc_max: 23
+
+NODE: 381
+lcount: 1
+loc_max: 24
+
+NODE: 2075
+lcount: 1
+loc_max: 24
+
+NODE: 1755
+lcount: 2
+loc_max: 14
+
+NODE: 1265
+lcount: 2
+loc_max: 15
+
+NODE: 478
+lcount: 2
+loc_max: 16
+
+NODE: 176
+lcount: 3
+loc_max: 17
+
+NODE: 973
+lcount: 2
+loc_max: 18
+
+NODE: 1301
+lcount: 3
+loc_max: 19
+
+NODE: 451
+lcount: 2
+loc_max: 20
+
+NODE: 1865
+lcount: 2
+loc_max: 21
+
+NODE: 674
+lcount: 3
+loc_max: 22
+
+NODE: 921
+lcount: 2
+loc_max: 23
+
+NODE: 868
+lcount: 1
+loc_max: 24
+
+NODE: 2019
+lcount: 3
+loc_max: 23
+
+NODE: 447
+lcount: 1
+loc_max: 24
+
+NODE: 852
+lcount: 1
+loc_max: 24
+
+NODE: 1653
+lcount: 3
+loc_max: 20
+
+NODE: 495
+lcount: 2
+loc_max: 21
+
+NODE: 1005
+lcount: 3
+loc_max: 22
+
+NODE: 170
+lcount: 3
+loc_max: 23
+
+NODE: 1221
+lcount: 1
+loc_max: 24
+
+NODE: 1608
+lcount: 1
+loc_max: 24
+
+NODE: 2279
+lcount: 2
+loc_max: 23
+
+NODE: 188
+lcount: 1
+loc_max: 24
+
+NODE: 691
+lcount: 2
+loc_max: 21
+
+NODE: 2067
+lcount: 3
+loc_max: 22
+
+NODE: 238
+lcount: 2
+loc_max: 23
+
+NODE: 656
+lcount: 1
+loc_max: 24
+
+NODE: 2217
+lcount: 2
+loc_max: 23
+
+NODE: 217
+lcount: 1
+loc_max: 24
+
+NODE: 1473
+lcount: 2
+loc_max: 18
+
+NODE: 688
+lcount: 3
+loc_max: 19
+
+NODE: 160
+lcount: 2
+loc_max: 20
+
+NODE: 1527
+lcount: 2
+loc_max: 21
+
+NODE: 1999
+lcount: 3
+loc_max: 22
+
+NODE: 204
+lcount: 3
+loc_max: 23
+
+NODE: 905
+lcount: 1
+loc_max: 24
+
+NODE: 1211
+lcount: 1
+loc_max: 24
+
+NODE: 233
+lcount: 2
+loc_max: 23
+
+NODE: 1210
+lcount: 1
+loc_max: 24
+
+NODE: 1462
+lcount: 3
+loc_max: 20
+
+NODE: 1380
+lcount: 2
+loc_max: 21
+
+NODE: 1089
+lcount: 3
+loc_max: 22
+
+NODE: 747
+lcount: 2
+loc_max: 23
+
+NODE: 2178
+lcount: 1
+loc_max: 24
+
+NODE: 1228
+lcount: 2
+loc_max: 23
+
+NODE: 1890
+lcount: 1
+loc_max: 24
+
+NODE: 1669
+lcount: 3
+loc_max: 21
+
+NODE: 203
+lcount: 2
+loc_max: 22
+
+NODE: 1707
+lcount: 3
+loc_max: 23
+
+NODE: 61
+lcount: 1
+loc_max: 24
+
+NODE: 1166
+lcount: 1
+loc_max: 24
+
+NODE: 1675
+lcount: 2
+loc_max: 22
+
+NODE: 306
+lcount: 2
+loc_max: 23
+
+NODE: 630
+lcount: 1
+loc_max: 24
+
+NODE: 1585
+lcount: 3
+loc_max: 9
+
+NODE: 475
+lcount: 2
+loc_max: 10
+
+NODE: 1503
+lcount: 3
+loc_max: 11
+
+NODE: 634
+lcount: 3
+loc_max: 12
+
+NODE: 677
+lcount: 3
+loc_max: 13
+
+NODE: 2015
+lcount: 2
+loc_max: 14
+
+NODE: 56
+lcount: 2
+loc_max: 15
+
+NODE: 353
+lcount: 3
+loc_max: 16
+
+NODE: 1528
+lcount: 3
+loc_max: 17
+
+NODE: 309
+lcount: 3
+loc_max: 18
+
+NODE: 1133
+lcount: 2
+loc_max: 19
+
+NODE: 924
+lcount: 3
+loc_max: 20
+
+NODE: 1783
+lcount: 2
+loc_max: 21
+
+NODE: 788
+lcount: 1
+loc_max: 22
+
+NODE: 2280
+lcount: 3
+loc_max: 21
+
+NODE: 1695
+lcount: 1
+loc_max: 22
+
+NODE: 1824
+lcount: 1
+loc_max: 22
+
+NODE: 1790
+lcount: 2
+loc_max: 19
+
+NODE: 2074
+lcount: 2
+loc_max: 20
+
+NODE: 1738
+lcount: 2
+loc_max: 21
+
+NODE: 347
+lcount: 1
+loc_max: 22
+
+NODE: 406
+lcount: 2
+loc_max: 18
+
+NODE: 1054
+lcount: 3
+loc_max: 19
+
+NODE: 80
+lcount: 3
+loc_max: 20
+
+NODE: 208
+lcount: 3
+loc_max: 21
+
+NODE: 582
+lcount: 1
+loc_max: 22
+
+NODE: 744
+lcount: 1
+loc_max: 22
+
+NODE: 1255
+lcount: 2
+loc_max: 21
+
+NODE: 1347
+lcount: 1
+loc_max: 22
+
+NODE: 1425
+lcount: 2
+loc_max: 20
+
+NODE: 1620
+lcount: 3
+loc_max: 21
+
+NODE: 659
+lcount: 1
+loc_max: 22
+
+NODE: 1132
+lcount: 1
+loc_max: 22
+
+NODE: 1645
+lcount: 3
+loc_max: 17
+
+NODE: 1656
+lcount: 2
+loc_max: 18
+
+NODE: 1214
+lcount: 3
+loc_max: 19
+
+NODE: 692
+lcount: 3
+loc_max: 20
+
+NODE: 1159
+lcount: 3
+loc_max: 21
+
+NODE: 1009
+lcount: 1
+loc_max: 22
+
+NODE: 2239
+lcount: 1
+loc_max: 22
+
+NODE: 1718
+lcount: 2
+loc_max: 21
+
+NODE: 1443
+lcount: 1
+loc_max: 22
+
+NODE: 1945
+lcount: 3
+loc_max: 20
+
+NODE: 793
+lcount: 3
+loc_max: 21
+
+NODE: 836
+lcount: 1
+loc_max: 22
+
+NODE: 2125
+lcount: 1
+loc_max: 22
+
+NODE: 1312
+lcount: 3
+loc_max: 21
+
+NODE: 158
+lcount: 1
+loc_max: 22
+
+NODE: 976
+lcount: 1
+loc_max: 22
+
+NODE: 1820
+lcount: 2
+loc_max: 18
+
+NODE: 527
+lcount: 3
+loc_max: 19
+
+NODE: 739
+lcount: 3
+loc_max: 20
+
+NODE: 459
+lcount: 3
+loc_max: 21
+
+NODE: 1807
+lcount: 1
+loc_max: 22
+
+NODE: 2009
+lcount: 1
+loc_max: 22
+
+NODE: 1276
+lcount: 2
+loc_max: 21
+
+NODE: 2232
+lcount: 1
+loc_max: 22
+
+NODE: 1981
+lcount: 3
+loc_max: 20
+
+NODE: 141
+lcount: 2
+loc_max: 21
+
+NODE: 1650
+lcount: 1
+loc_max: 22
+
+NODE: 390
+lcount: 2
+loc_max: 21
+
+NODE: 125
+lcount: 1
+loc_max: 22
+
+NODE: 2180
+lcount: 2
+loc_max: 14
+
+NODE: 1173
+lcount: 3
+loc_max: 15
+
+NODE: 343
+lcount: 2
+loc_max: 16
+
+NODE: 2244
+lcount: 2
+loc_max: 17
+
+NODE: 1104
+lcount: 2
+loc_max: 18
+
+NODE: 2037
+lcount: 2
+loc_max: 19
+
+NODE: 773
+lcount: 3
+loc_max: 20
+
+NODE: 939
+lcount: 3
+loc_max: 21
+
+NODE: 548
+lcount: 1
+loc_max: 22
+
+NODE: 2203
+lcount: 1
+loc_max: 22
+
+NODE: 1218
+lcount: 2
+loc_max: 21
+
+NODE: 1756
+lcount: 1
+loc_max: 22
+
+NODE: 956
+lcount: 3
+loc_max: 16
+
+NODE: 1509
+lcount: 3
+loc_max: 17
+
+NODE: 84
+lcount: 3
+loc_max: 18
+
+NODE: 897
+lcount: 3
+loc_max: 19
+
+NODE: 1682
+lcount: 3
+loc_max: 20
+
+NODE: 1758
+lcount: 2
+loc_max: 21
+
+NODE: 154
+lcount: 1
+loc_max: 22
+
+NODE: 2245
+lcount: 3
+loc_max: 21
+
+NODE: 345
+lcount: 1
+loc_max: 22
+
+NODE: 528
+lcount: 1
+loc_max: 22
+
+NODE: 1846
+lcount: 2
+loc_max: 20
+
+NODE: 995
+lcount: 3
+loc_max: 21
+
+NODE: 1090
+lcount: 1
+loc_max: 22
+
+NODE: 2219
+lcount: 1
+loc_max: 22
+
+NODE: 929
+lcount: 2
+loc_max: 19
+
+NODE: 1941
+lcount: 2
+loc_max: 20
+
+NODE: 1135
+lcount: 2
+loc_max: 21
+
+NODE: 1299
+lcount: 1
+loc_max: 22
+
+NODE: 1196
+lcount: 2
+loc_max: 18
+
+NODE: 1504
+lcount: 3
+loc_max: 19
+
+NODE: 384
+lcount: 2
+loc_max: 20
+
+NODE: 2043
+lcount: 3
+loc_max: 21
+
+NODE: 47
+lcount: 1
+loc_max: 22
+
+NODE: 1326
+lcount: 1
+loc_max: 22
+
+NODE: 1224
+lcount: 2
+loc_max: 20
+
+NODE: 1759
+lcount: 2
+loc_max: 21
+
+NODE: 903
+lcount: 1
+loc_max: 22
+
+NODE: 2293
+lcount: 2
+loc_max: 17
+
+NODE: 1660
+lcount: 3
+loc_max: 18
+
+NODE: 866
+lcount: 2
+loc_max: 19
+
+NODE: 1416
+lcount: 2
+loc_max: 20
+
+NODE: 39
+lcount: 3
+loc_max: 21
+
+NODE: 1294
+lcount: 1
+loc_max: 22
+
+NODE: 1779
+lcount: 1
+loc_max: 22
+
+NODE: 2090
+lcount: 2
+loc_max: 19
+
+NODE: 1419
+lcount: 3
+loc_max: 20
+
+NODE: 335
+lcount: 2
+loc_max: 21
+
+NODE: 1646
+lcount: 1
+loc_max: 22
+
+NODE: 2255
+lcount: 2
+loc_max: 21
+
+NODE: 1526
+lcount: 1
+loc_max: 22
+
+NODE: 1409
+lcount: 2
+loc_max: 13
+
+NODE: 138
+lcount: 3
+loc_max: 14
+
+NODE: 785
+lcount: 2
+loc_max: 15
+
+NODE: 2120
+lcount: 2
+loc_max: 16
+
+NODE: 1158
+lcount: 3
+loc_max: 17
+
+NODE: 124
+lcount: 2
+loc_max: 18
+
+NODE: 164
+lcount: 3
+loc_max: 19
+
+NODE: 741
+lcount: 2
+loc_max: 20
+
+NODE: 286
+lcount: 2
+loc_max: 21
+
+NODE: 889
+lcount: 1
+loc_max: 22
+
+NODE: 1632
+lcount: 2
+loc_max: 20
+
+NODE: 872
+lcount: 3
+loc_max: 21
+
+NODE: 241
+lcount: 1
+loc_max: 22
+
+NODE: 1092
+lcount: 1
+loc_max: 22
+
+NODE: 990
+lcount: 2
+loc_max: 18
+
+NODE: 155
+lcount: 3
+loc_max: 19
+
+NODE: 1472
+lcount: 2
+loc_max: 20
+
+NODE: 1129
+lcount: 3
+loc_max: 21
+
+NODE: 556
+lcount: 1
+loc_max: 22
+
+NODE: 795
+lcount: 1
+loc_max: 22
+
+NODE: 2257
+lcount: 2
+loc_max: 20
+
+NODE: 756
+lcount: 3
+loc_max: 21
+
+NODE: 2063
+lcount: 1
+loc_max: 22
+
+NODE: 2080
+lcount: 1
+loc_max: 22
+
+NODE: 1291
+lcount: 3
+loc_max: 15
+
+NODE: 431
+lcount: 3
+loc_max: 16
+
+NODE: 3
+lcount: 3
+loc_max: 17
+
+NODE: 499
+lcount: 3
+loc_max: 18
+
+NODE: 595
+lcount: 3
+loc_max: 19
+
+NODE: 1367
+lcount: 3
+loc_max: 20
+
+NODE: 907
+lcount: 3
+loc_max: 21
+
+NODE: 609
+lcount: 1
+loc_max: 22
+
+NODE: 1352
+lcount: 1
+loc_max: 22
+
+NODE: 2110
+lcount: 3
+loc_max: 21
+
+NODE: 629
+lcount: 1
+loc_max: 22
+
+NODE: 1460
+lcount: 1
+loc_max: 22
+
+NODE: 2220
+lcount: 2
+loc_max: 20
+
+NODE: 2275
+lcount: 2
+loc_max: 21
+
+NODE: 64
+lcount: 1
+loc_max: 22
+
+NODE: 1064
+lcount: 3
+loc_max: 19
+
+NODE: 523
+lcount: 2
+loc_max: 20
+
+NODE: 1434
+lcount: 2
+loc_max: 21
+
+NODE: 2170
+lcount: 1
+loc_max: 22
+
+NODE: 1417
+lcount: 3
+loc_max: 20
+
+NODE: 299
+lcount: 2
+loc_max: 21
+
+NODE: 1463
+lcount: 1
+loc_max: 22
+
+NODE: 1511
+lcount: 3
+loc_max: 21
+
+NODE: 1408
+lcount: 1
+loc_max: 22
+
+NODE: 1719
+lcount: 1
+loc_max: 22
+
+NODE: 709
+lcount: 2
+loc_max: 18
+
+NODE: 23
+lcount: 3
+loc_max: 19
+
+NODE: 1279
+lcount: 3
+loc_max: 20
+
+NODE: 118
+lcount: 2
+loc_max: 21
+
+NODE: 194
+lcount: 1
+loc_max: 22
+
+NODE: 307
+lcount: 2
+loc_max: 21
+
+NODE: 351
+lcount: 1
+loc_max: 22
+
+NODE: 1990
+lcount: 3
+loc_max: 20
+
+NODE: 972
+lcount: 3
+loc_max: 21
+
+NODE: 338
+lcount: 1
+loc_max: 22
+
+NODE: 2036
+lcount: 1
+loc_max: 22
+
+NODE: 1505
+lcount: 2
+loc_max: 21
+
+NODE: 869
+lcount: 1
+loc_max: 22
+
+NODE: 1742
+lcount: 3
+loc_max: 17
+
+NODE: 315
+lcount: 3
+loc_max: 18
+
+NODE: 606
+lcount: 3
+loc_max: 19
+
+NODE: 892
+lcount: 2
+loc_max: 20
+
+NODE: 1642
+lcount: 2
+loc_max: 21
+
+NODE: 1686
+lcount: 1
+loc_max: 22
+
+NODE: 1687
+lcount: 2
+loc_max: 20
+
+NODE: 127
+lcount: 3
+loc_max: 21
+
+NODE: 557
+lcount: 1
+loc_max: 22
+
+NODE: 1063
+lcount: 1
+loc_max: 22
+
+NODE: 1770
+lcount: 2
+loc_max: 19
+
+NODE: 2274
+lcount: 3
+loc_max: 20
+
+NODE: 329
+lcount: 3
+loc_max: 21
+
+NODE: 1079
+lcount: 1
+loc_max: 22
+
+NODE: 1578
+lcount: 1
+loc_max: 22
+
+NODE: 1863
+lcount: 2
+loc_max: 21
+
+NODE: 1520
+lcount: 1
+loc_max: 22
+
+NODE: 727
+lcount: 2
+loc_max: 18
+
+NODE: 1194
+lcount: 3
+loc_max: 19
+
+NODE: 438
+lcount: 2
+loc_max: 20
+
+NODE: 34
+lcount: 3
+loc_max: 21
+
+NODE: 245
+lcount: 1
+loc_max: 22
+
+NODE: 1027
+lcount: 1
+loc_max: 22
+
+NODE: 569
+lcount: 2
+loc_max: 20
+
+NODE: 1700
+lcount: 3
+loc_max: 21
+
+NODE: 133
+lcount: 1
+loc_max: 22
+
+NODE: 1171
+lcount: 1
+loc_max: 22
+
+NODE: 1034
+lcount: 3
+loc_max: 16
+
+NODE: 30
+lcount: 3
+loc_max: 17
+
+NODE: 1357
+lcount: 2
+loc_max: 18
+
+NODE: 60
+lcount: 2
+loc_max: 19
+
+NODE: 1711
+lcount: 2
+loc_max: 20
+
+NODE: 946
+lcount: 3
+loc_max: 21
+
+NODE: 85
+lcount: 1
+loc_max: 22
+
+NODE: 153
+lcount: 1
+loc_max: 22
+
+NODE: 1829
+lcount: 3
+loc_max: 18
+
+NODE: 538
+lcount: 2
+loc_max: 19
+
+NODE: 1
+lcount: 2
+loc_max: 20
+
+NODE: 38
+lcount: 3
+loc_max: 21
+
+NODE: 730
+lcount: 1
+loc_max: 22
+
+NODE: 1916
+lcount: 1
+loc_max: 22
+
+NODE: 1625
+lcount: 3
+loc_max: 19
+
+NODE: 421
+lcount: 3
+loc_max: 20
+
+NODE: 1393
+lcount: 3
+loc_max: 21
+
+NODE: 244
+lcount: 1
+loc_max: 22
+
+NODE: 2265
+lcount: 1
+loc_max: 22
+
+NODE: 1556
+lcount: 3
+loc_max: 21
+
+NODE: 1744
+lcount: 1
+loc_max: 22
+
+NODE: 1973
+lcount: 1
+loc_max: 22
+
+NODE: 962
+lcount: 2
+loc_max: 20
+
+NODE: 978
+lcount: 2
+loc_max: 21
+
+NODE: 419
+lcount: 1
+loc_max: 22
+
+NODE: 823
+lcount: 3
+loc_max: 17
+
+NODE: 41
+lcount: 2
+loc_max: 18
+
+NODE: 159
+lcount: 3
+loc_max: 19
+
+NODE: 102
+lcount: 2
+loc_max: 20
+
+NODE: 369
+lcount: 2
+loc_max: 21
+
+NODE: 1648
+lcount: 1
+loc_max: 22
+
+NODE: 2097
+lcount: 3
+loc_max: 20
+
+NODE: 1286
+lcount: 2
+loc_max: 21
+
+NODE: 979
+lcount: 1
+loc_max: 22
+
+NODE: 1989
+lcount: 3
+loc_max: 21
+
+NODE: 2029
+lcount: 1
+loc_max: 22
+
+NODE: 2259
+lcount: 1
+loc_max: 22
+
+NODE: 746
+lcount: 2
+loc_max: 18
+
+NODE: 1862
+lcount: 3
+loc_max: 19
+
+NODE: 543
+lcount: 3
+loc_max: 20
+
+NODE: 2059
+lcount: 3
+loc_max: 21
+
+NODE: 213
+lcount: 1
+loc_max: 22
+
+NODE: 2139
+lcount: 1
+loc_max: 22
+
+NODE: 2298
+lcount: 2
+loc_max: 21
+
+NODE: 1896
+lcount: 1
+loc_max: 22
+
+NODE: 1012
+lcount: 2
+loc_max: 20
+
+NODE: 1819
+lcount: 3
+loc_max: 21
+
+NODE: 1046
+lcount: 1
+loc_max: 22
+
+NODE: 1894
+lcount: 1
+loc_max: 22
+
+NODE: 1037
+lcount: 2
+loc_max: 12
+
+NODE: 1055
+lcount: 2
+loc_max: 13
+
+NODE: 787
+lcount: 2
+loc_max: 14
+
+NODE: 949
+lcount: 2
+loc_max: 15
+
+NODE: 1567
+lcount: 2
+loc_max: 16
+
+NODE: 1121
+lcount: 3
+loc_max: 17
+
+NODE: 867
+lcount: 2
+loc_max: 18
+
+NODE: 991
+lcount: 2
+loc_max: 19
+
+NODE: 484
+lcount: 3
+loc_max: 20
+
+NODE: 661
+lcount: 3
+loc_max: 21
+
+NODE: 1599
+lcount: 1
+loc_max: 22
+
+NODE: 2106
+lcount: 1
+loc_max: 22
+
+NODE: 1886
+lcount: 2
+loc_max: 21
+
+NODE: 1125
+lcount: 1
+loc_max: 22
+
+NODE: 1957
+lcount: 3
+loc_max: 18
+
+NODE: 94
+lcount: 3
+loc_max: 19
+
+NODE: 1136
+lcount: 3
+loc_max: 20
+
+NODE: 682
+lcount: 3
+loc_max: 21
+
+NODE: 2
+lcount: 1
+loc_max: 22
+
+NODE: 2252
+lcount: 1
+loc_max: 22
+
+NODE: 1786
+lcount: 2
+loc_max: 21
+
+NODE: 1106
+lcount: 1
+loc_max: 22
+
+NODE: 1192
+lcount: 3
+loc_max: 20
+
+NODE: 969
+lcount: 2
+loc_max: 21
+
+NODE: 943
+lcount: 1
+loc_max: 22
+
+NODE: 1444
+lcount: 3
+loc_max: 21
+
+NODE: 425
+lcount: 1
+loc_max: 22
+
+NODE: 776
+lcount: 1
+loc_max: 22
+
+NODE: 106
+lcount: 2
+loc_max: 19
+
+NODE: 487
+lcount: 3
+loc_max: 20
+
+NODE: 10
+lcount: 2
+loc_max: 21
+
+NODE: 626
+lcount: 1
+loc_max: 22
+
+NODE: 684
+lcount: 3
+loc_max: 21
+
+NODE: 1023
+lcount: 1
+loc_max: 22
+
+NODE: 1116
+lcount: 1
+loc_max: 22
+
+NODE: 1547
+lcount: 2
+loc_max: 10
+
+NODE: 1610
+lcount: 3
+loc_max: 11
+
+NODE: 1852
+lcount: 3
+loc_max: 12
+
+NODE: 192
+lcount: 3
+loc_max: 13
+
+NODE: 65
+lcount: 2
+loc_max: 14
+
+NODE: 1127
+lcount: 3
+loc_max: 15
+
+NODE: 1403
+lcount: 2
+loc_max: 16
+
+NODE: 312
+lcount: 3
+loc_max: 17
+
+NODE: 303
+lcount: 3
+loc_max: 18
+
+NODE: 7
+lcount: 3
+loc_max: 19
+
+NODE: 1428
+lcount: 2
+loc_max: 20
+
+NODE: 1694
+lcount: 2
+loc_max: 21
+
+NODE: 603
+lcount: 1
+loc_max: 22
+
+NODE: 2285
+lcount: 2
+loc_max: 20
+
+NODE: 1102
+lcount: 2
+loc_max: 21
+
+NODE: 1198
+lcount: 1
+loc_max: 22
+
+NODE: 1479
+lcount: 2
+loc_max: 19
+
+NODE: 511
+lcount: 2
+loc_max: 20
+
+NODE: 1395
+lcount: 2
+loc_max: 21
+
+NODE: 1858
+lcount: 1
+loc_max: 22
+
+NODE: 1977
+lcount: 3
+loc_max: 18
+
+NODE: 699
+lcount: 2
+loc_max: 19
+
+NODE: 1322
+lcount: 2
+loc_max: 20
+
+NODE: 764
+lcount: 3
+loc_max: 21
+
+NODE: 1476
+lcount: 1
+loc_max: 22
+
+NODE: 1588
+lcount: 1
+loc_max: 22
+
+NODE: 768
+lcount: 2
+loc_max: 19
+
+NODE: 361
+lcount: 2
+loc_max: 20
+
+NODE: 2111
+lcount: 3
+loc_max: 21
+
+NODE: 670
+lcount: 1
+loc_max: 22
+
+NODE: 878
+lcount: 1
+loc_max: 22
+
+NODE: 1489
+lcount: 2
+loc_max: 16
+
+NODE: 1431
+lcount: 2
+loc_max: 17
+
+NODE: 1942
+lcount: 3
+loc_max: 18
+
+NODE: 711
+lcount: 3
+loc_max: 19
+
+NODE: 1959
+lcount: 3
+loc_max: 20
+
+NODE: 1004
+lcount: 2
+loc_max: 21
+
+NODE: 1244
+lcount: 1
+loc_max: 22
+
+NODE: 2114
+lcount: 3
+loc_max: 21
+
+NODE: 767
+lcount: 1
+loc_max: 22
+
+NODE: 1572
+lcount: 1
+loc_max: 22
+
+NODE: 2290
+lcount: 3
+loc_max: 20
+
+NODE: 1041
+lcount: 2
+loc_max: 21
+
+NODE: 1421
+lcount: 1
+loc_max: 22
+
+NODE: 1540
+lcount: 3
+loc_max: 21
+
+NODE: 1002
+lcount: 1
+loc_max: 22
+
+NODE: 2196
+lcount: 1
+loc_max: 22
+
+NODE: 1573
+lcount: 3
+loc_max: 19
+
+NODE: 608
+lcount: 3
+loc_max: 20
+
+NODE: 1124
+lcount: 2
+loc_max: 21
+
+NODE: 1637
+lcount: 1
+loc_max: 22
+
+NODE: 1595
+lcount: 3
+loc_max: 21
+
+NODE: 1550
+lcount: 1
+loc_max: 22
+
+NODE: 1907
+lcount: 1
+loc_max: 22
+
+NODE: 663
+lcount: 2
+loc_max: 20
+
+NODE: 1835
+lcount: 3
+loc_max: 21
+
+NODE: 130
+lcount: 1
+loc_max: 22
+
+NODE: 277
+lcount: 1
+loc_max: 22
+
+NODE: 516
+lcount: 2
+loc_max: 14
+
+NODE: 107
+lcount: 3
+loc_max: 15
+
+NODE: 509
+lcount: 2
+loc_max: 16
+
+NODE: 1878
+lcount: 3
+loc_max: 17
+
+NODE: 535
+lcount: 3
+loc_max: 18
+
+NODE: 76
+lcount: 3
+loc_max: 19
+
+NODE: 363
+lcount: 2
+loc_max: 20
+
+NODE: 2134
+lcount: 2
+loc_max: 21
+
+NODE: 1988
+lcount: 1
+loc_max: 22
+
+NODE: 617
+lcount: 2
+loc_max: 20
+
+NODE: 885
+lcount: 3
+loc_max: 21
+
+NODE: 174
+lcount: 1
+loc_max: 22
+
+NODE: 2206
+lcount: 1
+loc_max: 22
+
+NODE: 534
+lcount: 2
+loc_max: 19
+
+NODE: 177
+lcount: 2
+loc_max: 20
+
+NODE: 2044
+lcount: 2
+loc_max: 21
+
+NODE: 346
+lcount: 1
+loc_max: 22
+
+NODE: 2072
+lcount: 3
+loc_max: 18
+
+NODE: 1230
+lcount: 3
+loc_max: 19
+
+NODE: 378
+lcount: 2
+loc_max: 20
+
+NODE: 1624
+lcount: 2
+loc_max: 21
+
+NODE: 871
+lcount: 1
+loc_max: 22
+
+NODE: 1723
+lcount: 2
+loc_max: 20
+
+NODE: 1086
+lcount: 3
+loc_max: 21
+
+NODE: 145
+lcount: 1
+loc_max: 22
+
+NODE: 1972
+lcount: 1
+loc_max: 22
+
+NODE: 2273
+lcount: 2
+loc_max: 19
+
+NODE: 1039
+lcount: 3
+loc_max: 20
+
+NODE: 504
+lcount: 3
+loc_max: 21
+
+NODE: 449
+lcount: 1
+loc_max: 22
+
+NODE: 951
+lcount: 1
+loc_max: 22
+
+NODE: 588
+lcount: 3
+loc_max: 21
+
+NODE: 82
+lcount: 1
+loc_max: 22
+
+NODE: 1640
+lcount: 1
+loc_max: 22
+
+NODE: 597
+lcount: 3
+loc_max: 16
+
+NODE: 237
+lcount: 3
+loc_max: 17
+
+NODE: 1193
+lcount: 2
+loc_max: 18
+
+NODE: 156
+lcount: 2
+loc_max: 19
+
+NODE: 1370
+lcount: 3
+loc_max: 20
+
+NODE: 789
+lcount: 2
+loc_max: 21
+
+NODE: 742
+lcount: 1
+loc_max: 22
+
+NODE: 910
+lcount: 3
+loc_max: 21
+
+NODE: 718
+lcount: 1
+loc_max: 22
+
+NODE: 2004
+lcount: 1
+loc_max: 22
+
+NODE: 2214
+lcount: 2
+loc_max: 18
+
+NODE: 219
+lcount: 3
+loc_max: 19
+
+NODE: 261
+lcount: 2
+loc_max: 20
+
+NODE: 1782
+lcount: 2
+loc_max: 21
+
+NODE: 1146
+lcount: 1
+loc_max: 22
+
+NODE: 324
+lcount: 2
+loc_max: 20
+
+NODE: 1047
+lcount: 2
+loc_max: 21
+
+NODE: 1791
+lcount: 1
+loc_max: 22
+
+NODE: 2085
+lcount: 3
+loc_max: 17
+
+NODE: 725
+lcount: 3
+loc_max: 18
+
+NODE: 311
+lcount: 3
+loc_max: 19
+
+NODE: 975
+lcount: 3
+loc_max: 20
+
+NODE: 1362
+lcount: 3
+loc_max: 21
+
+NODE: 168
+lcount: 1
+loc_max: 22
+
+NODE: 1739
+lcount: 1
+loc_max: 22
+
+NODE: 1672
+lcount: 3
+loc_max: 21
+
+NODE: 1319
+lcount: 1
+loc_max: 22
+
+NODE: 1803
+lcount: 1
+loc_max: 22
+
+NODE: 1303
+lcount: 3
+loc_max: 20
+
+NODE: 1241
+lcount: 2
+loc_max: 21
+
+NODE: 1795
+lcount: 1
+loc_max: 22
+
+NODE: 1441
+lcount: 3
+loc_max: 21
+
+NODE: 635
+lcount: 1
+loc_max: 22
+
+NODE: 1843
+lcount: 1
+loc_max: 22
+
+NODE: 2093
+lcount: 2
+loc_max: 19
+
+NODE: 1847
+lcount: 3
+loc_max: 20
+
+NODE: 12
+lcount: 2
+loc_max: 21
+
+NODE: 813
+lcount: 1
+loc_max: 22
+
+NODE: 999
+lcount: 2
+loc_max: 21
+
+NODE: 786
+lcount: 1
+loc_max: 22
+
+NODE: 1199
+lcount: 2
+loc_max: 18
+
+NODE: 2030
+lcount: 3
+loc_max: 19
+
+NODE: 1523
+lcount: 2
+loc_max: 20
+
+NODE: 1813
+lcount: 3
+loc_max: 21
+
+NODE: 249
+lcount: 1
+loc_max: 22
+
+NODE: 258
+lcount: 1
+loc_max: 22
+
+NODE: 1715
+lcount: 3
+loc_max: 20
+
+NODE: 708
+lcount: 3
+loc_max: 21
+
+NODE: 599
+lcount: 1
+loc_max: 22
+
+NODE: 1355
+lcount: 1
+loc_max: 22
+
+NODE: 2055
+lcount: 3
+loc_max: 21
+
+NODE: 506
+lcount: 1
+loc_max: 22
+
+NODE: 1278
+lcount: 1
+loc_max: 22
+
+NODE: 1885
+lcount: 3
+loc_max: 13
+
+NODE: 497
+lcount: 2
+loc_max: 14
+
+NODE: 453
+lcount: 3
+loc_max: 15
+
+NODE: 49
+lcount: 2
+loc_max: 16
+
+NODE: 283
+lcount: 3
+loc_max: 17
+
+NODE: 37
+lcount: 2
+loc_max: 18
+
+NODE: 362
+lcount: 3
+loc_max: 19
+
+NODE: 940
+lcount: 3
+loc_max: 20
+
+NODE: 1111
+lcount: 3
+loc_max: 21
+
+NODE: 1283
+lcount: 1
+loc_max: 22
+
+NODE: 1804
+lcount: 1
+loc_max: 22
+
+NODE: 1201
+lcount: 2
+loc_max: 21
+
+NODE: 1287
+lcount: 1
+loc_max: 22
+
+NODE: 1209
+lcount: 3
+loc_max: 20
+
+NODE: 103
+lcount: 2
+loc_max: 21
+
+NODE: 340
+lcount: 1
+loc_max: 22
+
+NODE: 214
+lcount: 2
+loc_max: 21
+
+NODE: 1258
+lcount: 1
+loc_max: 22
+
+NODE: 874
+lcount: 3
+loc_max: 18
+
+NODE: 919
+lcount: 2
+loc_max: 19
+
+NODE: 190
+lcount: 3
+loc_max: 20
+
+NODE: 770
+lcount: 3
+loc_max: 21
+
+NODE: 1187
+lcount: 1
+loc_max: 22
+
+NODE: 1842
+lcount: 1
+loc_max: 22
+
+NODE: 1331
+lcount: 2
+loc_max: 21
+
+NODE: 784
+lcount: 1
+loc_max: 22
+
+NODE: 1164
+lcount: 2
+loc_max: 19
+
+NODE: 2068
+lcount: 3
+loc_max: 20
+
+NODE: 250
+lcount: 2
+loc_max: 21
+
+NODE: 816
+lcount: 1
+loc_max: 22
+
+NODE: 2212
+lcount: 3
+loc_max: 21
+
+NODE: 590
+lcount: 1
+loc_max: 22
+
+NODE: 1248
+lcount: 1
+loc_max: 22
+
+NODE: 1929
+lcount: 3
+loc_max: 16
+
+NODE: 1826
+lcount: 2
+loc_max: 17
+
+NODE: 800
+lcount: 2
+loc_max: 18
+
+NODE: 180
+lcount: 3
+loc_max: 19
+
+NODE: 964
+lcount: 3
+loc_max: 20
+
+NODE: 1267
+lcount: 2
+loc_max: 21
+
+NODE: 240
+lcount: 1
+loc_max: 22
+
+NODE: 1323
+lcount: 2
+loc_max: 21
+
+NODE: 851
+lcount: 1
+loc_max: 22
+
+NODE: 1630
+lcount: 3
+loc_max: 20
+
+NODE: 729
+lcount: 3
+loc_max: 21
+
+NODE: 1536
+lcount: 1
+loc_max: 22
+
+NODE: 1574
+lcount: 1
+loc_max: 22
+
+NODE: 2210
+lcount: 2
+loc_max: 21
+
+NODE: 1809
+lcount: 1
+loc_max: 22
+
+NODE: 2209
+lcount: 2
+loc_max: 17
+
+NODE: 1581
+lcount: 2
+loc_max: 18
+
+NODE: 797
+lcount: 2
+loc_max: 19
+
+NODE: 834
+lcount: 3
+loc_max: 20
+
+NODE: 618
+lcount: 3
+loc_max: 21
+
+NODE: 81
+lcount: 1
+loc_max: 22
+
+NODE: 1816
+lcount: 1
+loc_max: 22
+
+NODE: 1140
+lcount: 2
+loc_max: 21
+
+NODE: 24
+lcount: 1
+loc_max: 22
+
+NODE: 1281
+lcount: 3
+loc_max: 14
+
+NODE: 578
+lcount: 2
+loc_max: 15
+
+NODE: 1940
+lcount: 2
+loc_max: 16
+
+NODE: 757
+lcount: 3
+loc_max: 17
+
+NODE: 1399
+lcount: 2
+loc_max: 18
+
+NODE: 1495
+lcount: 3
+loc_max: 19
+
+NODE: 850
+lcount: 2
+loc_max: 20
+
+NODE: 488
+lcount: 2
+loc_max: 21
+
+NODE: 396
+lcount: 1
+loc_max: 22
+
+NODE: 1366
+lcount: 3
+loc_max: 20
+
+NODE: 769
+lcount: 3
+loc_max: 21
+
+NODE: 17
+lcount: 1
+loc_max: 22
+
+NODE: 352
+lcount: 1
+loc_max: 22
+
+NODE: 2018
+lcount: 2
+loc_max: 21
+
+NODE: 2060
+lcount: 1
+loc_max: 22
+
+NODE: 1627
+lcount: 3
+loc_max: 18
+
+NODE: 477
+lcount: 3
+loc_max: 19
+
+NODE: 875
+lcount: 2
+loc_max: 20
+
+NODE: 471
+lcount: 2
+loc_max: 21
+
+NODE: 886
+lcount: 1
+loc_max: 22
+
+NODE: 1101
+lcount: 3
+loc_max: 20
+
+NODE: 423
+lcount: 2
+loc_max: 21
+
+NODE: 743
+lcount: 1
+loc_max: 22
+
+NODE: 1126
+lcount: 2
+loc_max: 21
+
+NODE: 2184
+lcount: 1
+loc_max: 22
+
+NODE: 638
+lcount: 2
+loc_max: 19
+
+NODE: 1082
+lcount: 3
+loc_max: 20
+
+NODE: 645
+lcount: 2
+loc_max: 21
+
+NODE: 2230
+lcount: 1
+loc_max: 22
+
+NODE: 1251
+lcount: 3
+loc_max: 21
+
+NODE: 259
+lcount: 1
+loc_max: 22
+
+NODE: 750
+lcount: 1
+loc_max: 22
+
+NODE: 1446
+lcount: 3
+loc_max: 15
+
+NODE: 1432
+lcount: 3
+loc_max: 16
+
+NODE: 1261
+lcount: 3
+loc_max: 17
+
+NODE: 434
+lcount: 2
+loc_max: 18
+
+NODE: 847
+lcount: 2
+loc_max: 19
+
+NODE: 1469
+lcount: 3
+loc_max: 20
+
+NODE: 814
+lcount: 2
+loc_max: 21
+
+NODE: 364
+lcount: 1
+loc_max: 22
+
+NODE: 1893
+lcount: 3
+loc_max: 21
+
+NODE: 1433
+lcount: 1
+loc_max: 22
+
+NODE: 2271
+lcount: 1
+loc_max: 22
+
+NODE: 1151
+lcount: 3
+loc_max: 18
+
+NODE: 602
+lcount: 3
+loc_max: 19
+
+NODE: 586
+lcount: 2
+loc_max: 20
+
+NODE: 622
+lcount: 3
+loc_max: 21
+
+NODE: 812
+lcount: 1
+loc_max: 22
+
+NODE: 855
+lcount: 1
+loc_max: 22
+
+NODE: 736
+lcount: 2
+loc_max: 20
+
+NODE: 779
+lcount: 3
+loc_max: 21
+
+NODE: 1647
+lcount: 1
+loc_max: 22
+
+NODE: 2304
+lcount: 1
+loc_max: 22
+
+NODE: 649
+lcount: 2
+loc_max: 19
+
+NODE: 1081
+lcount: 2
+loc_max: 20
+
+NODE: 2292
+lcount: 2
+loc_max: 21
+
+NODE: 574
+lcount: 1
+loc_max: 22
+
+NODE: 1839
+lcount: 3
+loc_max: 17
+
+NODE: 1379
+lcount: 2
+loc_max: 18
+
+NODE: 801
+lcount: 2
+loc_max: 19
+
+NODE: 350
+lcount: 2
+loc_max: 20
+
+NODE: 148
+lcount: 2
+loc_max: 21
+
+NODE: 1613
+lcount: 1
+loc_max: 22
+
+NODE: 1856
+lcount: 3
+loc_max: 18
+
+NODE: 289
+lcount: 3
+loc_max: 19
+
+NODE: 1507
+lcount: 3
+loc_max: 20
+
+NODE: 765
+lcount: 3
+loc_max: 21
+
+NODE: 316
+lcount: 1
+loc_max: 22
+
+NODE: 2191
+lcount: 1
+loc_max: 22
+
+NODE: 1448
+lcount: 3
+loc_max: 21
+
+NODE: 263
+lcount: 1
+loc_max: 22
+
+NODE: 1318
+lcount: 1
+loc_max: 22
+
+NODE: 2065
+lcount: 3
+loc_max: 20
+
+NODE: 231
+lcount: 3
+loc_max: 21
+
+NODE: 808
+lcount: 1
+loc_max: 22
+
+NODE: 1597
+lcount: 1
+loc_max: 22
+
+NODE: 377
+lcount: 3
+loc_max: 21
+
+NODE: 228
+lcount: 1
+loc_max: 22
+
+NODE: 1304
+lcount: 1
+loc_max: 22
+
+NODE: 1353
+lcount: 2
+loc_max: 19
+
+NODE: 275
+lcount: 2
+loc_max: 20
+
+NODE: 2154
+lcount: 2
+loc_max: 21
+
+NODE: 305
+lcount: 1
+loc_max: 22
+
+NODE: 1983
+lcount: 3
+loc_max: 16
+
+NODE: 1410
+lcount: 2
+loc_max: 17
+
+NODE: 687
+lcount: 2
+loc_max: 18
+
+NODE: 1493
+lcount: 3
+loc_max: 19
+
+NODE: 304
+lcount: 2
+loc_max: 20
+
+NODE: 1731
+lcount: 3
+loc_max: 21
+
+NODE: 641
+lcount: 1
+loc_max: 22
+
+NODE: 961
+lcount: 1
+loc_max: 22
+
+NODE: 1925
+lcount: 3
+loc_max: 20
+
+NODE: 598
+lcount: 2
+loc_max: 21
+
+NODE: 1010
+lcount: 1
+loc_max: 22
+
+NODE: 1440
+lcount: 3
+loc_max: 21
+
+NODE: 772
+lcount: 1
+loc_max: 22
+
+NODE: 1638
+lcount: 1
+loc_max: 22
+
+NODE: 1696
+lcount: 2
+loc_max: 17
+
+NODE: 330
+lcount: 2
+loc_max: 18
+
+NODE: 2162
+lcount: 3
+loc_max: 19
+
+NODE: 256
+lcount: 2
+loc_max: 20
+
+NODE: 1049
+lcount: 2
+loc_max: 21
+
+NODE: 1912
+lcount: 1
+loc_max: 22
+
+NODE: 1888
+lcount: 3
+loc_max: 20
+
+NODE: 218
+lcount: 3
+loc_max: 21
+
+NODE: 780
+lcount: 1
+loc_max: 22
+
+NODE: 1664
+lcount: 1
+loc_max: 22
+
+NODE: 1498
+lcount: 3
+loc_max: 21
+
+NODE: 193
+lcount: 1
+loc_max: 22
+
+NODE: 1639
+lcount: 1
+loc_max: 22
+
+NODE: 1901
+lcount: 3
+loc_max: 12
+
+NODE: 268
+lcount: 2
+loc_max: 13
+
+NODE: 1502
+lcount: 2
+loc_max: 14
+
+NODE: 247
+lcount: 2
+loc_max: 15
+
+NODE: 1666
+lcount: 2
+loc_max: 16
+
+NODE: 585
+lcount: 3
+loc_max: 17
+
+NODE: 896
+lcount: 2
+loc_max: 18
+
+NODE: 581
+lcount: 2
+loc_max: 19
+
+NODE: 1390
+lcount: 3
+loc_max: 20
+
+NODE: 1065
+lcount: 3
+loc_max: 21
+
+NODE: 481
+lcount: 1
+loc_max: 22
+
+NODE: 1851
+lcount: 1
+loc_max: 22
+
+NODE: 1354
+lcount: 3
+loc_max: 21
+
+NODE: 101
+lcount: 1
+loc_max: 22
+
+NODE: 493
+lcount: 1
+loc_max: 22
+
+NODE: 1080
+lcount: 2
+loc_max: 18
+
+NODE: 373
+lcount: 2
+loc_max: 19
+
+NODE: 1958
+lcount: 2
+loc_max: 20
+
+NODE: 2116
+lcount: 3
+loc_max: 21
+
+NODE: 1247
+lcount: 1
+loc_max: 22
+
+NODE: 1794
+lcount: 1
+loc_max: 22
+
+NODE: 2213
+lcount: 2
+loc_max: 13
+
+NODE: 992
+lcount: 3
+loc_max: 14
+
+NODE: 1381
+lcount: 2
+loc_max: 15
+
+NODE: 525
+lcount: 3
+loc_max: 16
+
+NODE: 288
+lcount: 3
+loc_max: 17
+
+NODE: 1030
+lcount: 3
+loc_max: 18
+
+NODE: 1088
+lcount: 2
+loc_max: 19
+
+NODE: 2248
+lcount: 2
+loc_max: 20
+
+NODE: 1592
+lcount: 3
+loc_max: 21
+
+NODE: 36
+lcount: 1
+loc_max: 22
+
+NODE: 625
+lcount: 1
+loc_max: 22
+
+NODE: 1763
+lcount: 3
+loc_max: 19
+
+NODE: 108
+lcount: 2
+loc_max: 20
+
+NODE: 807
+lcount: 2
+loc_max: 21
+
+NODE: 1591
+lcount: 1
+loc_max: 22
+
+NODE: 566
+lcount: 2
+loc_max: 20
+
+NODE: 326
+lcount: 2
+loc_max: 21
+
+NODE: 2086
+lcount: 1
+loc_max: 22
+
+NODE: 2264
+lcount: 3
+loc_max: 18
+
+NODE: 1903
+lcount: 3
+loc_max: 19
+
+NODE: 13
+lcount: 2
+loc_max: 20
+
+NODE: 1293
+lcount: 2
+loc_max: 21
+
+NODE: 1726
+lcount: 1
+loc_max: 22
+
+NODE: 1035
+lcount: 3
+loc_max: 20
+
+NODE: 1176
+lcount: 2
+loc_max: 21
+
+NODE: 1052
+lcount: 1
+loc_max: 22
+
+NODE: 2117
+lcount: 2
+loc_max: 21
+
+NODE: 1384
+lcount: 1
+loc_max: 22
+
+NODE: 2187
+lcount: 3
+loc_max: 19
+
+NODE: 48
+lcount: 2
+loc_max: 20
+
+NODE: 2024
+lcount: 2
+loc_max: 21
+
+NODE: 88
+lcount: 1
+loc_max: 22
+
+NODE: 1542
+lcount: 3
+loc_max: 20
+
+NODE: 455
+lcount: 2
+loc_max: 21
+
+NODE: 1548
+lcount: 1
+loc_max: 22
+
+NODE: 1964
+lcount: 3
+loc_max: 21
+
+NODE: 1538
+lcount: 1
+loc_max: 22
+
+NODE: 1802
+lcount: 1
+loc_max: 22
+
+NODE: 859
+lcount: 3
+loc_max: 17
+
+NODE: 273
+lcount: 3
+loc_max: 18
+
+NODE: 561
+lcount: 3
+loc_max: 19
+
+NODE: 97
+lcount: 2
+loc_max: 20
+
+NODE: 931
+lcount: 3
+loc_max: 21
+
+NODE: 591
+lcount: 1
+loc_max: 22
+
+NODE: 614
+lcount: 1
+loc_max: 22
+
+NODE: 2087
+lcount: 2
+loc_max: 20
+
+NODE: 2261
+lcount: 3
+loc_max: 21
+
+NODE: 665
+lcount: 1
+loc_max: 22
+
+NODE: 1561
+lcount: 1
+loc_max: 22
+
+NODE: 639
+lcount: 3
+loc_max: 19
+
+NODE: 998
+lcount: 3
+loc_max: 20
+
+NODE: 702
+lcount: 3
+loc_max: 21
+
+NODE: 1204
+lcount: 1
+loc_max: 22
+
+NODE: 2071
+lcount: 1
+loc_max: 22
+
+NODE: 2242
+lcount: 3
+loc_max: 21
+
+NODE: 360
+lcount: 1
+loc_max: 22
+
+NODE: 974
+lcount: 1
+loc_max: 22
+
+NODE: 1869
+lcount: 2
+loc_max: 20
+
+NODE: 1070
+lcount: 2
+loc_max: 21
+
+NODE: 1765
+lcount: 1
+loc_max: 22
+
+NODE: 1867
+lcount: 2
+loc_max: 18
+
+NODE: 1917
+lcount: 3
+loc_max: 19
+
+NODE: 1604
+lcount: 3
+loc_max: 20
+
+NODE: 31
+lcount: 2
+loc_max: 21
+
+NODE: 1892
+lcount: 1
+loc_max: 22
+
+NODE: 1593
+lcount: 2
+loc_max: 21
+
+NODE: 86
+lcount: 1
+loc_max: 22
+
+NODE: 1971
+lcount: 3
+loc_max: 20
+
+NODE: 701
+lcount: 3
+loc_max: 21
+
+NODE: 271
+lcount: 1
+loc_max: 22
+
+NODE: 890
+lcount: 1
+loc_max: 22
+
+NODE: 1883
+lcount: 3
+loc_max: 21
+
+NODE: 126
+lcount: 1
+loc_max: 22
+
+NODE: 1559
+lcount: 1
+loc_max: 22
+
+NODE: 1825
+lcount: 3
+loc_max: 15
+
+NODE: 1150
+lcount: 2
+loc_max: 16
+
+NODE: 1584
+lcount: 3
+loc_max: 17
+
+NODE: 915
+lcount: 3
+loc_max: 18
+
+NODE: 1112
+lcount: 2
+loc_max: 19
+
+NODE: 792
+lcount: 2
+loc_max: 20
+
+NODE: 435
+lcount: 3
+loc_max: 21
+
+NODE: 637
+lcount: 1
+loc_max: 22
+
+NODE: 2223
+lcount: 1
+loc_max: 22
+
+NODE: 1688
+lcount: 3
+loc_max: 19
+
+NODE: 1792
+lcount: 3
+loc_max: 20
+
+NODE: 1406
+lcount: 3
+loc_max: 21
+
+NODE: 456
+lcount: 1
+loc_max: 22
+
+NODE: 680
+lcount: 1
+loc_max: 22
+
+NODE: 1414
+lcount: 2
+loc_max: 21
+
+NODE: 1635
+lcount: 1
+loc_max: 22
+
+NODE: 2052
+lcount: 3
+loc_max: 20
+
+NODE: 131
+lcount: 2
+loc_max: 21
+
+NODE: 169
+lcount: 1
+loc_max: 22
+
+NODE: 1921
+lcount: 2
+loc_max: 21
+
+NODE: 1340
+lcount: 1
+loc_max: 22
+
+NODE: 1266
+lcount: 2
+loc_max: 18
+
+NODE: 1512
+lcount: 2
+loc_max: 19
+
+NODE: 817
+lcount: 2
+loc_max: 20
+
+NODE: 269
+lcount: 2
+loc_max: 21
+
+NODE: 5
+lcount: 1
+loc_max: 22
+
+NODE: 1546
+lcount: 3
+loc_max: 16
+
+NODE: 386
+lcount: 3
+loc_max: 17
+
+NODE: 201
+lcount: 2
+loc_max: 18
+
+NODE: 70
+lcount: 2
+loc_max: 19
+
+NODE: 467
+lcount: 3
+loc_max: 20
+
+NODE: 804
+lcount: 2
+loc_max: 21
+
+NODE: 1429
+lcount: 1
+loc_max: 22
+
+NODE: 1514
+lcount: 3
+loc_max: 21
+
+NODE: 794
+lcount: 1
+loc_max: 22
+
+NODE: 1920
+lcount: 1
+loc_max: 22
+
+NODE: 1709
+lcount: 2
+loc_max: 18
+
+NODE: 846
+lcount: 3
+loc_max: 19
+
+NODE: 1045
+lcount: 2
+loc_max: 20
+
+NODE: 1231
+lcount: 2
+loc_max: 21
+
+NODE: 251
+lcount: 1
+loc_max: 22
+
+NODE: 1665
+lcount: 3
+loc_max: 20
+
+NODE: 1298
+lcount: 3
+loc_max: 21
+
+NODE: 276
+lcount: 1
+loc_max: 22
+
+NODE: 1545
+lcount: 1
+loc_max: 22
+
+NODE: 1590
+lcount: 2
+loc_max: 21
+
+NODE: 2057
+lcount: 1
+loc_max: 22
+
+NODE: 922
+lcount: 3
+loc_max: 17
+
+NODE: 1167
+lcount: 2
+loc_max: 18
+
+NODE: 1181
+lcount: 2
+loc_max: 19
+
+NODE: 676
+lcount: 2
+loc_max: 20
+
+NODE: 1071
+lcount: 2
+loc_max: 21
+
+NODE: 1579
+lcount: 1
+loc_max: 22
+
+NODE: 1789
+lcount: 2
+loc_max: 18
+
+NODE: 1093
+lcount: 3
+loc_max: 19
+
+NODE: 612
+lcount: 2
+loc_max: 20
+
+NODE: 1615
+lcount: 3
+loc_max: 21
+
+NODE: 667
+lcount: 1
+loc_max: 22
+
+NODE: 1558
+lcount: 1
+loc_max: 22
+
+NODE: 2095
+lcount: 3
+loc_max: 20
+
+NODE: 498
+lcount: 2
+loc_max: 21
+
+NODE: 1537
+lcount: 1
+loc_max: 22
+
+NODE: 1752
+lcount: 3
+loc_max: 21
+
+NODE: 755
+lcount: 1
+loc_max: 22
+
+NODE: 1859
+lcount: 1
+loc_max: 22
+
+NODE: 1320
+lcount: 2
+loc_max: 8
+
+NODE: 514
+lcount: 3
+loc_max: 9
+
+NODE: 172
+lcount: 2
+loc_max: 10
+
+NODE: 175
+lcount: 3
+loc_max: 11
+
+NODE: 1466
+lcount: 2
+loc_max: 12
+
+NODE: 1341
+lcount: 3
+loc_max: 13
+
+NODE: 1510
+lcount: 3
+loc_max: 14
+
+NODE: 323
+lcount: 3
+loc_max: 15
+
+NODE: 42
+lcount: 2
+loc_max: 16
+
+NODE: 2136
+lcount: 3
+loc_max: 17
+
+NODE: 1413
+lcount: 3
+loc_max: 18
+
+NODE: 716
+lcount: 3
+loc_max: 19
+
+NODE: 264
+lcount: 1
+loc_max: 20
+
+NODE: 694
+lcount: 1
+loc_max: 20
+
+NODE: 1568
+lcount: 3
+loc_max: 19
+
+NODE: 482
+lcount: 1
+loc_max: 20
+
+NODE: 536
+lcount: 1
+loc_max: 20
+
+NODE: 1697
+lcount: 2
+loc_max: 18
+
+NODE: 318
+lcount: 2
+loc_max: 19
+
+NODE: 294
+lcount: 1
+loc_max: 20
+
+NODE: 342
+lcount: 3
+loc_max: 16
+
+NODE: 410
+lcount: 2
+loc_max: 17
+
+NODE: 1144
+lcount: 2
+loc_max: 18
+
+NODE: 6
+lcount: 2
+loc_max: 19
+
+NODE: 2269
+lcount: 1
+loc_max: 20
+
+NODE: 714
+lcount: 3
+loc_max: 17
+
+NODE: 184
+lcount: 2
+loc_max: 18
+
+NODE: 1107
+lcount: 2
+loc_max: 19
+
+NODE: 2151
+lcount: 1
+loc_max: 20
+
+NODE: 1013
+lcount: 3
+loc_max: 18
+
+NODE: 989
+lcount: 3
+loc_max: 19
+
+NODE: 429
+lcount: 1
+loc_max: 20
+
+NODE: 1619
+lcount: 1
+loc_max: 20
+
+NODE: 1314
+lcount: 3
+loc_max: 19
+
+NODE: 196
+lcount: 1
+loc_max: 20
+
+NODE: 740
+lcount: 1
+loc_max: 20
+
+NODE: 1978
+lcount: 3
+loc_max: 15
+
+NODE: 1745
+lcount: 2
+loc_max: 16
+
+NODE: 902
+lcount: 2
+loc_max: 17
+
+NODE: 841
+lcount: 2
+loc_max: 18
+
+NODE: 1710
+lcount: 3
+loc_max: 19
+
+NODE: 734
+lcount: 1
+loc_max: 20
+
+NODE: 1831
+lcount: 1
+loc_max: 20
+
+NODE: 2014
+lcount: 2
+loc_max: 16
+
+NODE: 295
+lcount: 2
+loc_max: 17
+
+NODE: 1103
+lcount: 3
+loc_max: 18
+
+NODE: 332
+lcount: 2
+loc_max: 19
+
+NODE: 745
+lcount: 1
+loc_max: 20
+
+NODE: 651
+lcount: 2
+loc_max: 19
+
+NODE: 139
+lcount: 1
+loc_max: 20
+
+NODE: 1817
+lcount: 2
+loc_max: 14
+
+NODE: 2186
+lcount: 2
+loc_max: 15
+
+NODE: 913
+lcount: 3
+loc_max: 16
+
+NODE: 1017
+lcount: 3
+loc_max: 17
+
+NODE: 1617
+lcount: 2
+loc_max: 18
+
+NODE: 1621
+lcount: 2
+loc_max: 19
+
+NODE: 2163
+lcount: 1
+loc_max: 20
+
+NODE: 2299
+lcount: 2
+loc_max: 18
+
+NODE: 1565
+lcount: 3
+loc_max: 19
+
+NODE: 1207
+lcount: 1
+loc_max: 20
+
+NODE: 1661
+lcount: 1
+loc_max: 20
+
+NODE: 1857
+lcount: 3
+loc_max: 17
+
+NODE: 1185
+lcount: 3
+loc_max: 18
+
+NODE: 151
+lcount: 2
+loc_max: 19
+
+NODE: 1430
+lcount: 1
+loc_max: 20
+
+NODE: 225
+lcount: 3
+loc_max: 19
+
+NODE: 380
+lcount: 1
+loc_max: 20
+
+NODE: 1250
+lcount: 1
+loc_max: 20
+
+NODE: 1860
+lcount: 3
+loc_max: 18
+
+NODE: 551
+lcount: 3
+loc_max: 19
+
+NODE: 1205
+lcount: 1
+loc_max: 20
+
+NODE: 1649
+lcount: 1
+loc_max: 20
+
+NODE: 996
+lcount: 3
+loc_max: 19
+
+NODE: 1445
+lcount: 1
+loc_max: 20
+
+NODE: 2166
+lcount: 1
+loc_max: 20
+
+NODE: 2053
+lcount: 2
+loc_max: 12
+
+NODE: 463
+lcount: 2
+loc_max: 13
+
+NODE: 1525
+lcount: 2
+loc_max: 14
+
+NODE: 838
+lcount: 3
+loc_max: 15
+
+NODE: 944
+lcount: 3
+loc_max: 16
+
+NODE: 376
+lcount: 2
+loc_max: 17
+
+NODE: 2054
+lcount: 2
+loc_max: 18
+
+NODE: 1980
+lcount: 3
+loc_max: 19
+
+NODE: 619
+lcount: 1
+loc_max: 20
+
+NODE: 2289
+lcount: 1
+loc_max: 20
+
+NODE: 759
+lcount: 3
+loc_max: 17
+
+NODE: 508
+lcount: 2
+loc_max: 18
+
+NODE: 510
+lcount: 2
+loc_max: 19
+
+NODE: 1423
+lcount: 1
+loc_max: 20
+
+NODE: 1297
+lcount: 2
+loc_max: 18
+
+NODE: 781
+lcount: 3
+loc_max: 19
+
+NODE: 1927
+lcount: 1
+loc_max: 20
+
+NODE: 1937
+lcount: 1
+loc_max: 20
+
+NODE: 982
+lcount: 2
+loc_max: 16
+
+NODE: 1601
+lcount: 2
+loc_max: 17
+
+NODE: 319
+lcount: 3
+loc_max: 18
+
+NODE: 418
+lcount: 2
+loc_max: 19
+
+NODE: 473
+lcount: 1
+loc_max: 20
+
+NODE: 1876
+lcount: 3
+loc_max: 19
+
+NODE: 1246
+lcount: 1
+loc_max: 20
+
+NODE: 1447
+lcount: 1
+loc_max: 20
+
+NODE: 2099
+lcount: 3
+loc_max: 10
+
+NODE: 914
+lcount: 3
+loc_max: 11
+
+NODE: 215
+lcount: 3
+loc_max: 12
+
+NODE: 1155
+lcount: 3
+loc_max: 13
+
+NODE: 1922
+lcount: 3
+loc_max: 14
+
+NODE: 1569
+lcount: 3
+loc_max: 15
+
+NODE: 1200
+lcount: 2
+loc_max: 16
+
+NODE: 1029
+lcount: 2
+loc_max: 17
+
+NODE: 533
+lcount: 2
+loc_max: 18
+
+NODE: 496
+lcount: 2
+loc_max: 19
+
+NODE: 1385
+lcount: 1
+loc_max: 20
+
+NODE: 1960
+lcount: 2
+loc_max: 16
+
+NODE: 887
+lcount: 3
+loc_max: 17
+
+NODE: 696
+lcount: 3
+loc_max: 18
+
+NODE: 1170
+lcount: 3
+loc_max: 19
+
+NODE: 292
+lcount: 1
+loc_max: 20
+
+NODE: 1769
+lcount: 1
+loc_max: 20
+
+NODE: 1644
+lcount: 3
+loc_max: 19
+
+NODE: 613
+lcount: 1
+loc_max: 20
+
+NODE: 1674
+lcount: 1
+loc_max: 20
+
+NODE: 749
+lcount: 3
+loc_max: 18
+
+NODE: 563
+lcount: 2
+loc_max: 19
+
+NODE: 492
+lcount: 1
+loc_max: 20
+
+NODE: 1979
+lcount: 3
+loc_max: 19
+
+NODE: 339
+lcount: 1
+loc_max: 20
+
+NODE: 417
+lcount: 1
+loc_max: 20
+
+NODE: 2021
+lcount: 2
+loc_max: 15
+
+NODE: 753
+lcount: 2
+loc_max: 16
+
+NODE: 1761
+lcount: 3
+loc_max: 17
+
+NODE: 1442
+lcount: 3
+loc_max: 18
+
+NODE: 624
+lcount: 3
+loc_max: 19
+
+NODE: 357
+lcount: 1
+loc_max: 20
+
+NODE: 374
+lcount: 1
+loc_max: 20
+
+NODE: 1737
+lcount: 2
+loc_max: 19
+
+NODE: 181
+lcount: 1
+loc_max: 20
+
+NODE: 1662
+lcount: 3
+loc_max: 18
+
+NODE: 67
+lcount: 3
+loc_max: 19
+
+NODE: 134
+lcount: 1
+loc_max: 20
+
+NODE: 2208
+lcount: 1
+loc_max: 20
+
+NODE: 2202
+lcount: 3
+loc_max: 19
+
+NODE: 1914
+lcount: 1
+loc_max: 20
+
+NODE: 2112
+lcount: 1
+loc_max: 20
+
+NODE: 2035
+lcount: 3
+loc_max: 14
+
+NODE: 1118
+lcount: 2
+loc_max: 15
+
+NODE: 1891
+lcount: 2
+loc_max: 16
+
+NODE: 1083
+lcount: 3
+loc_max: 17
+
+NODE: 568
+lcount: 3
+loc_max: 18
+
+NODE: 820
+lcount: 2
+loc_max: 19
+
+NODE: 2056
+lcount: 1
+loc_max: 20
+
+NODE: 1016
+lcount: 2
+loc_max: 19
+
+NODE: 2294
+lcount: 1
+loc_max: 20
+
+NODE: 830
+lcount: 3
+loc_max: 18
+
+NODE: 1532
+lcount: 3
+loc_max: 19
+
+NODE: 559
+lcount: 1
+loc_max: 20
+
+NODE: 2267
+lcount: 1
+loc_max: 20
+
+NODE: 2200
+lcount: 3
+loc_max: 19
+
+NODE: 416
+lcount: 1
+loc_max: 20
+
+NODE: 2023
+lcount: 1
+loc_max: 20
+
+NODE: 1543
+lcount: 3
+loc_max: 15
+
+NODE: 1576
+lcount: 2
+loc_max: 16
+
+NODE: 121
+lcount: 2
+loc_max: 17
+
+NODE: 409
+lcount: 2
+loc_max: 18
+
+NODE: 1678
+lcount: 3
+loc_max: 19
+
+NODE: 1659
+lcount: 1
+loc_max: 20
+
+NODE: 1911
+lcount: 1
+loc_max: 20
+
+NODE: 1703
+lcount: 3
+loc_max: 16
+
+NODE: 370
+lcount: 3
+loc_max: 17
+
+NODE: 927
+lcount: 2
+loc_max: 18
+
+NODE: 365
+lcount: 3
+loc_max: 19
+
+NODE: 1895
+lcount: 1
+loc_max: 20
+
+NODE: 1946
+lcount: 1
+loc_max: 20
+
+NODE: 2226
+lcount: 3
+loc_max: 18
+
+NODE: 300
+lcount: 3
+loc_max: 19
+
+NODE: 1110
+lcount: 1
+loc_max: 20
+
+NODE: 2234
+lcount: 1
+loc_max: 20
+
+NODE: 1206
+lcount: 3
+loc_max: 19
+
+NODE: 1011
+lcount: 1
+loc_max: 20
+
+NODE: 1600
+lcount: 1
+loc_max: 20
+
+NODE: 679
+lcount: 2
+loc_max: 17
+
+NODE: 1275
+lcount: 2
+loc_max: 18
+
+NODE: 1772
+lcount: 2
+loc_max: 19
+
+NODE: 1651
+lcount: 1
+loc_max: 20
+
+NODE: 2102
+lcount: 2
+loc_max: 13
+
+NODE: 2164
+lcount: 2
+loc_max: 14
+
+NODE: 1202
+lcount: 2
+loc_max: 15
+
+NODE: 366
+lcount: 3
+loc_max: 16
+
+NODE: 1003
+lcount: 3
+loc_max: 17
+
+NODE: 280
+lcount: 3
+loc_max: 18
+
+NODE: 291
+lcount: 2
+loc_max: 19
+
+NODE: 616
+lcount: 1
+loc_max: 20
+
+NODE: 1119
+lcount: 3
+loc_max: 19
+
+NODE: 1724
+lcount: 1
+loc_max: 20
+
+NODE: 2083
+lcount: 1
+loc_max: 20
+
+NODE: 966
+lcount: 2
+loc_max: 18
+
+NODE: 83
+lcount: 2
+loc_max: 19
+
+NODE: 2152
+lcount: 1
+loc_max: 20
+
+NODE: 2113
+lcount: 2
+loc_max: 17
+
+NODE: 1177
+lcount: 3
+loc_max: 18
+
+NODE: 1612
+lcount: 3
+loc_max: 19
+
+NODE: 1188
+lcount: 1
+loc_max: 20
+
+NODE: 2122
+lcount: 1
+loc_max: 20
+
+NODE: 2296
+lcount: 2
+loc_max: 19
+
+NODE: 1551
+lcount: 1
+loc_max: 20
+
+NODE: 1734
+lcount: 3
+loc_max: 12
+
+NODE: 1720
+lcount: 3
+loc_max: 13
+
+NODE: 1289
+lcount: 2
+loc_max: 14
+
+NODE: 1623
+lcount: 2
+loc_max: 15
+
+NODE: 474
+lcount: 2
+loc_max: 16
+
+NODE: 1910
+lcount: 3
+loc_max: 17
+
+NODE: 775
+lcount: 3
+loc_max: 18
+
+NODE: 596
+lcount: 3
+loc_max: 19
+
+NODE: 314
+lcount: 1
+loc_max: 20
+
+NODE: 957
+lcount: 1
+loc_max: 20
+
+NODE: 1217
+lcount: 2
+loc_max: 19
+
+NODE: 2182
+lcount: 1
+loc_max: 20
+
+NODE: 1219
+lcount: 3
+loc_max: 18
+
+NODE: 1539
+lcount: 2
+loc_max: 19
+
+NODE: 494
+lcount: 1
+loc_max: 20
+
+NODE: 1670
+lcount: 3
+loc_max: 19
+
+NODE: 1560
+lcount: 1
+loc_max: 20
+
+NODE: 2185
+lcount: 1
+loc_max: 20
+
+NODE: 2101
+lcount: 3
+loc_max: 14
+
+NODE: 950
+lcount: 3
+loc_max: 15
+
+NODE: 1137
+lcount: 2
+loc_max: 16
+
+NODE: 179
+lcount: 2
+loc_max: 17
+
+NODE: 1998
+lcount: 3
+loc_max: 18
+
+NODE: 844
+lcount: 2
+loc_max: 19
+
+NODE: 1801
+lcount: 1
+loc_max: 20
+
+NODE: 1708
+lcount: 3
+loc_max: 19
+
+NODE: 166
+lcount: 1
+loc_max: 20
+
+NODE: 2205
+lcount: 1
+loc_max: 20
+
+NODE: 1391
+lcount: 3
+loc_max: 16
+
+NODE: 877
+lcount: 3
+loc_max: 17
+
+NODE: 909
+lcount: 3
+loc_max: 18
+
+NODE: 819
+lcount: 2
+loc_max: 19
+
+NODE: 454
+lcount: 1
+loc_max: 20
+
+NODE: 1059
+lcount: 3
+loc_max: 19
+
+NODE: 1169
+lcount: 1
+loc_max: 20
+
+NODE: 1216
+lcount: 1
+loc_max: 20
+
+NODE: 1474
+lcount: 3
+loc_max: 18
+
+NODE: 567
+lcount: 2
+loc_max: 19
+
+NODE: 932
+lcount: 1
+loc_max: 20
+
+NODE: 1203
+lcount: 2
+loc_max: 19
+
+NODE: 955
+lcount: 1
+loc_max: 20
+
+NODE: 1969
+lcount: 2
+loc_max: 17
+
+NODE: 503
+lcount: 2
+loc_max: 18
+
+NODE: 220
+lcount: 2
+loc_max: 19
+
+NODE: 1405
+lcount: 1
+loc_max: 20
+
+NODE: 2107
+lcount: 3
+loc_max: 15
+
+NODE: 2017
+lcount: 3
+loc_max: 16
+
+NODE: 721
+lcount: 2
+loc_max: 17
+
+NODE: 1484
+lcount: 3
+loc_max: 18
+
+NODE: 1138
+lcount: 2
+loc_max: 19
+
+NODE: 136
+lcount: 1
+loc_max: 20
+
+NODE: 2278
+lcount: 3
+loc_max: 19
+
+NODE: 1232
+lcount: 1
+loc_max: 20
+
+NODE: 1351
+lcount: 1
+loc_max: 20
+
+NODE: 1571
+lcount: 2
+loc_max: 17
+
+NODE: 489
+lcount: 2
+loc_max: 18
+
+NODE: 260
+lcount: 3
+loc_max: 19
+
+NODE: 1793
+lcount: 1
+loc_max: 20
+
+NODE: 1943
+lcount: 1
+loc_max: 20
+
+NODE: 2103
+lcount: 3
+loc_max: 16
+
+NODE: 685
+lcount: 3
+loc_max: 17
+
+NODE: 1365
+lcount: 2
+loc_max: 18
+
+NODE: 883
+lcount: 3
+loc_max: 19
+
+NODE: 994
+lcount: 1
+loc_max: 20
+
+NODE: 2022
+lcount: 1
+loc_max: 20
+
+NODE: 1398
+lcount: 3
+loc_max: 18
+
+NODE: 983
+lcount: 2
+loc_max: 19
+
+NODE: 491
+lcount: 1
+loc_max: 20
+
+NODE: 2109
+lcount: 3
+loc_max: 19
+
+NODE: 15
+lcount: 1
+loc_max: 20
+
+NODE: 1633
+lcount: 1
+loc_max: 20
+
+NODE: 1337
+lcount: 3
+loc_max: 17
+
+NODE: 185
+lcount: 3
+loc_max: 18
+
+NODE: 1153
+lcount: 3
+loc_max: 19
+
+NODE: 1373
+lcount: 1
+loc_max: 20
+
+NODE: 2286
+lcount: 1
+loc_max: 20
+
+NODE: 1332
+lcount: 2
+loc_max: 19
+
+NODE: 229
+lcount: 1
+loc_max: 20
+
+NODE: 1213
+lcount: 2
+loc_max: 18
+
+NODE: 980
+lcount: 3
+loc_max: 19
+
+NODE: 647
+lcount: 1
+loc_max: 20
+
+NODE: 1175
+lcount: 1
+loc_max: 20
+
+NODE: 2045
+lcount: 2
+loc_max: 13
+
+NODE: 579
+lcount: 2
+loc_max: 14
+
+NODE: 142
+lcount: 3
+loc_max: 15
+
+NODE: 965
+lcount: 3
+loc_max: 16
+
+NODE: 1777
+lcount: 3
+loc_max: 17
+
+NODE: 265
+lcount: 2
+loc_max: 18
+
+NODE: 653
+lcount: 2
+loc_max: 19
+
+NODE: 428
+lcount: 1
+loc_max: 20
+
+NODE: 2094
+lcount: 2
+loc_max: 18
+
+NODE: 1518
+lcount: 2
+loc_max: 19
+
+NODE: 1109
+lcount: 1
+loc_max: 20
+
+NODE: 1985
+lcount: 3
+loc_max: 17
+
+NODE: 531
+lcount: 2
+loc_max: 18
+
+NODE: 2039
+lcount: 3
+loc_max: 19
+
+NODE: 317
+lcount: 1
+loc_max: 20
+
+NODE: 1274
+lcount: 1
+loc_max: 20
+
+NODE: 1934
+lcount: 2
+loc_max: 18
+
+NODE: 162
+lcount: 2
+loc_max: 19
+
+NODE: 1721
+lcount: 1
+loc_max: 20
+
+NODE: 2033
+lcount: 2
+loc_max: 16
+
+NODE: 829
+lcount: 2
+loc_max: 17
+
+NODE: 1730
+lcount: 3
+loc_max: 18
+
+NODE: 1436
+lcount: 3
+loc_max: 19
+
+NODE: 1748
+lcount: 1
+loc_max: 20
+
+NODE: 2222
+lcount: 1
+loc_max: 20
+
+NODE: 2131
+lcount: 2
+loc_max: 19
+
+NODE: 1056
+lcount: 1
+loc_max: 20
+
+NODE: 2189
+lcount: 2
+loc_max: 11
+
+NODE: 899
+lcount: 2
+loc_max: 12
+
+NODE: 2082
+lcount: 3
+loc_max: 13
+
+NODE: 1634
+lcount: 2
+loc_max: 14
+
+NODE: 918
+lcount: 3
+loc_max: 15
+
+NODE: 853
+lcount: 2
+loc_max: 16
+
+NODE: 1529
+lcount: 3
+loc_max: 17
+
+NODE: 379
+lcount: 2
+loc_max: 18
+
+NODE: 1499
+lcount: 3
+loc_max: 19
+
+NODE: 165
+lcount: 1
+loc_max: 20
+
+NODE: 1420
+lcount: 1
+loc_max: 20
+
+NODE: 1464
+lcount: 3
+loc_max: 18
+
+NODE: 1236
+lcount: 2
+loc_max: 19
+
+NODE: 1854
+lcount: 1
+loc_max: 20
+
+NODE: 1933
+lcount: 2
+loc_max: 19
+
+NODE: 112
+lcount: 1
+loc_max: 20
+
+NODE: 1325
+lcount: 2
+loc_max: 16
+
+NODE: 2105
+lcount: 2
+loc_max: 17
+
+NODE: 1956
+lcount: 3
+loc_max: 18
+
+NODE: 427
+lcount: 3
+loc_max: 19
+
+NODE: 114
+lcount: 1
+loc_max: 20
+
+NODE: 2135
+lcount: 1
+loc_max: 20
+
+NODE: 655
+lcount: 2
+loc_max: 19
+
+NODE: 1993
+lcount: 1
+loc_max: 20
+
+NODE: 1873
+lcount: 2
+loc_max: 14
+
+NODE: 1775
+lcount: 2
+loc_max: 15
+
+NODE: 894
+lcount: 3
+loc_max: 16
+
+NODE: 253
+lcount: 2
+loc_max: 17
+
+NODE: 657
+lcount: 2
+loc_max: 18
+
+NODE: 1277
+lcount: 3
+loc_max: 19
+
+NODE: 472
+lcount: 1
+loc_max: 20
+
+NODE: 1130
+lcount: 1
+loc_max: 20
+
+NODE: 1006
+lcount: 2
+loc_max: 17
+
+NODE: 1501
+lcount: 2
+loc_max: 18
+
+NODE: 1227
+lcount: 2
+loc_max: 19
+
+NODE: 2262
+lcount: 1
+loc_max: 20
+
+NODE: 2251
+lcount: 2
+loc_max: 6
+
+NODE: 1475
+lcount: 3
+loc_max: 7
+
+NODE: 26
+lcount: 3
+loc_max: 8
+
+NODE: 1189
+lcount: 2
+loc_max: 9
+
+NODE: 298
+lcount: 2
+loc_max: 10
+
+NODE: 672
+lcount: 3
+loc_max: 11
+
+NODE: 1609
+lcount: 2
+loc_max: 12
+
+NODE: 1716
+lcount: 3
+loc_max: 13
+
+NODE: 947
+lcount: 3
+loc_max: 14
+
+NODE: 550
+lcount: 3
+loc_max: 15
+
+NODE: 1134
+lcount: 1
+loc_max: 16
+
+NODE: 1364
+lcount: 1
+loc_max: 16
+
+NODE: 1955
+lcount: 2
+loc_max: 15
+
+NODE: 191
+lcount: 1
+loc_max: 16
+
+NODE: 1815
+lcount: 2
+loc_max: 14
+
+NODE: 1383
+lcount: 2
+loc_max: 15
+
+NODE: 502
+lcount: 1
+loc_max: 16
+
+NODE: 1797
+lcount: 2
+loc_max: 12
+
+NODE: 368
+lcount: 2
+loc_max: 13
+
+NODE: 1577
+lcount: 2
+loc_max: 14
+
+NODE: 2238
+lcount: 2
+loc_max: 15
+
+NODE: 359
+lcount: 1
+loc_max: 16
+
+NODE: 1904
+lcount: 2
+loc_max: 9
+
+NODE: 1450
+lcount: 3
+loc_max: 10
+
+NODE: 845
+lcount: 3
+loc_max: 11
+
+NODE: 515
+lcount: 2
+loc_max: 12
+
+NODE: 1157
+lcount: 3
+loc_max: 13
+
+NODE: 1238
+lcount: 3
+loc_max: 14
+
+NODE: 2042
+lcount: 2
+loc_max: 15
+
+NODE: 120
+lcount: 1
+loc_max: 16
+
+NODE: 2276
+lcount: 3
+loc_max: 15
+
+NODE: 483
+lcount: 1
+loc_max: 16
+
+NODE: 1036
+lcount: 1
+loc_max: 16
+
+NODE: 1487
+lcount: 2
+loc_max: 14
+
+NODE: 1788
+lcount: 2
+loc_max: 15
+
+NODE: 1767
+lcount: 1
+loc_max: 16
+
+NODE: 1774
+lcount: 2
+loc_max: 12
+
+NODE: 57
+lcount: 3
+loc_max: 13
+
+NODE: 1300
+lcount: 3
+loc_max: 14
+
+NODE: 1673
+lcount: 2
+loc_max: 15
+
+NODE: 1924
+lcount: 1
+loc_max: 16
+
+NODE: 2272
+lcount: 3
+loc_max: 15
+
+NODE: 1358
+lcount: 1
+loc_max: 16
+
+NODE: 1481
+lcount: 1
+loc_max: 16
+
+NODE: 1471
+lcount: 3
+loc_max: 14
+
+NODE: 1667
+lcount: 3
+loc_max: 15
+
+NODE: 1457
+lcount: 1
+loc_max: 16
+
+NODE: 2250
+lcount: 1
+loc_max: 16
+
+NODE: 2050
+lcount: 2
+loc_max: 15
+
+NODE: 2241
+lcount: 1
+loc_max: 16
+
+NODE: 2049
+lcount: 2
+loc_max: 11
+
+NODE: 354
+lcount: 2
+loc_max: 12
+
+NODE: 689
+lcount: 3
+loc_max: 13
+
+NODE: 375
+lcount: 3
+loc_max: 14
+
+NODE: 1427
+lcount: 2
+loc_max: 15
+
+NODE: 1875
+lcount: 1
+loc_max: 16
+
+NODE: 2155
+lcount: 3
+loc_max: 15
+
+NODE: 712
+lcount: 1
+loc_max: 16
+
+NODE: 1068
+lcount: 1
+loc_max: 16
+
+NODE: 1285
+lcount: 3
+loc_max: 14
+
+NODE: 1628
+lcount: 2
+loc_max: 15
+
+NODE: 1747
+lcount: 1
+loc_max: 16
+
+NODE: 2237
+lcount: 2
+loc_max: 15
+
+NODE: 2119
+lcount: 1
+loc_max: 16
+
+NODE: 2172
+lcount: 3
+loc_max: 8
+
+NODE: 262
+lcount: 2
+loc_max: 9
+
+NODE: 870
+lcount: 3
+loc_max: 10
+
+NODE: 1015
+lcount: 2
+loc_max: 11
+
+NODE: 1105
+lcount: 2
+loc_max: 12
+
+NODE: 1622
+lcount: 2
+loc_max: 13
+
+NODE: 648
+lcount: 3
+loc_max: 14
+
+NODE: 395
+lcount: 3
+loc_max: 15
+
+NODE: 1961
+lcount: 1
+loc_max: 16
+
+NODE: 2027
+lcount: 1
+loc_max: 16
+
+NODE: 573
+lcount: 3
+loc_max: 15
+
+NODE: 1225
+lcount: 1
+loc_max: 16
+
+NODE: 2031
+lcount: 1
+loc_max: 16
+
+NODE: 1736
+lcount: 2
+loc_max: 11
+
+NODE: 1705
+lcount: 2
+loc_max: 12
+
+NODE: 2303
+lcount: 2
+loc_max: 13
+
+NODE: 2228
+lcount: 2
+loc_max: 14
+
+NODE: 928
+lcount: 2
+loc_max: 15
+
+NODE: 1477
+lcount: 1
+loc_max: 16
+
+NODE: 737
+lcount: 3
+loc_max: 9
+
+NODE: 1368
+lcount: 3
+loc_max: 10
+
+NODE: 96
+lcount: 3
+loc_max: 11
+
+NODE: 552
+lcount: 3
+loc_max: 12
+
+NODE: 1008
+lcount: 2
+loc_max: 13
+
+NODE: 2092
+lcount: 2
+loc_max: 14
+
+NODE: 1693
+lcount: 2
+loc_max: 15
+
+NODE: 328
+lcount: 1
+loc_max: 16
+
+NODE: 1889
+lcount: 3
+loc_max: 13
+
+NODE: 572
+lcount: 3
+loc_max: 14
+
+NODE: 733
+lcount: 2
+loc_max: 15
+
+NODE: 920
+lcount: 1
+loc_max: 16
+
+NODE: 960
+lcount: 3
+loc_max: 15
+
+NODE: 848
+lcount: 1
+loc_max: 16
+
+NODE: 1905
+lcount: 1
+loc_max: 16
+
+NODE: 2171
+lcount: 2
+loc_max: 14
+
+NODE: 1282
+lcount: 3
+loc_max: 15
+
+NODE: 738
+lcount: 1
+loc_max: 16
+
+NODE: 2229
+lcount: 1
+loc_max: 16
+
+NODE: 1897
+lcount: 3
+loc_max: 12
+
+NODE: 46
+lcount: 2
+loc_max: 13
+
+NODE: 519
+lcount: 3
+loc_max: 14
+
+NODE: 1833
+lcount: 2
+loc_max: 15
+
+NODE: 2161
+lcount: 1
+loc_max: 16
+
+NODE: 2215
+lcount: 2
+loc_max: 15
+
+NODE: 620
+lcount: 1
+loc_max: 16
+
+NODE: 349
+lcount: 2
+loc_max: 13
+
+NODE: 2100
+lcount: 3
+loc_max: 14
+
+NODE: 171
+lcount: 2
+loc_max: 15
+
+NODE: 1020
+lcount: 1
+loc_max: 16
+
+NODE: 824
+lcount: 2
+loc_max: 15
+
+NODE: 500
+lcount: 1
+loc_max: 16
+
+NODE: 839
+lcount: 2
+loc_max: 11
+
+NODE: 1486
+lcount: 2
+loc_max: 12
+
+NODE: 1812
+lcount: 2
+loc_max: 13
+
+NODE: 2002
+lcount: 3
+loc_max: 14
+
+NODE: 1197
+lcount: 3
+loc_max: 15
+
+NODE: 424
+lcount: 1
+loc_max: 16
+
+NODE: 1386
+lcount: 1
+loc_max: 16
+
+NODE: 1515
+lcount: 3
+loc_max: 15
+
+NODE: 468
+lcount: 1
+loc_max: 16
+
+NODE: 1415
+lcount: 1
+loc_max: 16
+
+NODE: 1861
+lcount: 3
+loc_max: 10
+
+NODE: 758
+lcount: 2
+loc_max: 11
+
+NODE: 1866
+lcount: 3
+loc_max: 12
+
+NODE: 731
+lcount: 2
+loc_max: 13
+
+NODE: 810
+lcount: 3
+loc_max: 14
+
+NODE: 1631
+lcount: 2
+loc_max: 15
+
+NODE: 2118
+lcount: 1
+loc_max: 16
+
+NODE: 1799
+lcount: 2
+loc_max: 15
+
+NODE: 827
+lcount: 1
+loc_max: 16
+
+NODE: 2046
+lcount: 2
+loc_max: 13
+
+NODE: 1084
+lcount: 2
+loc_max: 14
+
+NODE: 2142
+lcount: 3
+loc_max: 15
+
+NODE: 967
+lcount: 1
+loc_max: 16
+
+NODE: 1764
+lcount: 1
+loc_max: 16
+
+NODE: 1717
+lcount: 3
+loc_max: 11
+
+NODE: 1066
+lcount: 2
+loc_max: 12
+
+NODE: 2256
+lcount: 3
+loc_max: 13
+
+NODE: 1683
+lcount: 3
+loc_max: 14
+
+NODE: 79
+lcount: 3
+loc_max: 15
+
+NODE: 752
+lcount: 1
+loc_max: 16
+
+NODE: 811
+lcount: 1
+loc_max: 16
+
+NODE: 2076
+lcount: 2
+loc_max: 15
+
+NODE: 710
+lcount: 1
+loc_max: 16
+
+NODE: 2006
+lcount: 2
+loc_max: 14
+
+NODE: 754
+lcount: 3
+loc_max: 15
+
+NODE: 334
+lcount: 1
+loc_max: 16
+
+NODE: 1965
+lcount: 1
+loc_max: 16
+
+NODE: 2058
+lcount: 2
+loc_max: 12
+
+NODE: 1586
+lcount: 3
+loc_max: 13
+
+NODE: 926
+lcount: 2
+loc_max: 14
+
+NODE: 1754
+lcount: 3
+loc_max: 15
+
+NODE: 93
+lcount: 1
+loc_max: 16
+
+NODE: 212
+lcount: 1
+loc_max: 16
+
+NODE: 1147
+lcount: 2
+loc_max: 14
+
+NODE: 1544
+lcount: 3
+loc_max: 15
+
+NODE: 607
+lcount: 1
+loc_max: 16
+
+NODE: 1575
+lcount: 1
+loc_max: 16
+
+NODE: 2126
+lcount: 3
+loc_max: 3
+
+NODE: 1025
+lcount: 2
+loc_max: 4
+
+NODE: 627
+lcount: 3
+loc_max: 5
+
+NODE: 1335
+lcount: 3
+loc_max: 6
+
+NODE: 1053
+lcount: 3
+loc_max: 7
+
+NODE: 1237
+lcount: 2
+loc_max: 8
+
+NODE: 72
+lcount: 2
+loc_max: 9
+
+NODE: 187
+lcount: 1
+loc_max: 10
+
+NODE: 1887
+lcount: 3
+loc_max: 8
+
+NODE: 2147
+lcount: 3
+loc_max: 9
+
+NODE: 539
+lcount: 1
+loc_max: 10
+
+NODE: 2190
+lcount: 1
+loc_max: 10
+
+NODE: 2199
+lcount: 3
+loc_max: 9
+
+NODE: 1021
+lcount: 1
+loc_max: 10
+
+NODE: 1838
+lcount: 1
+loc_max: 10
+
+NODE: 2130
+lcount: 2
+loc_max: 7
+
+NODE: 206
+lcount: 2
+loc_max: 8
+
+NODE: 1310
+lcount: 3
+loc_max: 9
+
+NODE: 224
+lcount: 1
+loc_max: 10
+
+NODE: 2020
+lcount: 1
+loc_max: 10
+
+NODE: 1359
+lcount: 2
+loc_max: 6
+
+NODE: 2227
+lcount: 2
+loc_max: 7
+
+NODE: 1288
+lcount: 3
+loc_max: 8
+
+NODE: 66
+lcount: 3
+loc_max: 9
+
+NODE: 1290
+lcount: 1
+loc_max: 10
+
+NODE: 1655
+lcount: 1
+loc_max: 10
+
+NODE: 1344
+lcount: 3
+loc_max: 9
+
+NODE: 1145
+lcount: 1
+loc_max: 10
+
+NODE: 2277
+lcount: 1
+loc_max: 10
+
+NODE: 2159
+lcount: 3
+loc_max: 4
+
+NODE: 2007
+lcount: 2
+loc_max: 5
+
+NODE: 1939
+lcount: 2
+loc_max: 6
+
+NODE: 1541
+lcount: 3
+loc_max: 7
+
+NODE: 25
+lcount: 2
+loc_max: 8
+
+NODE: 1073
+lcount: 2
+loc_max: 9
+
+NODE: 222
+lcount: 1
+loc_max: 10
+
+NODE: 809
+lcount: 3
+loc_max: 8
+
+NODE: 140
+lcount: 3
+loc_max: 9
+
+NODE: 1976
+lcount: 1
+loc_max: 10
+
+NODE: 2288
+lcount: 1
+loc_max: 10
+
+NODE: 1400
+lcount: 2
+loc_max: 9
+
+NODE: 1389
+lcount: 1
+loc_max: 10
+
+NODE: 2025
+lcount: 2
+loc_max: 5
+
+NODE: 681
+lcount: 3
+loc_max: 6
+
+NODE: 44
+lcount: 2
+loc_max: 7
+
+NODE: 1725
+lcount: 3
+loc_max: 8
+
+NODE: 285
+lcount: 3
+loc_max: 9
+
+NODE: 604
+lcount: 1
+loc_max: 10
+
+NODE: 763
+lcount: 1
+loc_max: 10
+
+NODE: 633
+lcount: 3
+loc_max: 9
+
+NODE: 706
+lcount: 1
+loc_max: 10
+
+NODE: 997
+lcount: 1
+loc_max: 10
+
+NODE: 337
+lcount: 2
+loc_max: 7
+
+NODE: 221
+lcount: 3
+loc_max: 8
+
+NODE: 1426
+lcount: 3
+loc_max: 9
+
+NODE: 200
+lcount: 1
+loc_max: 10
+
+NODE: 1454
+lcount: 1
+loc_max: 10
+
+NODE: 2253
+lcount: 2
+loc_max: 9
+
+NODE: 732
+lcount: 1
+loc_max: 10
+
+result: 24

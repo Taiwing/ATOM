@@ -1,0 +1,6 @@
+inclure les bibliothèques dans le dossier d'installation
+
+vérifier si le jeu marche sous windows
+
+autres modes de jeu
+  mode 125*125 (grille géante)

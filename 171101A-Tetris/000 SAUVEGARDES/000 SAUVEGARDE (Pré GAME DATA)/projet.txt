@@ -1,0 +1,3 @@
+contrôles par défaut (guidelines TETRIS)
+menu options (gestion du son, des contôles, et de la résolution)
+plusieurs modes de jeu (le bouton jouer va rediriger vers un menu où on pourra choisir le mode de jeu)

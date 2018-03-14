@@ -1,0 +1,10 @@
+gestion de la résolution
+
+gestion de la redimension de fenêtre
+  ajouter un mode plein écran
+  génération d'images de remplissage des bandes noires qui appraîtront si la résolution de ne correspond pas à celle du jeu
+  réorganisation des structures d'éléments en un seul type de structure
+
+gestion du son et de la pause avec une icône dans les parties (heu heu heu LOL)
+
+mode 125*125 (grille géante)

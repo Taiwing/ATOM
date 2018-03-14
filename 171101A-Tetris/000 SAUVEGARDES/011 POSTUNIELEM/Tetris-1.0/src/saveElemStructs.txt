@@ -1,0 +1,91 @@
+//structure où on placera les "coord" correspondant à chaque élément du menu
+typedef struct elementsFondMenu elementsFondMenu; //11
+struct elementsFondMenu
+{
+  coord *rectPrincipal;
+  coord *rectJouer;
+  coord *rectNiveau;
+  coord *rectMode;
+  coord *rectScores;
+  coord *rectAide;
+  coord *rectOptions;
+  coord *rectPieceSuiv;
+  coord *rectNSL;
+
+  coord *rectMenuAide;
+  coord *rectOk;
+};
+
+//structure où on placera les "coord" correspondant à chaque élément de la partie
+typedef struct elementsFondPartie elementsFondPartie; //11
+struct elementsFondPartie
+{
+  coord *rectPrincipal;
+  coord *rectPieceSuiv;
+  coord *rectNSL;
+  coord *rectTemps;
+
+  coord *rectPause;
+  coord *rectReprendre;
+  coord *rectAide;
+  coord *rectOptions;
+  coord *rectQuitter;
+
+  coord *rectMenuAide;
+  coord *rectOk;
+};
+
+//structure où on placera les "coord" correspondant à chaque élément du menu d'options
+typedef struct elementsFondOptions elementsFondOptions; //21
+struct elementsFondOptions
+{
+  coord *rectPrincipal;
+  coord *rectOk;
+  coord *rectIrotater;
+  coord *rectIsoftd;
+  coord *rectIleft;
+  coord *rectIright;
+  coord *rectIhardd;
+  coord *rectIrotatel;
+  coord *rectIpause;
+  coord *rectIghost;
+  coord *rectIchange;
+  coord *rectVolThemeM;
+  coord *rectVolThemeP;
+  coord *rectVolFXM;
+  coord *rectVolFXP;
+  coord *rectReset;
+
+  coord *rectInputOptions;
+  coord *rectTouche1;
+  coord *rectTouche2;
+  coord *rectTouche3;
+  coord *rectOkInpOpt;
+};
+
+//structure d'éléments de scoreInput
+typedef struct elementsFondScoreInput elementsFondScoreInput; //3
+struct elementsFondScoreInput
+{
+  coord *rectPrincipal;
+  coord *rectInput;
+  coord *rectOk;
+};
+
+//structure d'éléments de tempsInput
+typedef struct elementsFondTempsInput elementsFondTempsInput; //3
+struct elementsFondTempsInput
+{
+  coord *rectPrincipal;
+  coord *rectInput;
+  coord *rectOk;
+};
+
+//structure d'éléments de lignesInput
+typedef struct elementsFondLignesInput elementsFondLignesInput; //3
+struct elementsFondLignesInput
+{
+  coord *rectPrincipal;
+  coord *rectInput;
+  coord *rectOk;
+};

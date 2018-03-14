@@ -1,0 +1,6714 @@
+!<arch>
+alsa.c/         0           0     0     644     22544     `
+/*         ______   ___    ___
+ *        /\  _  \ /\_ \  /\_ \
+ *        \ \ \L\ \\//\ \ \//\ \      __     __   _ __   ___
+ *         \ \  __ \ \ \ \  \ \ \   /'__`\ /'_ `\/\`'__\/ __`\
+ *          \ \ \/\ \ \_\ \_ \_\ \_/\  __//\ \L\ \ \ \//\ \L\ \
+ *           \ \_\ \_\/\____\/\____\ \____\ \____ \ \_\\ \____/
+ *            \/_/\/_/\/____/\/____/\/____/\/___L\ \/_/ \/___/
+ *                                           /\____/
+ *                                           \_/__/
+ *
+ *      ALSA 1.0 sound driver.
+ *
+ *      By Thomas Fjellstrom.
+ *
+ *      Extensively modified by Elias Pschernig.
+ *
+ *      Rewritten for 4.3 sound API by Milan Mimica, with additional
+ *      improvements by Chris Robinson. Updated for 4.9 by Ryan Dickie
+ *
+ *      See readme.txt for copyright information.
+ */
+
+#include "allegro5/allegro.h"
+#include "allegro5/internal/aintern_audio.h"
+
+#include <alsa/asoundlib.h>
+
+ALLEGRO_DEBUG_CHANNEL("alsa")
+
+#define ALSA_CHECK(a) \
+do {                                                                  \
+   int err = (a);                                                     \
+   if (err < 0) {                                                     \
+      ALLEGRO_ERROR("%s: %s\n", snd_strerror(err), #a);               \
+      goto Error;                                                     \
+   }                                                                  \
+} while(0)
+
+
+static snd_output_t *snd_output = NULL;
+static char *default_device = "default";
+static char *alsa_device = NULL;
+
+
+typedef struct ALSA_VOICE {
+   unsigned int frame_size; /* in bytes */
+   unsigned int len; /* in frames */
+   snd_pcm_uframes_t frag_len; /* in frames */
+   bool reversed; /* true if playing reversed ATM. */
+
+   volatile bool stop;
+   volatile bool stopped;
+
+   struct pollfd *ufds;
+   int ufds_count;
+
+   ALLEGRO_THREAD *poll_thread;
+
+   snd_pcm_t *pcm_handle;
+   bool mmapped;
+} ALSA_VOICE;
+
+
+
+/* initialized output */
+static int alsa_open(void)
+{
+   alsa_device = default_device;
+
+   ALLEGRO_CONFIG *config = al_get_system_config();
+   if (config) {
+      const char *config_device;
+      config_device = al_get_config_value(config, "alsa", "device");
+      if (config_device && config_device[0] != '\0')
+         alsa_device = strdup(config_device);
+   }
+
+   ALSA_CHECK(snd_output_stdio_attach(&snd_output, stdout, 0));
+
+   /* We need to check if alsa is available in this function. */
+   snd_pcm_t *test_pcm_handle;
+   int alsa_err = snd_pcm_open(&test_pcm_handle, alsa_device,
+                               SND_PCM_STREAM_PLAYBACK, SND_PCM_NONBLOCK);
+   if (alsa_err < 0) {
+      ALLEGRO_WARN("ALSA is not available on the system.\n");
+      return 1;
+   }
+   else {
+      snd_pcm_close(test_pcm_handle);
+   }
+
+   return 0;
+
+   /* ALSA check is a macro that 'goto' error*/
+Error:
+   ALLEGRO_ERROR("Error initializing alsa!\n");
+   return 1;
+}
+
+
+
+/* The close method should close the device, freeing any resources, and allow
+   other processes to use the device */
+static void alsa_close(void)
+{
+   if (alsa_device != default_device)
+      al_free(alsa_device);
+   
+   alsa_device = NULL;
+   
+   snd_config_update_free_global();
+}
+
+
+/* Underrun and suspend recovery */
+static int xrun_recovery(snd_pcm_t *handle, int err)
+{
+   if (err == -EPIPE) { /* under-run */
+      err = snd_pcm_prepare(handle);
+      if (err < 0) {
+         ALLEGRO_ERROR("Can't recover from underrun, prepare failed: %s\n", snd_strerror(err));
+      }
+      else {
+         ALLEGRO_DEBUG("Recovered from underrun\n");
+      }
+      return 0;
+   }
+   else if (err == -ESTRPIPE) { /* suspend */
+      err = snd_pcm_resume(handle);
+      if (err < 0) {
+         ALLEGRO_ERROR("Can't recover from suspend, resume failed: %s\n", snd_strerror(err));
+      }
+      else {
+         ALLEGRO_DEBUG("Resumed successfully\n");
+      }
+      return 0;
+   }
+   else {
+      ALLEGRO_ERROR("Unknown error code: %d\n", err);
+      ASSERT(0);
+   }
+
+   return err;
+}
+
+
+/*
+ * Updates the supplied non-streaming voice.
+ * buf   - Returns a pointer to the buffer containing sample data.
+ * bytes - The requested size of the sample data buffer. Returns the actual
+ *         size of returned the buffer.
+ * Updates 'stop', 'pos' and 'reversed' fields of the supplied voice to the
+ * future position.
+ * If the voice is played backwards, 'buf' will point to the end of the buffer
+ * and 'bytes' is the size that can be read towards the beginning.
+ */
+static int alsa_update_nonstream_voice(ALLEGRO_VOICE *voice, void **buf, int *bytes)
+{
+   ALSA_VOICE *alsa_voice = (ALSA_VOICE*)voice->extra;
+   int bpos = voice->attached_stream->pos * alsa_voice->frame_size;
+   int blen = alsa_voice->len * alsa_voice->frame_size;
+
+   *buf = (char *)voice->attached_stream->spl_data.buffer.ptr + bpos;
+
+   if (!alsa_voice->reversed) {
+      if (bpos + *bytes > blen) {
+         *bytes = blen - bpos;
+         if (voice->attached_stream->loop == ALLEGRO_PLAYMODE_ONCE) {
+            alsa_voice->stop = true;
+            voice->attached_stream->pos = 0;
+         }
+         if (voice->attached_stream->loop == ALLEGRO_PLAYMODE_LOOP) {
+            voice->attached_stream->pos = 0;
+         }
+         else if (voice->attached_stream->loop == ALLEGRO_PLAYMODE_BIDIR) {
+            alsa_voice->reversed = true;
+            voice->attached_stream->pos = alsa_voice->len;
+         }
+         return 1;
+      }
+      else
+         voice->attached_stream->pos += *bytes / alsa_voice->frame_size;
+   }
+   else {
+      if (bpos - *bytes < 0) {
+         *bytes = bpos;
+         /* loop will be ALLEGRO_PLAYMODE_BIDIR, other playing modes that play
+            backwards are not currently supported by the API */
+         /*if (voice->attached_stream->loop != ALLEGRO_PLAYMODE_BIDIR)
+            alsa_voice->stop = true;*/
+
+         voice->attached_stream->pos = 0;
+         alsa_voice->reversed = false;
+         return 1;
+      }
+      else
+         voice->attached_stream->pos -= *bytes / alsa_voice->frame_size;
+   }
+
+   return 0;
+}
+
+
+/* Returns true if the voice is ready for more data. */
+static int alsa_voice_is_ready(ALSA_VOICE *alsa_voice)
+{
+   unsigned short revents;
+   int err;
+
+   poll(alsa_voice->ufds, alsa_voice->ufds_count, 0);
+   snd_pcm_poll_descriptors_revents(alsa_voice->pcm_handle, alsa_voice->ufds,
+                                    alsa_voice->ufds_count, &revents);
+
+   if (revents & POLLERR) {
+      if (snd_pcm_state(alsa_voice->pcm_handle) == SND_PCM_STATE_XRUN ||
+          snd_pcm_state(alsa_voice->pcm_handle) == SND_PCM_STATE_SUSPENDED) {
+
+         if (snd_pcm_state(alsa_voice->pcm_handle) == SND_PCM_STATE_XRUN)
+            err = -EPIPE;
+         else
+            err = -ESTRPIPE;
+
+         if (xrun_recovery(alsa_voice->pcm_handle, err) < 0) {
+            ALLEGRO_ERROR("Write error: %s\n", snd_strerror(err));
+            return -POLLERR;
+         }
+      } else {
+         ALLEGRO_ERROR("Wait for poll failed\n");
+         return -POLLERR;
+      }
+   }
+
+   if (revents & POLLOUT)
+      return true;
+
+   return false;
+}
+
+
+/* Custom routine which runs in another thread and fills the hardware PCM buffer
+   from the voice buffer. */
+static void *alsa_update_mmap(ALLEGRO_THREAD *self, void *arg)
+{
+   ALLEGRO_VOICE *voice = (ALLEGRO_VOICE*)arg;
+   ALSA_VOICE *alsa_voice = (ALSA_VOICE*)voice->extra;
+   snd_pcm_state_t last_state = -1;
+   snd_pcm_state_t state;
+   snd_pcm_uframes_t frames;
+   const snd_pcm_channel_area_t *areas;
+   snd_pcm_uframes_t offset;
+   char *mmap;
+   int ret;
+
+   ALLEGRO_INFO("ALSA update_mmap thread started\n");
+
+   while (!al_get_thread_should_stop(self)) {
+      if (alsa_voice->stop && !alsa_voice->stopped) {
+         snd_pcm_drop(alsa_voice->pcm_handle);
+         al_lock_mutex(voice->mutex);
+         alsa_voice->stopped = true;
+         al_signal_cond(voice->cond);
+         al_unlock_mutex(voice->mutex);
+      }
+
+      if (!alsa_voice->stop && alsa_voice->stopped) {
+         alsa_voice->stopped = false;
+      }
+
+      if (alsa_voice->stopped) {
+         /* Keep waiting while the voice is supposed to be stopped but present.
+          */
+         al_lock_mutex(voice->mutex);
+         while (alsa_voice->stop && !al_get_thread_should_stop(self)) {
+            al_wait_cond(voice->cond, voice->mutex);
+         }
+         al_unlock_mutex(voice->mutex);
+         continue;
+      }
+
+      state = snd_pcm_state(alsa_voice->pcm_handle);
+      if (state != last_state) {
+         ALLEGRO_DEBUG("state changed to: %s\n", snd_pcm_state_name(state));
+         last_state = state;
+      }
+      if (state == SND_PCM_STATE_SETUP) {
+         int rc = snd_pcm_prepare(alsa_voice->pcm_handle);
+         ALLEGRO_DEBUG("snd_pcm_prepare returned: %d\n", rc);
+         continue;
+      }
+      if (state == SND_PCM_STATE_PREPARED) {
+         int rc = snd_pcm_start(alsa_voice->pcm_handle);
+         ALLEGRO_DEBUG("snd_pcm_start returned: %d\n", rc);
+      }
+
+      ret = alsa_voice_is_ready(alsa_voice);
+      if (ret < 0)
+         break;
+      if (ret == 0) {
+         al_rest(0.005); /* TODO: Why not use an event or condition variable? */
+         continue;
+      }
+
+      snd_pcm_avail_update(alsa_voice->pcm_handle);
+      frames = alsa_voice->frag_len;
+      ret = snd_pcm_mmap_begin(alsa_voice->pcm_handle, &areas, &offset, &frames);
+      if (ret < 0) {
+         if ((ret = xrun_recovery(alsa_voice->pcm_handle, ret)) < 0) {
+            ALLEGRO_ERROR("MMAP begin avail error: %s\n", snd_strerror(ret));
+         }
+         break;
+      }
+
+      ASSERT(frames);
+
+      /* mmaped driver's memory. Interleaved channels format. */
+      mmap = (char *) areas[0].addr
+            + areas[0].first / 8
+            + offset * areas[0].step / 8;
+
+      /* Read sample data into the buffer. */
+      if (!voice->is_streaming && !alsa_voice->stopped) {
+         void *buf;
+         bool reverse = alsa_voice->reversed;
+         int bytes = frames * alsa_voice->frame_size;
+
+         alsa_update_nonstream_voice(voice, &buf, &bytes);
+         frames = bytes / alsa_voice->frame_size;
+         if (!reverse) {
+            memcpy(mmap, buf, bytes);
+         }
+         else {
+            /* Put a reversed copy in the driver's buffer. */
+            unsigned int i;
+            int fs = alsa_voice->frame_size;
+            for (i = 1; i <= frames; i++)
+               memcpy(mmap + i * fs, (char *) buf - i * fs, fs);
+         }
+      }
+      else if (voice->is_streaming && !alsa_voice->stopped) {
+         /* This should fit. */
+         unsigned int iframes = frames;
+         const void *data = _al_voice_update(voice, &iframes);
+         frames = iframes;
+         if (data == NULL)
+            goto silence;
+         memcpy(mmap, data, frames * alsa_voice->frame_size);
+      }
+      else {
+         int silence;
+silence:
+         /* If stopped just fill with silence. */
+         silence = _al_kcm_get_silence(voice->depth);
+         memset(mmap, silence, frames * alsa_voice->frame_size);
+      }
+
+      snd_pcm_sframes_t commitres = snd_pcm_mmap_commit(alsa_voice->pcm_handle, offset, frames);
+      if (commitres < 0 || (snd_pcm_uframes_t)commitres != frames) {
+         if ((ret = xrun_recovery(alsa_voice->pcm_handle, commitres >= 0 ? -EPIPE : commitres)) < 0) {
+            ALLEGRO_ERROR("MMAP commit error: %s\n", snd_strerror(ret));
+            break;
+         }
+      }
+   }
+
+   ALLEGRO_INFO("ALSA update_mmap thread stopped\n");
+
+   return NULL;
+}
+
+
+static void *alsa_update_rw(ALLEGRO_THREAD *self, void *arg)
+{
+   ALLEGRO_VOICE *voice = (ALLEGRO_VOICE*)arg;
+   ALSA_VOICE *alsa_voice = (ALSA_VOICE*)voice->extra;
+   snd_pcm_state_t last_state = -1;
+   snd_pcm_state_t state;
+   snd_pcm_uframes_t frames;
+   snd_pcm_sframes_t err;
+
+   ALLEGRO_INFO("ALSA update_rw thread started\n");
+
+   while (!al_get_thread_should_stop(self)) {
+      if (alsa_voice->stop && !alsa_voice->stopped) {
+         snd_pcm_drop(alsa_voice->pcm_handle);
+         al_lock_mutex(voice->mutex);
+         alsa_voice->stopped = true;
+         al_signal_cond(voice->cond);
+         al_unlock_mutex(voice->mutex);
+      }
+
+      if (!alsa_voice->stop && alsa_voice->stopped) {
+         alsa_voice->stopped = false;
+      }
+
+      if (alsa_voice->stopped) {
+         /* Keep waiting while the voice is supposed to be stopped but present.
+          */
+         al_lock_mutex(voice->mutex);
+         while (alsa_voice->stop && !al_get_thread_should_stop(self)) {
+            al_wait_cond(voice->cond, voice->mutex);
+         }
+         al_unlock_mutex(voice->mutex);
+         continue;
+      }
+
+      state = snd_pcm_state(alsa_voice->pcm_handle);
+      if (state != last_state) {
+         ALLEGRO_DEBUG("state changed to: %s\n", snd_pcm_state_name(state));
+         last_state = state;
+      }
+      if (state == SND_PCM_STATE_SETUP) {
+         int rc = snd_pcm_prepare(alsa_voice->pcm_handle);
+         ALLEGRO_DEBUG("snd_pcm_prepare returned: %d\n", rc);
+         continue;
+      }
+      if (state == SND_PCM_STATE_PREPARED) {
+         int rc = snd_pcm_start(alsa_voice->pcm_handle);
+         ALLEGRO_DEBUG("snd_pcm_start returned: %d\n", rc);
+      }
+
+      snd_pcm_wait(alsa_voice->pcm_handle, 10);
+      err = snd_pcm_avail_update(alsa_voice->pcm_handle);
+      if (err < 0) {
+         if (err == -EPIPE) {
+            snd_pcm_prepare(alsa_voice->pcm_handle);
+         }
+         else {
+            ALLEGRO_WARN("Alsa r/w thread exited "
+               "with error code %s.\n", snd_strerror(-err));
+            break;
+         }
+      }
+      if (err == 0) {
+         continue;
+      }
+      frames = err;
+      if (frames > alsa_voice->frag_len)
+         frames = alsa_voice->frag_len;
+      /* Write sample data into the buffer. */
+      int bytes = frames * alsa_voice->frame_size;
+      uint8_t data[bytes];
+      void *buf;
+      if (!voice->is_streaming && !alsa_voice->stopped) {
+         ASSERT(!alsa_voice->reversed); // FIXME
+         alsa_update_nonstream_voice(voice, &buf, &bytes);
+         frames = bytes / alsa_voice->frame_size;
+      }
+      else if (voice->is_streaming && !alsa_voice->stopped) {
+         /* This should fit. */
+         unsigned int iframes = frames;
+         buf = (void *)_al_voice_update(voice, &iframes);
+         frames = iframes;
+         if (buf == NULL)
+            goto silence;
+      }
+      else {
+         int silence;
+silence:
+         /* If stopped just fill with silence. */
+         silence = _al_kcm_get_silence(voice->depth);
+         memset(data, silence, bytes);
+         buf = data;
+      }
+      err = snd_pcm_writei(alsa_voice->pcm_handle, buf, frames);
+      if (err < 0) {
+         if (err == -EPIPE) {
+            snd_pcm_prepare(alsa_voice->pcm_handle);
+         }
+      }
+   }
+
+   ALLEGRO_INFO("ALSA update_rw thread stopped\n");
+
+   return NULL;
+}
+
+
+/* The load_voice method loads a sample into the driver's memory. The voice's
+   'streaming' field will be set to false for these voices, and it's
+   'buffer_size' field will be the total length in bytes of the sample data.
+   The voice's attached stream's looping mode should be honored, and loading
+   must fail if it cannot be. */
+static int alsa_load_voice(ALLEGRO_VOICE *voice, const void *data)
+{
+   ALSA_VOICE *ex_data = voice->extra;
+
+   voice->attached_stream->pos = 0;
+   ex_data->len = voice->attached_stream->spl_data.len;
+
+   return 0;
+   (void)data;
+}
+
+
+
+/* The unload_voice method unloads a sample previously loaded with load_voice.
+   This method should not be called on a streaming voice. */
+static void alsa_unload_voice(ALLEGRO_VOICE *voice)
+{
+   (void)voice;
+}
+
+
+
+/* The start_voice should, surprise, start the voice. For streaming voices, it
+   should start polling the device and call _al_voice_update for audio data.
+   For non-streaming voices, it should resume playing from the last set
+   position */
+static int alsa_start_voice(ALLEGRO_VOICE *voice)
+{
+   ALSA_VOICE *ex_data = voice->extra;
+
+   /* We already hold voice->mutex. */
+   ex_data->stop = false;
+   al_signal_cond(voice->cond);
+
+   return 0;
+}
+
+
+
+/* The stop_voice method should stop playback. For non-streaming voices, it
+   should leave the data loaded, and reset the voice position to 0. */
+static int alsa_stop_voice(ALLEGRO_VOICE *voice)
+{
+   ALSA_VOICE *ex_data = voice->extra;
+
+   /* We already hold voice->mutex. */
+   ex_data->stop = true;
+   al_signal_cond(voice->cond);
+
+   if (!voice->is_streaming) {
+      voice->attached_stream->pos = 0;
+   }
+
+   while (!ex_data->stopped) {
+      al_wait_cond(voice->cond, voice->mutex);
+   }
+
+   return 0;
+}
+
+
+
+/* The voice_is_playing method should only be called on non-streaming sources,
+   and should return true if the voice is playing */
+static bool alsa_voice_is_playing(const ALLEGRO_VOICE *voice)
+{
+   ALSA_VOICE *ex_data = voice->extra;
+   return !ex_data->stopped;
+}
+
+
+/* The allocate_voice method should grab a voice from the system, and allocate
+   any data common to streaming and non-streaming sources. */
+static int alsa_allocate_voice(ALLEGRO_VOICE *voice)
+{
+   snd_pcm_format_t format;
+   int chan_count;
+   unsigned int req_freq;
+
+   ALSA_VOICE *ex_data = al_calloc(1, sizeof(ALSA_VOICE));
+   if (!ex_data)
+      return 1;
+
+   chan_count = al_get_channel_count(voice->chan_conf);
+   ex_data->frame_size = chan_count * al_get_audio_depth_size(voice->depth);
+   if (!ex_data->frame_size)
+      goto Error;
+
+   ex_data->stop = true;
+   ex_data->stopped = true;
+   ex_data->reversed = false;
+   // TODO: Setting this to 256 causes (extreme, about than 10 seconds)
+   // lag if the alsa device is really pulseaudio.
+   //
+   // pw: But there are calls later which expect this variable to be set an on
+   // my machine (without PulseAudio) the driver doesn't work properly with
+   // anything lower than 32.
+   ex_data->frag_len = 32;
+
+   if (voice->depth == ALLEGRO_AUDIO_DEPTH_INT8)
+      format = SND_PCM_FORMAT_S8;
+   else if (voice->depth == ALLEGRO_AUDIO_DEPTH_UINT8)
+      format = SND_PCM_FORMAT_U8;
+   else if (voice->depth == ALLEGRO_AUDIO_DEPTH_INT16)
+      format = SND_PCM_FORMAT_S16;
+   else if (voice->depth == ALLEGRO_AUDIO_DEPTH_UINT16)
+      format = SND_PCM_FORMAT_U16;
+   else if (voice->depth == ALLEGRO_AUDIO_DEPTH_INT24)
+      format = SND_PCM_FORMAT_S24;
+   else if (voice->depth == ALLEGRO_AUDIO_DEPTH_UINT24)
+      format = SND_PCM_FORMAT_U24;
+   else if (voice->depth == ALLEGRO_AUDIO_DEPTH_FLOAT32)
+      format = SND_PCM_FORMAT_FLOAT;
+   else
+      goto Error;
+
+   /* Why is this? And what is this? */
+   if (voice->chan_conf == ALLEGRO_CHANNEL_CONF_3)
+      goto Error;
+
+   req_freq = voice->frequency;
+
+   ALSA_CHECK(snd_pcm_open(&ex_data->pcm_handle, alsa_device, SND_PCM_STREAM_PLAYBACK, SND_PCM_NONBLOCK));
+
+   snd_pcm_hw_params_t *hwparams;
+   snd_pcm_hw_params_alloca(&hwparams);
+
+   ALSA_CHECK(snd_pcm_hw_params_any(ex_data->pcm_handle, hwparams));
+   if (snd_pcm_hw_params_set_access(ex_data->pcm_handle, hwparams, SND_PCM_ACCESS_MMAP_INTERLEAVED) == 0) {
+      ex_data->mmapped = true;
+   }
+   else {
+      ALSA_CHECK(snd_pcm_hw_params_set_access(ex_data->pcm_handle, hwparams, SND_PCM_ACCESS_RW_INTERLEAVED));
+      ex_data->mmapped = false;
+   }
+   ALSA_CHECK(snd_pcm_hw_params_set_format(ex_data->pcm_handle, hwparams, format));
+   ALSA_CHECK(snd_pcm_hw_params_set_channels(ex_data->pcm_handle, hwparams, chan_count));
+   ALSA_CHECK(snd_pcm_hw_params_set_rate_near(ex_data->pcm_handle, hwparams, &req_freq, NULL));
+   ALSA_CHECK(snd_pcm_hw_params_set_period_size_near(ex_data->pcm_handle, hwparams, &ex_data->frag_len, NULL));
+   ALSA_CHECK(snd_pcm_hw_params(ex_data->pcm_handle, hwparams));
+
+   if (voice->frequency != req_freq) {
+      ALLEGRO_ERROR("Unsupported rate! Requested %u, got %iu.\n", voice->frequency, req_freq);
+      goto Error;
+   }
+
+   snd_pcm_sw_params_t *swparams;
+   snd_pcm_sw_params_alloca(&swparams);
+
+   ALSA_CHECK(snd_pcm_sw_params_current(ex_data->pcm_handle, swparams));
+   ALSA_CHECK(snd_pcm_sw_params_set_start_threshold(ex_data->pcm_handle, swparams, ex_data->frag_len));
+   ALSA_CHECK(snd_pcm_sw_params_set_avail_min(ex_data->pcm_handle, swparams, ex_data->frag_len));
+   ALSA_CHECK(snd_pcm_sw_params(ex_data->pcm_handle, swparams));
+
+   ex_data->ufds_count = snd_pcm_poll_descriptors_count(ex_data->pcm_handle);
+   ex_data->ufds = al_malloc(sizeof(struct pollfd) * ex_data->ufds_count);
+   ALSA_CHECK(snd_pcm_poll_descriptors(ex_data->pcm_handle, ex_data->ufds, ex_data->ufds_count));
+
+   voice->extra = ex_data;
+
+   if (ex_data->mmapped) {
+      ex_data->poll_thread = al_create_thread(alsa_update_mmap, (void*)voice);
+   }
+   else {
+      ALLEGRO_WARN("Falling back to non-mmapped transfer.\n");
+      snd_pcm_nonblock(ex_data->pcm_handle, 0);
+      ex_data->poll_thread = al_create_thread(alsa_update_rw, (void*)voice);
+   }
+   al_start_thread(ex_data->poll_thread);
+
+   return 0;
+
+Error:
+   if (ex_data->pcm_handle)
+      snd_pcm_close(ex_data->pcm_handle);
+   al_free(ex_data);
+   voice->extra = NULL;
+   return 1;
+}
+
+
+
+/* The deallocate_voice method should free the resources for the given voice,
+   but still retain a hold on the device. The voice should be stopped and
+   unloaded by the time this is called */
+static void alsa_deallocate_voice(ALLEGRO_VOICE *voice)
+{
+   ALSA_VOICE *alsa_voice = (ALSA_VOICE*)voice->extra;
+
+   al_lock_mutex(voice->mutex);
+   al_set_thread_should_stop(alsa_voice->poll_thread);
+   al_broadcast_cond(voice->cond);
+   al_unlock_mutex(voice->mutex);
+   al_join_thread(alsa_voice->poll_thread, NULL);
+
+   snd_pcm_drop(alsa_voice->pcm_handle);
+   snd_pcm_close(alsa_voice->pcm_handle);
+
+   al_destroy_thread(alsa_voice->poll_thread);
+   al_free(alsa_voice->ufds);
+   al_free(voice->extra);
+   voice->extra = NULL;
+}
+
+
+
+/* The get_voice_position method should return the current sample position of
+   the voice (sample_pos = byte_pos / (depth/8) / channels). This should never
+   be called on a streaming voice. */
+static unsigned int alsa_get_voice_position(const ALLEGRO_VOICE *voice)
+{
+   return voice->attached_stream->pos;
+}
+
+
+
+/* The set_voice_position method should set the voice's playback position,
+   given the value in samples. This should never be called on a streaming
+   voice. */
+static int alsa_set_voice_position(ALLEGRO_VOICE *voice, unsigned int val)
+{
+   voice->attached_stream->pos = val;
+   return 0;
+}
+
+
+ALLEGRO_AUDIO_DRIVER _al_kcm_alsa_driver =
+{
+   "ALSA",
+
+   alsa_open,
+   alsa_close,
+
+   alsa_allocate_voice,
+   alsa_deallocate_voice,
+
+   alsa_load_voice,
+   alsa_unload_voice,
+
+   alsa_start_voice,
+   alsa_stop_voice,
+
+   alsa_voice_is_playing,
+
+   alsa_get_voice_position,
+   alsa_set_voice_position
+};
+
+/* vim: set sts=3 sw=3 et: */
+audio.c/        0           0     0     644     9828      `
+/**
+ * Originally digi.c from allegro wiki
+ * Original authors: KC/Milan
+ *
+ * Converted to allegro5 by Ryan Dickie
+ */
+
+
+#include <math.h>
+#include <stdio.h>
+
+#include "allegro5/allegro.h"
+#include "allegro5/allegro_audio.h"
+#include "allegro5/internal/aintern.h"
+#include "allegro5/internal/aintern_exitfunc.h"
+#include "allegro5/internal/aintern_audio.h"
+#include "allegro5/internal/aintern_audio_cfg.h"
+
+ALLEGRO_DEBUG_CHANNEL("audio")
+
+void _al_set_error(int error, char* string)
+{
+   ALLEGRO_ERROR("%s (error code: %d)\n", string, error);
+}
+
+ALLEGRO_AUDIO_DRIVER *_al_kcm_driver = NULL;
+
+#if defined(ALLEGRO_CFG_KCM_OPENAL)
+   extern struct ALLEGRO_AUDIO_DRIVER _al_kcm_openal_driver;
+#endif
+#if defined(ALLEGRO_CFG_KCM_ALSA)
+   extern struct ALLEGRO_AUDIO_DRIVER _al_kcm_alsa_driver;
+#endif
+#if defined(ALLEGRO_CFG_KCM_OSS)
+   extern struct ALLEGRO_AUDIO_DRIVER _al_kcm_oss_driver;
+#endif
+#if defined(ALLEGRO_CFG_KCM_DSOUND)
+   extern struct ALLEGRO_AUDIO_DRIVER _al_kcm_dsound_driver;
+#endif
+#if defined(ALLEGRO_CFG_KCM_AQUEUE)
+   extern struct ALLEGRO_AUDIO_DRIVER _al_kcm_aqueue_driver;
+#endif
+#if defined(ALLEGRO_CFG_KCM_PULSEAUDIO)
+   extern struct ALLEGRO_AUDIO_DRIVER _al_kcm_pulseaudio_driver;
+#endif
+
+/* Channel configuration helpers */
+
+/* Function: al_get_channel_count
+ */
+size_t al_get_channel_count(ALLEGRO_CHANNEL_CONF conf)
+{
+   return (conf>>4)+(conf&0xF);
+}
+
+/* Depth configuration helpers */
+/* Function: al_get_audio_depth_size
+ */
+size_t al_get_audio_depth_size(ALLEGRO_AUDIO_DEPTH depth)
+{
+   switch (depth) {
+      case ALLEGRO_AUDIO_DEPTH_INT8:
+      case ALLEGRO_AUDIO_DEPTH_UINT8:
+         return sizeof(int8_t);
+      case ALLEGRO_AUDIO_DEPTH_INT16:
+      case ALLEGRO_AUDIO_DEPTH_UINT16:
+         return sizeof(int16_t);
+      case ALLEGRO_AUDIO_DEPTH_INT24:
+      case ALLEGRO_AUDIO_DEPTH_UINT24:
+         return sizeof(int32_t);
+      case ALLEGRO_AUDIO_DEPTH_FLOAT32:
+         return sizeof(float);
+      default:
+         ASSERT(false);
+         return 0;
+   }
+}
+
+/* FIXME: use the allegro provided helpers */
+ALLEGRO_CHANNEL_CONF _al_count_to_channel_conf(int num_channels)
+{
+   switch (num_channels) {
+      case 1:
+         return ALLEGRO_CHANNEL_CONF_1;
+      case 2:
+         return ALLEGRO_CHANNEL_CONF_2;
+      case 3:
+         return ALLEGRO_CHANNEL_CONF_3;
+      case 4:
+         return ALLEGRO_CHANNEL_CONF_4;
+      case 6:
+         return ALLEGRO_CHANNEL_CONF_5_1;
+      case 7:
+         return ALLEGRO_CHANNEL_CONF_6_1;
+      case 8:
+         return ALLEGRO_CHANNEL_CONF_7_1;
+      default:
+         return 0;
+   }
+}
+
+/* FIXME: assumes 8-bit is unsigned, and all others are signed. */
+ALLEGRO_AUDIO_DEPTH _al_word_size_to_depth_conf(int word_size)
+{
+   switch (word_size) {
+      case 1:
+         return ALLEGRO_AUDIO_DEPTH_UINT8;
+      case 2:
+         return ALLEGRO_AUDIO_DEPTH_INT16;
+      case 3:
+         return ALLEGRO_AUDIO_DEPTH_INT24;
+      case 4:
+         return ALLEGRO_AUDIO_DEPTH_FLOAT32;
+      default:
+         return 0;
+   }
+}
+
+/* Returns a silent sample frame. */
+int _al_kcm_get_silence(ALLEGRO_AUDIO_DEPTH depth)
+{
+   switch (depth) {
+      case ALLEGRO_AUDIO_DEPTH_UINT8:
+         return 0x80;
+      case ALLEGRO_AUDIO_DEPTH_INT16:
+         return 0x8000;
+      case ALLEGRO_AUDIO_DEPTH_INT24:
+         return 0x800000;
+      default:
+         return 0;
+   }
+}
+
+static ALLEGRO_AUDIO_DRIVER_ENUM get_config_audio_driver(void)
+{
+   ALLEGRO_CONFIG *config = al_get_system_config();
+   const char *value;
+
+   if (!config)
+      return ALLEGRO_AUDIO_DRIVER_AUTODETECT;
+
+   value = al_get_config_value(config, "audio", "driver");
+   if (!value || value[0] == '\0')
+      return ALLEGRO_AUDIO_DRIVER_AUTODETECT;
+
+   if (0 == _al_stricmp(value, "ALSA"))
+      return ALLEGRO_AUDIO_DRIVER_ALSA;
+
+   if (0 == _al_stricmp(value, "OPENAL"))
+      return ALLEGRO_AUDIO_DRIVER_OPENAL;
+
+   if (0 == _al_stricmp(value, "OSS"))
+      return ALLEGRO_AUDIO_DRIVER_OSS;
+
+   if (0 == _al_stricmp(value, "PULSEAUDIO"))
+      return ALLEGRO_AUDIO_DRIVER_PULSEAUDIO;
+
+   if (0 == _al_stricmp(value, "DSOUND") || 0 == _al_stricmp(value, "DIRECTSOUND"))
+      return ALLEGRO_AUDIO_DRIVER_DSOUND;
+
+   return ALLEGRO_AUDIO_DRIVER_AUTODETECT;
+}
+
+static bool do_install_audio(ALLEGRO_AUDIO_DRIVER_ENUM mode)
+{
+   bool retVal;
+
+   /* check to see if a driver is already installed and running */
+   if (_al_kcm_driver) {
+      _al_set_error(ALLEGRO_GENERIC_ERROR, "A driver already running");
+      return false;
+   }
+
+   if (mode == ALLEGRO_AUDIO_DRIVER_AUTODETECT) {
+      mode = get_config_audio_driver();
+   }
+
+   switch (mode) {
+      case ALLEGRO_AUDIO_DRIVER_AUTODETECT:
+#if defined(ALLEGRO_CFG_KCM_AQUEUE)
+         retVal = do_install_audio(ALLEGRO_AUDIO_DRIVER_AQUEUE);
+         if (retVal)
+            return retVal;
+#endif
+/* If a PA server is running, we should use it by default as it will
+ * hijack ALSA and OSS and using those then just means extra lag.
+ * 
+ * FIXME: Detect if no PA server is running and in that case prefer
+ * ALSA and OSS first.
+ */
+#if defined(ALLEGRO_CFG_KCM_PULSEAUDIO)
+         retVal = do_install_audio(ALLEGRO_AUDIO_DRIVER_PULSEAUDIO);
+         if (retVal)
+            return retVal;
+#endif
+#if defined(ALLEGRO_CFG_KCM_ALSA)
+         retVal = do_install_audio(ALLEGRO_AUDIO_DRIVER_ALSA);
+         if (retVal)
+            return retVal;
+#endif
+#if defined(ALLEGRO_CFG_KCM_DSOUND)
+         retVal = do_install_audio(ALLEGRO_AUDIO_DRIVER_DSOUND);
+         if (retVal)
+            return retVal;
+#endif
+#if defined(ALLEGRO_CFG_KCM_OSS)
+         retVal = do_install_audio(ALLEGRO_AUDIO_DRIVER_OSS);
+         if (retVal)
+            return retVal;
+#endif
+#if defined(ALLEGRO_CFG_KCM_OPENAL)
+         retVal = do_install_audio(ALLEGRO_AUDIO_DRIVER_OPENAL);
+         if (retVal)
+            return retVal;
+#endif
+         _al_set_error(ALLEGRO_INVALID_PARAM, "No audio driver can be used.");
+         _al_kcm_driver = NULL;
+         return false;
+
+      case ALLEGRO_AUDIO_DRIVER_AQUEUE:
+         #if defined(ALLEGRO_CFG_KCM_AQUEUE)
+            if (_al_kcm_aqueue_driver.open() == 0) {
+               ALLEGRO_INFO("Using Apple Audio Queue driver\n"); 
+               _al_kcm_driver = &_al_kcm_aqueue_driver;
+               return true;
+            }
+            return false;
+         #else
+            _al_set_error(ALLEGRO_INVALID_PARAM, "Audio Queue driver not available on this platform");
+            return false;
+         #endif
+
+      case ALLEGRO_AUDIO_DRIVER_OPENAL:
+         #if defined(ALLEGRO_CFG_KCM_OPENAL)
+            if (_al_kcm_openal_driver.open() == 0) {
+               ALLEGRO_INFO("Using OpenAL driver\n"); 
+               _al_kcm_driver = &_al_kcm_openal_driver;
+               return true;
+            }
+            return false;
+         #else
+            _al_set_error(ALLEGRO_INVALID_PARAM, "OpenAL not available on this platform");
+            return false;
+         #endif
+
+      case ALLEGRO_AUDIO_DRIVER_ALSA:
+         #if defined(ALLEGRO_CFG_KCM_ALSA)
+            if (_al_kcm_alsa_driver.open() == 0) {
+               ALLEGRO_INFO("Using ALSA driver\n"); 
+               _al_kcm_driver = &_al_kcm_alsa_driver;
+               return true;
+            }
+            return false;
+         #else
+            _al_set_error(ALLEGRO_INVALID_PARAM, "ALSA not available on this platform");
+            return false;
+         #endif
+
+      case ALLEGRO_AUDIO_DRIVER_OSS:
+         #if defined(ALLEGRO_CFG_KCM_OSS)
+            if (_al_kcm_oss_driver.open() == 0) {
+               ALLEGRO_INFO("Using OSS driver\n");
+               _al_kcm_driver = &_al_kcm_oss_driver;
+               return true;
+            }
+            return false;
+         #else
+            _al_set_error(ALLEGRO_INVALID_PARAM, "OSS not available on this platform");
+            return false;
+         #endif
+
+      case ALLEGRO_AUDIO_DRIVER_PULSEAUDIO:
+         #if defined(ALLEGRO_CFG_KCM_PULSEAUDIO)
+            if (_al_kcm_pulseaudio_driver.open() == 0) {
+               ALLEGRO_INFO("Using PulseAudio driver\n");
+               _al_kcm_driver = &_al_kcm_pulseaudio_driver;
+               return true;
+            }
+            return false;
+         #else
+            _al_set_error(ALLEGRO_INVALID_PARAM, "PulseAudio not available on this platform");
+            return false;
+         #endif
+
+      case ALLEGRO_AUDIO_DRIVER_DSOUND:
+         #if defined(ALLEGRO_CFG_KCM_DSOUND)
+            if (_al_kcm_dsound_driver.open() == 0) {
+               ALLEGRO_INFO("Using DirectSound driver\n"); 
+               _al_kcm_driver = &_al_kcm_dsound_driver;
+               return true;
+            }
+            return false;
+         #else
+            _al_set_error(ALLEGRO_INVALID_PARAM, "DirectSound not available on this platform");
+            return false;
+         #endif
+
+      default:
+         _al_set_error(ALLEGRO_INVALID_PARAM, "Invalid audio driver");
+         return false;
+   }
+}
+
+/* Function: al_install_audio
+ */
+bool al_install_audio(void)
+{
+   if (_al_kcm_driver)
+      return true;
+
+   /* The destructors are initialised even if the audio driver fails to install
+    * because the user may still create samples.
+    */
+   _al_kcm_init_destructors();
+   _al_add_exit_func(al_uninstall_audio, "al_uninstall_audio");
+
+   return do_install_audio(ALLEGRO_AUDIO_DRIVER_AUTODETECT);
+}
+
+/* Function: al_uninstall_audio
+ */
+void al_uninstall_audio(void)
+{
+   if (_al_kcm_driver) {
+      _al_kcm_shutdown_default_mixer();
+      _al_kcm_shutdown_destructors();
+      _al_kcm_driver->close();
+      _al_kcm_driver = NULL;
+   }
+   else {
+      _al_kcm_shutdown_destructors();
+   }
+}
+
+/* Function: al_is_audio_installed
+ */
+bool al_is_audio_installed(void)
+{
+   return _al_kcm_driver ? true : false;
+}
+
+/* Function: al_get_allegro_audio_version
+ */
+uint32_t al_get_allegro_audio_version(void)
+{
+   return ALLEGRO_VERSION_INT;
+}
+
+/* vim: set sts=3 sw=3 et: */
+audio_io.c/     0           0     0     644     7626      `
+/*
+ * Allegro audio codec table.
+ */
+
+#include "allegro5/allegro.h"
+#include "allegro5/allegro_audio.h"
+#include "allegro5/internal/aintern.h"
+#include "allegro5/internal/aintern_audio.h"
+#include "allegro5/internal/aintern_exitfunc.h"
+#include "allegro5/internal/aintern_vector.h"
+
+ALLEGRO_DEBUG_CHANNEL("audio")
+
+
+#define MAX_EXTENSION_LENGTH  (32)
+
+typedef struct ACODEC_TABLE ACODEC_TABLE;
+struct ACODEC_TABLE
+{
+   char              ext[MAX_EXTENSION_LENGTH];
+   ALLEGRO_SAMPLE *  (*loader)(const char *filename);
+   bool              (*saver)(const char *filename, ALLEGRO_SAMPLE *spl);
+   ALLEGRO_AUDIO_STREAM *(*stream_loader)(const char *filename,
+                        size_t buffer_count, unsigned int samples);
+                        
+   ALLEGRO_SAMPLE *  (*fs_loader)(ALLEGRO_FILE *fp);
+   bool              (*fs_saver)(ALLEGRO_FILE *fp, ALLEGRO_SAMPLE *spl);
+   ALLEGRO_AUDIO_STREAM *(*fs_stream_loader)(ALLEGRO_FILE *fp,
+                        size_t buffer_count, unsigned int samples);
+};
+
+
+/* globals */
+static bool acodec_inited = false;
+static _AL_VECTOR acodec_table = _AL_VECTOR_INITIALIZER(ACODEC_TABLE);
+
+
+static void acodec_shutdown(void)
+{
+   if (acodec_inited) {
+      _al_vector_free(&acodec_table);
+      acodec_inited = false;
+   }
+}
+
+
+static ACODEC_TABLE *find_acodec_table_entry(const char *ext)
+{
+   ACODEC_TABLE *ent;
+   unsigned i;
+
+   if (!acodec_inited) {
+      acodec_inited = true;
+      _al_add_exit_func(acodec_shutdown, "acodec_shutdown");
+   }
+
+   for (i = 0; i < _al_vector_size(&acodec_table); i++) {
+      ent = _al_vector_ref(&acodec_table, i);
+      if (0 == _al_stricmp(ent->ext, ext)) {
+         return ent;
+      }
+   }
+
+   return NULL;
+}
+
+
+static ACODEC_TABLE *add_acodec_table_entry(const char *ext)
+{
+   ACODEC_TABLE *ent;
+
+   ent = _al_vector_alloc_back(&acodec_table);
+   strcpy(ent->ext, ext);
+   ent->loader = NULL;
+   ent->saver = NULL;
+   ent->stream_loader = NULL;
+   
+   ent->fs_loader = NULL;
+   ent->fs_saver = NULL;
+   ent->fs_stream_loader = NULL;
+
+   return ent;
+}
+
+
+/* Function: al_register_sample_loader
+ */
+bool al_register_sample_loader(const char *ext,
+   ALLEGRO_SAMPLE *(*loader)(const char *filename))
+{
+   ACODEC_TABLE *ent;
+
+   if (strlen(ext) + 1 >= MAX_EXTENSION_LENGTH) {
+      return false;
+   }
+
+   ent = find_acodec_table_entry(ext);
+   if (!loader) {
+      if (!ent || !ent->loader) {
+         return false; /* Nothing to remove. */
+      }
+   }
+   else if (!ent) {
+      ent = add_acodec_table_entry(ext);
+   }
+
+   ent->loader = loader;
+
+   return true;
+}
+
+
+/* Function: al_register_sample_loader_f
+ */
+bool al_register_sample_loader_f(const char *ext,
+   ALLEGRO_SAMPLE *(*loader)(ALLEGRO_FILE* fp))
+{
+   ACODEC_TABLE *ent;
+
+   if (strlen(ext) + 1 >= MAX_EXTENSION_LENGTH) {
+      return false;
+   }
+
+   ent = find_acodec_table_entry(ext);
+   if (!loader) {
+      if (!ent || !ent->fs_loader) {
+         return false; /* Nothing to remove. */
+      }
+   }
+   else if (!ent) {
+      ent = add_acodec_table_entry(ext);
+   }
+
+   ent->fs_loader = loader;
+
+   return true;
+}
+
+
+/* Function: al_register_sample_saver
+ */
+bool al_register_sample_saver(const char *ext,
+   bool (*saver)(const char *filename, ALLEGRO_SAMPLE *spl))
+{
+   ACODEC_TABLE *ent;
+
+   if (strlen(ext) + 1 >= MAX_EXTENSION_LENGTH) {
+      return false;
+   }
+
+   ent = find_acodec_table_entry(ext);
+   if (!saver) {
+      if (!ent || !ent->saver) {
+         return false; /* Nothing to remove. */
+      }
+   }
+   else if (!ent) {
+      ent = add_acodec_table_entry(ext);
+   }
+
+   ent->saver = saver;
+
+   return true;
+}
+
+
+/* Function: al_register_sample_saver_f
+ */
+bool al_register_sample_saver_f(const char *ext,
+   bool (*saver)(ALLEGRO_FILE* fp, ALLEGRO_SAMPLE *spl))
+{
+   ACODEC_TABLE *ent;
+
+   if (strlen(ext) + 1 >= MAX_EXTENSION_LENGTH) {
+      return false;
+   }
+
+   ent = find_acodec_table_entry(ext);
+   if (!saver) {
+      if (!ent || !ent->fs_saver) {
+         return false; /* Nothing to remove. */
+      }
+   }
+   else if (!ent) {
+      ent = add_acodec_table_entry(ext);
+   }
+
+   ent->fs_saver = saver;
+
+   return true;
+}
+
+
+/* Function: al_register_audio_stream_loader
+ */
+bool al_register_audio_stream_loader(const char *ext,
+   ALLEGRO_AUDIO_STREAM *(*stream_loader)(const char *filename,
+      size_t buffer_count, unsigned int samples))
+{
+   ACODEC_TABLE *ent;
+
+   if (strlen(ext) + 1 >= MAX_EXTENSION_LENGTH) {
+      return false;
+   }
+
+   ent = find_acodec_table_entry(ext);
+   if (!stream_loader) {
+      if (!ent || !ent->stream_loader) {
+         return false; /* Nothing to remove. */
+      }
+   }
+   else if (!ent) {
+      ent = add_acodec_table_entry(ext);
+   }
+
+   ent->stream_loader = stream_loader;
+
+   return true;
+}
+
+
+/* Function: al_register_audio_stream_loader_f
+ */
+bool al_register_audio_stream_loader_f(const char *ext,
+   ALLEGRO_AUDIO_STREAM *(*stream_loader)(ALLEGRO_FILE* fp,
+      size_t buffer_count, unsigned int samples))
+{
+   ACODEC_TABLE *ent;
+
+   if (strlen(ext) + 1 >= MAX_EXTENSION_LENGTH) {
+      return false;
+   }
+
+   ent = find_acodec_table_entry(ext);
+   if (!stream_loader) {
+      if (!ent || !ent->fs_stream_loader) {
+         return false; /* Nothing to remove. */
+      }
+   }
+   else if (!ent) {
+      ent = add_acodec_table_entry(ext);
+   }
+
+   ent->fs_stream_loader = stream_loader;
+
+   return true;
+}
+
+
+/* Function: al_load_sample
+ */
+ALLEGRO_SAMPLE *al_load_sample(const char *filename)
+{
+   const char *ext;
+   ACODEC_TABLE *ent;
+
+   ASSERT(filename);
+   ext = strrchr(filename, '.');
+   if (ext == NULL)
+      return NULL;
+
+   ent = find_acodec_table_entry(ext);
+   if (ent && ent->loader) {
+      return (ent->loader)(filename);
+   }
+
+   return NULL;
+}
+
+
+/* Function: al_load_sample_f
+ */
+ALLEGRO_SAMPLE *al_load_sample_f(ALLEGRO_FILE* fp, const char *ident)
+{
+   ACODEC_TABLE *ent;
+
+   ASSERT(fp);
+   ASSERT(ident);
+
+   ent = find_acodec_table_entry(ident);
+   if (ent && ent->fs_loader) {
+      return (ent->fs_loader)(fp);
+   }
+
+   return NULL;
+}
+
+
+/* Function: al_load_audio_stream
+ */
+ALLEGRO_AUDIO_STREAM *al_load_audio_stream(const char *filename,
+   size_t buffer_count, unsigned int samples)
+{
+   const char *ext;
+   ACODEC_TABLE *ent;
+
+   ASSERT(filename);
+   ext = strrchr(filename, '.');
+   if (ext == NULL)
+      return NULL;
+
+   ent = find_acodec_table_entry(ext);
+   if (ent && ent->stream_loader) {
+      return (ent->stream_loader)(filename, buffer_count, samples);
+   }
+
+   ALLEGRO_ERROR("Error creating ALLEGRO_AUDIO_STREAM from '%s'.\n", filename);
+
+   return NULL;
+}
+
+
+/* Function: al_load_audio_stream_f
+ */
+ALLEGRO_AUDIO_STREAM *al_load_audio_stream_f(ALLEGRO_FILE* fp, const char *ident,
+   size_t buffer_count, unsigned int samples)
+{
+   ACODEC_TABLE *ent;
+
+   ASSERT(fp);
+   ASSERT(ident);
+   
+   ent = find_acodec_table_entry(ident);
+   if (ent && ent->fs_stream_loader) {
+      return (ent->fs_stream_loader)(fp, buffer_count, samples);
+   }
+
+   return NULL;
+}
+
+
+/* Function: al_save_sample
+ */
+bool al_save_sample(const char *filename, ALLEGRO_SAMPLE *spl)
+{
+   const char *ext;
+   ACODEC_TABLE *ent;
+
+   ASSERT(filename);
+   ext = strrchr(filename, '.');
+   if (ext == NULL)
+      return false;
+
+   ent = find_acodec_table_entry(ext);
+   if (ent && ent->saver) {
+      return (ent->saver)(filename, spl);
+   }
+
+   return false;
+}
+
+
+/* Function: al_save_sample_f
+ */
+bool al_save_sample_f(ALLEGRO_FILE *fp, const char *ident, ALLEGRO_SAMPLE *spl)
+{
+   ACODEC_TABLE *ent;
+
+   ASSERT(fp);
+   ASSERT(ident);
+   
+   ent = find_acodec_table_entry(ident);
+   if (ent && ent->fs_saver) {
+      return (ent->fs_saver)(fp, spl);
+   }
+
+   return false;
+}
+
+
+/* vim: set sts=3 sw=3 et: */
+kcm_dtor.c/     0           0     0     644     1972      `
+/*         ______   ___    ___
+ *        /\  _  \ /\_ \  /\_ \
+ *        \ \ \L\ \\//\ \ \//\ \      __     __   _ __   ___
+ *         \ \  __ \ \ \ \  \ \ \   /'__`\ /'_ `\/\`'__\/ __`\
+ *          \ \ \/\ \ \_\ \_ \_\ \_/\  __//\ \L\ \ \ \//\ \L\ \
+ *           \ \_\ \_\/\____\/\____\ \____\ \____ \ \_\\ \____/
+ *            \/_/\/_/\/____/\/____/\/____/\/___L\ \/_/ \/___/
+ *                                           /\____/
+ *                                           \_/__/
+ *
+ *      Destructors.
+ *
+ *      By Peter Wang.
+ *
+ *      See LICENSE.txt for copyright information.
+ */
+
+
+#include "allegro5/allegro.h"
+#include "allegro5/allegro_audio.h"
+#include "allegro5/internal/aintern_dtor.h"
+#include "allegro5/internal/aintern_thread.h"
+#include "allegro5/internal/aintern_audio.h"
+
+
+static _AL_DTOR_LIST *kcm_dtors = NULL;
+
+
+/* _al_kcm_init_destructors:
+ *  Initialise the destructor list.
+ */
+void _al_kcm_init_destructors(void)
+{
+   if (!kcm_dtors) {
+      kcm_dtors = _al_init_destructors();
+   }
+}
+
+
+/* _al_kcm_shutdown_destructors:
+ *  Run all destructors and free the destructor list.
+ */
+void _al_kcm_shutdown_destructors(void)
+{
+   if (kcm_dtors) {
+      _al_run_destructors(kcm_dtors);
+      _al_shutdown_destructors(kcm_dtors);
+      kcm_dtors = NULL;
+   }
+}
+
+
+/* _al_kcm_register_destructor:
+ *  Register an object to be destroyed.
+ */
+void _al_kcm_register_destructor(void *object, void (*func)(void*))
+{
+   _al_register_destructor(kcm_dtors, object, func);
+}
+
+
+/* _al_kcm_unregister_destructor:
+ *  Unregister an object to be destroyed.
+ */
+void _al_kcm_unregister_destructor(void *object)
+{
+   _al_unregister_destructor(kcm_dtors, object);
+}
+
+
+/* _al_kcm_foreach_destructor:
+ *  Call the callback for each registered object.
+ */
+void _al_kcm_foreach_destructor(
+   void (*callback)(void *object, void (*func)(void *), void *udata),
+   void *userdata)
+{
+   _al_foreach_destructor(kcm_dtors, callback, userdata);
+}
+
+
+/* vim: set sts=3 sw=3 et: */
+kcm_instance.c/ 0           0     0     644     14408     `
+/**
+ * Originally digi.c from allegro wiki
+ * Original authors: KC/Milan
+ *
+ * Converted to allegro5 by Ryan Dickie
+ */
+
+/* Title: Sample Instance functions
+ */
+
+#include <math.h>
+#include <stdio.h>
+
+#include "allegro5/allegro_audio.h"
+#include "allegro5/internal/aintern_audio.h"
+#include "allegro5/internal/aintern_audio_cfg.h"
+
+
+static void maybe_lock_mutex(ALLEGRO_MUTEX *mutex)
+{
+   if (mutex) {
+      al_lock_mutex(mutex);
+   }
+}
+
+
+static void maybe_unlock_mutex(ALLEGRO_MUTEX *mutex)
+{
+   if (mutex) {
+      al_unlock_mutex(mutex);
+   }
+}
+
+
+/* _al_kcm_stream_set_mutex:
+ *  This function sets a sample's mutex pointer to the specified value. It is
+ *  ALLEGRO_MIXER aware, and will recursively set any attached streams' mutex
+ *  to the same value.
+ */
+void _al_kcm_stream_set_mutex(ALLEGRO_SAMPLE_INSTANCE *stream, ALLEGRO_MUTEX *mutex)
+{
+   ASSERT(stream);
+
+   if (stream->mutex == mutex)
+      return;
+   stream->mutex = mutex;
+
+   /* If this is a mixer, we need to make sure all the attached streams also
+    * set the same mutex.
+    */
+   if (stream->is_mixer) {
+      ALLEGRO_MIXER *mixer = (ALLEGRO_MIXER *)stream;
+      int i;
+
+      for (i = _al_vector_size(&mixer->streams) - 1; i >= 0; i--) {
+         ALLEGRO_SAMPLE_INSTANCE **slot = _al_vector_ref(&mixer->streams, i);
+         ALLEGRO_SAMPLE_INSTANCE *spl = *slot;
+         _al_kcm_stream_set_mutex(spl, mutex);
+      }
+   }
+}
+
+
+/* stream_free:
+ *  This function is ALLEGRO_MIXER aware and frees the memory associated with
+ *  the sample or mixer, and detaches any attached streams or mixers.
+ */
+static void stream_free(ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   if (spl) {
+      /* Make sure we free the mixer buffer and de-reference the attached
+       * streams if this is a mixer stream.
+       */
+      if (spl->is_mixer) {
+         ALLEGRO_MIXER *mixer = (ALLEGRO_MIXER *)spl;
+         int i;
+
+         _al_kcm_stream_set_mutex(&mixer->ss, NULL);
+
+         for (i = _al_vector_size(&mixer->streams) - 1; i >= 0; i--) {
+            ALLEGRO_SAMPLE_INSTANCE **slot = _al_vector_ref(&mixer->streams, i);
+            ALLEGRO_SAMPLE_INSTANCE *spl = *slot;
+            spl->parent.u.ptr = NULL;
+         }
+
+         _al_vector_free(&mixer->streams);
+
+         if (spl->spl_data.buffer.ptr) {
+            ASSERT(spl->spl_data.free_buf);
+            al_free(spl->spl_data.buffer.ptr);
+            spl->spl_data.buffer.ptr = NULL;
+         }
+         spl->spl_data.free_buf = false;
+      }
+
+      ASSERT(! spl->spl_data.free_buf);
+
+      al_free(spl);
+   }
+}
+
+
+/* _al_kcm_detach_from_parent:
+ *  This detaches the sample, stream, or mixer from anything it may be attached
+ *  to.
+ */
+void _al_kcm_detach_from_parent(ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ALLEGRO_MIXER *mixer;
+   int i;
+
+   if (!spl || !spl->parent.u.ptr)
+      return;
+
+   if (spl->parent.is_voice) {
+      al_detach_voice(spl->parent.u.voice);
+      return;
+   }
+   
+   mixer = spl->parent.u.mixer;
+
+   /* Search through the streams and check for this one */
+   for (i = _al_vector_size(&mixer->streams) - 1; i >= 0; i--) {
+      ALLEGRO_SAMPLE_INSTANCE **slot = _al_vector_ref(&mixer->streams, i);
+
+      if (*slot == spl) {
+         maybe_lock_mutex(mixer->ss.mutex);
+
+         _al_vector_delete_at(&mixer->streams, i);
+         spl->parent.u.mixer = NULL;
+         _al_kcm_stream_set_mutex(spl, NULL);
+
+         spl->spl_read = NULL;
+
+         maybe_unlock_mutex(mixer->ss.mutex);
+
+         break;
+      }
+   }
+
+   al_free(spl->matrix);
+   spl->matrix = NULL;
+}
+
+
+/* Function: al_create_sample_instance
+ */
+ALLEGRO_SAMPLE_INSTANCE *al_create_sample_instance(ALLEGRO_SAMPLE *sample_data)
+{
+   ALLEGRO_SAMPLE_INSTANCE *spl;
+
+   spl = al_calloc(1, sizeof(*spl));
+   if (!spl) {
+      _al_set_error(ALLEGRO_GENERIC_ERROR,
+         "Out of memory allocating sample object");
+      return NULL;
+   }
+
+   if (sample_data) {
+      spl->spl_data = *sample_data;
+   }
+   spl->spl_data.free_buf = false;
+
+   spl->loop = ALLEGRO_PLAYMODE_ONCE;
+   spl->speed = 1.0f;
+   spl->gain = 1.0f;
+   spl->pan = 0.0f;
+   spl->pos = 0;
+   spl->loop_start = 0;
+   spl->loop_end = sample_data ? sample_data->len : 0;
+   spl->step = 0;
+
+   spl->matrix = NULL;
+
+   spl->is_mixer = false;
+   spl->spl_read = NULL;
+
+   spl->mutex = NULL;
+   spl->parent.u.ptr = NULL;
+
+   _al_kcm_register_destructor(spl, (void (*)(void *)) al_destroy_sample_instance);
+
+   return spl;
+}
+
+
+/* This function is ALLEGRO_MIXER aware */
+/* Function: al_destroy_sample_instance
+ */
+void al_destroy_sample_instance(ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   _al_kcm_destroy_sample(spl, true);
+}
+
+
+/* Internal function: _al_kcm_destroy_sample
+ */
+void _al_kcm_destroy_sample(ALLEGRO_SAMPLE_INSTANCE *spl, bool unregister)
+{
+   if (spl) {
+      if (unregister) {
+         _al_kcm_unregister_destructor(spl);
+      }
+
+      _al_kcm_detach_from_parent(spl);
+      stream_free(spl);
+   }
+}
+
+
+/* Function: al_play_sample_instance
+ */
+bool al_play_sample_instance(ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   return al_set_sample_instance_playing(spl, true);
+}
+
+
+/* Function: al_stop_sample_instance
+ */
+bool al_stop_sample_instance(ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   return al_set_sample_instance_playing(spl, false);
+}
+
+
+/* Function: al_get_sample_instance_frequency
+ */
+unsigned int al_get_sample_instance_frequency(const ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   return spl->spl_data.frequency;
+}
+
+
+/* Function: al_get_sample_instance_length
+ */
+unsigned int al_get_sample_instance_length(const ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   return spl->spl_data.len;
+}
+
+
+/* Function: al_get_sample_instance_position
+ */
+unsigned int al_get_sample_instance_position(const ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   if (spl->parent.u.ptr && spl->parent.is_voice) {
+      ALLEGRO_VOICE *voice = spl->parent.u.voice;
+      return al_get_voice_position(voice);
+   }
+
+   return spl->pos;
+}
+
+
+/* Function: al_get_sample_instance_speed
+ */
+float al_get_sample_instance_speed(const ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   return spl->speed;
+}
+
+
+/* Function: al_get_sample_instance_gain
+ */
+float al_get_sample_instance_gain(const ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   return spl->gain;
+}
+
+
+/* Function: al_get_sample_instance_pan
+ */
+float al_get_sample_instance_pan(const ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   return spl->pan;
+}
+
+
+/* Function: al_get_sample_instance_time
+ */
+float al_get_sample_instance_time(const ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   return (float)(spl->spl_data.len)
+      / (float)spl->spl_data.frequency;
+}
+
+
+/* Function: al_get_sample_instance_depth
+ */
+ALLEGRO_AUDIO_DEPTH al_get_sample_instance_depth(const ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   return spl->spl_data.depth;
+}
+
+
+/* Function: al_get_sample_instance_channels
+ */
+ALLEGRO_CHANNEL_CONF al_get_sample_instance_channels(
+   const ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   return spl->spl_data.chan_conf;
+}
+
+
+/* Function: al_get_sample_instance_playmode
+ */
+ALLEGRO_PLAYMODE al_get_sample_instance_playmode(const ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   return spl->loop;
+}
+
+
+/* Function: al_get_sample_instance_playing
+ */
+bool al_get_sample_instance_playing(const ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   if (spl->parent.u.ptr && spl->parent.is_voice) {
+      ALLEGRO_VOICE *voice = spl->parent.u.voice;
+      return al_get_voice_playing(voice);
+   }
+
+   return spl->is_playing;
+}
+
+
+/* Function: al_get_sample_instance_attached
+ */
+bool al_get_sample_instance_attached(const ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   return (spl->parent.u.ptr != NULL);
+}
+
+
+/* Function: al_set_sample_instance_position
+ */
+bool al_set_sample_instance_position(ALLEGRO_SAMPLE_INSTANCE *spl,
+   unsigned int val)
+{
+   ASSERT(spl);
+
+   if (spl->parent.u.ptr && spl->parent.is_voice) {
+      ALLEGRO_VOICE *voice = spl->parent.u.voice;
+      if (!al_set_voice_position(voice, val))
+         return false;
+   }
+   else {
+      maybe_lock_mutex(spl->mutex);
+      spl->pos = val;
+      maybe_unlock_mutex(spl->mutex);
+   }
+
+   return true;
+}
+
+
+/* Function: al_set_sample_instance_length
+ */
+bool al_set_sample_instance_length(ALLEGRO_SAMPLE_INSTANCE *spl,
+   unsigned int val)
+{
+   ASSERT(spl);
+
+   if (spl->is_playing) {
+      _al_set_error(ALLEGRO_INVALID_OBJECT,
+         "Attempted to change the length of a playing sample");
+      return false;
+   }
+
+   spl->spl_data.len = val;
+   return true;
+}
+
+
+/* Function: al_set_sample_instance_speed
+ */
+bool al_set_sample_instance_speed(ALLEGRO_SAMPLE_INSTANCE *spl, float val)
+{
+   ASSERT(spl);
+
+   if (fabsf(val) < (1.0f/64.0f)) {
+      _al_set_error(ALLEGRO_INVALID_PARAM,
+         "Attempted to set zero speed");
+      return false;
+   }
+
+   if (spl->parent.u.ptr && spl->parent.is_voice) {
+      _al_set_error(ALLEGRO_GENERIC_ERROR,
+         "Could not set voice playback speed");
+      return false;
+   }
+
+   spl->speed = val;
+   if (spl->parent.u.mixer) {
+      ALLEGRO_MIXER *mixer = spl->parent.u.mixer;
+
+      maybe_lock_mutex(spl->mutex);
+
+      spl->step = (spl->spl_data.frequency) * spl->speed;
+      spl->step_denom = mixer->ss.spl_data.frequency;
+      /* Don't wanna be trapped with a step value of 0 */
+      if (spl->step == 0) {
+         if (spl->speed > 0.0f)
+            spl->step = 1;
+         else
+            spl->step = -1;
+      }
+
+      maybe_unlock_mutex(spl->mutex);
+   }
+
+   return true;
+}
+
+
+/* Function: al_set_sample_instance_gain
+ */
+bool al_set_sample_instance_gain(ALLEGRO_SAMPLE_INSTANCE *spl, float val)
+{
+   ASSERT(spl);
+
+   if (spl->parent.u.ptr && spl->parent.is_voice) {
+      _al_set_error(ALLEGRO_GENERIC_ERROR,
+         "Could not set gain of sample attached to voice");
+      return false;
+   }
+
+   if (spl->gain != val) {
+      spl->gain = val;
+
+      /* If attached to a mixer already, need to recompute the sample
+       * matrix to take into account the gain.
+       */
+      if (spl->parent.u.mixer) {
+         ALLEGRO_MIXER *mixer = spl->parent.u.mixer;
+
+         maybe_lock_mutex(spl->mutex);
+         _al_kcm_mixer_rejig_sample_matrix(mixer, spl);
+         maybe_unlock_mutex(spl->mutex);
+      }
+   }
+
+   return true;
+}
+
+
+/* Function: al_set_sample_instance_pan
+ */
+bool al_set_sample_instance_pan(ALLEGRO_SAMPLE_INSTANCE *spl, float val)
+{
+   ASSERT(spl);
+
+   if (spl->parent.u.ptr && spl->parent.is_voice) {
+      _al_set_error(ALLEGRO_GENERIC_ERROR,
+         "Could not set panning of sample attached to voice");
+      return false;
+   }
+   if (val != ALLEGRO_AUDIO_PAN_NONE && (val < -1.0 || val > 1.0)) {
+      _al_set_error(ALLEGRO_GENERIC_ERROR, "Invalid pan value");
+      return false;
+   }
+
+   if (spl->pan != val) {
+      spl->pan = val;
+
+      /* If attached to a mixer already, need to recompute the sample
+       * matrix to take into account the panning.
+       */
+      if (spl->parent.u.mixer) {
+         ALLEGRO_MIXER *mixer = spl->parent.u.mixer;
+
+         maybe_lock_mutex(spl->mutex);
+         _al_kcm_mixer_rejig_sample_matrix(mixer, spl);
+         maybe_unlock_mutex(spl->mutex);
+      }
+   }
+
+   return true;
+}
+
+
+/* Function: al_set_sample_instance_playmode
+ */
+bool al_set_sample_instance_playmode(ALLEGRO_SAMPLE_INSTANCE *spl,
+   ALLEGRO_PLAYMODE val)
+{
+   ASSERT(spl);
+
+   if (val < ALLEGRO_PLAYMODE_ONCE || val > ALLEGRO_PLAYMODE_BIDIR) {
+      _al_set_error(ALLEGRO_INVALID_PARAM,
+         "Invalid loop mode");
+      return false;
+   }
+
+   maybe_lock_mutex(spl->mutex);
+
+   spl->loop = val;
+   if (spl->loop != ALLEGRO_PLAYMODE_ONCE) {
+      if (spl->pos < spl->loop_start)
+         spl->pos = spl->loop_start;
+      else if (spl->pos > spl->loop_end-1)
+         spl->pos = spl->loop_end-1;
+   }
+
+   maybe_unlock_mutex(spl->mutex);
+
+   return true;
+}
+
+
+/* Function: al_set_sample_instance_playing
+ */
+bool al_set_sample_instance_playing(ALLEGRO_SAMPLE_INSTANCE *spl, bool val)
+{
+   ASSERT(spl);
+
+   if (!spl->parent.u.ptr) {
+      _al_set_error(ALLEGRO_INVALID_OBJECT, "Sample has no parent");
+      return false;
+   }
+   if (!spl->spl_data.buffer.ptr) {
+      _al_set_error(ALLEGRO_INVALID_OBJECT, "Sample has no data");
+      return false;
+   }
+
+   if (spl->parent.is_voice) {
+      /* parent is voice */
+      ALLEGRO_VOICE *voice = spl->parent.u.voice;
+
+      return al_set_voice_playing(voice, val);
+   }
+
+   /* parent is mixer */
+   maybe_lock_mutex(spl->mutex);
+   spl->is_playing = val;
+   if (!val)
+      spl->pos = 0;
+   maybe_unlock_mutex(spl->mutex);
+   return true;
+}
+
+
+/* Function: al_detach_sample_instance
+ */
+bool al_detach_sample_instance(ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   _al_kcm_detach_from_parent(spl);
+   ASSERT(spl->spl_read == NULL);
+   return true;
+}
+
+
+/* Function: al_set_sample
+ */
+bool al_set_sample(ALLEGRO_SAMPLE_INSTANCE *spl, ALLEGRO_SAMPLE *data)
+{
+   sample_parent_t old_parent;
+   bool need_reattach;
+
+   ASSERT(spl);
+
+   /* Stop the sample if it is playing. */
+   if (spl->is_playing) {
+      if (!al_set_sample_instance_playing(spl, false)) {
+         /* Shouldn't happen. */
+         ASSERT(false);
+         return false;
+      }
+   }
+
+   if (!data) {
+      if (spl->parent.u.ptr) {
+         _al_kcm_detach_from_parent(spl);
+      }
+      spl->spl_data.buffer.ptr = NULL;
+      return true;
+   }
+
+   /* Have data. */
+
+   need_reattach = false;
+   if (spl->parent.u.ptr != NULL) {
+      if (spl->spl_data.frequency != data->frequency ||
+            spl->spl_data.depth != data->depth ||
+            spl->spl_data.chan_conf != data->chan_conf) {
+         old_parent = spl->parent;
+         need_reattach = true;
+         _al_kcm_detach_from_parent(spl);
+      }
+   }
+
+   spl->spl_data = *data;
+   spl->spl_data.free_buf = false;
+   spl->pos = 0;
+   spl->loop_start = 0;
+   spl->loop_end = data->len;
+   /* Should we reset the loop mode? */
+
+   if (need_reattach) {
+      if (old_parent.is_voice) {
+         if (!al_attach_sample_instance_to_voice(spl, old_parent.u.voice)) {
+            spl->spl_data.buffer.ptr = NULL;
+            return false;
+         }
+      }
+      else {
+         if (!al_attach_sample_instance_to_mixer(spl, old_parent.u.mixer)) {
+            spl->spl_data.buffer.ptr = NULL;
+            return false;
+         }
+      }
+   }
+
+   return true;
+}
+
+
+/* Function: al_get_sample
+ */
+ALLEGRO_SAMPLE *al_get_sample(ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   ASSERT(spl);
+
+   return &(spl->spl_data);
+}
+
+
+/* vim: set sts=3 sw=3 et: */
+kcm_mixer.c/    0           0     0     644     30291     `
+/**
+ * Originally digi.c from allegro wiki
+ * Original authors: KC/Milan
+ *
+ * Converted to allegro5 by Ryan Dickie
+ */
+
+/* Title: Mixer functions
+ */
+
+#include <math.h>
+#include <stdio.h>
+
+#include "allegro5/allegro_audio.h"
+#include "allegro5/internal/aintern.h"
+#include "allegro5/internal/aintern_audio.h"
+#include "allegro5/internal/aintern_audio_cfg.h"
+
+ALLEGRO_DEBUG_CHANNEL("audio")
+
+
+typedef union {
+   float f32[ALLEGRO_MAX_CHANNELS]; /* max: 7.1 */
+   int16_t s16[ALLEGRO_MAX_CHANNELS];
+   void *ptr;
+} SAMP_BUF;
+
+
+
+static void maybe_lock_mutex(ALLEGRO_MUTEX *mutex)
+{
+   if (mutex) {
+      al_lock_mutex(mutex);
+   }
+}
+
+
+static void maybe_unlock_mutex(ALLEGRO_MUTEX *mutex)
+{
+   if (mutex) {
+      al_unlock_mutex(mutex);
+   }
+}
+
+
+/* _al_rechannel_matrix:
+ *  This function provides a (temporary!) matrix that can be used to convert
+ *  one channel configuration into another.
+ *
+ *  Returns a pointer to a statically allocated array.
+ */
+static float *_al_rechannel_matrix(ALLEGRO_CHANNEL_CONF orig,
+   ALLEGRO_CHANNEL_CONF target, float gain, float pan)
+{
+   /* Max 7.1 (8 channels) for input and output */
+   static float mat[ALLEGRO_MAX_CHANNELS][ALLEGRO_MAX_CHANNELS];
+
+   size_t dst_chans = al_get_channel_count(target);
+   size_t src_chans = al_get_channel_count(orig);
+   size_t i, j;
+
+   /* Start with a simple identity matrix */
+   memset(mat, 0, sizeof(mat));
+   for (i = 0; i < src_chans && i < dst_chans; i++) {
+      mat[i][i] = 1.0;
+   }
+
+   /* Multi-channel -> mono conversion (cuts rear/side channels) */
+   if (dst_chans == 1 && (orig>>4) > 1) {
+      for (i = 0; i < 2; i++) {
+         mat[0][i] = 1.0 / sqrt(2.0);
+      }
+
+      /* If the source has a center channel, make sure that's copied 1:1
+       * (perhaps it should scale the overall output?)
+       */
+      if ((orig >> 4) & 1) {
+         mat[0][(orig >> 4) - 1] = 1.0;
+      }
+   }
+   /* Center (or mono) -> front l/r conversion */
+   else if (((orig >> 4) & 1) && !((target >> 4) & 1)) {
+      mat[0][(orig >> 4) - 1] = 1.0 / sqrt(2.0);
+      mat[1][(orig >> 4) - 1] = 1.0 / sqrt(2.0);
+   }
+
+   /* Copy LFE */
+   if ((orig >> 4) != (target >> 4) &&
+      (orig & 0xF) && (target & 0xF))
+   {
+      mat[dst_chans-1][src_chans-1] = 1.0;
+   }
+
+   /* Apply panning, which is supposed to maintain a constant power level.
+    * I took that to mean we want:
+    *    sqrt(rgain^2 + lgain^2) = 1.0
+    */
+   if (pan != ALLEGRO_AUDIO_PAN_NONE) {
+      float rgain = gain * sqrt(( pan + 1.0f) / 2.0f);
+      float lgain = gain * sqrt((-pan + 1.0f) / 2.0f);
+
+      /* I dunno what to do about >2 channels, so don't even try for now. */
+      for (j = 0; j < src_chans; j++) {
+         mat[0][j] *= lgain;
+         mat[1][j] *= rgain;
+      }
+   }
+
+   /* Apply gain */
+   if (gain != 1.0f) {
+      for (i = 0; i < dst_chans; i++) {
+         for (j = 0; j < src_chans; j++) {
+            mat[i][j] *= gain;
+         }
+      }
+   }
+
+#ifdef DEBUGMODE
+   {
+      char debug[1024];
+      ALLEGRO_DEBUG("sample matrix:\n");
+      for (i = 0; i < dst_chans; i++) {
+         strcpy(debug, "");
+         for (j = 0; j < src_chans; j++) {
+            sprintf(debug + strlen(debug), " %f", mat[i][j]);
+         }
+         ALLEGRO_DEBUG("%s\n", debug);
+      }
+   }
+#endif
+
+   return &mat[0][0];
+}
+
+
+/* _al_kcm_mixer_rejig_sample_matrix:
+ *  Recompute the mixing matrix for a sample attached to a mixer.
+ *  The caller must be holding the mixer mutex.
+ */
+void _al_kcm_mixer_rejig_sample_matrix(ALLEGRO_MIXER *mixer,
+   ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   float *mat;
+   size_t dst_chans;
+   size_t src_chans;
+   size_t i, j;
+
+   if (spl->matrix) {
+      al_free(spl->matrix);
+   }
+
+   mat = _al_rechannel_matrix(spl->spl_data.chan_conf,
+      mixer->ss.spl_data.chan_conf, spl->gain, spl->pan);
+
+   dst_chans = al_get_channel_count(mixer->ss.spl_data.chan_conf);
+   src_chans = al_get_channel_count(spl->spl_data.chan_conf);
+
+   spl->matrix = al_calloc(1, src_chans * dst_chans * sizeof(float));
+
+   for (i = 0; i < dst_chans; i++) {
+      for (j = 0; j < src_chans; j++) {
+         spl->matrix[i*src_chans + j] = mat[i*ALLEGRO_MAX_CHANNELS + j];
+      }
+   }
+}
+
+
+/* fix_looped_position:
+ *  When a stream loops, this will fix up the position and anything else to
+ *  allow it to safely continue playing as expected. Returns false if it
+ *  should stop being mixed.
+ */
+static bool fix_looped_position(ALLEGRO_SAMPLE_INSTANCE *spl)
+{
+   bool is_empty;
+   ALLEGRO_AUDIO_STREAM *stream;
+
+   /* Looping! Should be mostly self-explanatory */
+   switch (spl->loop) {
+      case ALLEGRO_PLAYMODE_LOOP:
+         if (spl->step > 0) {
+            while (spl->pos >= spl->loop_end) {
+               spl->pos -= (spl->loop_end - spl->loop_start);
+            }
+         }
+         else if (spl->step < 0) {
+            while (spl->pos < spl->loop_start) {
+               spl->pos += (spl->loop_end - spl->loop_start);
+            }
+         }
+         return true;
+
+      case ALLEGRO_PLAYMODE_BIDIR:
+         /* When doing bi-directional looping, you need to do a follow-up
+          * check for the opposite direction if a loop occurred, otherwise
+          * you could end up misplaced on small, high-step loops.
+          */
+         if (spl->step >= 0) {
+         check_forward:
+            if (spl->pos >= spl->loop_end) {
+               spl->step = -spl->step;
+               spl->pos = spl->loop_end - (spl->pos - spl->loop_end) - 1;
+               goto check_backward;
+            }
+         }
+         else {
+         check_backward:
+            if (spl->pos < spl->loop_start || spl->pos >= spl->loop_end) {
+               spl->step = -spl->step;
+               spl->pos = spl->loop_start + (spl->loop_start - spl->pos);
+               goto check_forward;
+            }
+         }
+         return true;
+
+      case ALLEGRO_PLAYMODE_ONCE:
+         if (spl->pos < spl->spl_data.len) {
+            return true;
+         }
+         spl->pos = 0;
+         spl->is_playing = false;
+         return false;
+
+      case _ALLEGRO_PLAYMODE_STREAM_ONCE:
+      case _ALLEGRO_PLAYMODE_STREAM_ONEDIR:
+         if (spl->pos < spl->spl_data.len) {
+            return true;
+         }
+         stream = (ALLEGRO_AUDIO_STREAM *)spl;
+         is_empty = !_al_kcm_refill_stream(stream);
+         if (is_empty && stream->is_draining) {
+            stream->spl.is_playing = false;
+         }
+
+         _al_kcm_emit_stream_events(stream);
+
+         return !(is_empty);
+   }
+
+   ASSERT(false);
+   return false;
+}
+
+
+#include "kcm_mixer_helpers.inc"
+
+
+static INLINE int32_t clamp(int32_t val, int32_t min, int32_t max)
+{
+   /* Clamp to min */
+   val -= min;
+   val &= (~val) >> 31;
+   val += min;
+
+   /* Clamp to max */
+   val -= max;
+   val &= val >> 31;
+   val += max;
+
+   return val;
+}
+
+
+/* Mix as many sample values as possible from the source sample into a mixer
+ * buffer.  Implements stream_reader_t.
+ *
+ * TYPE is the type of the sample values in the mixer buffer, and
+ * NEXT_SAMPLE_VALUE must return a buffer of the same type.
+ * 
+ * Note: Uses Bresenham to keep the precise sample position.
+ */
+#define BRESENHAM                                                             \
+   do {                                                                       \
+      delta = spl->step > 0 ? spl->step : spl->step - spl->step_denom + 1;    \
+      delta /= spl->step_denom;                                               \
+      delta_error = spl->step - delta * spl->step_denom;                      \
+   } while (0)
+
+#define MAKE_MIXER(NAME, NEXT_SAMPLE_VALUE, TYPE)                             \
+static void NAME(void *source, void **vbuf, unsigned int *samples,            \
+   ALLEGRO_AUDIO_DEPTH buffer_depth, size_t dest_maxc)                        \
+{                                                                             \
+   ALLEGRO_SAMPLE_INSTANCE *spl = (ALLEGRO_SAMPLE_INSTANCE *)source;          \
+   TYPE *buf = *vbuf;                                                         \
+   size_t maxc = al_get_channel_count(spl->spl_data.chan_conf);               \
+   size_t samples_l = *samples;                                               \
+   size_t c;                                                                  \
+   int delta, delta_error;                                                    \
+   SAMP_BUF samp_buf;                                                         \
+                                                                              \
+   BRESENHAM;                                                                 \
+                                                                              \
+   if (!spl->is_playing)                                                      \
+      return;                                                                 \
+                                                                              \
+   while (samples_l > 0) {                                                    \
+      const TYPE *s;                                                          \
+      int old_step = spl->step;                                               \
+                                                                              \
+      if (!fix_looped_position(spl))                                          \
+         return;                                                              \
+      if (old_step != spl->step) {                                            \
+         BRESENHAM;                                                           \
+      }                                                                       \
+                                                                              \
+      /* It might be worth preparing multiple sample values at once. */       \
+      s = (TYPE *) NEXT_SAMPLE_VALUE(&samp_buf, spl, maxc);                   \
+                                                                              \
+      for (c = 0; c < dest_maxc; c++) {                                       \
+         ALLEGRO_STATIC_ASSERT(kcm_mixer, ALLEGRO_MAX_CHANNELS == 8);         \
+         switch (maxc) {                                                      \
+            /* Each case falls through. */                                    \
+            case 8: *buf += s[7] * spl->matrix[c*maxc + 7];                   \
+            case 7: *buf += s[6] * spl->matrix[c*maxc + 6];                   \
+            case 6: *buf += s[5] * spl->matrix[c*maxc + 5];                   \
+            case 5: *buf += s[4] * spl->matrix[c*maxc + 4];                   \
+            case 4: *buf += s[3] * spl->matrix[c*maxc + 3];                   \
+            case 3: *buf += s[2] * spl->matrix[c*maxc + 2];                   \
+            case 2: *buf += s[1] * spl->matrix[c*maxc + 1];                   \
+            case 1: *buf += s[0] * spl->matrix[c*maxc + 0];                   \
+            default: break;                                                   \
+         }                                                                    \
+         buf++;                                                               \
+      }                                                                       \
+                                                                              \
+      spl->pos += delta;                                                      \
+      spl->pos_bresenham_error += delta_error;                                \
+      if (spl->pos_bresenham_error >= spl->step_denom) {                      \
+         spl->pos++;                                                          \
+         spl->pos_bresenham_error -= spl->step_denom;                         \
+      }                                                                       \
+      samples_l--;                                                            \
+   }                                                                          \
+   fix_looped_position(spl);                                                  \
+   (void)buffer_depth;                                                        \
+}
+
+MAKE_MIXER(read_to_mixer_point_float_32, point_spl32, float)
+MAKE_MIXER(read_to_mixer_linear_float_32, linear_spl32, float)
+MAKE_MIXER(read_to_mixer_cubic_float_32, cubic_spl32, float)
+MAKE_MIXER(read_to_mixer_point_int16_t_16, point_spl16, int16_t)
+MAKE_MIXER(read_to_mixer_linear_int16_t_16, linear_spl16, int16_t)
+
+#undef MAKE_MIXER
+
+
+/* _al_kcm_mixer_read:
+ *  Mixes the streams attached to the mixer and writes additively to the
+ *  specified buffer (or if *buf is NULL, indicating a voice, convert it and
+ *  set it to the buffer pointer).
+ */
+void _al_kcm_mixer_read(void *source, void **buf, unsigned int *samples,
+   ALLEGRO_AUDIO_DEPTH buffer_depth, size_t dest_maxc)
+{
+   const ALLEGRO_MIXER *mixer;
+   ALLEGRO_MIXER *m = (ALLEGRO_MIXER *)source;
+   int maxc = al_get_channel_count(m->ss.spl_data.chan_conf);
+   int samples_l = *samples;
+   int i;
+
+   if (!m->ss.is_playing)
+      return;
+
+   /* Make sure the mixer buffer is big enough. */
+   if (m->ss.spl_data.len*maxc < samples_l*maxc) {
+      al_free(m->ss.spl_data.buffer.ptr);
+      m->ss.spl_data.buffer.ptr = al_malloc(samples_l*maxc*al_get_audio_depth_size(m->ss.spl_data.depth));
+      if (!m->ss.spl_data.buffer.ptr) {
+         _al_set_error(ALLEGRO_GENERIC_ERROR,
+            "Out of memory allocating mixer buffer");
+         m->ss.spl_data.len = 0;
+         return;
+      }
+      m->ss.spl_data.len = samples_l;
+   }
+
+   mixer = m;
+
+   /* Clear the buffer to silence. */
+   memset(mixer->ss.spl_data.buffer.ptr, 0, samples_l * maxc * al_get_audio_depth_size(mixer->ss.spl_data.depth));
+
+   /* Mix the streams into the mixer buffer. */
+   for (i = _al_vector_size(&mixer->streams) - 1; i >= 0; i--) {
+      ALLEGRO_SAMPLE_INSTANCE **slot = _al_vector_ref(&mixer->streams, i);
+      ALLEGRO_SAMPLE_INSTANCE *spl = *slot;
+      ASSERT(spl->spl_read);
+      spl->spl_read(spl, (void **) &mixer->ss.spl_data.buffer.ptr, samples,
+         m->ss.spl_data.depth, maxc);
+   }
+
+   /* Call the post-processing callback. */
+   if (mixer->postprocess_callback) {
+      mixer->postprocess_callback(mixer->ss.spl_data.buffer.ptr,
+         *samples, mixer->pp_callback_userdata);
+   }
+
+   samples_l *= maxc;
+
+   /* Apply the gain if necessary. */
+   if (mixer->ss.gain != 1.0f) {
+      float mixer_gain = mixer->ss.gain;
+      unsigned long i = samples_l;
+
+      switch (m->ss.spl_data.depth) {
+         case ALLEGRO_AUDIO_DEPTH_FLOAT32: {
+            float *p = mixer->ss.spl_data.buffer.f32;
+            while (i-- > 0) {
+               *p++ *= mixer_gain;
+            }
+            break;
+         }
+
+         case ALLEGRO_AUDIO_DEPTH_INT16: {
+            int16_t *p = mixer->ss.spl_data.buffer.s16;
+            while (i-- > 0) {
+               *p++ *= mixer_gain;
+            }
+            break;
+         }
+
+         case ALLEGRO_AUDIO_DEPTH_INT8:
+         case ALLEGRO_AUDIO_DEPTH_INT24:
+         case ALLEGRO_AUDIO_DEPTH_UINT8:
+         case ALLEGRO_AUDIO_DEPTH_UINT16:
+         case ALLEGRO_AUDIO_DEPTH_UINT24:
+            /* Unsupported mixer depths. */
+            ASSERT(false);
+            break;
+      }
+   }
+
+   /* Feeding to a non-voice.
+    * Currently we only support mixers of the same audio depth doing this.
+    */
+   if (*buf) {
+      switch (m->ss.spl_data.depth) {
+         case ALLEGRO_AUDIO_DEPTH_FLOAT32: {
+            /* We don't need to clamp in the mixer yet. */
+            float *lbuf = *buf;
+            float *src = mixer->ss.spl_data.buffer.f32;
+            while (samples_l-- > 0) {
+               *lbuf += *src;
+               lbuf++;
+               src++;
+            }
+            break;
+
+         case ALLEGRO_AUDIO_DEPTH_INT16: {
+            int16_t *lbuf = *buf;
+            int16_t *src = mixer->ss.spl_data.buffer.s16;
+            while (samples_l-- > 0) {
+               int32_t x = *lbuf + *src;
+               if (x < -32768)
+                  x = -32768;
+               else if (x > 32767)
+                  x = 32767;
+               *lbuf = (int16_t)x;
+               lbuf++;
+               src++;
+            }
+            break;
+         }
+
+         case ALLEGRO_AUDIO_DEPTH_INT8:
+         case ALLEGRO_AUDIO_DEPTH_INT24:
+         case ALLEGRO_AUDIO_DEPTH_UINT8:
+         case ALLEGRO_AUDIO_DEPTH_UINT16:
+         case ALLEGRO_AUDIO_DEPTH_UINT24:
+            /* Unsupported mixer depths. */
+            ASSERT(false);
+            break;
+         }
+      }
+      return;
+   }
+
+   /* We're feeding to a voice.
+    * Clamp and convert the mixed data for the voice.
+    */
+   *buf = mixer->ss.spl_data.buffer.ptr;
+   switch (buffer_depth & ~ALLEGRO_AUDIO_DEPTH_UNSIGNED) {
+
+      case ALLEGRO_AUDIO_DEPTH_FLOAT32:
+         /* Do we need to clamp? */
+         break;
+
+      case ALLEGRO_AUDIO_DEPTH_INT24:
+         switch (mixer->ss.spl_data.depth) {
+            case ALLEGRO_AUDIO_DEPTH_FLOAT32: {
+               int32_t off = ((buffer_depth & ALLEGRO_AUDIO_DEPTH_UNSIGNED)
+                              ? 0x800000 : 0);
+               int32_t *lbuf = mixer->ss.spl_data.buffer.s24;
+               float *src = mixer->ss.spl_data.buffer.f32;
+
+               while (samples_l > 0) {
+                  *lbuf = clamp(*(src++) * ((float)0x7FFFFF + 0.5f),
+                     ~0x7FFFFF, 0x7FFFFF);
+                  *lbuf += off;
+                  lbuf++;
+                  samples_l--;
+               }
+               break;
+            }
+
+            case ALLEGRO_AUDIO_DEPTH_INT16:
+               /* XXX not yet implemented */
+               ASSERT(false);
+               break;
+
+            case ALLEGRO_AUDIO_DEPTH_INT8:
+            case ALLEGRO_AUDIO_DEPTH_INT24:
+            case ALLEGRO_AUDIO_DEPTH_UINT8:
+            case ALLEGRO_AUDIO_DEPTH_UINT16:
+            case ALLEGRO_AUDIO_DEPTH_UINT24:
+               /* Unsupported mixer depths. */
+               ASSERT(false);
+               break;
+         }
+         break;
+
+      case ALLEGRO_AUDIO_DEPTH_INT16:
+         switch (mixer->ss.spl_data.depth) {
+            case ALLEGRO_AUDIO_DEPTH_FLOAT32: {
+               int16_t off = ((buffer_depth & ALLEGRO_AUDIO_DEPTH_UNSIGNED)
+                              ? 0x8000 : 0);
+               int16_t *lbuf = mixer->ss.spl_data.buffer.s16;
+               float *src = mixer->ss.spl_data.buffer.f32;
+
+               while (samples_l > 0) {
+                  *lbuf = clamp(*(src++) * ((float)0x7FFF + 0.5f), ~0x7FFF, 0x7FFF);
+                  *lbuf += off;
+                  lbuf++;
+                  samples_l--;
+               }
+               break;
+            }
+
+            case ALLEGRO_AUDIO_DEPTH_INT16:
+               /* Handle signedness differences. */
+               if (buffer_depth != ALLEGRO_AUDIO_DEPTH_INT16) {
+                  int16_t *lbuf = mixer->ss.spl_data.buffer.s16;
+                  while (samples_l > 0) {
+                     *lbuf++ ^= 0x8000;
+                     samples_l--;
+                  }
+               }
+               break;
+
+            case ALLEGRO_AUDIO_DEPTH_INT8:
+            case ALLEGRO_AUDIO_DEPTH_INT24:
+            case ALLEGRO_AUDIO_DEPTH_UINT8:
+            case ALLEGRO_AUDIO_DEPTH_UINT16:
+            case ALLEGRO_AUDIO_DEPTH_UINT24:
+               /* Unsupported mixer depths. */
+               ASSERT(false);
+               break;
+         }
+         break;
+
+      /* Ugh, do we really want to support 8-bit output? */
+      case ALLEGRO_AUDIO_DEPTH_INT8:
+         switch (mixer->ss.spl_data.depth) {
+            case ALLEGRO_AUDIO_DEPTH_FLOAT32: {
+               int8_t off = ((buffer_depth & ALLEGRO_AUDIO_DEPTH_UNSIGNED)
+                              ? 0x80 : 0);
+               int8_t *lbuf = mixer->ss.spl_data.buffer.s8;
+               float *src = mixer->ss.spl_data.buffer.f32;
+
+               while (samples_l > 0) {
+                  *lbuf = clamp(*(src++) * ((float)0x7F + 0.5f), ~0x7F, 0x7F);
+                  *lbuf += off;
+                  lbuf++;
+                  samples_l--;
+               }
+               break;
+            }
+
+            case ALLEGRO_AUDIO_DEPTH_INT16:
+               /* XXX not yet implemented */
+               ASSERT(false);
+               break;
+
+            case ALLEGRO_AUDIO_DEPTH_INT8:
+            case ALLEGRO_AUDIO_DEPTH_INT24:
+            case ALLEGRO_AUDIO_DEPTH_UINT8:
+            case ALLEGRO_AUDIO_DEPTH_UINT16:
+            case ALLEGRO_AUDIO_DEPTH_UINT24:
+               /* Unsupported mixer depths. */
+               ASSERT(false);
+               break;
+         }
+         break;
+
+      case ALLEGRO_AUDIO_DEPTH_UINT8:
+      case ALLEGRO_AUDIO_DEPTH_UINT16:
+      case ALLEGRO_AUDIO_DEPTH_UINT24:
+         /* Impossible. */
+         ASSERT(false);
+         break;
+   }
+
+   (void)dest_maxc;
+}
+
+
+/* Function: al_create_mixer
+ */
+ALLEGRO_MIXER *al_create_mixer(unsigned int freq,
+   ALLEGRO_AUDIO_DEPTH depth, ALLEGRO_CHANNEL_CONF chan_conf)
+{
+   ALLEGRO_MIXER *mixer;
+   ALLEGRO_CONFIG *config;
+   int default_mixer_quality = ALLEGRO_MIXER_QUALITY_LINEAR;
+
+   /* XXX this is in the wrong place */
+   config = al_get_system_config();
+   if (config) {
+      const char *p;
+      p = al_get_config_value(config, "audio", "default_mixer_quality");
+      if (p && p[0] != '\0') {
+         if (!_al_stricmp(p, "point")) {
+            ALLEGRO_INFO("Point sampling\n");
+            default_mixer_quality = ALLEGRO_MIXER_QUALITY_POINT;
+         }
+         else if (!_al_stricmp(p, "linear")) {
+            ALLEGRO_INFO("Linear interpolation\n");
+            default_mixer_quality = ALLEGRO_MIXER_QUALITY_LINEAR;
+         }
+         else if (!_al_stricmp(p, "cubic")) {
+            ALLEGRO_INFO("Cubic interpolation\n");
+            default_mixer_quality = ALLEGRO_MIXER_QUALITY_CUBIC;
+         }
+      }
+   }
+
+   if (!freq) {
+      _al_set_error(ALLEGRO_INVALID_PARAM,
+         "Attempted to create mixer with no frequency");
+      return NULL;
+   }
+
+   if (depth != ALLEGRO_AUDIO_DEPTH_FLOAT32 &&
+         depth != ALLEGRO_AUDIO_DEPTH_INT16) {
+      _al_set_error(ALLEGRO_INVALID_PARAM, "Unsupported mixer depth");
+      return NULL;
+   }
+
+   mixer = al_calloc(1, sizeof(ALLEGRO_MIXER));
+   if (!mixer) {
+      _al_set_error(ALLEGRO_GENERIC_ERROR,
+         "Out of memory allocating mixer object");
+      return NULL;
+   }
+
+   mixer->ss.is_playing = true;
+   mixer->ss.spl_data.free_buf = true;
+
+   mixer->ss.loop = ALLEGRO_PLAYMODE_ONCE;
+   /* XXX should we have a specific loop mode? */
+   mixer->ss.gain = 1.0f;
+   mixer->ss.spl_data.depth     = depth;
+   mixer->ss.spl_data.chan_conf = chan_conf;
+   mixer->ss.spl_data.frequency = freq;
+
+   mixer->ss.is_mixer = true;
+   mixer->ss.spl_read = NULL;
+
+   mixer->quality = default_mixer_quality;
+
+   _al_vector_init(&mixer->streams, sizeof(ALLEGRO_SAMPLE_INSTANCE *));
+
+   _al_kcm_register_destructor(mixer, (void (*)(void *)) al_destroy_mixer);
+
+   return mixer;
+}
+
+
+/* Function: al_destroy_mixer
+ */
+void al_destroy_mixer(ALLEGRO_MIXER *mixer)
+{
+   if (mixer) {
+      _al_kcm_unregister_destructor(mixer);
+      _al_kcm_destroy_sample(&mixer->ss, false);
+   }
+}
+
+
+/* This function is ALLEGRO_MIXER aware */
+/* Function: al_attach_sample_instance_to_mixer
+ */
+bool al_attach_sample_instance_to_mixer(ALLEGRO_SAMPLE_INSTANCE *spl,
+   ALLEGRO_MIXER *mixer)
+{
+   ALLEGRO_SAMPLE_INSTANCE **slot;
+
+   ASSERT(mixer);
+   ASSERT(spl);
+
+   /* Already referenced, do not attach. */
+   if (spl->parent.u.ptr) {
+      _al_set_error(ALLEGRO_INVALID_OBJECT,
+         "Attempted to attach a sample that's already attached");
+      return false;
+   }
+
+   maybe_lock_mutex(mixer->ss.mutex);
+   
+   _al_kcm_stream_set_mutex(spl, mixer->ss.mutex);
+
+   slot = _al_vector_alloc_back(&mixer->streams);
+   if (!slot) {
+      if (mixer->ss.mutex) {
+         al_unlock_mutex(mixer->ss.mutex);
+      }
+      _al_set_error(ALLEGRO_GENERIC_ERROR,
+         "Out of memory allocating attachment pointers");
+      return false;
+   }
+   (*slot) = spl;
+
+   spl->step = (spl->spl_data.frequency) * spl->speed;
+   spl->step_denom = mixer->ss.spl_data.frequency;
+   /* Don't want to be trapped with a step value of 0. */
+   if (spl->step == 0) {
+      if (spl->speed > 0.0f)
+         spl->step = 1;
+      else
+         spl->step = -1;
+   }
+
+   /* Set the proper sample stream reader. */
+   ASSERT(spl->spl_read == NULL);
+   if (spl->is_mixer) {
+      spl->spl_read = _al_kcm_mixer_read;
+   }
+   else {
+      switch (mixer->ss.spl_data.depth) {
+         case ALLEGRO_AUDIO_DEPTH_FLOAT32:
+            switch (mixer->quality) {
+               case ALLEGRO_MIXER_QUALITY_POINT:
+                  spl->spl_read = read_to_mixer_point_float_32;
+                  break;
+               case ALLEGRO_MIXER_QUALITY_LINEAR:
+                  spl->spl_read = read_to_mixer_linear_float_32;
+                  break;
+               case ALLEGRO_MIXER_QUALITY_CUBIC:
+                  spl->spl_read = read_to_mixer_cubic_float_32;
+                  break;
+            }
+            break;
+
+         case ALLEGRO_AUDIO_DEPTH_INT16:
+            switch (mixer->quality) {
+               case ALLEGRO_MIXER_QUALITY_POINT:
+                  spl->spl_read = read_to_mixer_point_int16_t_16;
+                  break;
+               case ALLEGRO_MIXER_QUALITY_CUBIC:
+                  ALLEGRO_WARN("Falling back to linear interpolation\n");
+                  /* fallthrough */
+               case ALLEGRO_MIXER_QUALITY_LINEAR:
+                  spl->spl_read = read_to_mixer_linear_int16_t_16;
+                  break;
+            }
+            break;
+
+         case ALLEGRO_AUDIO_DEPTH_INT8:
+         case ALLEGRO_AUDIO_DEPTH_INT24:
+         case ALLEGRO_AUDIO_DEPTH_UINT8:
+         case ALLEGRO_AUDIO_DEPTH_UINT16:
+         case ALLEGRO_AUDIO_DEPTH_UINT24:
+            /* Unsupported mixer depths. */
+            ASSERT(false);
+            break;
+      }
+
+      _al_kcm_mixer_rejig_sample_matrix(mixer, spl);
+   }
+
+   spl->parent.u.mixer = mixer;
+   spl->parent.is_voice = false;
+
+   maybe_unlock_mutex(mixer->ss.mutex);
+
+   return true;
+}
+
+
+/* Function: al_attach_audio_stream_to_mixer
+ */
+bool al_attach_audio_stream_to_mixer(ALLEGRO_AUDIO_STREAM *stream, ALLEGRO_MIXER *mixer)
+{
+   ASSERT(mixer);
+   ASSERT(stream);
+
+   return al_attach_sample_instance_to_mixer(&stream->spl, mixer);
+}
+
+
+/* Function: al_attach_mixer_to_mixer
+ */
+bool al_attach_mixer_to_mixer(ALLEGRO_MIXER *stream, ALLEGRO_MIXER *mixer)
+{
+   ASSERT(mixer);
+   ASSERT(stream);
+
+   if (mixer->ss.spl_data.frequency != stream->ss.spl_data.frequency) {
+      _al_set_error(ALLEGRO_INVALID_OBJECT,
+         "Attempted to attach a mixer with different frequencies");
+      return false;
+   }
+
+   if (mixer->ss.spl_data.depth != stream->ss.spl_data.depth) {
+      _al_set_error(ALLEGRO_INVALID_OBJECT,
+         "Mixers of different audio depths cannot be attached to one another");
+      return false;
+   }
+
+   return al_attach_sample_instance_to_mixer(&stream->ss, mixer);
+}
+
+
+/* Function: al_set_mixer_postprocess_callback
+ */
+bool al_set_mixer_postprocess_callback(ALLEGRO_MIXER *mixer,
+   void (*pp_callback)(void *buf, unsigned int samples, void *data),
+   void *pp_callback_userdata)
+{
+   ASSERT(mixer);
+
+   maybe_lock_mutex(mixer->ss.mutex);
+
+   mixer->postprocess_callback = pp_callback;
+   mixer->pp_callback_userdata = pp_callback_userdata;
+
+   maybe_unlock_mutex(mixer->ss.mutex);
+
+   return true;
+}
+
+
+/* Function: al_get_mixer_frequency
+ */
+unsigned int al_get_mixer_frequency(const ALLEGRO_MIXER *mixer)
+{
+   ASSERT(mixer);
+
+   return mixer->ss.spl_data.frequency;
+}
+
+
+/* Function: al_get_mixer_channels
+ */
+ALLEGRO_CHANNEL_CONF al_get_mixer_channels(const ALLEGRO_MIXER *mixer)
+{
+   ASSERT(mixer);
+
+   return mixer->ss.spl_data.chan_conf;
+}
+
+
+/* Function: al_get_mixer_depth
+ */
+ALLEGRO_AUDIO_DEPTH al_get_mixer_depth(const ALLEGRO_MIXER *mixer)
+{
+   ASSERT(mixer);
+
+   return mixer->ss.spl_data.depth;
+}
+
+
+/* Function: al_get_mixer_quality
+ */
+ALLEGRO_MIXER_QUALITY al_get_mixer_quality(const ALLEGRO_MIXER *mixer)
+{
+   ASSERT(mixer);
+
+   return mixer->quality;
+}
+
+
+/* Function: al_get_mixer_gain
+ */
+float al_get_mixer_gain(const ALLEGRO_MIXER *mixer)
+{
+   ASSERT(mixer);
+
+   return mixer->ss.gain;
+}
+
+
+/* Function: al_get_mixer_playing
+ */
+bool al_get_mixer_playing(const ALLEGRO_MIXER *mixer)
+{
+   ASSERT(mixer);
+
+   return mixer->ss.is_playing;
+}
+
+
+/* Function: al_get_mixer_attached
+ */
+bool al_get_mixer_attached(const ALLEGRO_MIXER *mixer)
+{
+   ASSERT(mixer);
+
+   return _al_vector_is_nonempty(&mixer->streams);
+}
+
+
+/* Function: al_set_mixer_frequency
+ */
+bool al_set_mixer_frequency(ALLEGRO_MIXER *mixer, unsigned int val)
+{
+   ASSERT(mixer);
+
+   /* You can change the frequency of a mixer as long as it's not attached
+    * to anything.
+    */
+   if (mixer->ss.parent.u.ptr) {
+      _al_set_error(ALLEGRO_INVALID_OBJECT,
+            "Attempted to change the frequency of an attached mixer");
+      return false;
+   }
+
+   mixer->ss.spl_data.frequency = val;
+   return true;
+}
+
+
+/* Function: al_set_mixer_quality
+ */
+bool al_set_mixer_quality(ALLEGRO_MIXER *mixer, ALLEGRO_MIXER_QUALITY new_quality)
+{
+   bool ret;
+   ASSERT(mixer);
+
+   maybe_lock_mutex(mixer->ss.mutex);
+
+   if (mixer->quality == new_quality) {
+      ret = true;
+   }
+   else if (_al_vector_size(&mixer->streams) == 0) {
+      mixer->quality = new_quality;
+      ret = true;
+   }
+   else {
+      _al_set_error(ALLEGRO_INVALID_OBJECT,
+         "Attempted to change the quality of a mixer with attachments");
+      ret = false;
+   }
+
+   maybe_unlock_mutex(mixer->ss.mutex);
+
+   return ret;
+}
+
+
+/* Function: al_set_mixer_gain
+ */
+bool al_set_mixer_gain(ALLEGRO_MIXER *mixer, float new_gain)
+{
+   int i;
+   ASSERT(mixer);
+
+   maybe_lock_mutex(mixer->ss.mutex);
+
+   if (mixer->ss.gain != new_gain) {
+      mixer->ss.gain = new_gain;
+
+      for (i = _al_vector_size(&mixer->streams) - 1; i >= 0; i--) {
+         ALLEGRO_SAMPLE_INSTANCE **slot = _al_vector_ref(&mixer->streams, i);
+         _al_kcm_mixer_rejig_sample_matrix(mixer, *slot);
+      }
+   }
+
+   maybe_unlock_mutex(mixer->ss.mutex);
+
+   return true;
+}
+
+
+/* Function: al_set_mixer_playing
+ */
+bool al_set_mixer_playing(ALLEGRO_MIXER *mixer, bool val)
+{
+   ASSERT(mixer);
+
+   mixer->ss.is_playing = val;
+   return true;
+}
+
+
+/* Function: al_detach_mixer
+ */
+bool al_detach_mixer(ALLEGRO_MIXER *mixer)
+{
+   ASSERT(mixer);
+
+   _al_kcm_detach_from_parent(&mixer->ss);
+   ASSERT(mixer->ss.spl_read == NULL);
+   return true;
+}
+
+
+/* vim: set sts=3 sw=3 et: */
+
+kcm_sample.c/   0           0     0     644     11813     `
+/*         ______   ___    ___
+ *        /\  _  \ /\_ \  /\_ \
+ *        \ \ \L\ \\//\ \ \//\ \      __     __   _ __   ___
+ *         \ \  __ \ \ \ \  \ \ \   /'__`\ /'_ `\/\`'__\/ __`\
+ *          \ \ \/\ \ \_\ \_ \_\ \_/\  __//\ \L\ \ \ \//\ \L\ \
+ *           \ \_\ \_\/\____\/\____\ \____\ \____ \ \_\\ \____/
+ *            \/_/\/_/\/____/\/____/\/____/\/___L\ \/_/ \/___/
+ *                                           /\____/
+ *                                           \_/__/
+ *
+ *      Sample audio interface.
+ *
+ *      By Peter Wang.
+ *
+ *      See LICENSE.txt for copyright information.
+ */
+
+/* Title: Sample audio interface
+ */
+
+#include "allegro5/allegro.h"
+#include "allegro5/allegro_audio.h"
+#include "allegro5/internal/aintern.h"
+#include "allegro5/internal/aintern_audio.h"
+#include "allegro5/internal/aintern_vector.h"
+
+ALLEGRO_DEBUG_CHANNEL("audio")
+
+
+static ALLEGRO_VOICE *allegro_voice = NULL;
+static ALLEGRO_MIXER *allegro_mixer = NULL;
+static ALLEGRO_MIXER *default_mixer = NULL;
+
+static _AL_VECTOR auto_samples = _AL_VECTOR_INITIALIZER(ALLEGRO_SAMPLE_INSTANCE *);
+static _AL_VECTOR auto_sample_ids = _AL_VECTOR_INITIALIZER(int);
+
+
+static bool create_default_mixer(void);
+static bool do_play_sample(ALLEGRO_SAMPLE_INSTANCE *spl, ALLEGRO_SAMPLE *data,
+      float gain, float pan, float speed, ALLEGRO_PLAYMODE loop);
+static void free_sample_vector(void);
+
+
+static int string_to_depth(const char *s)
+{
+   // FIXME: fill in the rest
+   if (!_al_stricmp(s, "int16")) {
+      return ALLEGRO_AUDIO_DEPTH_INT16;
+   }
+   else {
+      return ALLEGRO_AUDIO_DEPTH_FLOAT32;
+   }
+}
+
+
+/* Creates the default voice and mixer if they haven't been created yet. */
+static bool create_default_mixer(void)
+{
+   int voice_frequency = 44100;
+   int voice_depth = ALLEGRO_AUDIO_DEPTH_INT16;
+   int mixer_frequency = 44100;
+   int mixer_depth = ALLEGRO_AUDIO_DEPTH_FLOAT32;
+
+   ALLEGRO_CONFIG *config = al_get_system_config();
+   if (config) {
+      const char *p;
+      p = al_get_config_value(config, "audio", "primary_voice_frequency");
+      if (p && p[0] != '\0') {
+         voice_frequency = atoi(p);
+      }
+      p = al_get_config_value(config, "audio", "primary_mixer_frequency");
+      if (p && p[0] != '\0') {
+         mixer_frequency = atoi(p);
+      }
+      p = al_get_config_value(config, "audio", "primary_voice_depth");
+      if (p && p[0] != '\0') {
+         voice_depth = string_to_depth(p);
+      }
+      p = al_get_config_value(config, "audio", "primary_mixer_depth");
+      if (p && p[0] != '\0') {
+         mixer_depth = string_to_depth(p);
+      }
+   }
+
+   if (!allegro_voice) {
+      allegro_voice = al_create_voice(voice_frequency, voice_depth,
+         ALLEGRO_CHANNEL_CONF_2);
+      if (!allegro_voice) {
+         ALLEGRO_ERROR("al_create_voice failed\n");
+         goto Error;
+      }
+   }
+
+   if (!allegro_mixer) {
+      allegro_mixer = al_create_mixer(mixer_frequency, mixer_depth,
+         ALLEGRO_CHANNEL_CONF_2);
+      if (!allegro_mixer) {
+         ALLEGRO_ERROR("al_create_voice failed\n");
+         goto Error;
+      }
+   }
+
+   if (!al_attach_mixer_to_voice(allegro_mixer, allegro_voice)) {
+      ALLEGRO_ERROR("al_attach_mixer_to_voice failed\n");
+      goto Error;
+   }
+
+   return true;
+
+Error:
+
+   if (allegro_mixer) {
+      al_destroy_mixer(allegro_mixer);
+      allegro_mixer = NULL;
+   }
+
+   if (allegro_voice) {
+      al_destroy_voice(allegro_voice);
+      allegro_voice = NULL;
+   }
+
+   return false;
+}
+
+
+/* Function: al_create_sample
+ */
+ALLEGRO_SAMPLE *al_create_sample(void *buf, unsigned int samples,
+   unsigned int freq, ALLEGRO_AUDIO_DEPTH depth,
+   ALLEGRO_CHANNEL_CONF chan_conf, bool free_buf)
+{
+   ALLEGRO_SAMPLE *spl;
+
+   ASSERT(buf);
+
+   if (!freq) {
+      _al_set_error(ALLEGRO_INVALID_PARAM, "Invalid sample frequency");
+      return NULL;
+   }
+
+   spl = al_calloc(1, sizeof(*spl));
+   if (!spl) {
+      _al_set_error(ALLEGRO_GENERIC_ERROR,
+         "Out of memory allocating sample data object");
+      return NULL;
+   }
+
+   spl->depth = depth;
+   spl->chan_conf = chan_conf;
+   spl->frequency = freq;
+   spl->len = samples;
+   spl->buffer.ptr = buf;
+   spl->free_buf = free_buf;
+
+   _al_kcm_register_destructor(spl, (void (*)(void *)) al_destroy_sample);
+
+   return spl;
+}
+
+
+/* Stop any sample instances which are still playing a sample buffer which
+ * is about to be destroyed.
+ */
+static void stop_sample_instances_helper(void *object, void (*func)(void *),
+   void *userdata)
+{
+   ALLEGRO_SAMPLE_INSTANCE *splinst = object;
+
+   /* This is ugly. */
+   if (func == (void (*)(void *)) al_destroy_sample_instance
+      && al_get_sample_data(al_get_sample(splinst)) == userdata
+      && al_get_sample_instance_playing(splinst))
+   {
+      al_stop_sample_instance(splinst);
+   }
+}
+
+
+/* Function: al_destroy_sample
+ */
+void al_destroy_sample(ALLEGRO_SAMPLE *spl)
+{
+   if (spl) {
+      _al_kcm_foreach_destructor(stop_sample_instances_helper,
+         al_get_sample_data(spl));
+      _al_kcm_unregister_destructor(spl);
+
+      if (spl->free_buf && spl->buffer.ptr) {
+         al_free(spl->buffer.ptr);
+      }
+      spl->buffer.ptr = NULL;
+      spl->free_buf = false;
+      al_free(spl);
+   }
+}
+
+
+/* Function: al_reserve_samples
+ */
+bool al_reserve_samples(int reserve_samples)
+{
+   int i;
+   int current_samples_count = (int) _al_vector_size(&auto_samples);
+
+   ASSERT(reserve_samples >= 0);
+
+   /* If no default mixer has been set by the user, then create a voice
+    * and a mixer, and set them to be the default one for use with
+    * al_play_sample().
+    */
+   if (default_mixer == NULL) {
+      if (!al_restore_default_mixer())
+         goto Error;
+   }
+
+   if (current_samples_count < reserve_samples) {
+      /* We need to reserve more samples than currently are reserved. */
+      for (i = 0; i < reserve_samples - current_samples_count; i++) {
+         ALLEGRO_SAMPLE_INSTANCE **slot = _al_vector_alloc_back(&auto_samples);
+         int *id = _al_vector_alloc_back(&auto_sample_ids);
+         *id = 0;
+         *slot = al_create_sample_instance(NULL);
+         if (!*slot) {
+            ALLEGRO_ERROR("al_create_sample failed\n");
+            goto Error;
+         }
+         if (!al_attach_sample_instance_to_mixer(*slot, default_mixer)) {
+            ALLEGRO_ERROR("al_attach_mixer_to_sample failed\n");
+            goto Error;
+         }
+      }
+   }
+   else if (current_samples_count > reserve_samples) {
+      /* We need to reserve fewer samples than currently are reserved. */
+      while (current_samples_count-- > reserve_samples) {
+         _al_vector_delete_at(&auto_samples, current_samples_count);
+         _al_vector_delete_at(&auto_sample_ids, current_samples_count);
+      }
+   }
+
+   return true;
+
+ Error:
+   free_sample_vector();
+   
+   return false;
+}
+
+
+/* Function: al_get_default_mixer
+ */
+ALLEGRO_MIXER *al_get_default_mixer(void)
+{
+   return default_mixer;
+}
+
+
+/* Function: al_set_default_mixer
+ */
+bool al_set_default_mixer(ALLEGRO_MIXER *mixer)
+{
+   ASSERT(mixer != NULL);
+
+   if (mixer != default_mixer) {
+      int i;
+
+      default_mixer = mixer;
+
+      /* Destroy all current sample instances, recreate them, and
+       * attach them to the new mixer */
+      for (i = 0; i < (int) _al_vector_size(&auto_samples); i++) {
+         ALLEGRO_SAMPLE_INSTANCE **slot = _al_vector_ref(&auto_samples, i);
+         int *id = _al_vector_ref(&auto_sample_ids, i);
+
+         *id = 0;
+         al_destroy_sample_instance(*slot);
+
+         *slot = al_create_sample_instance(NULL);
+         if (!*slot) {
+            ALLEGRO_ERROR("al_create_sample failed\n");
+            goto Error;
+         }
+         if (!al_attach_sample_instance_to_mixer(*slot, default_mixer)) {
+            ALLEGRO_ERROR("al_attach_mixer_to_sample failed\n");
+            goto Error;
+         }
+      }      
+   }
+
+   return true;
+
+Error:
+   free_sample_vector();
+   default_mixer = NULL;   
+   return false;
+}
+
+
+/* Function: al_restore_default_mixer
+ */
+bool al_restore_default_mixer(void)
+{
+   if (!create_default_mixer())
+      return false;
+
+   if (!al_set_default_mixer(allegro_mixer))
+      return false;
+
+   return true;
+}
+
+
+/* Function: al_play_sample
+ */
+bool al_play_sample(ALLEGRO_SAMPLE *spl, float gain, float pan, float speed,
+   ALLEGRO_PLAYMODE loop, ALLEGRO_SAMPLE_ID *ret_id)
+{
+   static int next_id = 0;
+   unsigned int i;
+   
+   ASSERT(spl);
+
+   if (ret_id != NULL) {
+      ret_id->_id = -1;
+      ret_id->_index = 0;
+   }
+
+   for (i = 0; i < _al_vector_size(&auto_samples); i++) {
+      ALLEGRO_SAMPLE_INSTANCE **slot = _al_vector_ref(&auto_samples, i);
+      ALLEGRO_SAMPLE_INSTANCE *splinst = (*slot);
+
+      if (!al_get_sample_instance_playing(splinst)) {
+         int *id = _al_vector_ref(&auto_sample_ids, i);
+
+         if (!do_play_sample(splinst, spl, gain, pan, speed, loop))
+            break;
+
+         if (ret_id != NULL) {
+            ret_id->_index = (int) i;
+            ret_id->_id = *id = ++next_id;
+         }
+
+         return true;
+      }
+   }
+
+   return false;
+}
+
+
+static bool do_play_sample(ALLEGRO_SAMPLE_INSTANCE *splinst,
+   ALLEGRO_SAMPLE *spl, float gain, float pan, float speed, ALLEGRO_PLAYMODE loop)
+{
+   if (!al_set_sample(splinst, spl)) {
+      ALLEGRO_ERROR("al_set_sample failed\n");
+      return false;
+   }
+
+   if (!al_set_sample_instance_gain(splinst, gain) ||
+         !al_set_sample_instance_pan(splinst, pan) ||
+         !al_set_sample_instance_speed(splinst, speed) ||
+         !al_set_sample_instance_playmode(splinst, loop)) {
+      return false;
+   }
+
+   if (!al_play_sample_instance(splinst)) {
+      ALLEGRO_ERROR("al_play_sample_instance failed\n");
+      return false;
+   }
+
+   return true;
+}
+
+
+/* Function: al_stop_sample
+ */
+void al_stop_sample(ALLEGRO_SAMPLE_ID *spl_id)
+{
+   int *id;
+
+   ASSERT(spl_id->_id != -1);
+   ASSERT(spl_id->_index < (int) _al_vector_size(&auto_samples));
+   ASSERT(spl_id->_index < (int) _al_vector_size(&auto_sample_ids));
+
+   id = _al_vector_ref(&auto_sample_ids, spl_id->_index);
+   if (*id == spl_id->_id) {
+      ALLEGRO_SAMPLE_INSTANCE **slot, *spl;
+      slot = _al_vector_ref(&auto_samples, spl_id->_index);
+      spl = (*slot);
+      al_stop_sample_instance(spl);
+   }
+}
+
+
+/* Function: al_stop_samples
+ */
+void al_stop_samples(void)
+{
+   unsigned int i;
+
+   for (i = 0; i < _al_vector_size(&auto_samples); i++) {
+      ALLEGRO_SAMPLE_INSTANCE **slot = _al_vector_ref(&auto_samples, i);
+      ALLEGRO_SAMPLE_INSTANCE *spl = (*slot);
+      al_stop_sample_instance(spl);
+   }
+}
+
+
+/* Function: al_get_sample_frequency
+ */
+unsigned int al_get_sample_frequency(const ALLEGRO_SAMPLE *spl)
+{
+   ASSERT(spl);
+
+   return spl->frequency;
+}
+
+
+/* Function: al_get_sample_length
+ */
+unsigned int al_get_sample_length(const ALLEGRO_SAMPLE *spl)
+{
+   ASSERT(spl);
+
+   return spl->len;
+}
+
+
+/* Function: al_get_sample_depth
+ */
+ALLEGRO_AUDIO_DEPTH al_get_sample_depth(const ALLEGRO_SAMPLE *spl)
+{
+   ASSERT(spl);
+
+   return spl->depth;
+}
+
+
+/* Function: al_get_sample_channels
+ */
+ALLEGRO_CHANNEL_CONF al_get_sample_channels(const ALLEGRO_SAMPLE *spl)
+{
+   ASSERT(spl);
+
+   return spl->chan_conf;
+}
+
+
+/* Function: al_get_sample_data
+ */
+void *al_get_sample_data(const ALLEGRO_SAMPLE *spl)
+{
+   ASSERT(spl);
+
+   return spl->buffer.ptr;
+}
+
+
+/* Destroy all sample instances, and frees the associated vectors. */
+static void free_sample_vector(void)
+{
+   int j;
+
+   for (j = 0; j < (int) _al_vector_size(&auto_samples); j++) {
+      ALLEGRO_SAMPLE_INSTANCE **slot = _al_vector_ref(&auto_samples, j);
+      al_destroy_sample_instance(*slot);
+   }
+   _al_vector_free(&auto_samples);
+   _al_vector_free(&auto_sample_ids);
+}
+
+
+void _al_kcm_shutdown_default_mixer(void)
+{
+   free_sample_vector(); 
+   al_destroy_mixer(allegro_mixer);
+   al_destroy_voice(allegro_voice);
+
+   allegro_mixer = NULL;
+   allegro_voice = NULL;
+   default_mixer = NULL;
+}
+
+
+/* vim: set sts=3 sw=3 et: */
+
+kcm_stream.c/   0           0     0     644     19894     `
+/**
+ * Originally digi.c from allegro wiki
+ * Original authors: KC/Milan
+ *
+ * Converted to allegro5 by Ryan Dickie
+ */
+
+/* Title: Stream functions
+ */
+
+#include <stdio.h>
+
+#include "allegro5/allegro_audio.h"
+#include "allegro5/internal/aintern_audio.h"
+#include "allegro5/internal/aintern_audio_cfg.h"
+
+ALLEGRO_DEBUG_CHANNEL("audio")
+
+/*
+ * The highest quality interpolator is a cubic interpolator requiring
+ * four sample points.  In the streaming case we lag the true sample
+ * position by three.
+ */
+#define MAX_LAG   (3)
+
+
+static void maybe_lock_mutex(ALLEGRO_MUTEX *mutex)
+{
+   if (mutex) {
+      al_lock_mutex(mutex);
+   }
+}
+
+
+static void maybe_unlock_mutex(ALLEGRO_MUTEX *mutex)
+{
+   if (mutex) {
+      al_unlock_mutex(mutex);
+   }
+}
+
+
+/* Function: al_create_audio_stream
+ */
+ALLEGRO_AUDIO_STREAM *al_create_audio_stream(size_t fragment_count,
+   unsigned int frag_samples, unsigned int freq, ALLEGRO_AUDIO_DEPTH depth,
+   ALLEGRO_CHANNEL_CONF chan_conf)
+{
+   ALLEGRO_AUDIO_STREAM *stream;
+   unsigned long bytes_per_sample;
+   unsigned long bytes_per_frag_buf;
+   size_t i;
+
+   if (!fragment_count) {
+      _al_set_error(ALLEGRO_INVALID_PARAM,
+         "Attempted to create stream with no buffers");
+      return NULL;
+   }
+   if (!frag_samples) {
+      _al_set_error(ALLEGRO_INVALID_PARAM,
+          "Attempted to create stream with no buffer size");
+      return NULL;
+   }
+   if (!freq) {
+      _al_set_error(ALLEGRO_INVALID_PARAM,
+         "Attempted to create stream with no frequency");
+      return NULL;
+   }
+
+   bytes_per_sample = al_get_channel_count(chan_conf) *
+         al_get_audio_depth_size(depth);
+   bytes_per_frag_buf = frag_samples * bytes_per_sample;
+
+   stream = al_calloc(1, sizeof(*stream));
+   if (!stream) {
+      _al_set_error(ALLEGRO_GENERIC_ERROR,
+         "Out of memory allocating stream object");
+      return NULL;
+   }
+
+   stream->spl.is_playing = true;
+   stream->is_draining = false;
+
+   stream->spl.loop      = _ALLEGRO_PLAYMODE_STREAM_ONCE;
+   stream->spl.spl_data.depth     = depth;
+   stream->spl.spl_data.chan_conf = chan_conf;
+   stream->spl.spl_data.frequency = freq;
+   stream->spl.speed     = 1.0f;
+   stream->spl.gain      = 1.0f;
+   stream->spl.pan       = 0.0f;
+
+   stream->spl.step = 0;
+   stream->spl.pos  = frag_samples;
+   stream->spl.spl_data.len  = stream->spl.pos;
+
+   stream->buf_count = fragment_count;
+
+   stream->used_bufs = al_calloc(1, fragment_count * sizeof(void *) * 2);
+   if (!stream->used_bufs) {
+      al_free(stream->used_bufs);
+      al_free(stream);
+      _al_set_error(ALLEGRO_GENERIC_ERROR,
+         "Out of memory allocating stream buffer pointers");
+      return NULL;
+   }
+   stream->pending_bufs = stream->used_bufs + fragment_count;
+
+   /* The main_buffer holds all the buffer fragments in contiguous memory.
+    * To support interpolation across buffer fragments, we allocate extra
+    * MAX_LAG samples at the start of each buffer fragment, to hold the
+    * last few sample values which came before that fragment.
+    */
+   stream->main_buffer = al_calloc(1,
+      (MAX_LAG * bytes_per_sample + bytes_per_frag_buf) * fragment_count);
+   if (!stream->main_buffer) {
+      al_free(stream->used_bufs);
+      al_free(stream);
+      _al_set_error(ALLEGRO_GENERIC_ERROR,
+         "Out of memory allocating stream buffer");
+      return NULL;
+   }
+
+   for (i = 0; i < fragment_count; i++) {
+      stream->pending_bufs[i] =
+         (char *) stream->main_buffer
+         + i * (MAX_LAG*bytes_per_sample + bytes_per_frag_buf)
+         + MAX_LAG*bytes_per_sample;
+   }
+
+   al_init_user_event_source(&stream->spl.es);
+
+   /* This can lead to deadlocks on shutdown, hence we don't do it. */
+   /* _al_kcm_register_destructor(stream, (void (*)(void *)) al_destroy_audio_stream); */
+
+   return stream;
+}
+
+
+/* Function: al_destroy_audio_stream
+ */
+void al_destroy_audio_stream(ALLEGRO_AUDIO_STREAM *stream)
+{
+   if (stream) {
+      if (stream->feed_thread) {
+         stream->unload_feeder(stream);
+      }
+      /* See commented out call to _al_kcm_register_destructor. */
+      /* _al_kcm_unregister_destructor(stream); */
+      _al_kcm_detach_from_parent(&stream->spl);
+
+      al_destroy_user_event_source(&stream->spl.es);
+      al_free(stream->main_buffer);
+      al_free(stream->used_bufs);
+      al_free(stream);
+   }
+}
+
+
+/* Function: al_drain_audio_stream
+ */
+void al_drain_audio_stream(ALLEGRO_AUDIO_STREAM *stream)
+{
+   bool playing;
+
+   if (!al_get_audio_stream_attached(stream)) {
+      al_set_audio_stream_playing(stream, false);
+      return;
+   }
+
+   stream->is_draining = true;
+   do {
+      al_rest(0.01);
+      playing = al_get_audio_stream_playing(stream);
+   } while (playing);
+   stream->is_draining = false;
+}
+
+
+/* Function: al_get_audio_stream_frequency
+ */
+unsigned int al_get_audio_stream_frequency(const ALLEGRO_AUDIO_STREAM *stream)
+{
+   ASSERT(stream);
+
+   return stream->spl.spl_data.frequency;
+}
+
+
+/* Function: al_get_audio_stream_length
+ */
+unsigned int al_get_audio_stream_length(const ALLEGRO_AUDIO_STREAM *stream)
+{
+   ASSERT(stream);
+
+   return stream->spl.spl_data.len;
+}
+
+
+/* Function: al_get_audio_stream_fragments
+ */
+unsigned int al_get_audio_stream_fragments(const ALLEGRO_AUDIO_STREAM *stream)
+{
+   ASSERT(stream);
+
+   return stream->buf_count;
+}
+
+
+/* Function: al_get_available_audio_stream_fragments
+ */
+unsigned int al_get_available_audio_stream_fragments(
+   const ALLEGRO_AUDIO_STREAM *stream)
+{
+   unsigned int i;
+   ASSERT(stream);
+
+   for (i = 0; i < stream->buf_count && stream->used_bufs[i]; i++)
+      ;
+   return i;
+}
+
+
+/* Function: al_get_audio_stream_speed
+ */
+float al_get_audio_stream_speed(const ALLEGRO_AUDIO_STREAM *stream)
+{
+   ASSERT(stream);
+
+   return stream->spl.speed;
+}
+
+
+/* Function: al_get_audio_stream_gain
+ */
+float al_get_audio_stream_gain(const ALLEGRO_AUDIO_STREAM *stream)
+{
+   ASSERT(stream);
+
+   return stream->spl.gain;
+}
+
+
+/* Function: al_get_audio_stream_pan
+ */
+float al_get_audio_stream_pan(const ALLEGRO_AUDIO_STREAM *stream)
+{
+   ASSERT(stream);
+
+   return stream->spl.pan;
+}
+
+
+/* Function: al_get_audio_stream_channels
+ */
+ALLEGRO_CHANNEL_CONF al_get_audio_stream_channels(
+   const ALLEGRO_AUDIO_STREAM *stream)
+{
+   ASSERT(stream);
+
+   return stream->spl.spl_data.chan_conf;
+}
+
+
+/* Function: al_get_audio_stream_depth
+ */
+ALLEGRO_AUDIO_DEPTH al_get_audio_stream_depth(
+   const ALLEGRO_AUDIO_STREAM *stream)
+{
+   ASSERT(stream);
+
+   return stream->spl.spl_data.depth;
+}
+
+
+/* Function: al_get_audio_stream_playmode
+ */
+ALLEGRO_PLAYMODE al_get_audio_stream_playmode(
+   const ALLEGRO_AUDIO_STREAM *stream)
+{
+   ASSERT(stream);
+
+   return stream->spl.loop;
+}
+
+
+/* Function: al_get_audio_stream_playing
+*/
+bool al_get_audio_stream_playing(const ALLEGRO_AUDIO_STREAM *stream)
+{
+   ASSERT(stream);
+
+   return stream->spl.is_playing;
+}
+
+
+/* Function: al_get_audio_stream_attached
+*/
+bool al_get_audio_stream_attached(const ALLEGRO_AUDIO_STREAM *stream)
+{
+   ASSERT(stream);
+
+   return (stream->spl.parent.u.ptr != NULL);
+}
+
+
+/* Function: al_get_audio_stream_fragment
+*/
+void *al_get_audio_stream_fragment(const ALLEGRO_AUDIO_STREAM *stream)
+{
+   size_t i;
+   void *fragment;
+   ASSERT(stream);
+
+   maybe_lock_mutex(stream->spl.mutex);
+
+   if (!stream->used_bufs[0]) {
+      /* No free fragments are available. */
+      fragment = NULL;
+   }
+   else {
+      fragment = stream->used_bufs[0];
+      for (i = 0; i < stream->buf_count-1 && stream->used_bufs[i]; i++) {
+         stream->used_bufs[i] = stream->used_bufs[i+1];
+      }
+      stream->used_bufs[i] = NULL;
+   }
+
+   maybe_unlock_mutex(stream->spl.mutex);
+
+   return fragment;
+}
+
+
+/* Function: al_set_audio_stream_speed
+ */
+bool al_set_audio_stream_speed(ALLEGRO_AUDIO_STREAM *stream, float val)
+{
+   ASSERT(stream);
+
+   if (val <= 0.0f) {
+      _al_set_error(ALLEGRO_INVALID_PARAM,
+         "Attempted to set stream speed to a zero or negative value");
+      return false;
+   }
+
+   if (stream->spl.parent.u.ptr && stream->spl.parent.is_voice) {
+      _al_set_error(ALLEGRO_GENERIC_ERROR,
+         "Could not set voice playback speed");
+      return false;
+   }
+
+   stream->spl.speed = val;
+   if (stream->spl.parent.u.mixer) {
+      ALLEGRO_MIXER *mixer = stream->spl.parent.u.mixer;
+
+      maybe_lock_mutex(stream->spl.mutex);
+
+      stream->spl.step = (stream->spl.spl_data.frequency) * stream->spl.speed;
+      stream->spl.step_denom = mixer->ss.spl_data.frequency;
+      /* Don't wanna be trapped with a step value of 0 */
+      if (stream->spl.step == 0) {
+         stream->spl.step = 1;
+      }
+
+      maybe_unlock_mutex(stream->spl.mutex);
+   }
+
+   return true;
+}
+
+
+/* Function: al_set_audio_stream_gain
+ */
+bool al_set_audio_stream_gain(ALLEGRO_AUDIO_STREAM *stream, float val)
+{
+   ASSERT(stream);
+
+   if (stream->spl.parent.u.ptr && stream->spl.parent.is_voice) {
+      _al_set_error(ALLEGRO_GENERIC_ERROR,
+         "Could not set gain of stream attached to voice");
+      return false;
+   }
+
+   if (stream->spl.gain != val) {
+      stream->spl.gain = val;
+
+      /* If attached to a mixer already, need to recompute the sample
+       * matrix to take into account the gain.
+       */
+      if (stream->spl.parent.u.mixer) {
+         ALLEGRO_MIXER *mixer = stream->spl.parent.u.mixer;
+
+         maybe_lock_mutex(stream->spl.mutex);
+         _al_kcm_mixer_rejig_sample_matrix(mixer, &stream->spl);
+         maybe_unlock_mutex(stream->spl.mutex);
+      }
+   }
+
+   return true;
+}
+
+
+/* Function: al_set_audio_stream_pan
+ */
+bool al_set_audio_stream_pan(ALLEGRO_AUDIO_STREAM *stream, float val)
+{
+   ASSERT(stream);
+
+   if (stream->spl.parent.u.ptr && stream->spl.parent.is_voice) {
+      _al_set_error(ALLEGRO_GENERIC_ERROR,
+         "Could not set gain of stream attached to voice");
+      return false;
+   }
+   if (val != ALLEGRO_AUDIO_PAN_NONE && (val < -1.0 || val > 1.0)) {
+      _al_set_error(ALLEGRO_GENERIC_ERROR, "Invalid pan value");
+      return false;
+   }
+
+   if (stream->spl.pan != val) {
+      stream->spl.pan = val;
+
+      /* If attached to a mixer already, need to recompute the sample
+       * matrix to take into account the panning.
+       */
+      if (stream->spl.parent.u.mixer) {
+         ALLEGRO_MIXER *mixer = stream->spl.parent.u.mixer;
+
+         maybe_lock_mutex(stream->spl.mutex);
+         _al_kcm_mixer_rejig_sample_matrix(mixer, &stream->spl);
+         maybe_unlock_mutex(stream->spl.mutex);
+      }
+   }
+
+   return true;
+}
+
+
+/* Function: al_set_audio_stream_playmode
+ */
+bool al_set_audio_stream_playmode(ALLEGRO_AUDIO_STREAM *stream,
+   ALLEGRO_PLAYMODE val)
+{
+   ASSERT(stream);
+
+   if (val == ALLEGRO_PLAYMODE_ONCE) {
+      stream->spl.loop = _ALLEGRO_PLAYMODE_STREAM_ONCE;
+      return true;
+   }
+   else if (val == ALLEGRO_PLAYMODE_LOOP) {
+      /* Only streams creating by al_load_audio_stream() support
+       * looping. */
+      if (!stream->feeder)
+         return false;
+
+      stream->spl.loop = _ALLEGRO_PLAYMODE_STREAM_ONEDIR;
+      return true;
+   }
+
+   // XXX _al_set_error
+   return false;
+}
+
+
+/* Function: al_set_audio_stream_playing
+ */
+bool al_set_audio_stream_playing(ALLEGRO_AUDIO_STREAM *stream, bool val)
+{
+   ASSERT(stream);
+
+   if (stream->spl.parent.u.ptr && stream->spl.parent.is_voice) {
+      ALLEGRO_VOICE *voice = stream->spl.parent.u.voice;
+      bool rc;
+
+      if (val == stream->spl.is_playing) {
+         return true;
+      }
+
+      rc = _al_kcm_set_voice_playing(voice, val);
+      if (rc) {
+         stream->spl.is_playing = val;
+      }
+      return rc;
+   }
+
+   stream->spl.is_playing = val;
+
+   if (!val) {
+      maybe_lock_mutex(stream->spl.mutex);
+      stream->spl.pos = stream->spl.spl_data.len;
+      maybe_unlock_mutex(stream->spl.mutex);
+   }
+   return true;
+}
+
+
+/* Function: al_detach_audio_stream
+ */
+bool al_detach_audio_stream(ALLEGRO_AUDIO_STREAM *stream)
+{
+   ASSERT(stream);
+
+   _al_kcm_detach_from_parent(&stream->spl);
+   ASSERT(stream->spl.spl_read == NULL);
+   return !al_get_audio_stream_attached(stream);
+}
+
+
+/* Function: al_set_audio_stream_fragment
+ */
+bool al_set_audio_stream_fragment(ALLEGRO_AUDIO_STREAM *stream, void *val)
+{
+   size_t i;
+   bool ret;
+   ASSERT(stream);
+
+   maybe_lock_mutex(stream->spl.mutex);
+
+   for (i = 0; i < stream->buf_count && stream->pending_bufs[i] ; i++)
+      ;
+   if (i < stream->buf_count) {
+      stream->pending_bufs[i] = val;
+      ret = true;
+   }
+   else {
+      _al_set_error(ALLEGRO_INVALID_OBJECT,
+         "Attempted to set a stream buffer with a full pending list");
+      ret = false;
+   }
+
+   maybe_unlock_mutex(stream->spl.mutex);
+
+   return ret;
+}
+
+
+/* _al_kcm_refill_stream:
+ *  Called by the mixer when the current buffer has been used up.  It should
+ *  point to the next pending buffer and reset the sample position.
+ *  Returns true if the next buffer is available and set up.
+ *  Otherwise returns false.
+ */
+bool _al_kcm_refill_stream(ALLEGRO_AUDIO_STREAM *stream)
+{
+   ALLEGRO_SAMPLE_INSTANCE *spl = &stream->spl;
+   void *old_buf = spl->spl_data.buffer.ptr;
+   void *new_buf;
+   size_t i;
+
+   if (old_buf) {
+      /* Slide the buffers down one position and put the
+       * completed buffer into the used array to be refilled.
+       */
+      for (i = 0;
+            i < stream->buf_count-1 && stream->pending_bufs[i];
+            i++) {
+         stream->pending_bufs[i] = stream->pending_bufs[i+1];
+      }
+      stream->pending_bufs[i] = NULL;
+
+      for (i = 0; stream->used_bufs[i]; i++)
+         ;
+      stream->used_bufs[i] = old_buf;
+   }
+
+   new_buf = stream->pending_bufs[0];
+   stream->spl.spl_data.buffer.ptr = new_buf;
+   if (!new_buf) {
+      ALLEGRO_WARN("Out of buffers\n");
+      return false;
+   }
+
+   /* Copy the last MAX_LAG sample values to the front of the new buffer
+    * for interpolation.
+    */
+   if (old_buf) {
+      const int bytes_per_sample =
+         al_get_channel_count(spl->spl_data.chan_conf) *
+         al_get_audio_depth_size(spl->spl_data.depth);
+      memcpy(
+         (char *) new_buf - bytes_per_sample * MAX_LAG,
+         (char *) old_buf + bytes_per_sample * (spl->pos-MAX_LAG),
+         bytes_per_sample * MAX_LAG);
+   }
+
+   stream->spl.pos = 0;
+
+   return true;
+}
+
+
+/* _al_kcm_feed_stream:
+ * A routine running in another thread that feeds the stream buffers as
+ * neccesary, usually getting data from some file reader backend.
+ */
+void *_al_kcm_feed_stream(ALLEGRO_THREAD *self, void *vstream)
+{
+   ALLEGRO_AUDIO_STREAM *stream = vstream;
+   ALLEGRO_EVENT_QUEUE *queue;
+   ALLEGRO_EVENT event;
+   (void)self;
+
+   ALLEGRO_DEBUG("Stream feeder thread started.\n");
+
+   queue = al_create_event_queue();
+   al_register_event_source(queue, &stream->spl.es);
+
+   stream->quit_feed_thread = false;
+
+   while (!stream->quit_feed_thread) {
+      char *fragment;
+      ALLEGRO_EVENT event;
+
+      al_wait_for_event(queue, &event);
+
+      if (event.type == ALLEGRO_EVENT_AUDIO_STREAM_FRAGMENT
+          && !stream->is_draining) {
+         unsigned long bytes;
+         unsigned long bytes_written;
+
+         fragment = al_get_audio_stream_fragment(stream);
+         if (!fragment) {
+            /* This is not an error. */
+            continue;
+         }
+
+         bytes = (stream->spl.spl_data.len) *
+               al_get_channel_count(stream->spl.spl_data.chan_conf) *
+               al_get_audio_depth_size(stream->spl.spl_data.depth);
+
+         maybe_lock_mutex(stream->spl.mutex);
+         bytes_written = stream->feeder(stream, fragment, bytes);
+         maybe_unlock_mutex(stream->spl.mutex);
+
+        /* In case it reaches the end of the stream source, stream feeder will
+         * fill the remaining space with silence. If we should loop, rewind the
+         * stream and override the silence with the beginning.
+         * In extreme cases we need to repeat it multiple times.
+         */
+         while (bytes_written < bytes &&
+                  stream->spl.loop == _ALLEGRO_PLAYMODE_STREAM_ONEDIR) {
+            size_t bw;
+            al_rewind_audio_stream(stream);
+            maybe_lock_mutex(stream->spl.mutex);
+            bw = stream->feeder(stream, fragment + bytes_written,
+               bytes - bytes_written);
+            bytes_written += bw;
+            maybe_unlock_mutex(stream->spl.mutex);
+         }
+
+         if (!al_set_audio_stream_fragment(stream, fragment)) {
+            ALLEGRO_ERROR("Error setting stream buffer.\n");
+            continue;
+         }
+
+         /* The streaming source doesn't feed any more, drain buffers and quit. */
+         if (bytes_written != bytes &&
+            stream->spl.loop == _ALLEGRO_PLAYMODE_STREAM_ONCE) {
+            al_drain_audio_stream(stream);
+            stream->quit_feed_thread = true;
+         }
+      }
+      else if (event.type == _KCM_STREAM_FEEDER_QUIT_EVENT_TYPE) {
+         stream->quit_feed_thread = true;
+      }
+   }
+   
+   event.user.type = ALLEGRO_EVENT_AUDIO_STREAM_FINISHED;
+   event.user.timestamp = al_get_time();
+   al_emit_user_event(&stream->spl.es, &event, NULL);
+
+   al_destroy_event_queue(queue);
+
+   ALLEGRO_DEBUG("Stream feeder thread finished.\n");
+
+   return NULL;
+}
+
+
+void _al_kcm_emit_stream_events(ALLEGRO_AUDIO_STREAM *stream)
+{
+   /* Emit one event for each stream fragment available right now.
+    *
+    * There may already be an event corresponding to an available fragment in
+    * some event queue, but there's nothing we can do about that.  Streams may
+    * be added and removed from queues, events may be lost by the user, etc.
+    * so it would be dangerous to assume that each fragment event would be
+    * responded to, once and exactly once.
+    *
+    * Having said that, event queues are empty in the steady state so it is
+    * relatively rare that this situation occurs.
+    */
+   int count = al_get_available_audio_stream_fragments(stream);
+
+   while (count--) {
+      ALLEGRO_EVENT event;
+      event.user.type = ALLEGRO_EVENT_AUDIO_STREAM_FRAGMENT;
+      event.user.timestamp = al_get_time();
+      al_emit_user_event(&stream->spl.es, &event, NULL);
+   }
+}
+
+
+/* Function: al_rewind_audio_stream
+ */
+bool al_rewind_audio_stream(ALLEGRO_AUDIO_STREAM *stream)
+{
+   bool ret;
+
+   if (stream->rewind_feeder) {
+      maybe_lock_mutex(stream->spl.mutex);
+      ret = stream->rewind_feeder(stream);
+      maybe_unlock_mutex(stream->spl.mutex);
+      return ret;
+   }
+
+   return false;
+}
+
+
+/* Function: al_seek_audio_stream_secs
+ */
+bool al_seek_audio_stream_secs(ALLEGRO_AUDIO_STREAM *stream, double time)
+{
+   bool ret;
+
+   if (stream->seek_feeder) {
+      maybe_lock_mutex(stream->spl.mutex);
+      ret = stream->seek_feeder(stream, time);
+      maybe_unlock_mutex(stream->spl.mutex);
+      return ret;
+   }
+
+   return false;
+}
+
+
+/* Function: al_get_audio_stream_position_secs
+ */
+double al_get_audio_stream_position_secs(ALLEGRO_AUDIO_STREAM *stream)
+{
+   double ret;
+
+   if (stream->get_feeder_position) {
+      maybe_lock_mutex(stream->spl.mutex);
+      ret = stream->get_feeder_position(stream);
+      maybe_unlock_mutex(stream->spl.mutex);
+      return ret;
+   }
+
+   return 0.0;
+}
+
+
+/* Function: al_get_audio_stream_length_secs
+ */
+double al_get_audio_stream_length_secs(ALLEGRO_AUDIO_STREAM *stream)
+{
+   double ret;
+
+   if (stream->get_feeder_length) {
+      maybe_lock_mutex(stream->spl.mutex);
+      ret = stream->get_feeder_length(stream);
+      maybe_unlock_mutex(stream->spl.mutex);
+      return ret;
+   }
+
+   return 0.0;
+}
+
+
+/* Function: al_set_audio_stream_loop_secs
+ */
+bool al_set_audio_stream_loop_secs(ALLEGRO_AUDIO_STREAM *stream,
+   double start, double end)
+{
+   bool ret;
+
+   if (start >= end)
+      return false;
+
+   if (stream->set_feeder_loop) {
+      maybe_lock_mutex(stream->spl.mutex);
+      ret = stream->set_feeder_loop(stream, start, end);
+      maybe_unlock_mutex(stream->spl.mutex);
+      return ret;
+   }
+
+   return false;
+}
+
+
+/* Function: al_get_audio_stream_event_source
+ */
+ALLEGRO_EVENT_SOURCE *al_get_audio_stream_event_source(
+   ALLEGRO_AUDIO_STREAM *stream)
+{
+   return &stream->spl.es;
+}
+
+
+/* vim: set sts=3 sw=3 et: */
+kcm_voice.c/    0           0     0     644     12671     `
+/**
+ * Originally digi.c from allegro wiki
+ * Original authors: KC/Milan
+ *
+ * Converted to allegro5 by Ryan Dickie
+ */
+
+/* Title: Voice functions
+ */
+
+#include <stdio.h>
+
+#include "allegro5/allegro_audio.h"
+#include "allegro5/internal/aintern_audio.h"
+#include "allegro5/internal/aintern_audio_cfg.h"
+
+ALLEGRO_DEBUG_CHANNEL("audio")
+
+
+/* forward declarations */
+static void stream_read(void *source, void **vbuf, unsigned int *samples,
+   ALLEGRO_AUDIO_DEPTH buffer_depth, size_t dest_maxc);
+
+
+
+/* _al_voice_update:
+ *  Reads the attached stream and provides a buffer for the sound card. It is
+ *  the driver's responsiblity to call this and to make sure any
+ *  driver-specific resources associated with the voice are locked. This should
+ *  only be called for streaming sources.
+ *
+ *  The return value is a pointer to the next chunk of audio data in the format
+ *  the voice was allocated with. It may return NULL, in which case it is the
+ *  driver's responsilibty to play silence for the voice. The returned buffer
+ *  must *not* be modified. The 'samples' argument is set to the samples count
+ *  in the returned audio data and it may be less or equal to the requested
+ *  samples count.
+ */
+const void *_al_voice_update(ALLEGRO_VOICE *voice, unsigned int *samples)
+{
+   void *buf = NULL;
+
+   ASSERT(voice);
+
+   al_lock_mutex(voice->mutex);
+   if (voice->attached_stream) {
+      ASSERT(voice->attached_stream->spl_read);
+      voice->attached_stream->spl_read(voice->attached_stream, &buf, samples,
+         voice->depth, 0);
+   }
+   al_unlock_mutex(voice->mutex);
+
+   return buf;
+}
+
+
+/* Function: al_create_voice
+ */
+ALLEGRO_VOICE *al_create_voice(unsigned int freq,
+   ALLEGRO_AUDIO_DEPTH depth, ALLEGRO_CHANNEL_CONF chan_conf)
+{
+   ALLEGRO_VOICE *voice = NULL;
+
+   if (!freq) {
+      _al_set_error(ALLEGRO_INVALID_PARAM, "Invalid Voice Frequency");
+      return NULL;
+   }
+
+   voice = al_calloc(1, sizeof(*voice));
+   if (!voice) {
+      return NULL;
+   }
+
+   voice->depth     = depth;
+   voice->chan_conf = chan_conf;
+   voice->frequency = freq;
+
+   voice->mutex = al_create_mutex();
+   voice->cond = al_create_cond();
+   /* XXX why is this needed? there should only be one active driver */
+   voice->driver = _al_kcm_driver;
+
+   ASSERT(_al_kcm_driver);
+   if (_al_kcm_driver->allocate_voice(voice) != 0) {
+      al_destroy_mutex(voice->mutex);
+      al_destroy_cond(voice->cond);
+      al_free(voice);
+      return NULL;
+   }
+
+   _al_kcm_register_destructor(voice, (void (*)(void *)) al_destroy_voice);
+
+   return voice;
+}
+
+
+/* Function: al_destroy_voice
+ */
+void al_destroy_voice(ALLEGRO_VOICE *voice)
+{
+   if (voice) {
+      _al_kcm_unregister_destructor(voice);
+
+      al_detach_voice(voice);
+      ASSERT(al_get_voice_playing(voice) == false);
+
+      /* We do NOT lock the voice mutex when calling this method. */
+      voice->driver->deallocate_voice(voice);
+      al_destroy_mutex(voice->mutex);
+      al_destroy_cond(voice->cond);
+
+      al_free(voice);
+   }
+}
+
+
+/* Function: al_attach_sample_instance_to_voice
+ */
+bool al_attach_sample_instance_to_voice(ALLEGRO_SAMPLE_INSTANCE *spl,
+   ALLEGRO_VOICE *voice)
+{
+   bool ret;
+
+   ASSERT(voice);
+   ASSERT(spl);
+
+   if (voice->attached_stream) {
+      ALLEGRO_WARN(
+         "Attempted to attach to a voice that already has an attachment\n");
+      _al_set_error(ALLEGRO_INVALID_OBJECT,
+         "Attempted to attach to a voice that already has an attachment");
+      return false;
+   }
+
+   if (spl->parent.u.ptr) {
+      ALLEGRO_WARN("Attempted to attach a sample that is already attached\n");
+      _al_set_error(ALLEGRO_INVALID_OBJECT,
+         "Attempted to attach a sample that is already attached");
+      return false;
+   }
+
+   if (voice->chan_conf != spl->spl_data.chan_conf ||
+      voice->frequency != spl->spl_data.frequency ||
+      voice->depth != spl->spl_data.depth)
+   {
+      ALLEGRO_WARN("Sample settings do not match voice settings\n");
+      _al_set_error(ALLEGRO_INVALID_OBJECT,
+         "Sample settings do not match voice settings");
+      return false;
+   }
+
+   al_lock_mutex(voice->mutex);
+
+   voice->attached_stream = spl;
+
+   voice->is_streaming = false;
+   voice->num_buffers = 1;
+   voice->buffer_size = (spl->spl_data.len) *
+                        al_get_channel_count(voice->chan_conf) *
+                        al_get_audio_depth_size(voice->depth);
+
+   spl->spl_read = NULL;
+   _al_kcm_stream_set_mutex(spl, voice->mutex);
+
+   spl->parent.u.voice = voice;
+   spl->parent.is_voice = true;
+
+   if (voice->driver->load_voice(voice, spl->spl_data.buffer.ptr) != 0 ||
+      (spl->is_playing && voice->driver->start_voice(voice) != 0))
+   {      
+      voice->attached_stream = NULL;
+      spl->spl_read = NULL;
+      _al_kcm_stream_set_mutex(spl, NULL);
+      spl->parent.u.voice = NULL;
+
+      ALLEGRO_ERROR("Unable to load sample into voice\n");
+      ret = false;
+   }
+   else {
+      ret = true;
+   }
+
+   al_unlock_mutex(voice->mutex);
+
+   return ret;
+}
+
+
+/* stream_read:
+ *  This passes the next waiting stream buffer to the voice via vbuf.
+ */
+static void stream_read(void *source, void **vbuf, unsigned int *samples,
+   ALLEGRO_AUDIO_DEPTH buffer_depth, size_t dest_maxc)
+{
+   ALLEGRO_AUDIO_STREAM *stream = (ALLEGRO_AUDIO_STREAM*)source;
+   unsigned int len = stream->spl.spl_data.len;
+   unsigned int pos = stream->spl.pos;
+
+   if (!stream->spl.is_playing) {
+      *vbuf = NULL;
+      return;
+   }
+
+   if (*samples > len)
+      *samples = len;
+
+   if (pos >= len) {
+      _al_kcm_refill_stream(stream);
+      if (!stream->pending_bufs[0]) {
+         if (stream->is_draining) {
+            stream->spl.is_playing = false;
+         }
+         *vbuf = NULL;
+         return;
+      }
+      *vbuf = stream->pending_bufs[0];
+      pos = *samples;
+
+      _al_kcm_emit_stream_events(stream);
+   }
+   else {
+      int bytes = pos * al_get_channel_count(stream->spl.spl_data.chan_conf)
+                      * al_get_audio_depth_size(stream->spl.spl_data.depth);
+      *vbuf = ((char *)stream->pending_bufs[0]) + bytes;
+
+      if (pos + *samples > len)
+         *samples = len - pos;
+      pos += *samples;
+   }
+
+   stream->spl.pos = pos;
+
+   (void)dest_maxc;
+   (void)buffer_depth;
+}
+
+
+/* Function: al_attach_audio_stream_to_voice
+ */
+bool al_attach_audio_stream_to_voice(ALLEGRO_AUDIO_STREAM *stream,
+   ALLEGRO_VOICE *voice)
+{
+   bool ret;
+
+   ASSERT(voice);
+   ASSERT(stream);
+
+   if (voice->attached_stream) {
+      _al_set_error(ALLEGRO_INVALID_OBJECT,
+         "Attempted to attach to a voice that already has an attachment");
+      return false;
+   }
+
+   if (stream->spl.parent.u.ptr) {
+      _al_set_error(ALLEGRO_INVALID_OBJECT,
+         "Attempted to attach a stream that is already attached");
+      return false;
+   }
+
+   if (voice->chan_conf != stream->spl.spl_data.chan_conf ||
+      voice->frequency != stream->spl.spl_data.frequency ||
+      voice->depth != stream->spl.spl_data.depth)
+   {
+      _al_set_error(ALLEGRO_INVALID_OBJECT,
+         "Stream settings do not match voice settings");
+      return false;
+   }
+
+   al_lock_mutex(voice->mutex);
+
+   voice->attached_stream = &stream->spl;
+
+   _al_kcm_stream_set_mutex(&stream->spl, voice->mutex);
+
+   stream->spl.parent.u.voice = voice;
+   stream->spl.parent.is_voice = true;
+
+   voice->is_streaming = true;
+   voice->num_buffers = stream->buf_count;
+   voice->buffer_size = (stream->spl.spl_data.len) *
+                        al_get_channel_count(stream->spl.spl_data.chan_conf) *
+                        al_get_audio_depth_size(stream->spl.spl_data.depth);
+
+   ASSERT(stream->spl.spl_read == NULL);
+   stream->spl.spl_read = stream_read;
+
+   if (voice->driver->start_voice(voice) != 0) {
+      voice->attached_stream = NULL;
+      _al_kcm_stream_set_mutex(&stream->spl, NULL);
+      stream->spl.parent.u.voice = NULL;
+      stream->spl.spl_read = NULL;
+
+      _al_set_error(ALLEGRO_GENERIC_ERROR, "Unable to start stream");
+      ret = false;
+   }
+   else {
+      ret = true;
+   }
+
+   al_unlock_mutex(voice->mutex);
+
+   return ret;
+}
+
+
+/* Function: al_attach_mixer_to_voice
+ */
+bool al_attach_mixer_to_voice(ALLEGRO_MIXER *mixer, ALLEGRO_VOICE *voice)
+{
+   bool ret;
+
+   ASSERT(voice);
+   ASSERT(mixer);
+   ASSERT(mixer->ss.is_mixer);
+
+   if (voice->attached_stream)
+      return false;
+   if (mixer->ss.parent.u.ptr)
+      return false;
+
+   if (voice->chan_conf != mixer->ss.spl_data.chan_conf ||
+         voice->frequency != mixer->ss.spl_data.frequency) {
+      return false;
+   }
+
+   al_lock_mutex(voice->mutex);
+
+   voice->attached_stream = &mixer->ss;
+   ASSERT(mixer->ss.spl_read == NULL);
+   mixer->ss.spl_read = _al_kcm_mixer_read;
+
+   _al_kcm_stream_set_mutex(&mixer->ss, voice->mutex);
+
+   mixer->ss.parent.u.voice = voice;
+   mixer->ss.parent.is_voice = true;
+
+   voice->is_streaming = true;
+   voice->num_buffers = 0;
+   voice->buffer_size = 0;
+
+   if (voice->driver->start_voice(voice) != 0) {
+      voice->attached_stream = NULL;
+      _al_kcm_stream_set_mutex(&mixer->ss, NULL);
+      mixer->ss.parent.u.voice = NULL;
+      ret = false;
+   }
+   else {
+      ret = true;
+   }
+
+   al_unlock_mutex(voice->mutex);
+
+   return ret;
+}
+
+
+/* Function: al_detach_voice
+ */
+void al_detach_voice(ALLEGRO_VOICE *voice)
+{
+   ASSERT(voice);
+
+   if (!voice->attached_stream) {
+      return;
+   }
+
+   al_lock_mutex(voice->mutex);
+
+   if (!voice->is_streaming) {
+      ALLEGRO_SAMPLE_INSTANCE *spl = voice->attached_stream;
+
+      spl->pos = voice->driver->get_voice_position(voice);
+      spl->is_playing = voice->driver->voice_is_playing(voice);
+
+      voice->driver->stop_voice(voice);
+      voice->driver->unload_voice(voice);
+   }
+   else {
+      voice->driver->stop_voice(voice);
+   }
+
+   _al_kcm_stream_set_mutex(voice->attached_stream, NULL);
+   voice->attached_stream->parent.u.voice = NULL;
+   voice->attached_stream->spl_read = NULL;
+   voice->attached_stream = NULL;
+
+   al_unlock_mutex(voice->mutex);
+}
+
+
+/* Function: al_get_voice_frequency
+ */
+unsigned int al_get_voice_frequency(const ALLEGRO_VOICE *voice)
+{
+   ASSERT(voice);
+
+   return voice->frequency;
+}
+
+
+/* Function: al_get_voice_position
+ */
+unsigned int al_get_voice_position(const ALLEGRO_VOICE *voice)
+{
+   ASSERT(voice);
+
+   if (voice->attached_stream && !voice->is_streaming) {
+      unsigned int ret;
+      al_lock_mutex(voice->mutex);
+      ret = voice->driver->get_voice_position(voice);
+      al_unlock_mutex(voice->mutex);
+      return ret;
+   }
+   else
+      return 0;
+}
+
+
+/* Function: al_get_voice_channels
+ */
+ALLEGRO_CHANNEL_CONF al_get_voice_channels(const ALLEGRO_VOICE *voice)
+{
+   ASSERT(voice);
+
+   return voice->chan_conf;
+}
+
+
+/* Function: al_get_voice_depth
+ */
+ALLEGRO_AUDIO_DEPTH al_get_voice_depth(const ALLEGRO_VOICE *voice)
+{
+   ASSERT(voice);
+
+   return voice->depth;
+}
+
+
+/* Function: al_get_voice_playing
+ */
+bool al_get_voice_playing(const ALLEGRO_VOICE *voice)
+{
+   ASSERT(voice);
+
+   if (voice->attached_stream && !voice->is_streaming) {
+      bool ret;
+      al_lock_mutex(voice->mutex);
+      ret = voice->driver->voice_is_playing(voice);
+      al_unlock_mutex(voice->mutex);
+      return ret;
+   }
+
+   return voice->attached_stream ? true : false;
+}
+
+
+/* Function: al_set_voice_position
+ */
+bool al_set_voice_position(ALLEGRO_VOICE *voice, unsigned int val)
+{
+   ASSERT(voice);
+
+   if (voice->attached_stream && !voice->is_streaming) {
+      bool ret;
+      al_lock_mutex(voice->mutex);
+      // XXX change method
+      ret = voice->driver->set_voice_position(voice, val) == 0;
+      al_unlock_mutex(voice->mutex);
+      return ret;
+   }
+
+   return false;
+}
+
+
+/* Function: al_set_voice_playing
+ */
+bool al_set_voice_playing(ALLEGRO_VOICE *voice, bool val)
+{
+   ASSERT(voice);
+
+   if (!voice->attached_stream) {
+      ALLEGRO_DEBUG("Voice has no attachment\n");
+      return false;
+   }
+
+   if (voice->is_streaming) {
+      ALLEGRO_WARN("Attempted to change the playing state of a voice "
+         "with a streaming attachment (mixer or audiostreams)\n");
+      return false;
+   }
+   else {
+      bool playing = al_get_voice_playing(voice);
+      if (playing == val) {
+         if (playing) {
+            ALLEGRO_DEBUG("Voice is already playing\n");
+         }
+         else {
+            ALLEGRO_DEBUG("Voice is already stopped\n");
+         }
+         return true;
+      }
+
+      return _al_kcm_set_voice_playing(voice, val);
+   }
+}
+
+
+bool _al_kcm_set_voice_playing(ALLEGRO_VOICE *voice, bool val)
+{
+   bool ret;
+   ASSERT(voice);
+
+   al_lock_mutex(voice->mutex);
+   // XXX change methods
+   if (val)
+      ret = voice->driver->start_voice(voice) == 0;
+   else
+      ret = voice->driver->stop_voice(voice) == 0;
+   al_unlock_mutex(voice->mutex);
+
+   return ret;
+}
+
+
+/* vim: set sts=3 sw=3 et: */
+
+openal.c/       0           0     0     644     19592     `
+/*
+ * updated for 4.9 inclusion by Ryan Dickie
+ * Originally done by KC/Milan
+ */
+
+#include <stdio.h>
+#include <string.h>
+
+#include "allegro5/allegro.h"
+
+#if defined(ALLEGRO_MACOSX) || defined(ALLEGRO_IPHONE)
+#include <OpenAL/al.h>
+#include <OpenAL/alc.h>
+#else /* ALLEGRO_MACOSX */
+#include <al.h>
+#include <alc.h>
+#endif /* ALLEGRO_MACOSX */
+
+#include "allegro5/internal/aintern_audio.h"
+
+ALLEGRO_DEBUG_CHANNEL("openal")
+
+/* OpenAL vars */
+static ALCdevice  *openal_dev;
+static ALCcontext *openal_context;
+
+/* TODO: make these configurable */
+static const size_t preferred_frag_size = 1024;
+static const ALuint preferred_buf_count = 4;
+
+static const char *openal_get_err_str(ALenum err)
+{
+   switch (err) {
+      case AL_NO_ERROR:
+         return "There is no OpenAL error";
+      case AL_INVALID_NAME:
+         return "A bad name (ID) was passed to OpenAL";
+      case AL_INVALID_ENUM:
+         return "An invalid enum was passed to OpenAL";
+      case AL_INVALID_VALUE:
+         return "An Invalid enum was passed to OpenAL";
+      case AL_INVALID_OPERATION:
+         return "The requestion operation is invalid";
+      case AL_OUT_OF_MEMORY:
+         return "OpenAL ran out of memory";
+      default:
+         return "Unknown error";
+   }
+}
+
+static const char *alc_get_err_str(ALCenum err)
+{
+   switch (err) {
+      case ALC_NO_ERROR:
+         return "There is no OpenAL error";
+      case ALC_INVALID_DEVICE:
+         return "A bad device was passed to OpenAL";
+      case ALC_INVALID_CONTEXT:
+         return "An bad context was passed to OpenAL";
+      case ALC_INVALID_ENUM:
+         return "An Invalid enum was passed to OpenAL";
+      case ALC_INVALID_VALUE:
+         return "The requestion operation is invalid";
+      case ALC_OUT_OF_MEMORY:
+         return "OpenAL ran out of memory";
+      default:
+         return "Unknown error";
+   }
+}
+
+/* The open method starts up the driver and should lock the device, using the
+   previously set paramters, or defaults. It shouldn't need to start sending
+   audio data to the device yet, however. */
+static int _openal_open(void)
+{
+   ALenum openal_err;
+   ALCenum alc_err;
+
+   ALLEGRO_INFO("Starting OpenAL\n");
+
+   /* clear the error state */
+   openal_err = alGetError();
+
+   /* pick default device. always a good choice */
+   openal_dev = alcOpenDevice(NULL);
+
+   alc_err = ALC_NO_ERROR;
+   if (!openal_dev || (alc_err = alcGetError(openal_dev)) != ALC_NO_ERROR) {
+      ALLEGRO_ERROR("Could not open audio device: %s\n",
+         alc_get_err_str(alc_err));
+      return 1;
+   }
+
+   openal_context = alcCreateContext(openal_dev, NULL);
+   alc_err = ALC_NO_ERROR;
+   if (!openal_context || (alc_err = alcGetError(openal_dev)) != ALC_NO_ERROR) {
+      ALLEGRO_ERROR("Could not create current device context: %s\n",
+         alc_get_err_str(alc_err));
+      return 1;
+   }
+
+   alcMakeContextCurrent(openal_context);
+#if !defined ALLEGRO_IPHONE
+   if ((alc_err = alcGetError(openal_dev)) != ALC_NO_ERROR) {
+      ALLEGRO_ERROR("Could not make context current: %s\n",
+         alc_get_err_str(alc_err));
+      return 1;
+   }
+
+   alDistanceModel(AL_NONE);
+   if ((openal_err = alGetError()) != AL_NO_ERROR) {
+      ALLEGRO_ERROR("Could not set distance model: %s\n",
+         openal_get_err_str(openal_err));
+      return 1;
+   }
+#endif
+
+   ALLEGRO_DEBUG("Vendor: %s\n", alGetString(AL_VENDOR));
+   ALLEGRO_DEBUG("Version: %s\n", alGetString(AL_VERSION));
+   ALLEGRO_DEBUG("Renderer: %s\n", alGetString(AL_RENDERER));
+   ALLEGRO_DEBUG("Extensions: %s\n", alGetString(AL_EXTENSIONS));
+
+   return 0;
+}
+
+/* The close method should close the device, freeing any resources, and allow
+   other processes to use the device */
+static void _openal_close(void)
+{
+   /* clear error states */
+   alGetError();
+   alcGetError(openal_dev);
+
+   /* remove traces from openal */
+   alcMakeContextCurrent(NULL);
+   alcDestroyContext(openal_context);
+   alcCloseDevice(openal_dev);
+
+   /* reset the pointers to NULL */
+   openal_context = NULL;
+   openal_dev = NULL;
+}
+
+/* Custom struct to hold voice information OpenAL needs */
+/* TODO: review */
+typedef struct ALLEGRO_AL_DATA {
+   ALuint *buffers;
+
+   size_t num_buffers;
+   ALuint buffer_size;
+
+   ALuint source;
+   ALuint format;
+
+   ALLEGRO_THREAD *thread;
+   bool stopped;
+} ALLEGRO_AL_DATA;
+
+/* Custom routine which runs in another thread to periodically check if OpenAL
+   wants more data for a stream */
+/* TODO: review */
+static void *_openal_update(ALLEGRO_THREAD *self, void *arg)
+{
+   ALLEGRO_VOICE *voice = (ALLEGRO_VOICE*) arg;
+   ALLEGRO_AL_DATA *ex_data = (ALLEGRO_AL_DATA*)voice->extra;
+   unsigned int i, samples_per_update;
+   unsigned int bytes_per_sample;
+   const void *data;
+   void *silence;
+
+   /* Streams should not be set to looping */
+   alSourcei(ex_data->source, AL_LOOPING, AL_FALSE);
+
+   silence = al_calloc(1, ex_data->buffer_size);
+   if (ex_data->format == AL_FORMAT_STEREO8 ||
+         ex_data->format == AL_FORMAT_MONO8) {
+      memset(silence, 0x80, ex_data->buffer_size);
+   }
+
+   for (i = 0; i < ex_data->num_buffers; i++) {
+      alBufferData(ex_data->buffers[i], ex_data->format, silence,
+         ex_data->buffer_size, voice->frequency);
+   }
+
+   alSourceQueueBuffers(ex_data->source, ex_data->num_buffers,
+      ex_data->buffers);
+
+   alSourcePlay(ex_data->source);
+
+   switch (ex_data->format) {
+      case AL_FORMAT_STEREO16:
+         bytes_per_sample = 4;
+         break;
+      case AL_FORMAT_STEREO8:
+      case AL_FORMAT_MONO16:
+         bytes_per_sample = 2;
+         break;
+      default:
+         bytes_per_sample = 1;
+         break;
+   }
+
+   samples_per_update = ex_data->buffer_size / bytes_per_sample;
+
+   data = silence;
+
+   while (!al_get_thread_should_stop(self)) {
+      ALint status = 0;
+
+      alGetSourcei(ex_data->source, AL_BUFFERS_PROCESSED, &status);
+      if (status <= 0) {
+         /* FIXME what is this for ? */
+         al_rest(0.001);
+         continue;
+      }
+
+      while (--status >= 0) {
+         ALuint buffer;
+
+         data = _al_voice_update(voice, &samples_per_update);
+         if (data == NULL)
+            data = silence;
+
+         alSourceUnqueueBuffers(ex_data->source, 1, &buffer);
+         alBufferData(buffer, ex_data->format, data,
+            samples_per_update * bytes_per_sample, voice->frequency);
+         alSourceQueueBuffers(ex_data->source, 1, &buffer);
+      }
+      alGetSourcei(ex_data->source, AL_SOURCE_STATE, &status);
+      if (status == AL_STOPPED) {
+         alSourcePlay(ex_data->source);
+      }
+   }
+
+   alSourceStop(ex_data->source);
+
+   al_free(silence);
+
+   ex_data->stopped = true;
+   al_broadcast_cond(voice->cond);
+
+   return NULL;
+}
+
+/* The load_voice method loads a sample into the driver's memory. The voice's
+   'streaming' field will be set to false for these voices, and it's
+   'buffer_size' field will be the total length in bytes of the sample data.
+   The voice's attached sample's looping mode should be honored, and loading
+   must fail if it cannot be. */
+static int _openal_load_voice(ALLEGRO_VOICE *voice, const void *data)
+{
+   ALLEGRO_AL_DATA *ex_data = voice->extra;
+   ALenum openal_err;
+
+   if (voice->attached_stream->loop != ALLEGRO_PLAYMODE_ONCE &&
+           voice->attached_stream->loop != ALLEGRO_PLAYMODE_LOOP) {
+      return 1;
+   }
+
+   ex_data->buffer_size = voice->buffer_size;
+   if (!ex_data->buffer_size) {
+      ALLEGRO_ERROR("Voice buffer and data buffer size mismatch\n");
+      return 1;
+   }
+   ex_data->num_buffers = 1;
+
+   alGenSources(1, &ex_data->source);
+   if ((openal_err = alGetError()) != AL_NO_ERROR) {
+      ALLEGRO_ERROR("Could not generate (voice) source: %s\n",
+         openal_get_err_str(openal_err));
+      return 1;
+   }
+
+   ex_data->buffers = al_malloc(sizeof(ALuint) * ex_data->num_buffers);
+   if (!ex_data->buffers) {
+      alDeleteSources(1, &ex_data->source);
+      ALLEGRO_ERROR("Could not allocate voice buffer memory\n");
+      return 1;
+   }
+
+   alGenBuffers(ex_data->num_buffers, ex_data->buffers);
+   if ((openal_err = alGetError()) != AL_NO_ERROR) {
+      alDeleteSources(1, &ex_data->source);
+      al_free(ex_data->buffers);
+      ex_data->buffers = NULL;
+      ALLEGRO_ERROR("Could not generate (voice) buffer: %s\n",
+         openal_get_err_str(openal_err));
+      return 1;
+   }
+
+   /* copies data into a buffer */
+   alBufferData(ex_data->buffers[0], ex_data->format,
+                data, ex_data->buffer_size, voice->frequency);
+
+   /* sets the buffer */
+   alSourcei(ex_data->source, AL_BUFFER, ex_data->buffers[0]);
+
+   /* Loop / no loop? */
+   alSourcei(ex_data->source, AL_LOOPING,
+      (voice->attached_stream->loop != ALLEGRO_PLAYMODE_ONCE));
+
+   /* make sure the volume is on */
+   alSourcef(ex_data->source, AL_GAIN, 1.0f);
+
+   if ((openal_err = alGetError()) != AL_NO_ERROR) {
+      alDeleteSources(1, &ex_data->source);
+      alDeleteBuffers(ex_data->num_buffers, ex_data->buffers);
+      al_free(ex_data->buffers);
+      ex_data->buffers = NULL;
+      ALLEGRO_ERROR("Could not attach voice source: %s\n",
+         openal_get_err_str(openal_err));
+      return 1;
+   }
+
+   return 0;
+}
+
+/* The unload_voice method unloads a sample previously loaded with load_voice.
+   This method should not be called on a streaming voice. */
+static void _openal_unload_voice(ALLEGRO_VOICE *voice)
+{
+   ALLEGRO_AL_DATA *ex_data = voice->extra;
+
+   alDeleteSources(1, &ex_data->source);
+   alDeleteBuffers(ex_data->num_buffers, ex_data->buffers);
+   al_free(ex_data->buffers);
+   ex_data->buffers = NULL;
+   alGetError(); /* required! */
+}
+
+
+/* The start_voice should, surprise, start the voice. For streaming voices, it
+   should start polling the device and call _al_voice_update for audio data.
+   For non-streaming voices, it should resume playing from the last set
+   position */
+static int _openal_start_voice(ALLEGRO_VOICE *voice)
+{
+   ALLEGRO_AL_DATA *ex_data = voice->extra;
+   ALenum openal_err;
+
+   /* playing a sample instead of a stream */
+   if (!voice->is_streaming) {
+      alSourcePlay(ex_data->source);
+      if ((openal_err = alGetError()) != AL_NO_ERROR) {
+         ALLEGRO_ERROR("Could not start voice: %s\n",
+            openal_get_err_str(openal_err));
+         return 1;
+      }
+
+      ALLEGRO_INFO("Starting voice\n");
+      return 0;
+   }
+
+   {
+      ex_data->buffer_size = voice->buffer_size;
+      if (!ex_data->buffer_size) {
+         switch (ex_data->format) {
+            case AL_FORMAT_STEREO16:
+               ex_data->buffer_size = preferred_frag_size * 4;
+               break;
+            case AL_FORMAT_STEREO8:
+            case AL_FORMAT_MONO16:
+               ex_data->buffer_size = preferred_frag_size * 2;
+               break;
+            default:
+               ex_data->buffer_size = preferred_frag_size;
+               break;
+         }
+      }
+
+      ex_data->num_buffers = voice->num_buffers;
+      if (!ex_data->num_buffers)
+         ex_data->num_buffers = preferred_buf_count;
+
+      alGenSources(1, &ex_data->source);
+      if (alGetError() != AL_NO_ERROR)
+         return 1;
+
+      ex_data->buffers = al_malloc(sizeof(ALuint) * ex_data->num_buffers);
+      if (!ex_data->buffers) {
+         alDeleteSources(1, &ex_data->source);
+         return 1;
+      }
+
+      alGenBuffers(ex_data->num_buffers, ex_data->buffers);
+      if (alGetError() != AL_NO_ERROR) {
+         alDeleteSources(1, &ex_data->source);
+         al_free(ex_data->buffers);
+         ex_data->buffers = NULL;
+         return 1;
+      }
+
+      alSourcef(ex_data->source, AL_GAIN, 1.0f);
+      if (alGetError() != AL_NO_ERROR) {
+         alDeleteSources(1, &ex_data->source);
+         alDeleteBuffers(ex_data->num_buffers, ex_data->buffers);
+         al_free(ex_data->buffers);
+         ex_data->buffers = NULL;
+         return 1;
+      }
+
+      ex_data->stopped = false;
+      ex_data->thread = al_create_thread(_openal_update, (void *)voice);
+      al_start_thread(ex_data->thread);
+   }
+
+   ALLEGRO_INFO("Starting voice\n");
+   return 0;
+}
+
+/* The stop_voice method should stop playback. For non-streaming voices, it
+   should leave the data loaded, and reset the voice position to 0. */
+static int _openal_stop_voice(ALLEGRO_VOICE* voice)
+{
+   ALLEGRO_AL_DATA *ex_data = voice->extra;
+   ALenum openal_err;
+
+   if (!ex_data->buffers) {
+      ALLEGRO_WARN("Trying to stop empty voice buffer\n");
+      return 1;
+   }
+
+   /* if playing a sample */
+   if (!voice->is_streaming) {
+      alSourceStop(ex_data->source);
+      if ((openal_err = alGetError()) != AL_NO_ERROR) {
+         ALLEGRO_ERROR("Could not stop voice: %s\n",
+            openal_get_err_str(openal_err));
+         return 1;
+      }
+      return 0;
+   }
+
+   if (ex_data->thread) {
+      al_set_thread_should_stop(ex_data->thread);
+      while (!ex_data->stopped) {
+         al_wait_cond(voice->cond, voice->mutex);
+      }
+      al_join_thread(ex_data->thread, NULL);
+      ex_data->thread = NULL;
+      ex_data->stopped = false;
+   }
+
+   alDeleteBuffers(ex_data->num_buffers, ex_data->buffers);
+   al_free(ex_data->buffers);
+   ex_data->buffers = NULL;
+   alDeleteSources(1, &ex_data->source);
+   alGetError(); /* required! */
+   return 0;
+}
+
+/* The voice_is_playing method should only be called on non-streaming sources,
+   and should return true if the voice is playing */
+static bool _openal_voice_is_playing(const ALLEGRO_VOICE *voice)
+{
+   ALLEGRO_AL_DATA *ex_data = voice->extra;
+   ALint status;
+
+   if (!ex_data)
+      return false;
+
+   alGetSourcei(ex_data->source, AL_SOURCE_STATE, &status);
+   return (status == AL_PLAYING);
+}
+
+/* The allocate_voice method should grab a voice from the system, and allocate
+   any data common to streaming and non-streaming sources. */
+static int _openal_allocate_voice(ALLEGRO_VOICE *voice)
+{
+   ALLEGRO_AL_DATA *ex_data;
+
+   /* OpenAL doesn't support very much! */
+   switch (voice->depth) {
+      case ALLEGRO_AUDIO_DEPTH_UINT8:
+         /* format supported */
+         break;
+      case ALLEGRO_AUDIO_DEPTH_INT8:
+         ALLEGRO_WARN("OpenAL requires 8-bit data to be unsigned\n");
+         return 1;
+      case ALLEGRO_AUDIO_DEPTH_UINT16:
+         ALLEGRO_WARN("OpenAL requires 16-bit data to be signed\n");
+         return 1;
+      case ALLEGRO_AUDIO_DEPTH_INT16:
+         /* format supported */
+         break;
+      case ALLEGRO_AUDIO_DEPTH_UINT24:
+         ALLEGRO_WARN("OpenAL does not support 24-bit data\n");
+         return 1;
+      case ALLEGRO_AUDIO_DEPTH_INT24:
+         ALLEGRO_WARN("OpenAL does not support 24-bit data\n");
+         return 1;
+      case ALLEGRO_AUDIO_DEPTH_FLOAT32:
+         ALLEGRO_WARN("OpenAL does not support 32-bit floating data\n");
+         return 1;
+      default:
+         ALLEGRO_WARN("Cannot allocate unknown voice depth\n");
+         return 1;
+   }
+
+   ex_data = al_calloc(1, sizeof(*ex_data));
+   if (!ex_data) {
+      ALLEGRO_ERROR("Could not allocate voice data memory\n");
+      return 1;
+   }
+
+   switch (voice->chan_conf) {
+      case ALLEGRO_CHANNEL_CONF_1:
+         /* format supported */
+         if (voice->depth == ALLEGRO_AUDIO_DEPTH_UINT8)
+            ex_data->format = AL_FORMAT_MONO8;
+         else
+            ex_data->format = AL_FORMAT_MONO16;
+         break;
+      case ALLEGRO_CHANNEL_CONF_2:
+         /* format supported */
+         if (voice->depth == ALLEGRO_AUDIO_DEPTH_UINT8)
+            ex_data->format = AL_FORMAT_STEREO8;
+         else
+            ex_data->format = AL_FORMAT_STEREO16;
+         break;
+      case ALLEGRO_CHANNEL_CONF_3:
+         ALLEGRO_ERROR("OpenAL does not support voice with 3 channel configuration\n");
+         al_free(ex_data);
+         return 1;
+      case ALLEGRO_CHANNEL_CONF_4:
+         ex_data->format = alGetEnumValue("AL_FORMAT_QUAD16");
+         if (ex_data->format) {
+            ALLEGRO_ERROR("OpenAL cannot allocate voice with 4.0 channel configuration\n");
+            al_free(ex_data);
+            return 1;
+         }
+         if (voice->depth == ALLEGRO_AUDIO_DEPTH_INT16) {
+            ALLEGRO_ERROR("OpenAL requires 16-bit signed data for 4 channel configuration\n");
+            al_free(ex_data);
+            return 1;
+         }
+         /* else it is supported */
+         break;
+      case ALLEGRO_CHANNEL_CONF_5_1:
+         ex_data->format = alGetEnumValue("AL_FORMAT_51CHN_16");
+         if (!ex_data->format) {
+            ALLEGRO_ERROR("Cannot allocate voice with 5.1 channel configuration\n");
+            al_free(ex_data);
+            return 1;
+         }
+         if (voice->depth == ALLEGRO_AUDIO_DEPTH_UINT16) {
+            ALLEGRO_ERROR("5.1 channel requires 16-bit signed data\n");
+            al_free(ex_data);
+            return 1;
+         }
+         /* else it is supported */
+         break;
+      case ALLEGRO_CHANNEL_CONF_6_1:
+         ex_data->format = alGetEnumValue("AL_FORMAT_61CHN_16");
+         if (!ex_data->format) {
+            ALLEGRO_ERROR("Cannot allocate voice with 6.1 channel configuration\n");
+            al_free(ex_data);
+            return 1;
+         }
+         if (voice->depth == ALLEGRO_AUDIO_DEPTH_UINT16) {
+            ALLEGRO_ERROR("6.1 channel requires 16-bit signed data\n");
+            al_free(ex_data);
+            return 1;
+         }
+         /* else it is supported */
+         break;
+      case ALLEGRO_CHANNEL_CONF_7_1:
+         ex_data->format = alGetEnumValue("AL_FORMAT_71CHN_16");
+         if (!ex_data->format) {
+            ALLEGRO_ERROR("Cannot allocate voice with 7.1 channel configuration\n");
+            al_free(ex_data);
+            return 1;
+         }
+         if (voice->depth == ALLEGRO_AUDIO_DEPTH_UINT16) {
+            ALLEGRO_ERROR("7.1 channel requires 16-bit signed data\n");
+            al_free(ex_data);
+            return 1;
+         }
+         /* else it is supported */
+         break;
+      default:
+         ALLEGRO_ERROR("Cannot allocate voice with unknown channel configuration\n");
+         al_free(ex_data);
+         return 1;
+   }
+
+   voice->extra = ex_data;
+   ex_data->thread = NULL;
+   ex_data->stopped = false;
+
+   return 0;
+}
+
+/* The deallocate_voice method should free the resources for the given voice,
+   but still retain a hold on the device. The voice should be stopped and
+   unloaded by the time this is called */
+static void _openal_deallocate_voice(ALLEGRO_VOICE *voice)
+{
+   ALLEGRO_AL_DATA *ex_data = voice->extra;
+   ASSERT(ex_data->thread == NULL);
+   (void)ex_data;
+
+   al_free(voice->extra);
+   voice->extra = NULL;
+}
+
+/* The get_voice_position method should return the current sample position of
+   the voice (sample_pos = byte_pos / (depth/8) / channels). This should never
+   be called on a streaming voice. */
+static unsigned int _openal_get_voice_position(const ALLEGRO_VOICE *voice)
+{
+   ALLEGRO_AL_DATA *ex_data = voice->extra;
+   ALint pos;
+
+   alGetSourcei(ex_data->source, AL_SAMPLE_OFFSET, &pos);
+   if (alGetError() != AL_NO_ERROR)
+      return 0;
+   return pos;
+}
+
+/* The set_voice_position method should set the voice's playback position,
+   given the value in samples. This should never be called on a streaming
+   voice. */
+static int _openal_set_voice_position(ALLEGRO_VOICE *voice, unsigned int val)
+{
+   ALLEGRO_AL_DATA *ex_data = voice->extra;
+
+   alSourcei(ex_data->source, AL_SAMPLE_OFFSET, val);
+   if (alGetError() != AL_NO_ERROR)
+      return 1;
+   return 0;
+}
+
+ALLEGRO_AUDIO_DRIVER _al_kcm_openal_driver = {
+   "OpenAL",
+
+   _openal_open,
+   _openal_close,
+
+   _openal_allocate_voice,
+   _openal_deallocate_voice,
+
+   _openal_load_voice,
+   _openal_unload_voice,
+
+   _openal_start_voice,
+   _openal_stop_voice,
+
+   _openal_voice_is_playing,
+
+   _openal_get_voice_position,
+   _openal_set_voice_position,
+};
+
+/* vim: set sts=3 sw=3 et: */
+oss.c/          0           0     0     644     16083     `
+/*         ______   ___    ___
+ *        /\  _  \ /\_ \  /\_ \
+ *        \ \ \L\ \\//\ \ \//\ \      __     __   _ __   ___
+ *         \ \  __ \ \ \ \  \ \ \   /'__`\ /'_ `\/\`'__\/ __`\
+ *          \ \ \/\ \ \_\ \_ \_\ \_/\  __//\ \L\ \ \ \//\ \L\ \
+ *           \ \_\ \_\/\____\/\____\ \____\ \____ \ \_\\ \____/
+ *            \/_/\/_/\/____/\/____/\/____/\/___L\ \/_/ \/___/
+ *                                           /\____/
+ *                                           \_/__/
+ *
+ *      Open Sound System sound driver.
+ *
+ *      By Milan Mimica.
+ *
+ *      See readme.txt for copyright information.
+ */
+
+#include "allegro5/allegro.h"
+#include "allegro5/internal/aintern_audio.h"
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/ioctl.h>
+#include <string.h>
+#include <poll.h>
+
+ALLEGRO_DEBUG_CHANNEL("oss")
+
+#if defined ALLEGRO_HAVE_SOUNDCARD_H
+  #include <soundcard.h>
+#elif defined ALLEGRO_HAVE_SYS_SOUNDCARD_H
+  #include <sys/soundcard.h>
+#elif defined ALLEGRO_HAVE_LINUX_SOUNDCARD_H
+  #include <linux/soundcard.h>
+#elif defined ALLEGRO_HAVE_MACHINE_SOUNDCARD_H
+  #include <machine/soundcard.h>
+#endif
+
+#if OSS_VERSION >= 0x040000
+   #define OSS_VER_4
+#else
+   #define OSS_VER_3
+#endif
+
+#ifndef AFMT_S16_NE
+   #ifdef ALLEGRO_BIG_ENDIAN
+      #define AFMT_S16_NE AFMT_S16_BE
+   #else
+      #define AFMT_S16_NE AFMT_S16_LE
+   #endif
+#endif
+#ifndef AFMT_U16_NE
+   #ifdef ALLEGRO_BIG_ENDIAN
+      #define AFMT_U16_NE AFMT_U16_BE
+   #else
+      #define AFMT_U16_NE AFMT_U16_LE
+   #endif
+#endif
+
+
+/* Audio device used by OSS3.
+ * Make this configurable. */
+static const char* oss_audio_device_ver3 = "/dev/dsp";
+
+/* Audio device is dynamically retrived in OSS4. */
+static char oss_audio_device[512];
+
+/* timing policy (between 0 and 10), used by OSS4
+ * Make this configurable? */
+static const int oss_timing_policy = 5;
+
+/* Fragment size, used by OSS3 
+ * Make this configurable? */
+static int oss_fragsize = (8 << 16) | (10);
+
+/* Auxiliary buffer used to store silence. */
+#define SIL_BUF_SIZE 1024
+static char sil_buf[SIL_BUF_SIZE];
+
+static bool using_ver_4;
+
+
+typedef struct OSS_VOICE {
+   int fd;
+   int volume;
+
+   /* Copied from the parent ALLEGRO_VOICE. Used for convenince. */
+   unsigned int len; /* in frames */
+   unsigned int frame_size; /* in bytes */
+
+   volatile bool stopped;
+   volatile bool stop;
+
+   ALLEGRO_THREAD *poll_thread;
+} OSS_VOICE;
+
+
+#ifdef OSS_VER_4
+static int oss_open_ver4()
+{
+   int mixer_fd, i;
+   oss_sysinfo sysinfo;
+
+   if ((mixer_fd = open("/dev/mixer", O_RDWR, 0)) == -1) {
+      switch (errno) {
+         case ENXIO:
+         case ENODEV:
+            ALLEGRO_ERROR("Open Sound System is not running in your system.\n");
+         break;
+
+         case ENOENT:
+            ALLEGRO_ERROR("No /dev/mixer device available in your system.\n");
+            ALLEGRO_ERROR("Perhaps Open Sound System is not installed or "
+                          "running.\n");
+         break;
+
+         default:
+            ALLEGRO_ERROR("errno: %i -- %s\n", errno, strerror(errno));
+      }
+
+      return 1;
+   }
+
+   if (ioctl(mixer_fd, SNDCTL_SYSINFO, &sysinfo) == -1) {
+      if (errno == ENXIO) {
+         ALLEGRO_ERROR("OSS has not detected any supported sound hardware in "
+                       "your system.\n");
+      }
+      else if (errno == EINVAL) {
+         ALLEGRO_INFO("The version of OSS installed on the system is not "
+                      "compatible with OSS4.\n");
+      }
+      else
+         ALLEGRO_ERROR("errno: %i -- %s\n", errno, strerror(errno));
+
+      close(mixer_fd);
+      return 1;
+   }
+
+   /* Some OSS implementations (ALSA emulation) don't fail on SNDCTL_SYSINFO even
+    * though they don't support OSS4. They *seem* to set numcards to 0. */
+   if (sysinfo.numcards < 1) {
+      ALLEGRO_WARN("The version of OSS installed on the system is not "
+                   "compatible with OSS4.\n");
+      return 1;
+   }
+
+   ALLEGRO_INFO("OSS Version: %s\n", sysinfo.version);
+   ALLEGRO_INFO("Found %i sound cards.\n", sysinfo.numcards);
+
+   for (i = 0; i < sysinfo.numcards; i++) {
+      oss_audioinfo audioinfo;
+      memset(&audioinfo, 0, sizeof(oss_audioinfo));
+      audioinfo.dev = i;
+
+      ALLEGRO_INFO("Trying sound card no. %i ...\n", audioinfo.dev);
+
+      ioctl(mixer_fd, SNDCTL_AUDIOINFO, &audioinfo);
+
+      if (audioinfo.enabled) {
+         if (strlen(audioinfo.devnode)) {
+            strncpy(oss_audio_device, audioinfo.devnode, 512);
+         }
+         else if (audioinfo.legacy_device != -1) {
+            sprintf(oss_audio_device, "/dev/dsp%i", audioinfo.legacy_device);
+         }
+         else {
+            ALLEGRO_ERROR("Cannot find device name.\n");
+         }
+
+         ALLEGRO_INFO("Using device: %s\n", oss_audio_device);
+
+         break;
+      }
+      else {
+         ALLEGRO_INFO("Device disabled.\n");
+      }
+   }
+
+   if (i == sysinfo.numcards) {
+      ALLEGRO_ERROR("Couldn't find a suitable device.\n");
+      close(mixer_fd);
+      return 1;
+   }
+
+   close(mixer_fd);
+
+   using_ver_4 = true;
+
+   return 0;
+}
+#endif
+
+static int oss_open_ver3(void)
+{
+   ALLEGRO_CONFIG *config = al_get_system_config();
+   if (config) {
+      const char *config_device;
+      config_device = al_get_config_value(config, "oss", "device");
+      if (config_device && config_device[0] != '\0')
+         oss_audio_device_ver3 = config_device;
+   }
+
+   int fd = open(oss_audio_device_ver3, O_WRONLY);
+   if (fd == -1) {
+      switch (errno) {
+         case ENXIO:
+         case ENODEV:
+            ALLEGRO_ERROR("Open Sound System is not running in your "
+                          "system.\n");
+         break;
+
+         case ENOENT:
+            ALLEGRO_ERROR("No '%s' device available in your system.\n",
+               oss_audio_device_ver3);
+            ALLEGRO_ERROR("Perhaps Open Sound System is not installed "
+                          "or running.\n");
+         break;
+
+         default:
+            ALLEGRO_ERROR("errno: %i -- %s\n", errno, strerror(errno));
+      }
+
+      return 1;
+   }
+
+   close(fd);
+   strncpy(oss_audio_device, oss_audio_device_ver3, 512);
+   ALLEGRO_INFO("Using device: %s\n", oss_audio_device);
+
+   using_ver_4 = false;
+
+   return 0;
+}
+
+
+static int oss_open(void)
+{
+   bool force_oss3 = false;
+   ALLEGRO_CONFIG *config = al_get_system_config();
+   if (config) {
+      const char *force_oss3_cfg;
+      force_oss3_cfg = al_get_config_value(config, "oss", "force_ver3");
+      if (force_oss3_cfg && force_oss3_cfg[0] != '\0')
+         force_oss3 = strcmp(force_oss3_cfg, "yes") ? false : true;
+   }
+
+   if (force_oss3) {
+      ALLEGRO_WARN("Skipping OSS4 probe.\n");
+   }
+
+#ifdef OSS_VER_4
+   bool inited = false;
+   if (!force_oss3) {
+      if (oss_open_ver4())
+         ALLEGRO_WARN("OSS ver. 4 init failed, trying ver. 3...\n");
+      else
+         inited = true;
+   }
+   if (!inited && oss_open_ver3()) {
+      ALLEGRO_ERROR("Failed to init OSS.\n");
+      return 1;
+   }
+#else
+   ALLEGRO_INFO("OSS4 support not compiled in. Skipping OSS4 probe.\n");
+   if (oss_open_ver3()) {
+      ALLEGRO_ERROR("Failed to init OSS.\n");
+      return 1;
+   }
+#endif
+
+   return 0;
+}
+
+
+static void oss_close(void)
+{
+}
+
+
+static void oss_deallocate_voice(ALLEGRO_VOICE *voice)
+{
+   OSS_VOICE *oss_voice = voice->extra;
+
+   /* We do NOT hold the voice mutex here, so this does NOT result in a
+    * deadlock when oss_update calls _al_voice_update (which tries to
+    * acquire the voice->mutex).
+    */
+   al_join_thread(oss_voice->poll_thread, NULL);
+   al_destroy_thread(oss_voice->poll_thread);
+
+   close(oss_voice->fd);
+   al_free(voice->extra);
+   voice->extra = NULL;
+}
+
+
+static int oss_start_voice(ALLEGRO_VOICE *voice)
+{
+   OSS_VOICE *ex_data = voice->extra;
+   ex_data->stop = false;
+   return 0;
+}
+
+
+static int oss_stop_voice(ALLEGRO_VOICE *voice)
+{
+   OSS_VOICE *ex_data = voice->extra;
+
+   ex_data->stop = true;
+   if (!voice->is_streaming) {
+      voice->attached_stream->pos = 0;
+   }
+
+   while (!ex_data->stopped)
+      al_rest(0.001);
+
+   return 0;
+}
+
+
+static int oss_load_voice(ALLEGRO_VOICE *voice, const void *data)
+{
+   OSS_VOICE *ex_data = voice->extra;
+
+   /*
+    * One way to support backward playing would be to do like alsa driver does:
+    * mmap(2) the FD and write reversed samples into that. To much trouble for
+    * an optional feature IMO. -- milan
+    */
+   if (voice->attached_stream->loop == ALLEGRO_PLAYMODE_BIDIR) {
+      ALLEGRO_INFO("Backwards playing not supported by the driver.\n");
+      return -1;
+   }
+
+   voice->attached_stream->pos = 0;
+   ex_data->len = voice->attached_stream->spl_data.len;
+
+   return 0;
+   (void)data;
+}
+
+
+static void oss_unload_voice(ALLEGRO_VOICE *voice)
+{
+   (void)voice;
+}
+
+
+static bool oss_voice_is_playing(const ALLEGRO_VOICE *voice)
+{
+   OSS_VOICE *ex_data = voice->extra;
+   return !ex_data->stopped;
+}
+
+
+static unsigned int oss_get_voice_position(const ALLEGRO_VOICE *voice)
+{
+   return voice->attached_stream->pos;
+}
+
+
+static int oss_set_voice_position(ALLEGRO_VOICE *voice, unsigned int val)
+{
+   voice->attached_stream->pos = val;
+   return 0;
+}
+
+
+
+/*
+ * Updates the supplied non-streaming voice.
+ * buf   - Returns a pointer to the buffer containing sample data.
+ * bytes - The requested size of the sample data buffer. Returns the actual
+ *         size of returned the buffer.
+ * Updates 'stop', 'pos' and 'reversed' fields of the supplied voice to the
+ * future position.
+ */
+static int oss_update_nonstream_voice(ALLEGRO_VOICE *voice, void **buf, int *bytes)
+{
+   OSS_VOICE *oss_voice = voice->extra;
+   int bpos = voice->attached_stream->pos * oss_voice->frame_size;
+   int blen = oss_voice->len * oss_voice->frame_size;
+
+   *buf = (char *)voice->attached_stream->spl_data.buffer.ptr + bpos;
+
+   if (bpos + *bytes > blen) {
+      *bytes = blen - bpos;
+      if (voice->attached_stream->loop == ALLEGRO_PLAYMODE_ONCE) {
+         oss_voice->stop = true;
+         voice->attached_stream->pos = 0;
+      }
+      if (voice->attached_stream->loop == ALLEGRO_PLAYMODE_LOOP) {
+         voice->attached_stream->pos = 0;
+      }
+      /*else if (voice->attached_stream->loop == ALLEGRO_PLAYMODE_BIDIR) {
+         oss_voice->reversed = true;
+         voice->attached_stream->pos = oss_voice->len;
+      }*/
+      return 1;
+   }
+   else
+      voice->attached_stream->pos += *bytes / oss_voice->frame_size;
+
+   return 0;
+}
+
+
+static void* oss_update(ALLEGRO_THREAD *self, void *arg)
+{
+   ALLEGRO_VOICE *voice = arg;
+   OSS_VOICE *oss_voice = voice->extra;
+   (void)self;
+
+   while (!al_get_thread_should_stop(self)) {
+      /*
+      For possible eventual non-blocking mode:
+
+      audio_buf_info bi;
+
+      if (ioctl(oss_voice->fd, SNDCTL_DSP_GETOSPACE, &bi) == -1) {
+         ALLEGRO_ERROR("Error SNDCTL_DSP_GETOSPACE, errno=%i (%s)\n",
+            errno, strerror(errno));
+         return NULL;
+      }
+
+      len = bi.bytes;
+      */
+
+      /* How many bytes are we supposed to try to write at once? */
+      unsigned int frames = 1024;
+
+      if (oss_voice->stop && !oss_voice->stopped) {
+         oss_voice->stopped = true;
+      }
+
+      if (!oss_voice->stop && oss_voice->stopped) {
+         oss_voice->stopped = false;
+      }
+
+      if (!voice->is_streaming && !oss_voice->stopped) {
+         void *buf;
+         int bytes = frames * oss_voice->frame_size;
+
+         oss_update_nonstream_voice(voice, &buf, &bytes);
+         frames = bytes / oss_voice->frame_size;
+         if (write(oss_voice->fd, buf, bytes) == -1) {
+            ALLEGRO_ERROR("errno: %i -- %s\n", errno, strerror(errno));
+            if (errno != EINTR)
+               return NULL;
+         }
+      }
+      else if (voice->is_streaming && !oss_voice->stopped) {
+         const void *data = _al_voice_update(voice, &frames);
+         if (data == NULL)
+            goto silence;
+
+         if (write(oss_voice->fd, data, frames * oss_voice->frame_size) == -1) {
+            ALLEGRO_ERROR("errno: %i -- %s\n", errno, strerror(errno));
+            if (errno != EINTR)
+               return NULL;
+         }
+      }
+      else {
+silence:
+         /* If stopped just fill with silence. */
+         memset(sil_buf, _al_kcm_get_silence(voice->depth), SIL_BUF_SIZE);
+         if (write(oss_voice->fd, sil_buf, SIL_BUF_SIZE) == -1) {
+            ALLEGRO_ERROR("errno: %i -- %s\n", errno, strerror(errno));
+         }
+      }
+   }
+
+   return NULL;
+}
+
+
+static int oss_allocate_voice(ALLEGRO_VOICE *voice)
+{
+   int format;
+   int chan_count;
+
+   OSS_VOICE *ex_data = al_calloc(1, sizeof(OSS_VOICE));
+   if (!ex_data)
+      return 1;
+
+   ex_data->fd = open(oss_audio_device, O_WRONLY/*, O_NONBLOCK*/);
+   if (ex_data->fd == -1) {
+      ALLEGRO_ERROR("Failed to open audio device '%s'.\n",
+            oss_audio_device);
+      ALLEGRO_ERROR("errno: %i -- %s\n", errno, strerror(errno));
+      al_free(ex_data);
+      return 1;
+   }
+
+   chan_count = al_get_channel_count(voice->chan_conf);
+
+   ex_data->frame_size = chan_count * al_get_audio_depth_size(voice->depth);
+   if (!ex_data->frame_size)
+      goto Error;
+
+   ex_data->stop = true;
+   ex_data->stopped = true;
+
+   if (voice->depth == ALLEGRO_AUDIO_DEPTH_INT8)
+      format = AFMT_S8;
+   else if (voice->depth == ALLEGRO_AUDIO_DEPTH_UINT8)
+      format = AFMT_U8;
+   else if (voice->depth == ALLEGRO_AUDIO_DEPTH_INT16)
+      format = AFMT_S16_NE;
+   else if (voice->depth == ALLEGRO_AUDIO_DEPTH_UINT16)
+      format = AFMT_U16_NE;
+#ifdef OSS_VER_4
+   else if (voice->depth == ALLEGRO_AUDIO_DEPTH_INT24)
+      format = AFMT_S24_NE;
+   else if (voice->depth == ALLEGRO_AUDIO_DEPTH_FLOAT32)
+      format = AFMT_FLOAT;
+#endif
+   else {
+      ALLEGRO_ERROR("Unsupported OSS sound format.\n");
+      goto Error;
+   }
+
+   int tmp_format = format;
+   int tmp_chan_count = chan_count;
+   unsigned int tmp_freq = voice->frequency;
+   int tmp_oss_fragsize = oss_fragsize;
+
+   if (using_ver_4) {
+#ifdef OSS_VER_4
+      int tmp_oss_timing_policy = oss_timing_policy;
+      if (ioctl(ex_data->fd, SNDCTL_DSP_POLICY, &tmp_oss_timing_policy) == -1) {
+         ALLEGRO_ERROR("Failed to set_timig policity to '%i'.\n",
+               tmp_oss_timing_policy);
+         ALLEGRO_ERROR("errno: %i -- %s\n", errno, strerror(errno));
+         goto Error;
+      }
+      ALLEGRO_INFO("Accepted timing policy value: %i\n", tmp_oss_timing_policy);
+#endif
+   }
+   else {
+      if (ioctl(ex_data->fd, SNDCTL_DSP_SETFRAGMENT, &tmp_oss_fragsize) == -1) {
+          ALLEGRO_ERROR("Failed to set fragment size.\n");
+          ALLEGRO_ERROR("errno: %i -- %s\n", errno, strerror(errno));
+          goto Error;
+      }
+   }
+
+   if (ioctl(ex_data->fd, SNDCTL_DSP_SETFMT, &tmp_format) == -1) {
+      ALLEGRO_ERROR("Failed to set sample format.\n");
+      ALLEGRO_ERROR("errno: %i -- %s\n", errno, strerror(errno));
+      goto Error;
+   }
+   if (tmp_format != format) {
+      ALLEGRO_ERROR("Sample format not supported by the driver.\n");
+      goto Error;
+   }
+
+   if (ioctl(ex_data->fd, SNDCTL_DSP_CHANNELS, &tmp_chan_count)) {
+      ALLEGRO_ERROR("Failed to set channel count.\n");
+      ALLEGRO_ERROR("errno: %i -- %s\n", errno, strerror(errno));
+      goto Error;
+   }
+   if (tmp_chan_count != chan_count) {
+      ALLEGRO_ERROR("Requested sample channe count %i, got %i.\n",
+            tmp_chan_count, chan_count);
+   }
+
+   if (ioctl(ex_data->fd, SNDCTL_DSP_SPEED, &tmp_freq) == -1) {
+      ALLEGRO_ERROR("Failed to set sample rate.\n");
+      ALLEGRO_ERROR("errno: %i -- %s\n", errno, strerror(errno));
+      goto Error;
+   }
+   if (voice->frequency != tmp_freq) {
+      ALLEGRO_ERROR("Requested sample rate %u, got %iu.\n", voice->frequency,
+            tmp_freq);
+   }
+
+   voice->extra = ex_data;
+   ex_data->poll_thread = al_create_thread(oss_update, (void*)voice);
+   al_start_thread(ex_data->poll_thread);
+
+   return 0;
+
+Error:
+   close(ex_data->fd);
+   al_free(ex_data);
+   return 1;
+}
+
+
+ALLEGRO_AUDIO_DRIVER _al_kcm_oss_driver =
+{
+   "OSS",
+
+   oss_open,
+   oss_close,
+
+   oss_allocate_voice,
+   oss_deallocate_voice,
+
+   oss_load_voice,
+   oss_unload_voice,
+
+   oss_start_voice,
+   oss_stop_voice,
+
+   oss_voice_is_playing,
+
+   oss_get_voice_position,
+   oss_set_voice_position
+};
+
+/* vim: set sts=3 sw=3 et: */
+
+pulseaudio.c/   0           0     0     644     11203     `
+/*         ______   ___    ___
+ *        /\  _  \ /\_ \  /\_ \
+ *        \ \ \L\ \\//\ \ \//\ \      __     __   _ __   ___
+ *         \ \  __ \ \ \ \  \ \ \   /'__`\ /'_ `\/\`'__\/ __`\
+ *          \ \ \/\ \ \_\ \_ \_\ \_/\  __//\ \L\ \ \ \//\ \L\ \
+ *           \ \_\ \_\/\____\/\____\ \____\ \____ \ \_\\ \____/
+ *            \/_/\/_/\/____/\/____/\/____/\/___L\ \/_/ \/___/
+ *                                           /\____/
+ *                                           \_/__/
+ *
+ *      PulseAudio sound driver.
+ *
+ *      By Matthew Leverton.
+ *
+ *      See readme.txt for copyright information.
+ */
+
+#include "allegro5/allegro.h"
+#include "allegro5/internal/aintern_audio.h"
+
+#include <pulse/simple.h>
+#include <pulse/error.h>
+#include <pulse/introspect.h>
+#include <pulse/mainloop.h>
+#include <stdlib.h>
+
+ALLEGRO_DEBUG_CHANNEL("PulseAudio")
+
+enum PULSEAUDIO_VOICE_STATUS {
+   PV_IDLE,
+   PV_PLAYING,
+   PV_STOPPING,
+   PV_JOIN
+};
+
+typedef struct PULSEAUDIO_VOICE
+{
+   pa_simple *s;
+   unsigned int buffer_size_in_frames;
+   unsigned int frame_size_in_bytes;
+
+   ALLEGRO_THREAD *poll_thread;
+   /* status_cond and status are protected by voice->mutex.
+    * Using another mutex introduces a deadlock if waiting for a change in
+    * status (while holding voice->mutex, acquired by a higher layer)
+    * and the background thread tries to acquire voice->mutex as well.
+    */
+   ALLEGRO_COND *status_cond;
+   enum PULSEAUDIO_VOICE_STATUS status;
+
+   // direct buffer (non-streaming):
+   ALLEGRO_MUTEX *buffer_mutex;  
+   char *buffer;
+   char *buffer_end;
+} PULSEAUDIO_VOICE;
+
+#define DEFAULT_BUFFER_SIZE   1024
+#define MIN_BUFFER_SIZE       128
+
+static unsigned int get_buffer_size(const ALLEGRO_CONFIG *config)
+{
+   if (config) {
+      const char *val = al_get_config_value(config,
+         "pulseaudio", "buffer_size");
+      if (val && val[0] != '\0') {
+         int n = atoi(val);
+         if (n < MIN_BUFFER_SIZE)
+            n = MIN_BUFFER_SIZE;
+         return n;
+      }
+   }
+
+   return DEFAULT_BUFFER_SIZE;
+}
+
+static void sink_info_cb(pa_context *c, const pa_sink_info *i, int eol,
+   void *userdata)
+{
+   (void)c;
+   (void)eol;
+
+   pa_sink_state_t *ret = userdata;
+   if (!i)
+      return;
+   *ret = i->state;
+}
+
+static int pulseaudio_open(void)
+{
+   /* Use PA_CONTEXT_NOAUTOSPAWN to see if a PA server is running.
+    * If not, fail - we're better off using ALSA/OSS.
+    * 
+    * Also check for suspended PA - again better using ALSA/OSS in
+    * that case (pa_simple_write just blocks until PA is unsuspended
+    * otherwise).
+    * 
+    * TODO: Maybe we should have a force flag to the audio driver
+    * open method, which in the case of PA would spawn a server if
+    * none is running (and also unsuspend?).
+    */
+
+   pa_mainloop *mainloop = pa_mainloop_new();
+   pa_context *c = pa_context_new(pa_mainloop_get_api(mainloop),
+      al_get_app_name());
+   if (!c) {
+      pa_mainloop_free(mainloop);
+      return 1;
+   }
+
+   pa_context_connect(c, NULL, PA_CONTEXT_NOAUTOSPAWN, NULL);
+
+   while (1) {
+      /* Don't block or it will hang if there is no server to connect to. */
+      const int blocking = 0;
+      if (pa_mainloop_iterate(mainloop, blocking, NULL) < 0) {
+         ALLEGRO_ERROR("pa_mainloop_iterate failed\n");
+         pa_context_disconnect(c);
+         pa_mainloop_free(mainloop);
+         break;
+      }
+      pa_context_state_t s = pa_context_get_state(c);
+      if (s == PA_CONTEXT_READY) {
+         ALLEGRO_DEBUG("PA_CONTEXT_READY\n");
+         break;
+      }
+      if (s == PA_CONTEXT_FAILED) {
+         ALLEGRO_ERROR("PA_CONTEXT_FAILED\n");
+         pa_context_disconnect(c);
+         pa_mainloop_free(mainloop);
+         return 1;
+      }
+   }
+
+   pa_sink_state_t state = 0;
+   pa_operation *op = pa_context_get_sink_info_list(c, sink_info_cb, &state);
+   while (pa_operation_get_state(op) == PA_OPERATION_RUNNING) {
+      pa_mainloop_iterate(mainloop, 1, NULL);
+   }
+   /*if (state == PA_SINK_SUSPENDED) {
+      pa_context_disconnect(c);
+      pa_mainloop_free(mainloop);
+      return 1;
+   }*/
+   pa_operation_unref(op);
+   pa_context_disconnect(c);
+   pa_context_unref(c);
+   pa_mainloop_free(mainloop);
+   return 0;
+}
+
+static void pulseaudio_close(void)
+{
+}
+
+static void *pulseaudio_update(ALLEGRO_THREAD *self, void *data)
+{
+   ALLEGRO_VOICE *voice = data;
+   PULSEAUDIO_VOICE *pv = voice->extra;
+   (void)self;
+
+   for (;;) {
+      enum PULSEAUDIO_VOICE_STATUS status;
+
+      al_lock_mutex(voice->mutex);
+      while ((status = pv->status) == PV_IDLE) {
+         al_wait_cond(pv->status_cond, voice->mutex);
+      }
+      al_unlock_mutex(voice->mutex);
+
+      if (status == PV_JOIN) {
+         break;
+      }
+
+      if (status == PV_PLAYING) {
+         unsigned int frames = pv->buffer_size_in_frames;
+         if (voice->is_streaming) { 
+            // streaming audio           
+            const void *data = _al_voice_update(voice, &frames);
+            if (data) {
+               pa_simple_write(pv->s, data,
+                  frames * pv->frame_size_in_bytes, NULL);
+            }
+         }
+         else {
+            // direct buffer audio
+            al_lock_mutex(pv->buffer_mutex);
+            const char *data = pv->buffer;
+            unsigned int len = frames * pv->frame_size_in_bytes;
+            pv->buffer += frames * pv->frame_size_in_bytes;
+            if (pv->buffer > pv->buffer_end) {
+               len = pv->buffer_end - data;
+               pv->buffer = voice->attached_stream->spl_data.buffer.ptr;
+               voice->attached_stream->pos = 0;
+               if (voice->attached_stream->loop == ALLEGRO_PLAYMODE_ONCE) {
+                  al_lock_mutex(voice->mutex);
+                  pv->status = PV_STOPPING;
+                  al_broadcast_cond(pv->status_cond);
+                  al_unlock_mutex(voice->mutex);
+               }
+            }
+            else {
+               voice->attached_stream->pos += frames;
+            }
+            al_unlock_mutex(pv->buffer_mutex);
+
+            pa_simple_write(pv->s, data, len, NULL);
+         }
+      }
+      else if (status == PV_STOPPING) {
+         pa_simple_flush(pv->s, NULL);
+         al_lock_mutex(voice->mutex);
+         pv->status = PV_IDLE;
+         al_broadcast_cond(pv->status_cond);
+         al_unlock_mutex(voice->mutex);
+      }
+   }
+
+   return NULL;
+}
+
+static int pulseaudio_allocate_voice(ALLEGRO_VOICE *voice)
+{
+   PULSEAUDIO_VOICE *pv = al_malloc(sizeof(PULSEAUDIO_VOICE));
+   pa_sample_spec ss;
+   pa_buffer_attr ba;
+
+   ss.channels = al_get_channel_count(voice->chan_conf);
+   ss.rate = voice->frequency;
+
+   if (voice->depth == ALLEGRO_AUDIO_DEPTH_UINT8)
+      ss.format = PA_SAMPLE_U8;
+   else if (voice->depth == ALLEGRO_AUDIO_DEPTH_INT16)
+      ss.format = PA_SAMPLE_S16NE;
+#if PA_API_VERSION > 11
+   else if (voice->depth == ALLEGRO_AUDIO_DEPTH_INT24)
+      ss.format = PA_SAMPLE_S24NE;
+#endif
+   else if (voice->depth == ALLEGRO_AUDIO_DEPTH_FLOAT32)
+      ss.format = PA_SAMPLE_FLOAT32NE;
+   else {
+      ALLEGRO_ERROR("Unsupported PulseAudio sound format.\n");
+      al_free(pv);
+      return 1;
+   }
+
+   ba.maxlength = 0x10000; // maximum length of buffer
+   ba.tlength   = 0x2000;  // target length of buffer
+   ba.prebuf    = 0;       // minimum data size required before playback starts
+   ba.minreq    = 0;       // minimum size of request 
+   ba.fragsize  = -1;      // fragment size (recording)
+
+   pv->s = pa_simple_new(
+      NULL,                // Use the default server.
+      al_get_app_name(),     
+      PA_STREAM_PLAYBACK,
+      NULL,                // Use the default device.
+      "Allegro Voice",    
+      &ss,                
+      NULL,                // Use default channel map
+      &ba,                
+      NULL                 // Ignore error code.
+   );
+
+   if (!pv->s) {
+      al_free(pv);
+      return 1;
+   }
+
+   voice->extra = pv;
+
+   pv->buffer_size_in_frames = get_buffer_size(al_get_system_config());
+   pv->frame_size_in_bytes = ss.channels * al_get_audio_depth_size(voice->depth);
+
+   pv->status = PV_IDLE;
+   //pv->status_mutex = al_create_mutex();
+   pv->status_cond = al_create_cond();
+   pv->buffer_mutex = al_create_mutex();
+
+   pv->poll_thread = al_create_thread(pulseaudio_update, (void*)voice);
+   al_start_thread(pv->poll_thread);
+
+   return 0;
+}
+
+static void pulseaudio_deallocate_voice(ALLEGRO_VOICE *voice)
+{
+   PULSEAUDIO_VOICE *pv = voice->extra;
+
+   al_lock_mutex(voice->mutex);
+   pv->status = PV_JOIN;
+   al_broadcast_cond(pv->status_cond);
+   al_unlock_mutex(voice->mutex);
+
+   /* We do NOT hold the voice mutex here, so this does NOT result in a
+    * deadlock when the thread calls _al_voice_update.
+    */
+   al_join_thread(pv->poll_thread, NULL);
+   al_destroy_thread(pv->poll_thread);
+
+   al_destroy_cond(pv->status_cond);
+   al_destroy_mutex(pv->buffer_mutex);
+
+   pa_simple_free(pv->s);
+   al_free(pv);
+}
+
+static int pulseaudio_load_voice(ALLEGRO_VOICE *voice, const void *data)
+{
+   PULSEAUDIO_VOICE *pv = voice->extra;
+   (void)data;
+
+   if (voice->attached_stream->loop == ALLEGRO_PLAYMODE_BIDIR) {
+      ALLEGRO_INFO("Backwards playing not supported by the driver.\n");
+      return 1;
+   }
+
+   voice->attached_stream->pos = 0;
+
+   pv->buffer = voice->attached_stream->spl_data.buffer.ptr;
+   pv->buffer_end = pv->buffer +
+      (voice->attached_stream->spl_data.len) * pv->frame_size_in_bytes;
+
+   return 0;
+}
+
+static void pulseaudio_unload_voice(ALLEGRO_VOICE *voice)
+{
+   (void) voice;
+}
+
+static int pulseaudio_start_voice(ALLEGRO_VOICE *voice)
+{
+   PULSEAUDIO_VOICE *pv = voice->extra;   
+   int ret;
+
+   /* We hold the voice->mutex already. */
+
+   if (pv->status == PV_IDLE) {
+      pv->status = PV_PLAYING;
+      al_broadcast_cond(pv->status_cond);
+      ret = 0;
+   }
+   else {
+      ret = 1;
+   }
+
+   return ret;
+}
+
+static int pulseaudio_stop_voice(ALLEGRO_VOICE *voice)
+{
+   PULSEAUDIO_VOICE *pv = voice->extra;
+
+   /* We hold the voice->mutex already. */
+
+   if (pv->status == PV_PLAYING) {
+      pv->status = PV_STOPPING;
+      al_broadcast_cond(pv->status_cond);
+   }
+
+   while (pv->status != PV_IDLE) {
+      al_wait_cond(pv->status_cond, voice->mutex);
+   }
+
+   return 0;
+}
+
+static bool pulseaudio_voice_is_playing(const ALLEGRO_VOICE *voice)
+{
+   PULSEAUDIO_VOICE *pv = voice->extra;
+   return (pv->status == PV_PLAYING);
+}
+
+static unsigned int pulseaudio_get_voice_position(const ALLEGRO_VOICE *voice)
+{
+   return voice->attached_stream->pos;
+}
+
+static int pulseaudio_set_voice_position(ALLEGRO_VOICE *voice, unsigned int pos)
+{
+   PULSEAUDIO_VOICE *pv = voice->extra;
+
+   pa_simple_drain(pv->s, NULL);
+
+   al_lock_mutex(pv->buffer_mutex);
+   voice->attached_stream->pos = pos;
+   pv->buffer = (char *)voice->attached_stream->spl_data.buffer.ptr +
+      pos * pv->frame_size_in_bytes;
+   al_unlock_mutex(pv->buffer_mutex);
+
+   return 0;
+}
+
+ALLEGRO_AUDIO_DRIVER _al_kcm_pulseaudio_driver =
+{
+   "PulseAudio",
+
+   pulseaudio_open,
+   pulseaudio_close,
+
+   pulseaudio_allocate_voice,
+   pulseaudio_deallocate_voice,
+
+   pulseaudio_load_voice,
+   pulseaudio_unload_voice,
+
+   pulseaudio_start_voice,
+   pulseaudio_stop_voice,
+
+   pulseaudio_voice_is_playing,
+
+   pulseaudio_get_voice_position,
+   pulseaudio_set_voice_position
+};
+
+/* vim: set sts=3 sw=3 et: */
+

@@ -1,0 +1,12 @@
+contrôles par défaut (guidelines TETRIS)
+
+menu options (gestion du son, des contôles, et de la résolution)
+structure inputConfig et soundConfig modifiables dans le menu options et chageable depuis un fichier de configuration
+
+plusieurs modes de jeu (le bouton jouer va rediriger vers un menu où on pourra choisir le mode de jeu)
+mode 125*125 (grille géante)
+
+cheat functions (choisir le prochain tétro)
+
+réorganisation de partie()
+fonction d'input

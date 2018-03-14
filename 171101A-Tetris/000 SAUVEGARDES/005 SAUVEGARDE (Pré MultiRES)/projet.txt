@@ -1,0 +1,4 @@
+gestion de la résolution
+gestion du son et de la pause avec une icône dans les parties (heu heu heu LOL)
+
+mode 125*125 (grille géante)
