@@ -1,0 +1,9 @@
+#!/bin/sh
+cd /path/of/directory/to/save/
+git add * 
+git commit -an -m `date "+%y%m%d_backup"`
+git push -u origin master
+rsync -e 'ssh -p 22' -avzp --delete /path/of/directory/to/save/ user@example.com:/path/of/backup/folder/
+rsync -e 'ssh -p 22' -avzp --delete /path/of/an/other/directory/to/save/ user@example.com:/path/of/backup/folder/
+ssh -n user@example.com rsync -avzp --delete /path/of/backup/folder/ /path/of/second/backup/folder/
+
