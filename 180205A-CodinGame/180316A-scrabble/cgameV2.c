@@ -21,9 +21,6 @@ node *find_max(node *root, int *oldl, int depth, int score, int il); /*gets the 
 char *ft_strrev(char *str);
 char *get_word(node *root, int *l); /*returns the answer*/
 
-/*TEST*/
-void print_tree(node *root, char l, int depth, int score);
-
 int main()
 {
   int N;
@@ -55,11 +52,6 @@ int main()
 		l[min] = l[i];
 		l[i] = tmp;
 	}
-
-		/*TEST*/
-		printf("\n");
-		print_tree(root, 0, 7, 0);
-		printf("\n");
 
   printf("%s\n", get_word(root, l));
 
@@ -118,12 +110,6 @@ node *find_max(node *root, int *oldl, int depth, int score, int il)
 	score += valmap[oldl[il]];
 	int *l = use_letter(oldl, il, depth);
 
-		/*TEST*/
-		/*printf("\nnode %c lvl %d:\n", oldl[il]+97, depth);
-		printf("score: %d\n", score);
-		for(int i = 0; i < depth; i++)
-			printf("%c: %d\n", l[i]+97, l[i]);*/
-
 	if(root->word)
 	{
 		best = root;
@@ -165,17 +151,17 @@ char *ft_strrev(char *str)
 char *get_word(node *root, int *l)
 {
 	char *word = (char *)malloc(8 * sizeof(char));
-
 	node **max = (node **)malloc(7 * sizeof(node *));
+	node *wmax = NULL;
+	node *p = NULL;
+
 	for(int i = 0; i < 7; i++)
+	{
 		max[i] = root->child[l[i]] ? find_max(root->child[l[i]], l, 6, 0, i) : NULL;
+		wmax = !wmax || (max[i] && (wmax->score < max[i]->score || (wmax->score == max[i]->score && max[i]->order < wmax->order))) ? max[i] : wmax;
+	}
 	free(l);
 
-	node *wmax = NULL;
-	for(int i = 0; i < 7; i++)
-		wmax = !wmax || (max[i] && wmax->score < max[i]->score) ? max[i] : wmax;
-
-	node *p;
 	for(int i = 0; wmax; i++)
 	{
 		p = wmax->parent;
@@ -188,24 +174,4 @@ char *get_word(node *root, int *l)
 	ft_strrev(word);
 
 	return word;
-}
-
-void print_tree(node *root, char l, int depth, int score)
-{
-	int c = 0;
-	if(l)
-		printf("%c", l);
-	if(root->word)
-		printf(" %d\n", score);
-	for(int i = 0; i < 26; i++)
-	{
-		if(root->child[i])
-		{
-			c++;
-			if(c > 1)
-				for(int j = 0; j < (7-depth); j++)
-					printf(" ");
-			print_tree(root->child[i], (char)i+97, depth-1, score+valmap[i]);
-		}
-	}
 }
