@@ -6,6 +6,7 @@
 enum flight_param {X, Y, hSpeed, vSpeed, fuel, angle, power_d};
 
 int surf_H(int x, int **surface); //gets the height of the surface at the point x
+int **create_map(int **surface, int N);
 int obstacle(int shuttle_x, int shuttle_y, int **surface, int target[2], int dir); /*REDUCE EXEC TIME*/
 int rotate(int shuttle_x, int shuttle_y, int ob_x, int ob_y);
 
@@ -20,12 +21,15 @@ int main()
 		scanf("%d%d", &(surface[i][X]), &(surface[i][Y]));
 	}
 
+	int **map = create_map(surface, N);
+
 	int f_data[7]; //flight_data containing all the parameters needed
 	int lz[2]; //index of the points corresponding to the flat zone of at least 1000m in the surface array
 	int ob; //stores the nearest obstacle X
 	int target[2]; //stores the highest point between the shuttle and the next obstacle or landing_zone (by storing their index in the surface array)
 	int rot; //rotation
 	int power; //desired power output
+	int dir; //side on which the obstacle is
 
 	for(int i = 1; i < N; i++) //defines the landing_zone
 	{
@@ -50,11 +54,20 @@ int main()
 		}
 		else
 		{
-			ob = obstacle(f_data[X], f_data[Y], surface, lz, f_data[X]-((surface[lz[0]][X]+surface[lz[1]][X])/2));
+			dir = f_data[X]-((surface[lz[0]][X]+surface[lz[1]][X])/2);
+			ob = obstacle(f_data[X], f_data[Y], surface, lz, dir);
 			if(ob == -1) //if the shuttle is above every point between the landing_zone and itself including the landing_zone
 			{
-				rot = -45;
-				power = f_data[hSpeed] > 80 ? 0 : 4;
+				if(dir > 0)
+				{
+					rot = 45;
+					power = f_data[hSpeed] < -80 ? 0 : 4;
+				}
+				else
+				{
+					rot = -45;
+					power = f_data[hSpeed] > 80 ? 0 : 4;
+				}
 			}
 			else
 			{
@@ -84,11 +97,25 @@ int surf_H(int x, int **surface)
 	for(i = 0; surface[i][X] < x; i++);
 
 	if(surface[i][X] == x || surface[i][Y] == surface[i-1][Y])
-	y = surface[i][Y];
+		y = surface[i][Y];
 	else
-	y = surface[i-1][Y] + (((surface[i][Y] - surface[i-1][Y]) / (surface[i][X] - surface[i-1][X])) * (x - surface[i-1][X]));
+		y = surface[i-1][Y] + (((surface[i][Y] - surface[i-1][Y]) / (surface[i][X] - surface[i-1][X])) * (x - surface[i-1][X]));
 
 	return y;
+}
+
+int **create_map(int **surface, int N)
+{
+	int grY;
+	int **map = (int **)malloc(7000 * sizeof(int *));
+	for(int i = 0; i < 7000; i++)
+	{
+		map[i] = (int *)malloc(3000 * sizeof(int));
+		grY = surf_H(i, surface);
+		for(int j = 0; j < 3000; j++)
+			map[i][j] = j < grY ? 0 : 1;
+	}
+	return map;
 }
 
 int obstacle(int shuttle_x, int shuttle_y, int **surface, int target[2], int dir) //returns the highest point between the shuttle and l_zone
