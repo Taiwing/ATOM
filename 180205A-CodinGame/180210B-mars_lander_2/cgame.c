@@ -5,14 +5,15 @@
 
 enum flight_param {X, Y, hSpeed, vSpeed, fuel, angle, power_d};
 
-int surf_H(int x, int **surface); //gets the height of the surface at the point x
-int **create_map(int **surface, int N);
-int obstacle(int shuttle_x, int shuttle_y, int **surface, int target[2], int dir); /*REDUCE EXEC TIME*/
-int rotate(int shuttle_x, int shuttle_y, int ob_x, int ob_y);
+int surf_H(int x, int **surface); /*gets the height Y of the ground at X*/
+int **create_map(int **surface, int N); /*maps mars*/
+void find_lz(int lz[2], int **surface, int N); /*defines the landing zone coordinates*/
+void find_path(int **surface, int *path, int st, int ar); /*calculates the path between two points*/
+int *init_path(int **surface, int f_data[7], int lpoint); /*initializes and finds the shortest path to the landing_zone*/
 
 int main()
 {
-	int N; //the number of points used to draw the surface of Mars.
+	int N; /*the number of points used to draw the surface of Mars.*/
 	scanf("%d", &N);
 	int **surface = (int **)malloc(N * sizeof(int *));
 	for(int i = 0; i < N; i++)
@@ -22,70 +23,34 @@ int main()
 	}
 
 	int **map = create_map(surface, N);
+	int *path = NULL; /*stores the shortest path to the landing zone*/
+	int lz[2]; /*index of the points corresponding to the flat zone of at least 1000m in the surface array*/
+	find_lz(lz, surface, N);
+	int lpoint = (surface[lz[0]][X] + surface[lz[1]][X]) / 2;
+	int f_data[7]; /*flight_data containing all the parameters needed*/
+	int rot = 0; /*rotation*/
+	int power = 0; /*desired power output*/
 
-	int f_data[7]; //flight_data containing all the parameters needed
-	int lz[2]; //index of the points corresponding to the flat zone of at least 1000m in the surface array
-	int ob; //stores the nearest obstacle X
-	int target[2]; //stores the highest point between the shuttle and the next obstacle or landing_zone (by storing their index in the surface array)
-	int rot; //rotation
-	int power; //desired power output
-	int dir; //side on which the obstacle is
-
-	for(int i = 1; i < N; i++) //defines the landing_zone
-	{
-		if(surface[i-1][Y] == surface[i][Y] && (surface[i][X] - surface[i-1][X]) >= 1000)
-		{
-			lz[0] = i-1;
-			lz[1] = i;
-			break;
-		}
-	}
-
-	//game loop
+	/*game loop*/
 	while(1)
 	{
 		scanf("%d%d%d%d%d%d%d", &f_data[X], &f_data[Y], &f_data[hSpeed], &f_data[vSpeed], &f_data[fuel], &f_data[angle], &f_data[power_d]);
 
-		if(f_data[X] >= surface[lz[0]][X]+10 && f_data[X] <= surface[lz[1]][X]-10) //if the shuttle is above the landing_zone
-		{
-			//landing procedure
-			rot = 0;
-			power = f_data[vSpeed] > -39 ? 0 : 4;
-		}
-		else
-		{
-			dir = f_data[X]-((surface[lz[0]][X]+surface[lz[1]][X])/2);
-			ob = obstacle(f_data[X], f_data[Y], surface, lz, dir);
-			if(ob == -1) //if the shuttle is above every point between the landing_zone and itself including the landing_zone
-			{
-				if(dir > 0)
-				{
-					rot = 45;
-					power = f_data[hSpeed] < -80 ? 0 : 4;
-				}
-				else
-				{
-					rot = -45;
-					power = f_data[hSpeed] > 80 ? 0 : 4;
-				}
-			}
-			else
-			{
-				power = 4;
-				while(ob != -1)
-				{
-					target[0] = ob;
-					target[1] = ob;
-					rot = rotate(f_data[X], f_data[Y], surface[ob][X], surface[ob][Y]+10);
-					//simulate trajectory at rot angle (eg: hypothenuse)
-					/*TEST*/
-					ob = -1;
-				}
-			}
-		}
+		path = !path ? init_path(surface, f_data, lpoint) : path;
 
 		printf("%d %d\n", rot, power);
+
+			/*TEST*/
+			break;
 	}
+
+	/*TEST*/
+	printf("start:\nX: %d, Y: %d\n", f_data[X], f_data[Y]);
+	printf("arrival:\nX: %d, Y: %d\n", lpoint, surface[lz[0]][Y]);
+	printf("path:\n");
+	for(int i = 0; i < 7000; i++)
+		if(path[i] != -1)
+			printf("X: %d, Y: %d\n", i, path[i]);
 
 	return 0;
 }
@@ -118,30 +83,61 @@ int **create_map(int **surface, int N)
 	return map;
 }
 
-int obstacle(int shuttle_x, int shuttle_y, int **surface, int target[2], int dir) //returns the highest point between the shuttle and l_zone
+void find_lz(int lz[2], int **surface, int N)
 {
-	int i;
-	int max = -1;
-
-	if(dir < 0)
+	for(int i = 1; i < N; i++)
 	{
-		for(i = 0; surface[i][X] < shuttle_x; i++);
-		for(; i <= target[0]; i++)
-		max = surface[i][Y] > shuttle_y && (max == -1 || surface[i][Y] > surface[max][Y]) ? i : max;
+		if(surface[i-1][Y] == surface[i][Y] && (surface[i][X] - surface[i-1][X]) >= 1000)
+		{
+			lz[0] = i-1;
+			lz[1] = i;
+			break;
+		}
 	}
-	else
-	{
-		for(i = 0; surface[i][X] < shuttle_x; i++);
-		for(i--; i >= target[1]; i--)
-		max = surface[i][Y] > shuttle_y && (max == -1 || surface[i][Y] > surface[max][Y]) ? i : max;
-	}
-
-	return max;
 }
 
-int rotate(int shuttle_x, int shuttle_y, int ob_x, int ob_y)
+void find_path(int **surface, int *path, int st, int ar)
 {
-	double O = ob_y - shuttle_y;
-	double A = shuttle_x - ob_x;
-	return atan(O/A);
+	double th = (double)path[st]; /*theoretical height*/
+	double step = (double)(path[ar]-path[st])/(double)(abs(st-ar)); /*vertical movement at every X point*/
+
+	/*first get every surface points between st and ar*/ /*get the index of the first surface val after st and the last after ar*/
+	int pk[2] = {-1}; /*pikes at both ends of the trajectory*/ /*TODO: CORRECT WRONG pk VALUES*/
+	for(int i = 0; surface[i][X] < 6999; i++)
+	{
+		pk[0] = pk[0] == -1 && surface[i][X] > st ? i : pk[0];
+		pk[1] = pk[1] == -1 && surface[i][X] > ar ? i : pk[1];
+	}
+	for(int j = 0; j < 2 && st >= ar; j++) pk[j] = pk[j] != -1 ? pk[j]-1 : pk[j];
+
+	/*then be sure to be at least 10 meters on top of every one of them*/
+	int dir = st < ar ? 0 : 1;
+	int pike = pk[0];
+	for(int i = st; i != ar; i += dir ? -1 : 1)
+	{
+		for(int j = pike; j != dir ? pk[!dir]-1 : pk[!dir]+1; j += dir ? -1 : 1)
+			pike = i == surface[j][X] ? j : pike;
+		if(i == surface[pike][X] && th < (double)(surface[pike][Y]+10)) /*redefine the trajectory from the nearest obstacle to st*/
+		{
+			path[i] = surface[pike][Y]+10; /*first redefine trajectory by setting current path point high enough*/
+			for(int j = i; j != st || path[j] < path[i]; j += dir ? 1 : -1) /*then verify that the last points are not below the new trajectory point*/
+				path[j] = path[j] < path[i] ? -1 : path[j]; /*if there is, set it to -1*/
+			/*set the new th/step values between the new point and ar*/
+			th = (double)path[i];
+			step = (double)(path[ar]-path[i])/(double)(abs(i-ar));
+		}
+		else
+			th+=step;
+	}
+}
+
+int *init_path(int **surface, int f_data[7], int lpoint)
+{
+	int *path = (int *)malloc(7000 * sizeof(int));
+	for(int i = 0; i < 7000; i++)
+		path[i] = -1;
+	path[f_data[X]] = f_data[Y]; /*starting point*/
+	path[lpoint] = surf_H(lpoint, surface); /*arrival*/
+	find_path(surface, path, f_data[X], lpoint);
+	return path;
 }
