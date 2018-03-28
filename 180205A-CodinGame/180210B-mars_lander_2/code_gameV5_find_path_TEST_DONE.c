@@ -4,15 +4,12 @@
 #include <math.h>
 
 enum flight_param {X, Y, hSpeed, vSpeed, fuel, angle, power_d};
-#define PI 3.14159265
-#define G 3.711
 
 int surf_H(int x, int **surface); /*gets the height Y of the ground at X*/
 int **create_map(int **surface, int N); /*maps mars*/
 void find_lz(int lz[2], int **surface, int N); /*defines the landing zone coordinates*/
 void find_path(int **surface, int *path, int st, int ar); /*calculates the path between two points*/
-int *init_path(int **surface, int f_data[7], int ar); /*initializes and finds the shortest path to the landing_zone*/
-void dedrek(int f_data[7], int n_data[7]); /*estimates next f_data given current f_data*/
+int *init_path(int **surface, int f_data[7], int lpoint); /*initializes and finds the shortest path to the landing_zone*/
 
 int main()
 {
@@ -29,11 +26,8 @@ int main()
 	int *path = NULL; /*stores the shortest path to the landing zone*/
 	int lz[2]; /*index of the points corresponding to the flat zone of at least 1000m in the surface array*/
 	find_lz(lz, surface, N);
-	int ar = (surface[lz[0]][X] + surface[lz[1]][X]) / 2; /*coordinate X of arrival*/
-	int st; /*starting point*/
-	int dir = 0; /*direction of arrival, 0 for right, 1 for left*/
+	int lpoint = (surface[lz[0]][X] + surface[lz[1]][X]) / 2;
 	int f_data[7]; /*flight_data containing all the parameters needed*/
-	int n_data[7]; /*estimated f_data at the fallowing second*/
 	int rot = 0; /*rotation*/
 	int power = 0; /*desired power output*/
 
@@ -42,14 +36,7 @@ int main()
 	{
 		scanf("%d%d%d%d%d%d%d", &f_data[X], &f_data[Y], &f_data[hSpeed], &f_data[vSpeed], &f_data[fuel], &f_data[angle], &f_data[power_d]);
 
-		if(!path)
-		{
-			path = init_path(surface, f_data, ar);
-			st = f_data[X];
-			dir = st > ar ? 1 : 0; /*if st is after ar, then go left, else right*/
-		}
-
-		dedrek(f_data, n_data);
+		path = !path ? init_path(surface, f_data, lpoint) : path;
 
 		printf("%d %d\n", rot, power);
 
@@ -59,7 +46,7 @@ int main()
 
 	/*TEST*/
 	printf("start:\nX: %d, Y: %d\n", f_data[X], f_data[Y]);
-	printf("arrival:\nX: %d, Y: %d\n", ar, surface[lz[0]][Y]);
+	printf("arrival:\nX: %d, Y: %d\n", lpoint, surface[lz[0]][Y]);
 	printf("path:\n");
 	for(int i = 0; i < 7000; i++)
 		if(path[i] != -1)
@@ -146,29 +133,13 @@ void find_path(int **surface, int *path, int st, int ar)
 	}
 }
 
-int *init_path(int **surface, int f_data[7], int ar)
+int *init_path(int **surface, int f_data[7], int lpoint)
 {
 	int *path = (int *)malloc(7000 * sizeof(int));
 	for(int i = 0; i < 7000; i++)
 		path[i] = -1;
 	path[f_data[X]] = f_data[Y]; /*starting point*/
-	path[ar] = surf_H(ar, surface); /*arrival*/
-	find_path(surface, path, f_data[X], ar);
+	path[lpoint] = surf_H(lpoint, surface); /*arrival*/
+	find_path(surface, path, f_data[X], lpoint);
 	return path;
-}
-
-void dedrek(int f_data[7], int n_data[7])
-{
-	double acc[2]; /*hor. and ver. acceleration*/
-	acc[0] = f_data[angle] ? (double)f_data[power_d] * cos((double)f_data[angle] * (PI/180.0)) : 0;
-	acc[0] *= f_data[angle] > 0 ? -1 : 1;
-	acc[1] = f_data[angle] ? (double)f_data[power_d] * cos((90 - (double)abs(f_data[angle])) * (PI/180.0)) : (double)f_data[power_d];
-	acc[1] = G - acc[1];
-	n_data[power_d] = f_data[power_d];
-	n_data[angle] = f_data[angle];
-	n_data[fuel] -= 10 * f_data[power_d];
-	n_data[vSpeed] = f_data[vSpeed] + round(acc[1]);
-	n_data[hSpeed] = f_data[hSpeed] + round(acc[0]);
-	n_data[Y] -= f_data[vSpeed];
-	n_data[X] += f_data[hSpeed];
 }
