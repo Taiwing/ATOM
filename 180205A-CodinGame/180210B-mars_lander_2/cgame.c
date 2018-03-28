@@ -12,7 +12,7 @@ int **create_map(int **surface, int N); /*maps mars*/
 void find_lz(int lz[2], int **surface, int N); /*defines the landing zone coordinates*/
 void find_path(int **surface, int *path, int st, int ar); /*calculates the path between two points*/
 int *init_path(int **surface, int f_data[7], int ar); /*initializes and finds the shortest path to the landing_zone*/
-void dedrek(int f_data[7], int n_data[7]); /*estimates next f_data given current f_data*/
+void dedrek(int f_data[7], int n_data[7], double acc[2]); /*estimates next f_data given current f_data*/
 
 int main()
 {
@@ -34,6 +34,7 @@ int main()
 	int dir = 0; /*direction of arrival, 0 for right, 1 for left*/
 	int f_data[7]; /*flight_data containing all the parameters needed*/
 	int n_data[7]; /*estimated f_data at the fallowing second*/
+	double acc[2]; /*hor. and ver. acceleration*/
 	int rot = 0; /*rotation*/
 	int power = 0; /*desired power output*/
 
@@ -49,7 +50,7 @@ int main()
 			dir = st > ar ? 1 : 0; /*if st is after ar, then go left, else right*/
 		}
 
-		dedrek(f_data, n_data);
+		dedrek(f_data, n_data, acc);
 
 		printf("%d %d\n", rot, power);
 
@@ -157,9 +158,8 @@ int *init_path(int **surface, int f_data[7], int ar)
 	return path;
 }
 
-void dedrek(int f_data[7], int n_data[7])
+void dedrek(int f_data[7], int n_data[7], double acc[2])
 {
-	double acc[2]; /*hor. and ver. acceleration*/
 	acc[0] = f_data[angle] ? (double)f_data[power_d] * cos((double)f_data[angle] * (PI/180.0)) : 0;
 	acc[0] *= f_data[angle] > 0 ? -1 : 1;
 	acc[1] = f_data[angle] ? (double)f_data[power_d] * cos((90 - (double)abs(f_data[angle])) * (PI/180.0)) : (double)f_data[power_d];
