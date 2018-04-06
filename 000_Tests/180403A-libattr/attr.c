@@ -15,29 +15,40 @@
 #define OPT_LIST 		0x04
 #define OPT_VALUE 	0x08
 
+typedef struct glob_optarg
+{
+	int flags;
+	char *name;
+	char *value;
+	int fc;
+	char **files;
+} glob_optarg;
+
 int opterrck(int c, int flags, char *progname);
 void help(char *progname);
+void gloerrck(glob_optarg *glo, char *progname);
 void printx(char *path);
 
 void print_bits(size_t const size, void const * const ptr);
 
 int main(int argc, char *argv[])
 {
-	int c, fc, flags = 0;
-	char *name, *value, **files;
+	int c;
+	glob_optarg glo;
+	glo.flags = 0;
 
 	while((c = getopt(argc, argv, CMD_LINE_OPTIONS)) != -1
-				&& !opterrck(c, flags, argv[0]))
+				&& !opterrck(c, glo.flags, argv[0]))
 	{
 		switch(c)
 		{
-			case 's': flags |= OPT_SET; name = optarg;
+			case 's': glo.flags |= OPT_SET; glo.name = optarg;
 			break;
-			case 'r': flags |= OPT_REMOVE; name = optarg;
+			case 'r': glo.flags |= OPT_REMOVE; glo.name = optarg;
 			break;
-			case 'l': flags |= OPT_LIST; name = optarg;
+			case 'l': glo.flags |= OPT_LIST;
 			break;
-			case 'v': flags |= OPT_VALUE; value = optarg;
+			case 'v': glo.flags |= OPT_VALUE; glo.value = optarg;
 			break;
 			case 'h': help(argv[0]); return EXIT_SUCCESS;
 			break;
@@ -46,31 +57,17 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	files = argv + optind;
-	fc = argc - optind;
+	glo.files = argv + optind;
+	glo.fc = argc - optind;
+	gloerrck(&glo, argv[0]);
 
-	for(int i = 0; i < fc; i++)
-		printf("%s\n", files[i]);
+	for(int i = 0; i < glo.fc; i++)
+		printf("%s\n", glo.files[i]);
 
-	print_bits(sizeof(int), &flags);
+	print_bits(sizeof(int), &(glo.flags));
 	/*printx(argv[1]);*/
 
 	return 0;
-}
-
-void help(char *progname)
-{
-	printf("%s -- view, create and modify file tags\n", progname);
-	printf("Usage: %s %s\n", progname, CMD_LINE_SPEC1);
-	printf("       %s %s\n", progname, CMD_LINE_SPEC2);
-	printf("       %s %s\n", progname, CMD_LINE_SPEC3);
-	printf(
-"Options: -s, --set=name          set named tag\n"
-"         -v, --value=val         set the tag value to val\n"
-"         -r, --remove=name       remove named tag\n"
-"         -l, --list              list every tag in given files or folders,\n"
-"                                 or in current directory by default\n"
-"         -h, --help              this help text\n");
 }
 
 int opterrck(int c, int flags, char *progname)
@@ -91,7 +88,7 @@ int opterrck(int c, int flags, char *progname)
 
 	if(flags & new_flag)
 		err = 1; /*double option*/
-	else if((flags << (sizeof(int)-3)) && (new_flag << (sizeof(int)-3)))
+	else if((flags << (sizeof(int)*8-3)) && (new_flag << (sizeof(int)*8-3)))
 		err = 2; /*more than one core option (s, r or l)*/
 	else if((flags >> 1) && (new_flag & OPT_VALUE))
 		err = 3; /*value option used with an onther option than set*/
@@ -117,6 +114,51 @@ int opterrck(int c, int flags, char *progname)
 	}
 
 	return err;
+}
+
+void help(char *progname)
+{
+	printf("%s -- view, create and modify file tags\n", progname);
+	printf("Usage: %s %s\n", progname, CMD_LINE_SPEC1);
+	printf("       %s %s\n", progname, CMD_LINE_SPEC2);
+	printf("       %s %s\n", progname, CMD_LINE_SPEC3);
+	printf(
+"Options: -s, --set=name          set named tag\n"
+"         -v, --value=val         set the tag value to val\n"
+"         -r, --remove=name       remove named tag\n"
+"         -l, --list              list every tag in given files or folders,\n"
+"                                 or in current directory by default\n"
+"         -h, --help              this help text\n");
+}
+
+void gloerrck(glob_optarg *glo, char *progname)
+{
+	int err = 0;
+	/*char *f;*/
+
+	if((glo->flags & OPT_VALUE) && !(glo->flags & OPT_SET))
+		err = 1; /*'value' option provided without 'set'*/
+	else if(glo->fc == 0 && !(glo->flags & OPT_LIST))
+		err = 2; /*no target specified*/
+	/*TODO: LATER ADD FILE CHECKING, FOR NOW LET XATTR DEAL WITH IT*/
+	/*else if((f = file_err(glo->files, glo->fc)))
+		err = 3; target file or folder doesn't exist*/
+
+	if(err)
+	{
+		switch(err)
+		{
+			case 1: printf("%s: 'value' option provided without 'set'\n",
+										progname);
+				break;
+			case 2: printf("%s: no target specified\n", progname);
+				break;
+			case 3: printf("%s: target file or folder doesn't exist\n",
+										progname);
+				break;
+		}
+		exit(EXIT_FAILURE);
+	}
 }
 
 void printx(char *path)
