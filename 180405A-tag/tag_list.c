@@ -1,18 +1,22 @@
 #include "tag.h"
 
+int opt_all;
+
 static void printx(const char *file);
 static int rec_printx(const char *fpath, const struct stat *sb,
 											int tflag, struct FTW *ftwbuf);
 
 void tagl(glob_optarg *glo)
 {
+	opt_all = (glo->flags & OPT_ALL);
+
 	for(int i = 0; i < glo->fc; i++)
 	{
 		if(!filerrck(glo->files[i], OPT_LIST))
 		{
 			if(glo->flags & OPT_RECURSIVE && isdir(glo->files[i]))
 				nftw(glo->files[i], rec_printx, 20, 0);
-			else
+			else if(opt_all || !isdir(glo->files[i]))
 				printx(glo->files[i]);
 		}
 		else puts("");
@@ -49,6 +53,7 @@ static void printx(const char *file)
 static int rec_printx(const char *fpath, const struct stat *sb,
 											int tflag, struct FTW *ftwbuf)
 {
-	printx(fpath);
+	if(S_ISREG(sb->st_mode) || opt_all)
+		printx(fpath);
 	return 0;
 }
