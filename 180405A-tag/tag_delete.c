@@ -9,7 +9,9 @@ static int rec_rmx(const char *fpath, const struct stat *sb,
 
 void tagd(glob_optarg *glo)
 {
-	name = glo->name;
+	name = (char *)malloc(strlen(glo->name)+LU+1);
+	strcpy(name, USER); /*adding "user." prefix*/
+	strcat(name, glo->name); /*and the name of the tag*/
 	opt_all = (glo->flags & OPT_ALL);
 
 	for(int i = 0; i < glo->fc; i++)
@@ -18,8 +20,10 @@ void tagd(glob_optarg *glo)
 			if(glo->flags & OPT_RECURSIVE && isdir(glo->files[i]))
 				nftw(glo->files[i], rec_rmx, 20, 0);
 			else if(opt_all || !isdir(glo->files[i]))
-				removexattr(glo->files[i], glo->name);
+				removexattr(glo->files[i], name);
 		}
+
+	free(name);
 }
 
 static int rec_rmx(const char *fpath, const struct stat *sb,

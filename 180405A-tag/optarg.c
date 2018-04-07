@@ -4,16 +4,27 @@ static int opterrck(int c, int flags);
 static void help(void);
 static void gloerrck(glob_optarg *glo);
 
+struct option longopts[] = {
+	{ "set",				1, 0, 's'},
+	{ "delete",			1, 0, 'd'},
+	{ "list",				0, 0, 'l'},
+	{ "value",			1, 0, 'v'},
+	{ "recursive",	0, 0, 'r'},
+	{ "all",				0, 0, 'a'},
+	{ "help",				0, 0, 'h'},
+	{NULL, 					0, 0,  0 }
+};
+
 glob_optarg *getoptarg(int argc, char *argv[])
 {
 	glob_optarg *glo = (glob_optarg *)malloc(sizeof(glob_optarg));
 
-	int c;
+	int c, indopt;
 	glo->flags = 0;
 	glo->value = NULL;
 
-	while((c = getopt(argc, argv, CMD_LINE_OPTIONS)) != -1
-				&& !opterrck(c, glo->flags))
+	while((c = getopt_long(argc, argv, CMD_LINE_OPTIONS, longopts,
+				&indopt)) != -1 && !opterrck(c, glo->flags))
 	{
 		switch(c)
 		{
@@ -45,7 +56,7 @@ glob_optarg *getoptarg(int argc, char *argv[])
 
 static int opterrck(int c, int flags)
 {
-	int new_flag, err = 0;
+	int new_flag = 0, err = 0;
 
 	switch(c)
 	{
@@ -63,26 +74,31 @@ static int opterrck(int c, int flags)
 			break;
 	}
 
-	if(flags & new_flag)
-		err = 1; /*double option*/
+	if(!new_flag)
+		err = 1; /*invalid option*/
+	else if(flags & new_flag)
+		err = 2; /*double option*/
 	else if((flags << (sizeof(int)*8-3)) && (new_flag << (sizeof(int)*8-3)))
-		err = 2; /*more than one core option (s, d or l)*/
+		err = 3; /*more than one core option (s, d or l)*/
 	else if(((flags & ~OPT_SET) << (sizeof(int)*8-3)) && (new_flag & OPT_VALUE))
-		err = 3; /*value option used with delete or list*/
+		err = 4; /*value option used with delete or list*/
 
 	if(err)
 	{
 		switch(err)
 		{
 			case 1:
+				fprintf(stderr, "%s: invalid options\n", progname);
+				break;
+			case 2:
 				fprintf(stderr, "%s: '-%c' option can only be used once\n",
 								progname, (char)c);
 				break;
-			case 2:
+			case 3:
 				fprintf(stderr, "%s: 'set', 'remove' and 'list' options"
 								" must be used separately\n", progname);
 				break;
-			case 3:
+			case 4:
 				fprintf(stderr, "%s: 'value' option can only be used with"
 								" 'set' option\n", progname);
 				break;

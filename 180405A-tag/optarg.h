@@ -3,11 +3,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>			/*for getopt*/
+#include <unistd.h>			/*for access*/
+#include <getopt.h>			/*for getopt_long*/
 #include <errno.h>			/*to check errno in filerrck*/
 #include "version.h"
 
-#define CMD_LINE_OPTIONS "s:v:d:lrah"	/*set value delete list recursive help*/
+#define CMD_LINE_OPTIONS "s:v:d:lrah"
 #define CMD_LINE_SPEC1 "{-s name} [-v value] files..."
 #define CMD_LINE_SPEC2 "{-d name} files..."
 #define CMD_LINE_SPEC3 "{-l} files..."

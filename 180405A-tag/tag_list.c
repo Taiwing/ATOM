@@ -32,10 +32,10 @@ static void printx(const char *file)
 		for(int i = 0; splitl[i]; i++)
 		{
 			memset((void *)v, 0, 512);
-			printf("%s", splitl[i]);
+			printf("%s", splitl[i]+LU); /*prints tag name without "user." prefix*/
 			lv = getxattr(file, splitl[i], (void *)v, 512);
 			if(lv)
-				printf("=\"%s\"", v);
+				printf(" = \"%s\"", v);
 			puts("");
 		}
 		free(splitl);

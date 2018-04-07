@@ -10,7 +10,9 @@ static int rec_setx(const char *fpath, const struct stat *sb,
 
 void tags(glob_optarg *glo)
 {
-	name = glo->name;
+	name = (char *)malloc(strlen(glo->name)+LU+1);
+	strcpy(name, USER); /*adding "user." prefix*/
+	strcat(name, glo->name); /*and the name of the tag*/
 	value = glo->value;
 	vallen = glo->value ? strlen(glo->value) : 0;
 	opt_all = (glo->flags & OPT_ALL);
@@ -23,6 +25,8 @@ void tags(glob_optarg *glo)
 			else if(opt_all || !isdir(glo->files[i]))
 				setxattr(glo->files[i], name, value, vallen, 0);
 		}
+
+	free(name);
 }
 
 static int rec_setx(const char *fpath, const struct stat *sb,
