@@ -11,6 +11,7 @@ struct option longopts[] = {
 	{ "value",			1, 0, 'v'},
 	{ "recursive",	0, 0, 'r'},
 	{ "all",				0, 0, 'a'},
+	{ "query",			1, 0, 'q'},
 	{ "help",				0, 0, 'h'},
 	{NULL, 					0, 0,  0 }
 };
@@ -22,6 +23,7 @@ glob_optarg *getoptarg(int argc, char *argv[])
 	int c, indopt;
 	glo->flags = 0;
 	glo->value = NULL;
+	glo->query = NULL;
 
 	while((c = getopt_long(argc, argv, CMD_LINE_OPTIONS, longopts,
 				&indopt)) != -1 && !opterrck(c, glo->flags))
@@ -40,6 +42,8 @@ glob_optarg *getoptarg(int argc, char *argv[])
 				break;
 			case 'a': glo->flags |= OPT_ALL;
 				break;
+			case 'q': glo->flags |= OPT_QUERY; glo->query = optarg;
+				break;
 			case 'h': help(); exit(EXIT_SUCCESS);
 				break;
 			case '?': exit(EXIT_FAILURE);
@@ -56,7 +60,7 @@ glob_optarg *getoptarg(int argc, char *argv[])
 
 static int opterrck(int c, int flags)
 {
-	int new_flag = 0, err = 0;
+	int new_flag = 0, err = 0, help = 0;
 
 	switch(c)
 	{
@@ -72,9 +76,13 @@ static int opterrck(int c, int flags)
 			break;
 		case 'a': new_flag = OPT_ALL;
 			break;
+		case 'q': new_flag = OPT_QUERY;
+			break;
+		case 'h': help = 1;
+			break;
 	}
 
-	if(!new_flag)
+	if(!new_flag && !help)
 		err = 1; /*invalid option*/
 	else if(flags & new_flag)
 		err = 2; /*double option*/
@@ -123,6 +131,7 @@ static void help(void)
 "         -l, --list              list every tag in given files or folders\n"
 "         -r, --recursive         execute tag functions recursively\n"
 "         -a, --all               execute tag functions on directories too\n"
+"         -q, --query=expr        search through tags\n"
 "         -h, --help              this help text\n");
 }
 
@@ -131,9 +140,13 @@ static void gloerrck(glob_optarg *glo)
 	int err = 0;
 
 	if((glo->flags & OPT_VALUE) && !(glo->flags & OPT_SET))
-		err = 1; /*'value' option provided without 'set'*/
+		err = 1;
 	else if(glo->fc == 0)
-		err = 2; /*no target specified*/
+		err = 2;
+	else if(glo->name && strlen(glo->name) > XATTR_NAME_MAX)
+		err = 3;
+	else if(glo->value && strlen(glo->value) >= XATTR_SIZE_MAX)
+		err = 4;
 
 	if(err)
 	{
@@ -144,6 +157,10 @@ static void gloerrck(glob_optarg *glo)
 				break;
 			case 2: fprintf(stderr, "%s: no target specified\n", progname);
 				break;
+			case 3: fprintf(stderr, "%s: attribute name too long\n", progname);
+				break;
+			case 4: fprintf(stderr, "%s: attribute value too long\n", progname);
+				break;
 		}
 		exit(EXIT_FAILURE);
 	}
@@ -151,7 +168,7 @@ static void gloerrck(glob_optarg *glo)
 
 int filerrck(char *file, int tag_mode)
 {
-	if(access(file, (tag_mode & OPT_LIST) ? R_OK : W_OK))
+	if(access(file, (tag_mode & (OPT_LIST+OPT_QUERY)) ? R_OK : W_OK))
 	{
 		switch(errno)
 		{

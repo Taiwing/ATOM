@@ -1,0 +1,72 @@
+#include "tag.h"
+
+char *query, **file_list;
+int opt_all, no_sdl, fc;
+size_t size;
+
+static void inquiry(const char *file);
+static int rec_inquiry(const char *fpath, const struct stat *sb,
+											int tflag, struct FTW *ftwbuf);
+
+void tagq(glob_optarg *glo)
+{
+	query = (char *)malloc(strlen(glo->query)+LU+1);
+	strcpy(query, USER); /*adding "user." prefix*/
+	strcat(query, glo->query); /*and the name of the tag*/
+	/*TODO: replace this with a specific structure format
+	for queries, with the list of xattr names plus the list
+	of logical operators, or something like that, for now
+	query is simply supposed to be the name of one tag*/
+	opt_all = (glo->flags & OPT_ALL);
+	no_sdl = !(glo->flags << (sizeof(int)*8-3));
+	size = 0;
+	fc = 0;
+
+	for(int i = 0; i < glo->fc; i++)
+	{
+		if(!filerrck(glo->files[i], OPT_LIST))
+		{
+			if(glo->flags & OPT_RECURSIVE && isdir(glo->files[i]))
+				nftw(glo->files[i], rec_inquiry, 20, 0);
+			else if(opt_all || !isdir(glo->files[i]))
+				inquiry(glo->files[i]);
+		}
+		else puts("");
+	}
+
+	if(no_sdl)
+		for(int i = 0; i < fc; i++)
+			puts(file_list[i]);
+	else
+	{
+		glo->files = file_list;
+		glo->fc = fc;
+		glo->flags ^= OPT_RECURSIVE; /*removes recursive option*/
+	}
+
+	free(query);
+}
+
+static void inquiry(const char *file)
+{
+	char *list = (char *)malloc(XATTR_LIST_MAX), *p;
+	size_t n = listxattr(file, list, XATTR_LIST_MAX);
+
+	for(p = list; p < list+n; p += strlen(p)+1)
+		if(strcmp(p, query) == 0) /*test if the file matches the query*/
+		{
+			high_water_alloc((void ***)&file_list, &size, &fc);
+			file_list[fc-1] = strcpy((char *)malloc(strlen(file)+1), file);
+			break;
+		}
+
+	free(list);
+}
+
+static int rec_inquiry(const char *fpath, const struct stat *sb,
+											int tflag, struct FTW *ftwbuf)
+{
+	if(S_ISREG(sb->st_mode) || opt_all)
+		inquiry(fpath);
+	return 0;
+}

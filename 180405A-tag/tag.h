@@ -12,6 +12,7 @@
 #define USER "user."
 #define LU 5
 
+void tagq(glob_optarg *glo);
 void tags(glob_optarg *glo);
 void tagd(glob_optarg *glo);
 void tagl(glob_optarg *glo);

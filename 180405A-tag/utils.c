@@ -38,3 +38,18 @@ void sort_wordtab(char **tab)
 			}
 	}
 }
+
+/*really cool function to make a resizable array*/
+void high_water_alloc(void ***buf, size_t *bufsize, int *l)
+{
+	*l = (*l) + 1;
+	size_t newsize = (*l) * sizeof(char *);
+	if(*bufsize < newsize)
+	{
+		void **newbuf;
+		newsize = (newsize + CHUNK_SIZE-1) & ~(CHUNK_SIZE-1);
+		newbuf = realloc(*buf, newsize);
+		*buf = newbuf;
+		*bufsize = newsize;
+	}
+}
