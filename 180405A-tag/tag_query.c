@@ -1,6 +1,7 @@
 #include "tag.h"
 
-char *query, **file_list;
+struct query_node *root;
+char **file_list;
 int opt_all, no_sdl, fc;
 size_t size;
 
@@ -10,13 +11,8 @@ static int rec_inquiry(const char *fpath, const struct stat *sb,
 
 void tagq(glob_optarg *glo)
 {
-	query = (char *)malloc(strlen(glo->query)+LU+1);
-	strcpy(query, USER); /*adding "user." prefix*/
-	strcat(query, glo->query); /*and the name of the tag*/
-	/*TODO: replace this with a specific structure format
-	for queries, with the list of xattr names plus the list
-	of logical operators, or something like that, for now
-	query is simply supposed to be the name of one tag*/
+	if(valid_query(glo->query))
+		root = build_qtree(glo->query);
 	opt_all = (glo->flags & OPT_ALL);
 	no_sdl = !(glo->flags << (sizeof(int)*8-3));
 	size = 0;
@@ -44,21 +40,19 @@ void tagq(glob_optarg *glo)
 		glo->flags ^= OPT_RECURSIVE; /*removes recursive option*/
 	}
 
-	free(query);
+	free(root);
 }
 
 static void inquiry(const char *file)
 {
-	char *list = (char *)malloc(XATTR_LIST_MAX), *p;
+	char *list = (char *)malloc(XATTR_LIST_MAX);
 	size_t n = listxattr(file, list, XATTR_LIST_MAX);
 
-	for(p = list; p < list+n; p += strlen(p)+1)
-		if(strcmp(p, query) == 0) /*test if the file matches the query*/
-		{
-			high_water_alloc((void ***)&file_list, &size, &fc);
-			file_list[fc-1] = strcpy((char *)malloc(strlen(file)+1), file);
-			break;
-		}
+	if(test_node(root, list, n)) /*test if the file matches the query*/
+	{
+		high_water_alloc((void ***)&file_list, &size, &fc);
+		file_list[fc-1] = strcpy((char *)malloc(strlen(file)+1), file);
+	}
 
 	free(list);
 }
