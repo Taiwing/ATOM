@@ -19,14 +19,14 @@ enum QUERY_CHARS {
 
 typedef struct query_node
 {
-	int log_op;	/*AND OR XOR NOT*/
+	int log_op;	/*AND OR XOR NOT 0*/
 	char *attr;	/*name of the attribute to be tested, if node is a leaf*/
 	struct query_node *left;	/*next lighter node*/
 	struct query_node *right;	/*next heavier node*/
 } query_node;
 
 /*tests if the query is valid*/
-int valid_query(char *query);
+int valid_query(char **query);
 
 /*if it is, this one builds the structre for it*/
 query_node *build_qtree(char *query, size_t n);
