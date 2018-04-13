@@ -1,12 +1,21 @@
-#ifndef MATCH_H
-#define MATCH_H
+#ifndef TAG_QUERY_H
+#define TAG_QUERY_H
+#include "tag.h"
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>			/*for the size_t type*/
 
-#define QUERY_CHARS "&|^!()\\"
+#define Q_CHARS "&|^!()\\"
 
-enum GATES {AND = 1, OR, XOR, NOT};
+enum QUERY_CHARS {
+	AND = '&',
+	OR = '|',
+	XOR = '^',
+	NOT = '!',
+	LPAR = '(',
+	RPAR = ')',
+	ANT = '\\'
+};
 
 typedef struct query_node
 {
@@ -20,7 +29,7 @@ typedef struct query_node
 int valid_query(char *query);
 
 /*if it is, this one builds the structre for it*/
-query_node *build_qtree(char *query);
+query_node *build_qtree(char *query, size_t n);
 
 /*recursively traverse the tree and tests each node*/
 int test_node(query_node *nd, char *l, size_t n);

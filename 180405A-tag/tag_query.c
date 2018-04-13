@@ -1,4 +1,4 @@
-#include "tag.h"
+#include "tag_query.h"
 
 struct query_node *root;
 char **file_list;
@@ -11,8 +11,8 @@ static int rec_inquiry(const char *fpath, const struct stat *sb,
 
 void tagq(glob_optarg *glo)
 {
-	if(valid_query(glo->query))
-		root = build_qtree(glo->query);
+	/*if(valid_query(glo->query))*/ /*TODO: valid_query*/
+		root = build_qtree(glo->query, strlen(glo->query));
 	opt_all = (glo->flags & OPT_ALL);
 	no_sdl = !(glo->flags << (sizeof(int)*8-3));
 	size = 0;
