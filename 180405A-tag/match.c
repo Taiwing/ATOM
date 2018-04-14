@@ -3,19 +3,67 @@
 static int weight(char **expr, size_t *n);
 
 /*tests if the query is valid*/
-int valid_query(char **query)
+int valid_query(char *query)
 {
-	/*remove useless parenthesis*/
-		/*parenthesis around the entire expression*/
-		/*around individual tags or !tags*/
-	/*check that parenthesis count is equal to 0 (meaning in LPAR == RPAR)*/
-	/*and that it never goes under 0 during count (meaning one RPAR too much)*/
-	/*check that every AND OR XOR is between two valid expressions*/
-	/*a valid expression is a valid AND OR XOR exp between parenthesis*/
-	/*or a tag name or, the same but with a NOT in front of it*/
-	/*the last expression character can't be AND OR XOR NOT*/
-	/*the same is true for the first character, except that it can be NOT*/
-	/*oubvioulsy, they can't be both (the first and the last of a valid exp)*/
+	int err = 0;
+	int rpar = 0, lpar = 0, nest = 0, l = strlen(query);
+	int *parray = (int *)malloc(l * sizeof(int));
+	for(int i = 0; i < l; i++)
+	{
+		if(query[i] == LPAR)
+			lpar++;
+		nest = lpar - rpar;
+		switch(query[i])
+		{
+			case LPAR:
+			case RPAR: parray[i] = nest;
+					break;
+			case AND:
+			case OR:
+			case XOR: parray[i] = -2;
+					break;
+			case NOT: parray[i] = -1;
+					break;
+			default:  parray[i] = 0;
+					break;
+		}
+		if(query[i] == RPAR)
+			rpar++;
+		if(lpar - rpar < 0) /*if there's more RPAR than LPAR*/
+			err = 1;
+	}
+
+	if(lpar != rpar) /*if there's not the same total of LPAR and RPAR*/
+		err = 1;
+
+	for(int i = 0; i < l; i++) /*rules regarding character placement*/
+	{
+		switch(parray[i])
+		{
+			case -2:
+				if(i == 0 || i == l-1 || query[i-1] == '('
+					|| query[i+1] == ')' || parray[i+1] == -2)
+					err = 1;
+				break;
+			case -1:
+				if(i == l-1 || query[i+1] == ')' || parray[i+1] == -2)
+					err = 1;
+				break;
+			case 0:
+				if((i != 0 && query[i-1] == ')') || (i != l-1 && query[i+1] == '('))
+					err = 1;
+				break;
+		}
+	}
+
+	free(parray);
+	if(err)
+	{
+		fprintf(stderr, "%s: incorrect query\n", progname);
+		exit(EXIT_FAILURE);
+	}
+	else
+		return 1;
 }
 
 /*if it is, this one builds the structure for it*/

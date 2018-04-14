@@ -53,3 +53,25 @@ void high_water_alloc(void ***buf, size_t *bufsize, int *l)
 		*bufsize = newsize;
 	}
 }
+
+/*erases n elements from start in any array*/
+/*by shitfing its content to the left*/
+void backspace(char *array, size_t elem_size, int length, int start, int n)
+{
+	char *p = (char *)malloc(elem_size);
+
+	n = n > start+1 ? start+1 : n;
+
+	for(int i = start+1; i < length; i++)
+	{
+		/*copy the element to be moved*/
+		for(int j = 0; j < elem_size; j++)
+			p[j] = array[i * elem_size + j];
+
+		/*paste the copied element n places before it*/
+		for(int j = 0; j < elem_size; j++)
+			array[(i-n) * elem_size + j] = p[j];
+	}
+
+	memset(array+((length-n)*elem_size), 0, n*elem_size);
+}

@@ -11,7 +11,7 @@ static int rec_inquiry(const char *fpath, const struct stat *sb,
 
 void tagq(glob_optarg *glo)
 {
-	/*if(valid_query(&(glo->query)))*/ /*TODO: valid_query*/
+	if(valid_query(glo->query))
 		root = build_qtree(glo->query, strlen(glo->query));
 	opt_all = (glo->flags & OPT_ALL);
 	no_sdl = !(glo->flags << (sizeof(int)*8-3));
