@@ -39,11 +39,11 @@ void sort_wordtab(char **tab)
 	}
 }
 
-/*really cool function to make a resizable array*/
+/*really cool function to make a resizable array of pointers*/
 void high_water_alloc(void ***buf, size_t *bufsize, int *l)
 {
 	*l = (*l) + 1;
-	size_t newsize = (*l) * sizeof(char *);
+	size_t newsize = (*l) * sizeof(void *);
 	if(*bufsize < newsize)
 	{
 		void **newbuf;

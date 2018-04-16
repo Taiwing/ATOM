@@ -2,7 +2,7 @@
 
 struct query_node *root;
 char **file_list;
-int opt_all, no_sdl, fc;
+int opt_all, no_sdgl, fc;
 size_t size;
 
 static void inquiry(const char *file);
@@ -14,7 +14,7 @@ void tagq(glob_optarg *glo)
 	if(valid_query(glo->query))
 		root = build_qtree(glo->query, strlen(glo->query));
 	opt_all = (glo->flags & OPT_ALL);
-	no_sdl = !(glo->flags << (sizeof(int)*8-3));
+	no_sdgl = !(glo->flags << (sizeof(int)*8-4));
 	size = 0;
 	fc = 0;
 
@@ -30,7 +30,7 @@ void tagq(glob_optarg *glo)
 		else puts("");
 	}
 
-	if(no_sdl)
+	if(no_sdgl)
 		for(int i = 0; i < fc; i++)
 			puts(file_list[i]);
 	else

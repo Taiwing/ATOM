@@ -10,7 +10,7 @@
 #include "version.h"
 #include "xattr_max.h"	/*limits of xattr values*/
 
-#define CMD_LINE_OPTIONS "s:v:d:gq:rah"
+#define CMD_LINE_OPTIONS "s:v:d:glq:rah"
 #define CMD_LINE_SPEC1 "{-s name} [-v value] files..."
 #define CMD_LINE_SPEC2 "{-d name} files..."
 #define CMD_LINE_SPEC3 "{-g} files..."
@@ -18,10 +18,11 @@
 #define OPT_SET 				0x01
 #define OPT_DELETE 			0x02
 #define OPT_GET 				0x04
-#define OPT_VALUE 			0x08
-#define OPT_RECURSIVE		0x10
-#define OPT_ALL					0x20
-#define OPT_QUERY				0x40
+#define OPT_LIST				0x08
+#define OPT_VALUE 			0x10
+#define OPT_RECURSIVE		0x20
+#define OPT_ALL					0x40
+#define OPT_QUERY				0x80
 
 char *progname;
 
