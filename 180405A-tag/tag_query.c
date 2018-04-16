@@ -20,7 +20,7 @@ void tagq(glob_optarg *glo)
 
 	for(int i = 0; i < glo->fc; i++)
 	{
-		if(!filerrck(glo->files[i], OPT_LIST))
+		if(!filerrck(glo->files[i], OPT_QUERY))
 		{
 			if(glo->flags & OPT_RECURSIVE && isdir(glo->files[i]))
 				nftw(glo->files[i], rec_inquiry, 20, 0);

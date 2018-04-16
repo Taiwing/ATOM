@@ -6,13 +6,13 @@ static void printx(const char *file);
 static int rec_printx(const char *fpath, const struct stat *sb,
 											int tflag, struct FTW *ftwbuf);
 
-void tagl(glob_optarg *glo)
+void tagg(glob_optarg *glo)
 {
 	opt_all = (glo->flags & OPT_ALL);
 
 	for(int i = 0; i < glo->fc; i++)
 	{
-		if(!filerrck(glo->files[i], OPT_LIST))
+		if(!filerrck(glo->files[i], OPT_GET))
 		{
 			if(glo->flags & OPT_RECURSIVE && isdir(glo->files[i]))
 				nftw(glo->files[i], rec_printx, 20, 0);

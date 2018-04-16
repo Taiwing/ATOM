@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 	if(glo->flags & OPT_QUERY)		tagq(glo);
 	if(glo->flags & OPT_SET) 			tags(glo);
 	if(glo->flags & OPT_DELETE) 	tagd(glo);
-	if(glo->flags & OPT_LIST) 		tagl(glo);
+	if(glo->flags & OPT_GET) 			tagg(glo);
 
 	return 0;
 }

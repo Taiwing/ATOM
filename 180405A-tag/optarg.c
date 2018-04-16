@@ -7,7 +7,7 @@ static void gloerrck(glob_optarg *glo);
 struct option longopts[] = {
 	{ "set",				1, 0, 's'},
 	{ "delete",			1, 0, 'd'},
-	{ "list",				0, 0, 'l'},
+	{ "get",				0, 0, 'g'},
 	{ "value",			1, 0, 'v'},
 	{ "recursive",	0, 0, 'r'},
 	{ "all",				0, 0, 'a'},
@@ -34,7 +34,7 @@ glob_optarg *getoptarg(int argc, char *argv[])
 				break;
 			case 'd': glo->flags |= OPT_DELETE; glo->name = optarg;
 				break;
-			case 'l': glo->flags |= OPT_LIST;
+			case 'g': glo->flags |= OPT_GET;
 				break;
 			case 'v': glo->flags |= OPT_VALUE; glo->value = optarg;
 				break;
@@ -68,7 +68,7 @@ static int opterrck(int c, int flags)
 			break;
 		case 'd': new_flag = OPT_DELETE;
 			break;
-		case 'l': new_flag = OPT_LIST;
+		case 'g': new_flag = OPT_GET;
 			break;
 		case 'v': new_flag = OPT_VALUE;
 			break;
@@ -89,7 +89,7 @@ static int opterrck(int c, int flags)
 	else if((flags << (sizeof(int)*8-3)) && (new_flag << (sizeof(int)*8-3)))
 		err = 3; /*more than one core option (s, d or l)*/
 	else if(((flags & ~OPT_SET) << (sizeof(int)*8-3)) && (new_flag & OPT_VALUE))
-		err = 4; /*value option used with delete or list*/
+		err = 4; /*value option used with delete or get*/
 
 	if(err)
 	{
@@ -103,7 +103,7 @@ static int opterrck(int c, int flags)
 								progname, (char)c);
 				break;
 			case 3:
-				fprintf(stderr, "%s: 'set', 'remove' and 'list' options"
+				fprintf(stderr, "%s: 'set', 'remove' and 'get' options"
 								" must be used separately\n", progname);
 				break;
 			case 4:
@@ -128,7 +128,8 @@ static void help(void)
 "Options: -s, --set=name          set named tag\n"
 "         -v, --value=val         set the tag value to val\n"
 "         -d, --delete=name       delete named tag\n"
-"         -l, --list              list every tag in given files or folders\n"
+"         -g, --get               get every tag and their value\n"
+"                                 by files or folders\n"
 "         -r, --recursive         execute tag functions recursively\n"
 "         -a, --all               execute tag functions on directories too\n"
 "         -q, --query=expr        search through tags\n"
@@ -168,7 +169,7 @@ static void gloerrck(glob_optarg *glo)
 
 int filerrck(char *file, int tag_mode)
 {
-	if(access(file, (tag_mode & (OPT_LIST+OPT_QUERY)) ? R_OK : W_OK))
+	if(access(file, (tag_mode & (OPT_GET+OPT_QUERY)) ? R_OK : W_OK))
 	{
 		switch(errno)
 		{
