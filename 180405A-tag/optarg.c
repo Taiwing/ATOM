@@ -13,6 +13,8 @@ struct option longopts[] = {
 	{ "recursive",	0, 0, 'r'},
 	{ "all",				0, 0, 'a'},
 	{ "query",			1, 0, 'q'},
+	{ "tagged",			0, 0, 't'},
+	{ "untagged",		0, 0, 'u'},
 	{ "help",				0, 0, 'h'},
 	{NULL, 					0, 0,  0 }
 };
@@ -46,6 +48,10 @@ glob_optarg *getoptarg(int argc, char *argv[])
 			case 'a': glo->flags |= OPT_ALL;
 				break;
 			case 'q': glo->flags |= OPT_QUERY; glo->query = optarg;
+				break;
+			case 't': glo->flags |= OPT_TAGGED;
+				break;
+			case 'u': glo->flags |= OPT_UNTAGGED;
 				break;
 			case 'h': help(); exit(EXIT_SUCCESS);
 				break;
@@ -83,6 +89,10 @@ static int opterrck(int c, int flags)
 			break;
 		case 'q': new_flag = OPT_QUERY;
 			break;
+		case 't': new_flag = OPT_TAGGED;
+			break;
+		case 'u': new_flag = OPT_UNTAGGED;
+			break;
 		case 'h': help = 1;
 			break;
 	}
@@ -95,6 +105,8 @@ static int opterrck(int c, int flags)
 		err = 3; /*more than one core option (s, d, g or l)*/
 	else if(((flags & ~OPT_SET) << (sizeof(int)*8-4)) && (new_flag & OPT_VALUE))
 		err = 4; /*value option used with delete, get or list*/
+	else if(flags >> 7 && new_flag >> 7)
+		err = 5; /*query, tagged and/or untagged options used together*/
 
 	if(err)
 	{
@@ -114,6 +126,10 @@ static int opterrck(int c, int flags)
 			case 4:
 				fprintf(stderr, "%s: 'value' option can only be used with"
 								" 'set' option\n", progname);
+				break;
+			case 5:
+				fprintf(stderr, "%s: 'query', 'tagged' and 'untagged' options"
+								" must be used separately\n", progname);
 				break;
 		}
 		exit(EXIT_FAILURE);
@@ -135,11 +151,19 @@ static void help(void)
 "         -d, --delete=name       delete named tag\n"
 "         -g, --get               get every tag and their value\n"
 "                                 by files or folders\n"
-"         -l, --list              prints a list of every tag present in given\n"
-"                                 path and the number of files tagged\n"
+"         -l, --list              prints a list of every tag present in\n"
+"                                 given path and the number of files tagged\n"
 "         -r, --recursive         execute tag functions recursively\n"
 "         -a, --all               execute tag functions on directories too\n"
-"         -q, --query=expr        search through tags\n"
+"         -q, --query=expr        search tags with logical operators and\n"
+"                                 prints the results or feeds them to 'set',\n"
+"                                 'delete' or 'get'\n"
+"         -t, --tagged            lists every tagged file, and prints the\n"
+"                                 results or feeds them to 'set', 'delete'\n"
+"                                 or 'get' (this option is useless with\n"
+"                                 'delete' and 'get', because they already\n"
+"                                 target tagged files only)\n"
+"         -u, --untagged          same as 'tagged' but with untagged files\n"
 "         -h, --help              this help text\n");
 }
 
@@ -176,7 +200,7 @@ static void gloerrck(glob_optarg *glo)
 
 int filerrck(char *file, int tag_mode)
 {
-	if(access(file, (tag_mode & (OPT_GET+OPT_LIST+OPT_QUERY)) ? R_OK : W_OK))
+	if(access(file, (tag_mode & (OPT_SET+OPT_DELETE)) ? W_OK : R_OK))
 	{
 		switch(errno)
 		{

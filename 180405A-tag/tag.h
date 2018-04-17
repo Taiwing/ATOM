@@ -13,6 +13,8 @@
 #define LU 5
 
 void tagq(glob_optarg *glo);
+void tagt(glob_optarg *glo);
+void tagu(glob_optarg *glo);
 void tags(glob_optarg *glo);
 void tagd(glob_optarg *glo);
 void tagg(glob_optarg *glo);
