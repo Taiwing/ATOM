@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-	progname = argv[0];
+	progname = "tag";
 	glob_optarg *glo = getoptarg(argc, argv);
 
 	if(glo->flags & OPT_QUERY)		tagq(glo);

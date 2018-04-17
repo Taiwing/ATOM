@@ -46,6 +46,7 @@ void tagl(glob_optarg *glo)
 
 	for(int i = 0; i < tc; i++)
 	{
+		/*really cool trick with printf to print columns*/
 		if(tag_list[i]->c > 0)
 			printf("%s%*d\n", tag_list[i]->name+LU,
 						(int)(len[i] < biggest ? biggest-len[i]+7 : 7),
@@ -69,36 +70,27 @@ static tag *add_tag(char *name)
 
 void compare_lists(char **splitl)
 {
-	if(tc == 1)
-		for(int i = 0; splitl[i]; i++)
+	int i = 0, j = 1, cmp;
+	tag *p;
+	for(; splitl[i]; i++)
+	{
+		for(; j < tc && (cmp = strcmp(splitl[i], tag_list[j]->name)) > 0; j++);
+		if(j == tc)
+		{
+			high_water_alloc((void ***)&tag_list, &size, &tc);
+			tag_list[j] = add_tag(splitl[i]);
+		}
+		else if(cmp == 0)
+			(tag_list[j]->c)++;
+		else if(cmp < 0)
 		{
 			high_water_alloc((void ***)&tag_list, &size, &tc);
 			tag_list[tc-1] = add_tag(splitl[i]);
-		}
-	else if(tc > 1)
-	{
-		int i = 0, j = 1, cmp;
-		tag *p;
-		for(; splitl[i]; i++)
-		{
-			for(; j < tc && (cmp = strcmp(splitl[i], tag_list[j]->name)) > 0; j++);
-			if(j == tc)
+			for(int k = tc-1; k > j; k--)
 			{
-				high_water_alloc((void ***)&tag_list, &size, &tc);
-				tag_list[j] = add_tag(splitl[i]);
-			}
-			else if(cmp == 0)
-				(tag_list[j]->c)++;
-			else if(cmp < 0)
-			{
-				high_water_alloc((void ***)&tag_list, &size, &tc);
-				tag_list[tc-1] = add_tag(splitl[i]);
-				for(int k = tc-1; k > j; k--)
-				{
-					p = tag_list[k];
-					tag_list[k] = tag_list[k-1];
-					tag_list[k-1] = p;
-				}
+				p = tag_list[k];
+				tag_list[k] = tag_list[k-1];
+				tag_list[k-1] = p;
 			}
 		}
 	}
