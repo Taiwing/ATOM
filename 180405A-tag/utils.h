@@ -5,12 +5,14 @@
 #include <sys/stat.h>				/*to check if current file is directory or not*/
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>					/*for opendir and readdir*/
 
 int isdir(const char *file);
 char **split_list(char *list, size_t l);
 void sort_wordtab(char **tab);
 void high_water_alloc(void ***buf, size_t *bufsize, int *l);
 void backspace(char *array, size_t elem_size, int length, int start, int n);
+void get_files(char *dir, char ***files, int *fc, int r, int a);
 
 /*stores 16 pointers on a 64 bits sytem and 32 on a 32 bits*/
 #define CHUNK_SIZE 1024

@@ -3,7 +3,6 @@
 static int opterrck(int c, int flags);
 static void help(void);
 static void gloerrck(glob_optarg *glo);
-static void get_files(glob_optarg *glo);
 
 struct option longopts[] = {
 	{ "set",				1, 0, 's'},
@@ -65,7 +64,15 @@ glob_optarg *getoptarg(int argc, char *argv[])
 	glo->fc = argc - optind;
 	gloerrck(glo);
 	if(glo->fc == 0) /*if no path is given, '*' is assumed*/
-		get_files(glo);
+	{
+		char *cwd = get_current_dir_name();
+		glo->files = NULL;
+		get_files(cwd, &(glo->files), &(glo->fc),
+							glo->flags & OPT_RECURSIVE,
+							glo->flags & OPT_ALL);
+		glo->flags &= ~OPT_RECURSIVE; /*removes recursive option*/
+		free(cwd);
+	}
 
 	return glo;
 }
@@ -216,9 +223,4 @@ int filerrck(char *file, int tag_mode)
 		return 1;
 	}
 	return 0;
-}
-
-static void get_files(glob_optarg *glo)
-{
-	
 }

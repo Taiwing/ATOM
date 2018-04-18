@@ -75,3 +75,30 @@ void backspace(char *array, size_t elem_size, int length, int start, int n)
 
 	memset(array+((length-n)*elem_size), 0, n*elem_size);
 }
+
+/*only useful for get_files*/
+static int cmp(const void *str1, const void *str2)
+{
+	return strcmp((char *)str1, (char *)str2);
+}
+
+void get_files(char *dir, char ***files, int *fc, int r, int a)
+{
+	DIR *dp = opendir(dir);
+	struct dirent *ep;
+	size_t size = (*fc) * sizeof(char *);
+
+	while((ep = readdir(dp)))
+	{
+		if(a || ep->d_type != DT_DIR)
+		{
+			high_water_alloc((void ***)files, &size, fc);
+			(*files)[*fc-1] = strcpy((char *)malloc(strlen(ep->d_name)+1), ep->d_name);
+		}
+		if(r && ep->d_type == DT_DIR)
+			get_files(ep->d_name, files, fc, r, a);
+	}
+
+	closedir(dp);
+	qsort(*files, *fc, sizeof(char *), cmp);
+}

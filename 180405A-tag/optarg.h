@@ -1,6 +1,10 @@
 #ifndef OPTARG_H
 #define OPTARG_H
 
+#ifndef _GNU_SOURCE
+#define _GNU_SOURCE
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,6 +13,7 @@
 #include <errno.h>			/*to check errno in filerrck*/
 #include "version.h"
 #include "xattr_max.h"	/*limits of xattr values*/
+#include "utils.h"			/*for get_files*/
 
 #define CMD_LINE_OPTIONS "s:d:glv:raq:tuh"
 #define CMD_LINE_SPEC1 "{-s name} [-v value] files..."
