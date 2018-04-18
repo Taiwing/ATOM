@@ -30,6 +30,8 @@ void tagq(glob_optarg *glo)
 		else puts("");
 	}
 
+	qsort(file_list, fc, sizeof(char *), cmp);
+
 	if(no_sdgl)
 		for(int i = 0; i < fc; i++)
 			puts(file_list[i]);

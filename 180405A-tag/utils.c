@@ -76,10 +76,10 @@ void backspace(char *array, size_t elem_size, int length, int start, int n)
 	memset(array+((length-n)*elem_size), 0, n*elem_size);
 }
 
-/*only useful for get_files*/
-static int cmp(const void *str1, const void *str2)
+/*only useful for qsort*/
+int cmp(const void *p1, const void *p2)
 {
-	return strcmp((char *)str1, (char *)str2);
+	return strcmp(*(char **)p1, *(char **)p2);
 }
 
 void get_files(char *dir, char ***files, int *fc, int r, int a)
@@ -90,13 +90,21 @@ void get_files(char *dir, char ***files, int *fc, int r, int a)
 
 	while((ep = readdir(dp)))
 	{
-		if(a || ep->d_type != DT_DIR)
+		if(strcmp(ep->d_name, ".") != 0 && strcmp(ep->d_name, "..") != 0)
 		{
-			high_water_alloc((void ***)files, &size, fc);
-			(*files)[*fc-1] = strcpy((char *)malloc(strlen(ep->d_name)+1), ep->d_name);
+			char *name = (char *)malloc(strlen(ep->d_name)+strlen(dir)+2);
+			name = strcpy(name, dir);
+			strcat(name, "/");
+			strcat(name, ep->d_name);
+			if(a || ep->d_type != DT_DIR)
+			{
+				high_water_alloc((void ***)files, &size, fc);
+				(*files)[*fc-1] = strcpy((char *)malloc(strlen(name)), name);
+			}
+			if(r && ep->d_type == DT_DIR)
+			get_files(name, files, fc, r, a);
+			free(name);
 		}
-		if(r && ep->d_type == DT_DIR)
-			get_files(ep->d_name, files, fc, r, a);
 	}
 
 	closedir(dp);

@@ -66,11 +66,14 @@ glob_optarg *getoptarg(int argc, char *argv[])
 	if(glo->fc == 0) /*if no path is given, '*' is assumed*/
 	{
 		char *cwd = get_current_dir_name();
+		int l = strlen(cwd);
 		glo->files = NULL;
 		get_files(cwd, &(glo->files), &(glo->fc),
 							glo->flags & OPT_RECURSIVE,
 							glo->flags & OPT_ALL);
 		glo->flags &= ~OPT_RECURSIVE; /*removes recursive option*/
+		for(int i = 0; glo->files[i]; i++) /*removes the path*/
+			glo->files[i] += l+1;
 		free(cwd);
 	}
 
