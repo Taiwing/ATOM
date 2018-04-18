@@ -24,6 +24,12 @@ int valid_query(char *query)
 					break;
 			case NOT: parray[i] = -1;
 					break;
+			case ANT: parray[i] = 0;
+				if(i < l-1)
+					parray[++i] = 0;
+				else
+				 	err = 1;
+				break;
 			default:  parray[i] = 0;
 					break;
 		}
@@ -41,8 +47,10 @@ int valid_query(char *query)
 		switch(parray[i])
 		{
 			case -2:
-				if(i == 0 || i == l-1 || query[i-1] == '('
-					|| query[i+1] == ')' || parray[i+1] == -2)
+				if(i == 0 || i == l-1
+					|| (query[i-1] == '(' && parray[i-1] != 0)
+					|| query[i+1] == ')'
+					|| parray[i+1] == -2)
 					err = 1;
 				break;
 			case -1:
@@ -50,13 +58,14 @@ int valid_query(char *query)
 					err = 1;
 				break;
 			case 0:
-				if((i != 0 && query[i-1] == ')') || (i != l-1 && query[i+1] == '('))
+				if((i != 0 && query[i-1] == ')' && parray[i-1] != 0)
+					|| (i != l-1 && query[i+1] == '('))
 					err = 1;
 				break;
 		}
 	}
-
 	free(parray);
+
 	if(err)
 	{
 		fprintf(stderr, "%s: incorrect query\n", progname);
@@ -94,6 +103,8 @@ query_node *build_qtree(char *query, size_t n)
 					j = i;
 				}
 				break;
+			case ANT: i++;
+				break;
 		}
 
 	if(nd->log_op && nd->log_op != NOT)
@@ -114,6 +125,14 @@ query_node *build_qtree(char *query, size_t n)
 	{
 		nd->attr = strcpy((char *)malloc(n+LU+1), USER);
 		strncat(nd->attr, query, n);
+		for(char *p = nd->attr+LU; p < nd->attr+n; p++)
+		{
+			if(*p == '\\')
+			{
+				backspace(nd->attr, sizeof(char), n+LU+1, p-nd->attr, 1);
+				p++;
+			}
+		}
 	}
 
 	return nd;
@@ -169,8 +188,9 @@ static int weight(char **expr, size_t *n)
 			case OR:
 			case XOR:
 			case NOT:
-			case LPAR:
-				w++;
+			case LPAR: w++;
+				break;
+			case ANT: p++;
 				break;
 		}
 

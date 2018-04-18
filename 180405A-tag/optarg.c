@@ -3,6 +3,7 @@
 static int opterrck(int c, int flags);
 static void help(void);
 static void gloerrck(glob_optarg *glo);
+static void get_files(glob_optarg *glo);
 
 struct option longopts[] = {
 	{ "set",				1, 0, 's'},
@@ -63,6 +64,8 @@ glob_optarg *getoptarg(int argc, char *argv[])
 	glo->files = argv + optind;
 	glo->fc = argc - optind;
 	gloerrck(glo);
+	if(glo->fc == 0) /*if no path is given, '*' is assumed*/
+		get_files(glo);
 
 	return glo;
 }
@@ -173,12 +176,10 @@ static void gloerrck(glob_optarg *glo)
 
 	if((glo->flags & OPT_VALUE) && !(glo->flags & OPT_SET))
 		err = 1;
-	else if(glo->fc == 0)
-		err = 2;
 	else if(glo->name && strlen(glo->name) > XATTR_NAME_MAX)
-		err = 3;
+		err = 2;
 	else if(glo->value && strlen(glo->value) >= XATTR_SIZE_MAX)
-		err = 4;
+		err = 3;
 
 	if(err)
 	{
@@ -187,11 +188,9 @@ static void gloerrck(glob_optarg *glo)
 			case 1: fprintf(stderr, "%s: 'value' option provided without 'set'\n",
 										progname);
 				break;
-			case 2: fprintf(stderr, "%s: no target specified\n", progname);
+			case 2: fprintf(stderr, "%s: attribute name too long\n", progname);
 				break;
-			case 3: fprintf(stderr, "%s: attribute name too long\n", progname);
-				break;
-			case 4: fprintf(stderr, "%s: attribute value too long\n", progname);
+			case 3: fprintf(stderr, "%s: attribute value too long\n", progname);
 				break;
 		}
 		exit(EXIT_FAILURE);
@@ -217,4 +216,9 @@ int filerrck(char *file, int tag_mode)
 		return 1;
 	}
 	return 0;
+}
+
+static void get_files(glob_optarg *glo)
+{
+	
 }
