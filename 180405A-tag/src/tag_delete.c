@@ -9,7 +9,7 @@ static int rec_rmx(const char *fpath, const struct stat *sb,
 
 void tagd(glob_optarg *glo)
 {
-	name = (char *)smalloc(strlen(glo->name)+LU+1);
+	name = (char *)salloc(strlen(glo->name)+LU+1);
 	strcpy(name, USER); /*adding "user." prefix*/
 	strcat(name, glo->name); /*and the name of the tag*/
 	opt_all = (glo->flags & OPT_ALL);

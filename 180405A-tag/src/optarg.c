@@ -21,7 +21,7 @@ struct option longopts[] = {
 
 glob_optarg *getoptarg(int argc, char *argv[])
 {
-	glob_optarg *glo = (glob_optarg *)smalloc(sizeof(glob_optarg));
+	glob_optarg *glo = (glob_optarg *)salloc(sizeof(glob_optarg));
 
 	int c, indopt;
 	glo->flags = 0;

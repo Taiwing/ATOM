@@ -25,8 +25,8 @@ void tagg(glob_optarg *glo)
 
 static void printx(const char *file)
 {
-	char *list = (char *)smalloc(XATTR_LIST_MAX);
-	char *v = (char *)smalloc(XATTR_SIZE_MAX);
+	char *list = (char *)salloc(XATTR_LIST_MAX);
+	char *v = (char *)salloc(XATTR_SIZE_MAX);
 	size_t n = listxattr(file, list, XATTR_LIST_MAX), lv;
 
 	if(n)

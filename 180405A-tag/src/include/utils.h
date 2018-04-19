@@ -10,12 +10,12 @@
 #include "info.h"
 
 /*malloc wrapper with pointer checker, and exit on failure*/
-void *smalloc(size_t size);
+void *salloc(size_t size);
 
 int isdir(const char *file);
 char **split_list(char *list, size_t l);
 void sort_wordtab(char **tab);
-void high_water_alloc(void ***buf, size_t *bufsize, int *l);
+void walloc(void ***buf, size_t *bufsize, int *l);
 void backspace(char *array, size_t elem_size, int length, int start, int n);
 int cmp(const void *p1, const void *p2);
 void get_files(char *dir, char ***files, int *fc, int r, int a);

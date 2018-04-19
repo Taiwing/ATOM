@@ -42,13 +42,13 @@ void tagu(glob_optarg *glo)
 
 static void inquiry(const char *file)
 {
-	char *list = (char *)smalloc(XATTR_LIST_MAX);
+	char *list = (char *)salloc(XATTR_LIST_MAX);
 	size_t n = listxattr(file, list, XATTR_LIST_MAX);
 
 	if(n == 0) /*test if the file is untagged*/
 	{
-		high_water_alloc((void ***)&file_list, &size, &fc);
-		file_list[fc-1] = strcpy((char *)smalloc(strlen(file)+1), file);
+		walloc((void ***)&file_list, &size, &fc);
+		file_list[fc-1] = strcpy((char *)salloc(strlen(file)+1), file);
 	}
 
 	free(list);

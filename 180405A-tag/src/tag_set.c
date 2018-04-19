@@ -10,7 +10,7 @@ static int rec_setx(const char *fpath, const struct stat *sb,
 
 void tags(glob_optarg *glo)
 {
-	name = (char *)smalloc(strlen(glo->name)+LU+1);
+	name = (char *)salloc(strlen(glo->name)+LU+1);
 	strcpy(name, USER); /*adding "user." prefix*/
 	strcat(name, glo->name); /*and the name of the tag*/
 	value = glo->value;

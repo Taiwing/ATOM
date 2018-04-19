@@ -21,7 +21,7 @@ void tagl(glob_optarg *glo)
 	opt_all = (glo->flags & OPT_ALL);
 	tc = 0;
 	size = 0;
-	high_water_alloc((void ***)&tag_list, &size, &tc);
+	walloc((void ***)&tag_list, &size, &tc);
 	tag_list[0] = add_tag("user.UNTAGGED");
 	tag_list[0]->c = 0;
 
@@ -37,7 +37,7 @@ void tagl(glob_optarg *glo)
 	}
 
 	size_t biggest = 0;
-	size_t *len = (size_t *)smalloc(tc * sizeof(size_t));
+	size_t *len = (size_t *)salloc(tc * sizeof(size_t));
 	for(int i = 0; i < tc; i++)
 	{
 		len[i] = strlen(tag_list[i]->name) - LU;
@@ -59,9 +59,9 @@ void tagl(glob_optarg *glo)
 
 static tag *add_tag(char *name)
 {
-	tag *tp = (tag *)smalloc(sizeof(tag));
+	tag *tp = (tag *)salloc(sizeof(tag));
 
-	tp->name = (char *)smalloc(strlen(name)+1);
+	tp->name = (char *)salloc(strlen(name)+1);
 	strcpy(tp->name, name);
 	tp->c = 1;
 
@@ -77,14 +77,14 @@ void compare_lists(char **splitl)
 		for(; j < tc && (cmp = strcmp(splitl[i], tag_list[j]->name)) > 0; j++);
 		if(j == tc)
 		{
-			high_water_alloc((void ***)&tag_list, &size, &tc);
+			walloc((void ***)&tag_list, &size, &tc);
 			tag_list[j] = add_tag(splitl[i]);
 		}
 		else if(cmp == 0)
 			(tag_list[j]->c)++;
 		else if(cmp < 0)
 		{
-			high_water_alloc((void ***)&tag_list, &size, &tc);
+			walloc((void ***)&tag_list, &size, &tc);
 			tag_list[tc-1] = add_tag(splitl[i]);
 			for(int k = tc-1; k > j; k--)
 			{
@@ -98,7 +98,7 @@ void compare_lists(char **splitl)
 
 static void listx(const char *file)
 {
-	char *list = (char *)smalloc(XATTR_LIST_MAX);
+	char *list = (char *)salloc(XATTR_LIST_MAX);
 	size_t n = listxattr(file, list, XATTR_LIST_MAX);
 
 	if(n)
