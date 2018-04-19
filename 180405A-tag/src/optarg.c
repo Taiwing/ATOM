@@ -21,7 +21,7 @@ struct option longopts[] = {
 
 glob_optarg *getoptarg(int argc, char *argv[])
 {
-	glob_optarg *glo = (glob_optarg *)malloc(sizeof(glob_optarg));
+	glob_optarg *glo = (glob_optarg *)smalloc(sizeof(glob_optarg));
 
 	int c, indopt;
 	glo->flags = 0;
@@ -126,23 +126,23 @@ static int opterrck(int c, int flags)
 		switch(err)
 		{
 			case 1:
-				fprintf(stderr, "%s: invalid options\n", progname);
+				fprintf(stderr, "%s: invalid options\n", PROGNAME);
 				break;
 			case 2:
 				fprintf(stderr, "%s: '-%c' option can only be used once\n",
-								progname, (char)c);
+								PROGNAME, (char)c);
 				break;
 			case 3:
 				fprintf(stderr, "%s: 'set', 'remove', 'get' and 'list' options"
-								" must be used separately\n", progname);
+								" must be used separately\n", PROGNAME);
 				break;
 			case 4:
 				fprintf(stderr, "%s: 'value' option can only be used with"
-								" 'set' option\n", progname);
+								" 'set' option\n", PROGNAME);
 				break;
 			case 5:
 				fprintf(stderr, "%s: 'query', 'tagged' and 'untagged' options"
-								" must be used separately\n", progname);
+								" must be used separately\n", PROGNAME);
 				break;
 		}
 		exit(EXIT_FAILURE);
@@ -154,10 +154,10 @@ static int opterrck(int c, int flags)
 static void help(void)
 {
 	printf("%s %s -- organize and search files by tags\n",
-					progname, TAG_VERSION);
-	printf("Usage: %s %s\n", progname, CMD_LINE_SPEC1);
-	printf("       %s %s\n", progname, CMD_LINE_SPEC2);
-	printf("       %s %s\n", progname, CMD_LINE_SPEC3);
+					PROGNAME, VERSION);
+	printf("Usage: %s %s\n", PROGNAME, CMD_LINE_SPEC1);
+	printf("       %s %s\n", PROGNAME, CMD_LINE_SPEC2);
+	printf("       %s %s\n", PROGNAME, CMD_LINE_SPEC3);
 	printf(
 "Options: -s, --set=name          set named tag\n"
 "         -v, --value=val         set the tag value to val\n"
@@ -196,11 +196,11 @@ static void gloerrck(glob_optarg *glo)
 		switch(err)
 		{
 			case 1: fprintf(stderr, "%s: 'value' option provided without 'set'\n",
-										progname);
+										PROGNAME);
 				break;
-			case 2: fprintf(stderr, "%s: attribute name too long\n", progname);
+			case 2: fprintf(stderr, "%s: attribute name too long\n", PROGNAME);
 				break;
-			case 3: fprintf(stderr, "%s: attribute value too long\n", progname);
+			case 3: fprintf(stderr, "%s: attribute value too long\n", PROGNAME);
 				break;
 		}
 		exit(EXIT_FAILURE);
@@ -214,13 +214,13 @@ int filerrck(char *file, int tag_mode)
 		switch(errno)
 		{
 			case EACCES: fprintf(stderr, "%s: %s: permission denied\n",
-													progname, file);
+													PROGNAME, file);
 				break;
 			case ENOENT: fprintf(stderr, "%s: %s: file doesn't exist\n",
-													progname, file);
+													PROGNAME, file);
 				break;
 			default: fprintf(stderr, "%s: %s: file couldn't be accessed\n",
-													progname, file);
+													PROGNAME, file);
 				break;
 		}
 		return 1;

@@ -47,13 +47,13 @@ void tagq(glob_optarg *glo)
 
 static void inquiry(const char *file)
 {
-	char *list = (char *)malloc(XATTR_LIST_MAX);
+	char *list = (char *)smalloc(XATTR_LIST_MAX);
 	size_t n = listxattr(file, list, XATTR_LIST_MAX);
 
 	if(test_node(root, list, n)) /*test if the file matches the query*/
 	{
 		high_water_alloc((void ***)&file_list, &size, &fc);
-		file_list[fc-1] = strcpy((char *)malloc(strlen(file)+1), file);
+		file_list[fc-1] = strcpy((char *)smalloc(strlen(file)+1), file);
 	}
 
 	free(list);

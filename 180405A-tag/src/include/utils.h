@@ -3,9 +3,14 @@
 
 #include <sys/types.h>			/*for the size_t type*/
 #include <sys/stat.h>				/*to check if current file is directory or not*/
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>					/*for opendir and readdir*/
+#include "info.h"
+
+/*malloc wrapper with pointer checker, and exit on failure*/
+void *smalloc(size_t size);
 
 int isdir(const char *file);
 char **split_list(char *list, size_t l);

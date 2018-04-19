@@ -10,7 +10,7 @@ optarg.h\
 tag.h\
 tag_query.h\
 utils.h\
-version.h\
+info.h\
 xattr_max.h\
 
 _OBJ = main.o\

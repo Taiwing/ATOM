@@ -11,7 +11,6 @@
 #include <unistd.h>			/*for access*/
 #include <getopt.h>			/*for getopt_long*/
 #include <errno.h>			/*to check errno in filerrck*/
-#include "version.h"
 #include "xattr_max.h"	/*limits of xattr values*/
 #include "utils.h"			/*for get_files*/
 
@@ -30,8 +29,6 @@
 #define OPT_QUERY				0x80
 #define OPT_TAGGED			0x100
 #define OPT_UNTAGGED		0x200
-
-char *progname;
 
 typedef struct glob_optarg
 {

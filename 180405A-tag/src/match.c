@@ -7,7 +7,7 @@ int valid_query(char *query)
 {
 	int err = 0;
 	int rpar = 0, lpar = 0, nest = 0, l = strlen(query);
-	int *parray = (int *)malloc(l * sizeof(int));
+	int *parray = (int *)smalloc(l * sizeof(int));
 	for(int i = 0; i < l; i++)
 	{
 		if(query[i] == LPAR)
@@ -68,7 +68,7 @@ int valid_query(char *query)
 
 	if(err)
 	{
-		fprintf(stderr, "%s: incorrect query\n", progname);
+		fprintf(stderr, "%s: incorrect query\n", PROGNAME);
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -78,7 +78,7 @@ int valid_query(char *query)
 /*if it is, this one builds the structure for it*/
 query_node *build_qtree(char *query, size_t n)
 {
-	query_node *nd = (query_node *)malloc(sizeof(query_node));
+	query_node *nd = (query_node *)smalloc(sizeof(query_node));
 	nd->log_op = 0;
 
 	int par = 0;
@@ -123,7 +123,7 @@ query_node *build_qtree(char *query, size_t n)
 	}
 	else if(nd->log_op == 0)
 	{
-		nd->attr = strcpy((char *)malloc(n+LU+1), USER);
+		nd->attr = strcpy((char *)smalloc(n+LU+1), USER);
 		strncat(nd->attr, query, n);
 		for(char *cp = nd->attr+LU; cp < nd->attr+n; cp++)
 		{

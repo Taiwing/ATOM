@@ -37,7 +37,7 @@ void tagl(glob_optarg *glo)
 	}
 
 	size_t biggest = 0;
-	size_t *len = (size_t *)malloc(tc * sizeof(size_t));
+	size_t *len = (size_t *)smalloc(tc * sizeof(size_t));
 	for(int i = 0; i < tc; i++)
 	{
 		len[i] = strlen(tag_list[i]->name) - LU;
@@ -59,9 +59,9 @@ void tagl(glob_optarg *glo)
 
 static tag *add_tag(char *name)
 {
-	tag *tp = (tag *)malloc(sizeof(tag));
+	tag *tp = (tag *)smalloc(sizeof(tag));
 
-	tp->name = (char *)malloc(strlen(name)+1);
+	tp->name = (char *)smalloc(strlen(name)+1);
 	strcpy(tp->name, name);
 	tp->c = 1;
 
@@ -98,7 +98,7 @@ void compare_lists(char **splitl)
 
 static void listx(const char *file)
 {
-	char *list = (char *)malloc(XATTR_LIST_MAX);
+	char *list = (char *)smalloc(XATTR_LIST_MAX);
 	size_t n = listxattr(file, list, XATTR_LIST_MAX);
 
 	if(n)

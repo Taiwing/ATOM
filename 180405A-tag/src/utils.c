@@ -1,5 +1,18 @@
 #include "include/utils.h"
 
+void *smalloc(size_t size)
+{
+	void *ptr = malloc(size);
+
+	if(!ptr)
+	{
+		fprintf(stderr, "%s: out of memory\n", PROGNAME);
+		exit(EXIT_FAILURE);
+	}
+
+	return ptr;
+}
+
 int isdir(const char *file)
 {
 	struct stat file_stat;
@@ -14,10 +27,10 @@ char **split_list(char *list, size_t l)
 	for(unsigned int i = 0; i < l; i++)
 		n += list[i] == '\0' ? 1 : 0;
 
-	char **splitl = (char **)malloc((n+1) * sizeof(char *));
+	char **splitl = (char **)smalloc((n+1) * sizeof(char *));
 
 	for(char *p = list; p < list+l; p += strlen(p)+1, j++)
-		strcpy((splitl[j] = (char *)malloc(strlen(p)+1)), p);
+		strcpy((splitl[j] = (char *)smalloc(strlen(p)+1)), p);
 	splitl[j] = NULL;
 
 	return splitl;
@@ -49,6 +62,11 @@ void high_water_alloc(void ***buf, size_t *bufsize, int *l)
 		void **newbuf;
 		newsize = (newsize + CHUNK_SIZE-1) & ~(CHUNK_SIZE-1);
 		newbuf = realloc(*buf, newsize);
+		if(!newbuf)
+		{
+			fprintf(stderr, "%s: out of memory\n", PROGNAME);
+			exit(EXIT_FAILURE);
+		}
 		*buf = newbuf;
 		*bufsize = newsize;
 	}
@@ -58,7 +76,7 @@ void high_water_alloc(void ***buf, size_t *bufsize, int *l)
 /*by shitfing its content to the left*/
 void backspace(char *array, size_t elem_size, int length, int start, int n)
 {
-	char *p = (char *)malloc(elem_size);
+	char *p = (char *)smalloc(elem_size);
 
 	n = n > start+1 ? start+1 : n;
 
@@ -92,14 +110,14 @@ void get_files(char *dir, char ***files, int *fc, int r, int a)
 	{
 		if(strcmp(ep->d_name, ".") != 0 && strcmp(ep->d_name, "..") != 0)
 		{
-			char *name = (char *)malloc(strlen(ep->d_name)+strlen(dir)+2);
+			char *name = (char *)smalloc(strlen(ep->d_name)+strlen(dir)+2);
 			name = strcpy(name, dir);
 			strcat(name, "/");
 			strcat(name, ep->d_name);
 			if(a || ep->d_type != DT_DIR)
 			{
 				high_water_alloc((void ***)files, &size, fc);
-				(*files)[*fc-1] = strcpy((char *)malloc(strlen(name)), name);
+				(*files)[*fc-1] = strcpy((char *)smalloc(strlen(name)), name);
 			}
 			if(r && ep->d_type == DT_DIR)
 			get_files(name, files, fc, r, a);
