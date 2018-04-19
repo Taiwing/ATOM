@@ -5,8 +5,6 @@
 #include <string.h>
 #include <sys/types.h>			/*for the size_t type*/
 
-#define Q_CHARS "&|^!()\\"
-
 enum QUERY_CHARS {
 	AND = '&',
 	OR = '|',

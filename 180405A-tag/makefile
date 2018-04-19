@@ -21,8 +21,6 @@ tag_get.o\
 tag_list.o\
 tag_query.o\
 tag_set.o\
-tag_tagged.o\
-tag_untagged.o\
 utils.o\
 
 

@@ -2,29 +2,28 @@
 
 struct query_node *root;
 char **file_list;
-int opt_all, no_sdgl, fc;
+int flags, fc;
 size_t size;
 
 static void inquiry(const char *file);
 static int rec_inquiry(const char *fpath, const struct stat *sb,
 											int tflag, struct FTW *ftwbuf);
 
-void tagq(glob_optarg *glo)
+void tagqtu(glob_optarg *glo)
 {
-	if(valid_query(glo->query))
-		root = build_qtree(glo->query, strlen(glo->query));
-	opt_all = (glo->flags & OPT_ALL);
-	no_sdgl = !(glo->flags << (sizeof(int)*8-4));
+	flags = glo->flags;
 	size = 0;
 	fc = 0;
+	if(flags & OPT_QUERY && valid_query(glo->query))
+		root = build_qtree(glo->query, strlen(glo->query));
 
 	for(int i = 0; i < glo->fc; i++)
 	{
 		if(!filerrck(glo->files[i], OPT_QUERY))
 		{
-			if(glo->flags & OPT_RECURSIVE && isdir(glo->files[i]))
+			if(flags & OPT_RECURSIVE && isdir(glo->files[i]))
 				nftw(glo->files[i], rec_inquiry, 20, 0);
-			else if(opt_all || !isdir(glo->files[i]))
+			else if(flags & OPT_ALL || !isdir(glo->files[i]))
 				inquiry(glo->files[i]);
 		}
 		else puts("");
@@ -32,8 +31,9 @@ void tagq(glob_optarg *glo)
 
 	qsort(file_list, fc, sizeof(char *), cmp);
 
-	if(no_sdgl)
-		for(int i = 0; i < fc; i++)
+	/*if not any core option (s, d, g or l)*/
+	if(!(flags << (sizeof(int)*8-4)))
+		for(int i = 0; i < fc; i++) /*print list*/
 			puts(file_list[i]);
 	else
 	{
@@ -42,7 +42,8 @@ void tagq(glob_optarg *glo)
 		glo->flags &= ~OPT_RECURSIVE; /*removes recursive option*/
 	}
 
-	free(root);
+	if(flags & OPT_QUERY)
+		free(root);
 }
 
 static void inquiry(const char *file)
@@ -50,7 +51,10 @@ static void inquiry(const char *file)
 	char *list = (char *)salloc(XATTR_LIST_MAX);
 	size_t n = listxattr(file, list, XATTR_LIST_MAX);
 
-	if(test_node(root, list, n)) /*test if the file matches the query*/
+	/*test if the file matches the query*/
+	if((flags & OPT_QUERY && test_node(root, list, n))
+		|| (flags & OPT_UNTAGGED && n == 0)
+		|| (flags & OPT_TAGGED && n))
 	{
 		walloc((void ***)&file_list, &size, &fc);
 		file_list[fc-1] = strcpy((char *)salloc(strlen(file)+1), file);
@@ -62,7 +66,7 @@ static void inquiry(const char *file)
 static int rec_inquiry(const char *fpath, const struct stat *sb,
 											int tflag, struct FTW *ftwbuf)
 {
-	if(S_ISREG(sb->st_mode) || opt_all)
+	if(flags & OPT_ALL || S_ISREG(sb->st_mode))
 		inquiry(fpath);
 	return 0;
 }
