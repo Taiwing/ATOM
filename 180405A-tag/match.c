@@ -125,11 +125,11 @@ query_node *build_qtree(char *query, size_t n)
 	{
 		nd->attr = strcpy((char *)malloc(n+LU+1), USER);
 		strncat(nd->attr, query, n);
-		for(char *p = nd->attr+LU; p < nd->attr+n; p++)
+		for(char *cp = nd->attr+LU; cp < nd->attr+n; cp++)
 		{
-			if(*p == '\\')
+			if(*cp == '\\')
 			{
-				backspace(nd->attr, sizeof(char), n+LU+1, p-nd->attr, 1);
+				backspace(nd->attr, sizeof(char), n+LU+1, cp-nd->attr, 1);
 				p++;
 			}
 		}

@@ -9,9 +9,9 @@ int isdir(const char *file)
 
 char **split_list(char *list, size_t l)
 {
-	int n = 0, j = 0;
+	unsigned int n = 0, j = 0;
 
-	for(int i = 0; i < l; i++)
+	for(unsigned int i = 0; i < l; i++)
 		n += list[i] == '\0' ? 1 : 0;
 
 	char **splitl = (char **)malloc((n+1) * sizeof(char *));
@@ -65,11 +65,11 @@ void backspace(char *array, size_t elem_size, int length, int start, int n)
 	for(int i = start+1; i < length; i++)
 	{
 		/*copy the element to be moved*/
-		for(int j = 0; j < elem_size; j++)
+		for(unsigned int j = 0; j < elem_size; j++)
 			p[j] = array[i * elem_size + j];
 
 		/*paste the copied element n places before it*/
-		for(int j = 0; j < elem_size; j++)
+		for(unsigned int j = 0; j < elem_size; j++)
 			array[(i-n) * elem_size + j] = p[j];
 	}
 
