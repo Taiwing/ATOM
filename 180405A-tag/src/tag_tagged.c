@@ -1,6 +1,5 @@
-#include "tag_query.h"
+#include "include/tag.h"
 
-struct query_node *root;
 char **file_list;
 int opt_all, no_sdgl, fc;
 size_t size;
@@ -9,10 +8,8 @@ static void inquiry(const char *file);
 static int rec_inquiry(const char *fpath, const struct stat *sb,
 											int tflag, struct FTW *ftwbuf);
 
-void tagq(glob_optarg *glo)
+void tagt(glob_optarg *glo)
 {
-	if(valid_query(glo->query))
-		root = build_qtree(glo->query, strlen(glo->query));
 	opt_all = (glo->flags & OPT_ALL);
 	no_sdgl = !(glo->flags << (sizeof(int)*8-4));
 	size = 0;
@@ -20,7 +17,7 @@ void tagq(glob_optarg *glo)
 
 	for(int i = 0; i < glo->fc; i++)
 	{
-		if(!filerrck(glo->files[i], OPT_QUERY))
+		if(!filerrck(glo->files[i], OPT_TAGGED))
 		{
 			if(glo->flags & OPT_RECURSIVE && isdir(glo->files[i]))
 				nftw(glo->files[i], rec_inquiry, 20, 0);
@@ -41,8 +38,6 @@ void tagq(glob_optarg *glo)
 		glo->fc = fc;
 		glo->flags &= ~OPT_RECURSIVE; /*removes recursive option*/
 	}
-
-	free(root);
 }
 
 static void inquiry(const char *file)
@@ -50,7 +45,7 @@ static void inquiry(const char *file)
 	char *list = (char *)malloc(XATTR_LIST_MAX);
 	size_t n = listxattr(file, list, XATTR_LIST_MAX);
 
-	if(test_node(root, list, n)) /*test if the file matches the query*/
+	if(n) /*test if the file is tagged*/
 	{
 		high_water_alloc((void ***)&file_list, &size, &fc);
 		file_list[fc-1] = strcpy((char *)malloc(strlen(file)+1), file);

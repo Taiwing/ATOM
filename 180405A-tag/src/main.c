@@ -1,6 +1,6 @@
-#include "main.h"
-#include "optarg.h"
-#include "tag.h"
+#include "include/main.h"
+#include "include/optarg.h"
+#include "include/tag.h"
 
 int main(int argc, char *argv[])
 {

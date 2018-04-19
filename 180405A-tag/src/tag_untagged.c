@@ -1,4 +1,4 @@
-#include "tag.h"
+#include "include/tag.h"
 
 char **file_list;
 int opt_all, no_sdgl, fc;
@@ -8,7 +8,7 @@ static void inquiry(const char *file);
 static int rec_inquiry(const char *fpath, const struct stat *sb,
 											int tflag, struct FTW *ftwbuf);
 
-void tagt(glob_optarg *glo)
+void tagu(glob_optarg *glo)
 {
 	opt_all = (glo->flags & OPT_ALL);
 	no_sdgl = !(glo->flags << (sizeof(int)*8-4));
@@ -45,7 +45,7 @@ static void inquiry(const char *file)
 	char *list = (char *)malloc(XATTR_LIST_MAX);
 	size_t n = listxattr(file, list, XATTR_LIST_MAX);
 
-	if(n) /*test if the file is tagged*/
+	if(n == 0) /*test if the file is untagged*/
 	{
 		high_water_alloc((void ***)&file_list, &size, &fc);
 		file_list[fc-1] = strcpy((char *)malloc(strlen(file)+1), file);
