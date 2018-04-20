@@ -15,9 +15,21 @@ enum QUERY_CHARS {
 	ANT = '\\'
 };
 
+enum RAT_OPS {EQ = 1, NEQ, GEQ, LEQ, GT, LT};
+char *ro_str[] = {
+	"",
+	"==",
+	"!=",
+	">=",
+	"<=",
+	">",
+	"<",
+};
+
 typedef struct query_node
 {
 	int log_op;	/*AND OR XOR NOT 0*/
+	int rat_op;	/*EQ, NEQ, GT, LT, GEQ, LEQ 0*/
 	char *attr;	/*name of the attribute to be tested, if node is a leaf*/
 	struct query_node *left;	/*next lighter node*/
 	struct query_node *right;	/*next heavier node*/

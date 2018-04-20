@@ -1,6 +1,7 @@
 #include "include/tag_query.h"
 
 static int weight(char **expr, size_t *n);
+static int get_log_op(char *query, size_t n, char *p, size_t *j);
 
 /*tests if the query is valid*/
 int valid_query(char *query)
@@ -79,33 +80,9 @@ int valid_query(char *query)
 query_node *build_qtree(char *query, size_t n)
 {
 	query_node *nd = (query_node *)salloc(sizeof(query_node));
-	nd->log_op = 0;
-
-	int par = 0;
+	char *p = NULL; /*next node*/
 	size_t j = 0;
-	char *p; /*next node*/
-
-	for(size_t i = 0; i < n && (nd->log_op == 0 || nd->log_op == NOT); i++)
-		switch(query[i])
-		{
-			case LPAR: par++;
-				break;
-			case RPAR: par--;
-				break;
-			case AND:
-			case OR:
-			case XOR:
-			case NOT:
-				if(!par)
-				{
-					nd->log_op = query[i];
-					p = query+i+1;
-					j = i;
-				}
-				break;
-			case ANT: i++;
-				break;
-		}
+	nd->log_op = get_log_op(query, n, p, &j);
 
 	if(nd->log_op && nd->log_op != NOT)
 	{
@@ -123,6 +100,8 @@ query_node *build_qtree(char *query, size_t n)
 	}
 	else if(nd->log_op == 0)
 	{
+		char *r = NULL;
+		nd->rat_op = get_rat_op(query, n, r);
 		nd->attr = strcpy((char *)salloc(n+LU+1), USER);
 		strncat(nd->attr, query, n);
 		for(char *cp = nd->attr+LU; cp < nd->attr+n; cp++)
@@ -136,6 +115,40 @@ query_node *build_qtree(char *query, size_t n)
 	}
 
 	return nd;
+}
+
+static int get_log_op(char *query, size_t n, char *p, size_t *j)
+{
+	int log_op = 0, par = 0;
+
+	for(size_t i = 0; i < n && (log_op == 0 || log_op == NOT); i++)
+		switch(query[i])
+		{
+			case LPAR: par++;
+				break;
+			case RPAR: par--;
+				break;
+			case AND:
+			case OR:
+			case XOR:
+			case NOT:
+				if(!par && (query[i] != NOT || query[i+1] != '='))
+				{
+					log_op = query[i];
+					p = query+i+1;
+					*j = i;
+				}
+				break;
+			case ANT: i++;
+				break;
+		}
+
+	return log_op;
+}
+
+int get_rat_op(query, n, r)
+{
+	
 }
 
 int test_node(query_node *nd, char *l, size_t n)
