@@ -368,7 +368,7 @@ static int dt_type_match(query_node *nd, int i, const char *f, void *val[2])
 	int ret = 0;
 	char *v[2];
 	double *nb[2];
-	size_t l[2];
+	ssize_t l[2];
 
 	v[0] = (char *)salloc(XATTR_SIZE_MAX);
 	v[1] = (char *)salloc(XATTR_SIZE_MAX);
