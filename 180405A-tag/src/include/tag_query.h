@@ -15,22 +15,26 @@ enum QUERY_CHARS {
 	ANT = '\\'
 };
 
-enum RAT_OPS {EQ = 1, NEQ, GEQ, LEQ, GT, LT};
-char *ro_str[] = {
-	"",
-	"==",
-	"!=",
-	">=",
-	"<=",
-	">",
-	"<",
-};
+enum REL_OPS {EQ = 1, NEQ, GEQ, LEQ, GT, LT};
+
+enum DT_TYPES {ATTR, STR, NB, DATE};
+
+typedef union tag_val
+{
+	char *attr;	/*if a tag_value is being compared*/
+	char *str;	/*if it is a string*/
+	double nb;	/*if it is a number*/
+	/*stuct date *dt; if it is a date*/
+} tag_val;
 
 typedef struct query_node
 {
 	int log_op;	/*AND OR XOR NOT 0*/
-	int rat_op;	/*EQ, NEQ, GT, LT, GEQ, LEQ 0*/
-	char *attr;	/*name of the attribute to be tested, if node is a leaf*/
+	int rel_op;	/*EQ, NEQ, GT, LT, GEQ, LEQ 0*/
+	/*dt will store the name of the attribute*/
+	/*to be tested, if node is a leaf and rel_op == 0*/
+	tag_val *dt[2];	/*only the first one is used if rel_op == 0*/
+	int dt_type[2];	/*stores the type of value in dt*/
 	struct query_node *left;	/*next lighter node*/
 	struct query_node *right;	/*next heavier node*/
 } query_node;
@@ -42,6 +46,6 @@ int valid_query(char *query);
 query_node *build_qtree(char *query, size_t n);
 
 /*recursively traverse the tree and tests each node*/
-int test_node(query_node *nd, char *l, size_t n);
+int test_node(query_node *nd, char *l, size_t n, const char *file);
 
 #endif

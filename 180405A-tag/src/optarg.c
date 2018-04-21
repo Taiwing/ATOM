@@ -19,6 +19,11 @@ struct option longopts[] = {
 	{NULL, 					0, 0,  0 }
 };
 
+/*TODO*/
+/*check the argument parser for problems with the*/
+/*query option, quotes and the 'star function'*/
+/*in the case of a rel_op query*/
+
 glob_optarg *getoptarg(int argc, char *argv[])
 {
 	glob_optarg *glo = (glob_optarg *)salloc(sizeof(glob_optarg));

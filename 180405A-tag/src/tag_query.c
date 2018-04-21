@@ -1,5 +1,6 @@
 #include "include/tag_query.h"
 
+/*global variables for the recursive query functions*/
 struct query_node *root;
 char **file_list;
 int flags, fc;
@@ -52,7 +53,7 @@ static void inquiry(const char *file)
 	size_t n = listxattr(file, list, XATTR_LIST_MAX);
 
 	/*test if the file matches the query*/
-	if((flags & OPT_QUERY && test_node(root, list, n))
+	if((flags & OPT_QUERY && test_node(root, list, n, file))
 		|| (flags & OPT_UNTAGGED && n == 0)
 		|| (flags & OPT_TAGGED && n))
 	{

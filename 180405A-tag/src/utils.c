@@ -79,6 +79,8 @@ void walloc(void ***buf, size_t *bufsize, int *l)
 
 /*erases n elements from start in any array*/
 /*by shitfing its content to the left*/
+/*if the array given is really a string, then the null-byte*/
+/*must be included in the length parameter*/
 void backspace(char *array, size_t elem_size, int length, int start, int n)
 {
 	char *p = (char *)salloc(elem_size);
@@ -97,6 +99,7 @@ void backspace(char *array, size_t elem_size, int length, int start, int n)
 	}
 
 	memset(array+((length-n)*elem_size), 0, n*elem_size);
+	free(p);
 }
 
 /*only useful for qsort*/
@@ -132,4 +135,42 @@ void get_files(char *dir, char ***files, int *fc, int r, int a)
 
 	closedir(dp);
 	qsort(*files, *fc, sizeof(char *), cmp);
+}
+
+/*removes BS from str (Back Slashes of course)*/
+void rmbs(char *str, size_t n)
+{
+	for(char *p = str; p < str+n; p++)
+	{
+		if(*p == '\\')
+		{
+			backspace(str, sizeof(char), n+1, p-str, 1);
+			p++;
+		}
+	}
+}
+
+int is_quoted(char *str, size_t l)
+{
+	if((str[0] == '\'' || str[0] == '"') && str[0] == str[l-1])
+		return 1;
+	else
+		return 0;
+}
+
+int is_numeric(char *str, size_t l)
+{
+	int pc = 0; /*point count*/
+
+	for(char *p = str; p < str+l; p++)
+	{
+		if(p == str && (*p == '-' || *p == '+'))
+			continue;
+		else if(!((*p > 47 && *p < 58) || (*p == '.' && pc < 1)))
+			return 0;
+		else if(*p == '.')
+			pc++;
+	}
+
+	return 1;
 }
