@@ -13,9 +13,11 @@ utils.h\
 info.h\
 xattr_max.h\
 
-_OBJ = main.o\
+_OBJ = build_qtree.o\
+main.o\
 match.o\
 optarg.o\
+query_checker.o\
 tag_delete.o\
 tag_get.o\
 tag_list.o\

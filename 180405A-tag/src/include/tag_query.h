@@ -1,3 +1,4 @@
+/*is the header of tag_query.c query_checker.c build_qtree.c match.c*/
 #ifndef TAG_QUERY_H
 #define TAG_QUERY_H
 #include "tag.h"
@@ -14,6 +15,8 @@ enum QUERY_CHARS {
 	RPAR = ')',
 	ANT = '\\'
 };
+
+extern char *ro_str[];
 
 enum REL_OPS {EQ = 1, NEQ, GEQ, LEQ, GT, LT};
 
