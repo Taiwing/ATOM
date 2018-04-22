@@ -6,6 +6,7 @@ char **file_list;
 int flags, fc;
 size_t size;
 
+static void pors_list(glob_optarg *glo);
 static void inquiry(const char *file);
 static int rec_inquiry(const char *fpath, const struct stat *sb,
 											int tflag, struct FTW *ftwbuf);
@@ -30,6 +31,14 @@ void tagqtu(glob_optarg *glo)
 		else puts("");
 	}
 
+	pors_list(glo);
+
+	if(flags & OPT_QUERY)
+		free(root);
+}
+
+static void pors_list(glob_optarg *glo) /*print or save list*/
+{
 	qsort(file_list, fc, sizeof(char *), cmp);
 
 	/*if not any core option (s, d, g or l)*/
@@ -42,9 +51,6 @@ void tagqtu(glob_optarg *glo)
 		glo->fc = fc;
 		glo->flags &= ~OPT_RECURSIVE; /*removes recursive option*/
 	}
-
-	if(flags & OPT_QUERY)
-		free(root);
 }
 
 static void inquiry(const char *file)

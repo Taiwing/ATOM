@@ -11,7 +11,8 @@ size_t size;
 tag **tag_list;
 
 static tag *add_tag(char *name);
-void compare_lists(char **splitl);
+static void compare_lists(char **splitl);
+static void print_list(void);
 static void listx(const char *file);
 static int rec_listx(const char *fpath, const struct stat *sb,
 											int tflag, struct FTW *ftwbuf);
@@ -36,24 +37,7 @@ void tagl(glob_optarg *glo)
 		}
 	}
 
-	size_t biggest = 0;
-	size_t *len = (size_t *)salloc(tc * sizeof(size_t));
-	for(int i = 0; i < tc; i++)
-	{
-		len[i] = strlen(tag_list[i]->name) - LU;
-		biggest = len[i] > biggest ? len[i] : biggest;
-	}
-
-	for(int i = 0; i < tc; i++)
-	{
-		/*really cool trick with printf to print columns*/
-		if(tag_list[i]->c > 0)
-			printf("%s%*d\n", tag_list[i]->name+LU,
-						(int)(len[i] < biggest ? biggest-len[i]+7 : 7),
-						tag_list[i]->c);
-	}
-
-	free(len);
+	print_list();
 	free(tag_list);
 }
 
@@ -68,7 +52,7 @@ static tag *add_tag(char *name)
 	return tp;
 }
 
-void compare_lists(char **splitl)
+static void compare_lists(char **splitl)
 {
 	int i = 0, j = 1, cmp;
 	tag *p;
@@ -94,6 +78,28 @@ void compare_lists(char **splitl)
 			}
 		}
 	}
+}
+
+static void print_list(void)
+{
+	size_t biggest = 0;
+	size_t *len = (size_t *)salloc(tc * sizeof(size_t));
+	for(int i = 0; i < tc; i++)
+	{
+		len[i] = strlen(tag_list[i]->name) - LU;
+		biggest = len[i] > biggest ? len[i] : biggest;
+	}
+
+	for(int i = 0; i < tc; i++)
+	{
+		/*really cool trick with printf to print columns*/
+		if(tag_list[i]->c > 0)
+			printf("%s%*d\n", tag_list[i]->name+LU,
+						(int)(len[i] < biggest ? biggest-len[i]+7 : 7),
+						tag_list[i]->c);
+	}
+
+	free(len);
 }
 
 static void listx(const char *file)

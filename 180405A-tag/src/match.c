@@ -2,8 +2,9 @@
 
 /*TODO*/
 /*First: test that everything is working as expected*/
-/*Dos: Make some functions shorter*/
-/*Tres: maybe divide this file into multiple files*/
+/*Dos: make valid_query verify rel_ops too*/
+/*Tres: Make some functions shorter*/
+/*Quatro: maybe divide this file into multiple files*/
 
 char *ro_str[] = {
 	"",
@@ -368,7 +369,7 @@ static int dt_type_match(query_node *nd, int i, const char *f, void *val[2])
 	int ret = 0;
 	char *v[2];
 	double *nb[2];
-	ssize_t l[2];
+	ssize_t l[2]; /*ssize_t because getxattr can return -1*/
 
 	v[0] = (char *)salloc(XATTR_SIZE_MAX);
 	v[1] = (char *)salloc(XATTR_SIZE_MAX);
