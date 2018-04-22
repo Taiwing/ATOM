@@ -1,7 +1,6 @@
 #include "include/tag_query.h"
 
 /*TODO*/
-/*Dos: make valid_query verify rel_ops too*/
 /*Tres: Make some functions shorter*/
 /*Quatro: maybe divide this file into multiple files*/
 
@@ -396,15 +395,6 @@ static int do_rel_op(query_node *nd, const char *f)
 						: (strcmp(str_val[0], str_val[1]) < 0);
 				break;
 		}
-
-		if(type == STR) /*clean buffer for next test*/
-		{
-			if(i < 2)
-				memset((void *)(str_val[!i]), 0, strlen(str_val[!i]));
-			else
-				for(int j = 0; j < 2; j++)
-					memset((void *)(str_val[j]), 0, strlen(str_val[j]));
-		}
 	}
 
 	if(i < 2 && type)
@@ -423,8 +413,11 @@ static int dt_type_match(query_node *nd, int i, const char *f, void *val[2])
 	double *nb[2];
 	ssize_t l[2]; /*ssize_t because getxattr can return -1*/
 
-	v[0] = (char *)salloc(XATTR_SIZE_MAX);
-	v[1] = (char *)salloc(XATTR_SIZE_MAX);
+	for(int j = 0; j < 2; j++) /*clean the buffers beforehand*/
+	{
+		v[j] = (char *)salloc(XATTR_SIZE_MAX);
+		memset((void *)v[j], 0, XATTR_SIZE_MAX);
+	}
 
 	if(i < 2) /*if one of them is a literal value*/
 	{
