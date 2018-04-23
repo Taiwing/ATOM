@@ -1,0 +1,3 @@
+#will launch the commands needed to make a .deb
+#package from the source tarball
+debmake && debuild

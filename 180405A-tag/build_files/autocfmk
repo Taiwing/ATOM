@@ -1,0 +1,3 @@
+#commands to use to create configure and make files
+#once configure.ac and Makefile.am have been created
+aclocal && autoconf && automake --add-missing && ./configure && make distcheck

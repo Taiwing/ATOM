@@ -1,0 +1,32 @@
+Format: 1.8
+Date: Mon, 23 Apr 2018 22:33:42 +0200
+Source: tag
+Binary: tag
+Architecture: source amd64
+Version: 0.3.0-1
+Distribution: UNRELEASED
+Urgency: low
+Maintainer: attila <yoann.foreau@protonmail.com>
+Changed-By: attila <yoann.foreau@protonmail.com>
+Description:
+ tag        - auto-generated package by debmake
+Changes:
+ tag (0.3.0-1) UNRELEASED; urgency=low
+ .
+   * Initial release. Closes: #nnnn
+     <nnnn is the bug number of your ITP>
+Checksums-Sha1:
+ 5fa70eacd3143a11a93e2c4397aab874382184fb 797 tag_0.3.0-1.dsc
+ a7350b9508f88906ada529ec3b8d60f928fde7a0 86292 tag_0.3.0.orig.tar.gz
+ 136008555f594adf1577d71ef8827622292e0136 1588 tag_0.3.0-1.debian.tar.xz
+ bfaaa2bb03ee567a8eabc076f6b8c2b5c64bea88 11340 tag_0.3.0-1_amd64.deb
+Checksums-Sha256:
+ 20d53851877c1d5d6deb834e71f96f4b19070cc6a1cdd8d32a7f053704afcfbc 797 tag_0.3.0-1.dsc
+ f8e27f1a2bb29e8308deaf150594c600486dfb300c43d039517535590b571026 86292 tag_0.3.0.orig.tar.gz
+ 2ff0eb089dec3223193ff808d7aa4da6d800315f7773e7795e42c38f571934c5 1588 tag_0.3.0-1.debian.tar.xz
+ 390ac21c6bafced2246d68d96cb31cb4eb31a675dd9a9d2c054921f6d3fe838d 11340 tag_0.3.0-1_amd64.deb
+Files:
+ a681dcdf16d9a321f870acabadb89b27 797 unknown extra tag_0.3.0-1.dsc
+ 181e9781a5827b0dc06eecf8ea29ad3a 86292 unknown extra tag_0.3.0.orig.tar.gz
+ 7e811ad5b38b419d3e7f4845092d6854 1588 unknown extra tag_0.3.0-1.debian.tar.xz
+ 53bff0483e92f1786a97458be0844bf6 11340 unknown extra tag_0.3.0-1_amd64.deb
