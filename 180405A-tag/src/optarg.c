@@ -25,6 +25,7 @@ glob_optarg *getoptarg(int argc, char *argv[])
 
 	int c, indopt;
 	glo->flags = 0;
+	glo->name = NULL;
 	glo->value = NULL;
 	glo->query = NULL;
 
@@ -67,12 +68,14 @@ glob_optarg *getoptarg(int argc, char *argv[])
 	{
 		char *cwd = get_current_dir_name();
 		int l = strlen(cwd);
+		size_t file_size = 0;
 		glo->files = NULL;
-		get_files(cwd, &(glo->files), &(glo->fc),
+		get_files(cwd, &(glo->files),
+							&(glo->fc), &file_size,
 							glo->flags & OPT_RECURSIVE,
 							glo->flags & OPT_ALL);
 		glo->flags &= ~OPT_RECURSIVE; /*removes recursive option*/
-		for(int i = 0; glo->files[i]; i++) /*removes the path*/
+		for(int i = 0; i < glo->fc; i++) /*removes the path*/
 			glo->files[i] += l+1;
 		free(cwd);
 	}

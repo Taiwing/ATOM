@@ -62,7 +62,7 @@ void walloc(void ***buf, size_t *bufsize, int *l)
 {
 	*l = (*l) + 1;
 	size_t newsize = (*l) * sizeof(void *);
-	if(*bufsize < newsize)
+	if((*bufsize) < newsize)
 	{
 		void **newbuf;
 		newsize = (newsize + CHUNK_SIZE-1) & ~(CHUNK_SIZE-1);
@@ -108,11 +108,10 @@ int cmp(const void *p1, const void *p2)
 	return strcmp(*(char **)p1, *(char **)p2);
 }
 
-void get_files(char *dir, char ***files, int *fc, int r, int a)
+void get_files(char *dir, char ***files, int *fc, size_t *size, int r, int a)
 {
 	DIR *dp = opendir(dir);
 	struct dirent *ep;
-	size_t size = (*fc) * sizeof(char *);
 
 	while((ep = readdir(dp)))
 	{
@@ -124,11 +123,11 @@ void get_files(char *dir, char ***files, int *fc, int r, int a)
 			strcat(name, ep->d_name);
 			if(a || ep->d_type != DT_DIR)
 			{
-				walloc((void ***)files, &size, fc);
-				(*files)[*fc-1] = strcpy((char *)salloc(strlen(name)), name);
+				walloc((void ***)files, size, fc);
+				(*files)[*fc-1] = strcpy((char *)salloc(strlen(name)+1), name);
 			}
 			if(r && ep->d_type == DT_DIR)
-			get_files(name, files, fc, r, a);
+				get_files(name, files, fc, size, r, a);
 			free(name);
 		}
 	}
