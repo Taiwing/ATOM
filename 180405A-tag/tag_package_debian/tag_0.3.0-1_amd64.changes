@@ -1,5 +1,5 @@
 Format: 1.8
-Date: Mon, 23 Apr 2018 22:33:42 +0200
+Date: Tue, 24 Apr 2018 13:55:36 +0200
 Source: tag
 Binary: tag
 Architecture: source amd64
@@ -16,17 +16,17 @@ Changes:
    * Initial release. Closes: #nnnn
      <nnnn is the bug number of your ITP>
 Checksums-Sha1:
- 5fa70eacd3143a11a93e2c4397aab874382184fb 797 tag_0.3.0-1.dsc
- a7350b9508f88906ada529ec3b8d60f928fde7a0 86292 tag_0.3.0.orig.tar.gz
- 136008555f594adf1577d71ef8827622292e0136 1588 tag_0.3.0-1.debian.tar.xz
- bfaaa2bb03ee567a8eabc076f6b8c2b5c64bea88 11340 tag_0.3.0-1_amd64.deb
+ 0962cfc5887cf7bcbe8c6565cc2f4de1a9621878 797 tag_0.3.0-1.dsc
+ 0ab2ead6b30c608fdccf31bb05d8bc737f0e1481 86331 tag_0.3.0.orig.tar.gz
+ 53e21f476600f67da22cacd93c7f25f6dff72f3f 1588 tag_0.3.0-1.debian.tar.xz
+ a2ef5c9425e498eee68b417dbdca2cf0e45c5290 11368 tag_0.3.0-1_amd64.deb
 Checksums-Sha256:
- 20d53851877c1d5d6deb834e71f96f4b19070cc6a1cdd8d32a7f053704afcfbc 797 tag_0.3.0-1.dsc
- f8e27f1a2bb29e8308deaf150594c600486dfb300c43d039517535590b571026 86292 tag_0.3.0.orig.tar.gz
- 2ff0eb089dec3223193ff808d7aa4da6d800315f7773e7795e42c38f571934c5 1588 tag_0.3.0-1.debian.tar.xz
- 390ac21c6bafced2246d68d96cb31cb4eb31a675dd9a9d2c054921f6d3fe838d 11340 tag_0.3.0-1_amd64.deb
+ 0f874264d1dc72a6e0b6e9c7ea58b4613d1aff3aa410245bf5e7f978448edc1e 797 tag_0.3.0-1.dsc
+ 3dd6d7312df3b0bd432acec074a8b8513e82952ec663a9167723e7327088d239 86331 tag_0.3.0.orig.tar.gz
+ a270c496683a508f874632a522cc2cbafcd0a939cb2ba775aafdd32bd5cdbe22 1588 tag_0.3.0-1.debian.tar.xz
+ 6b0adedc0e511a91d6d129526ae486f50575544cd2341044fa57c00a8160284f 11368 tag_0.3.0-1_amd64.deb
 Files:
- a681dcdf16d9a321f870acabadb89b27 797 unknown extra tag_0.3.0-1.dsc
- 181e9781a5827b0dc06eecf8ea29ad3a 86292 unknown extra tag_0.3.0.orig.tar.gz
- 7e811ad5b38b419d3e7f4845092d6854 1588 unknown extra tag_0.3.0-1.debian.tar.xz
- 53bff0483e92f1786a97458be0844bf6 11340 unknown extra tag_0.3.0-1_amd64.deb
+ d9cad437ea7bec843fd25bfbd4832810 797 unknown extra tag_0.3.0-1.dsc
+ 9db5ed9a4bdf7e40cc88c53bf260c4af 86331 unknown extra tag_0.3.0.orig.tar.gz
+ e8aff83fc54a4ce0136b9b6693cd0cc2 1588 unknown extra tag_0.3.0-1.debian.tar.xz
+ f0afb02ba6971063af4b231c7619dd26 11368 unknown extra tag_0.3.0-1_amd64.deb

@@ -3,6 +3,7 @@
 static int opterrck(int c, int flags);
 static void help(void);
 static void gloerrck(glob_optarg *glo);
+static void starf(glob_optarg *glo);
 
 struct option longopts[] = {
 	{ "set",				1, 0, 's'},
@@ -65,20 +66,7 @@ glob_optarg *getoptarg(int argc, char *argv[])
 	glo->fc = argc - optind;
 	gloerrck(glo);
 	if(glo->fc == 0) /*if no path is given, '*' is assumed*/
-	{
-		char *cwd = get_current_dir_name();
-		int l = strlen(cwd);
-		size_t file_size = 0;
-		glo->files = NULL;
-		get_files(cwd, &(glo->files),
-							&(glo->fc), &file_size,
-							glo->flags & OPT_RECURSIVE,
-							glo->flags & OPT_ALL);
-		glo->flags &= ~OPT_RECURSIVE; /*removes recursive option*/
-		for(int i = 0; i < glo->fc; i++) /*removes the path*/
-			glo->files[i] += l+1;
-		free(cwd);
-	}
+		starf(glo);
 
 	return glo;
 }
@@ -229,4 +217,23 @@ int filerrck(char *file, int tag_mode)
 		return 1;
 	}
 	return 0;
+}
+
+static void starf(glob_optarg *glo)
+{
+	char *cwd = get_current_dir_name();
+	int l = strlen(cwd);
+	size_t file_size = 0;
+	glo->files = NULL;
+
+	get_files(cwd, &(glo->files),
+						&(glo->fc), &file_size,
+						glo->flags & OPT_RECURSIVE,
+						glo->flags & OPT_ALL);
+	glo->flags &= ~OPT_RECURSIVE; /*removes recursive option*/
+
+	for(int i = 0; i < glo->fc; i++) /*removes the path*/
+		glo->files[i] += l+1;
+
+	free(cwd);
 }

@@ -113,6 +113,8 @@ void get_files(char *dir, char ***files, int *fc, size_t *size, int r, int a)
 	DIR *dp = opendir(dir);
 	struct dirent *ep;
 
+	if(!dp) return; /*if opendir failed, stop function*/
+
 	while((ep = readdir(dp)))
 	{
 		if(strcmp(ep->d_name, ".") != 0 && strcmp(ep->d_name, "..") != 0)
