@@ -1,0 +1,157 @@
+.\" Manpage for tag.
+.\" Contact yoann.foreau@protonmail.com to correct errors or typos.
+.TH man 1 "25 April 2018" "0.3.0" "tag man page"
+.SH NAME
+tag \- organize and search files by tags
+.SH SYNOPSIS
+tag [OPTIONS] [FILES...]
+.SH DESCRIPTION
+tag is a program based on the attr package on linux systems, which allows users to tag files. Tags are labels that have a name and eventually a value associated to it. Tags are useful to organize files in a non-hierarchical way. They allow the user to search and use files based on his own classification sytem.
+.SH OPTIONS
+
+.SS "Core Options"
+.TP
+.B \-s NAME, --set=NAME
+Create a tag labeled NAME on the specified FILES.
+.TP
+.B \-v VAL, --value=VAL
+Set the value of a new tag, or modify it if the tag already exists. Must be used with -s option.
+.TP
+.B \-d NAME, --delete=NAME
+Delete the specified tag if it exits.
+.TP
+.B \-g, --get
+Print every tag and their values for the specified FILES.
+.TP
+.B \-l, --list
+Print a list of every tag on a given PATH.
+
+.SS "Search Options"
+.TP
+.B \-q EXPR, --query=EXPR
+Search tags and print the results or feed them to --set, --delete, --get or --list options if specified.
+
+EXPR is a formated expression which can be a single tag name or a logical operation between multiple tags and values. In a given expression each member is either a tag name, a comparison between tag values or a nested expression between parenthesis. Each member of a given expression is a test, which can return true or false. For example, if a member is a simple tag name, then it will return true for a given file if the tag is set on this specific file. An expression can be articulated by logical operators and bounded with parenthesis. See QUERY section for more details.
+.TP
+.B \-t, --tagged
+List every tagged file, and print the results or feed them to --set, --delete, --get or --list. This option is useless with --delete and --get, because they already target tagged files only.
+.TP
+.B \-u, --untagged
+List every untagged file, and print the results or feed them to --set, --delete, --get or --list. This option is useless with --delete and --get because they don't target untagged files.
+
+.SS "Other Options"
+.TP
+.B \-r, --recursive
+Execute tag functions recursively.
+.TP
+.B \-a, --all
+Include directories.
+.TP
+.B \-h, --help
+Print a help text.
+
+.SH QUERY
+
+.SS "Usage"
+.PP
+Tag queries do three types of operations. Logical operations, which simply consists of
+.B AND
+,
+.B OR
+,
+.B XOR
+and
+.B NOT
+statements to aticulate the query. Relative operations, that are used to compare tag values (which can be numbers and strings).
+And they can check for the presence or absence of a tag on a particular file. A relative operation can take three forms. It can
+be a comparison between two tags (ex: 'tagA>tagB'), which is done by invoking tags by their name. It can be a comparison between
+a tag and a quoted value (ex: 'tag=="whateverstring"'), that can either be a number or a string. It can also be a comparison
+between a tag and an unquoted number (ex: 'tag<=10'). Strings must obviously be quoted to avoid being taken as a tag name.
+.PP
+Parenthesis can be added to isolate and nest some expressions within the query. Individual tag names or relative operations
+can be put between parenthesis but don't need to be. However, superfluous parenthesis, around the entire query or doubled
+around a single expression for example, will result in an error.
+.PP
+Simple queries consisting of one tag name can be left unquoted, but more complex ones should be quoted with a '' pair to avoid
+the shell from interpreting logical and relative operators.
+
+.SS "Logical Operators"
+.PP
+.B '&' - AND:
+will return true if both sides of the expression are true
+.nf
+example: tag -q 'tag&othertag'
+.fi
+.PP
+.B '|' - OR:
+will return true if at least one side of the expression is true
+.nf
+example: tag -q '(tag>5)|othertag'
+.fi
+.PP
+.B '^' - XOR:
+will return true if exactly one side of the expression
+.nf
+is true, but false if both sides are true or false
+example: tag -q 'tag^(othertag&thirdtag)'
+.fi
+.PP
+.B '!' - NOT:
+will return true if an expression is false
+.nf
+example: tag -q '!tag&othertag'
+example: tag -q 'tag^!(othertag=="yousayyes")'
+note: a NOT operation will return every file for which
+the condition tested is false, even untagged files
+.fi
+
+.SS "Relational Operators"
+.PP
+.B '==' - equal:
+will return true if both sides have the same value
+.nf
+example: tag -q 'tag==5'
+example: tag -q 'tag=="string"'
+example: tag -q 'tag==othertag'
+.fi
+.PP
+.B '!=' - not equal:
+will return true if both sides don't have the same value
+.nf
+example: tag -q 'tag!="hello, I\'m a string"'
+note: anti-slashes can be used to escape certain characters
+such as the logical and relational operators and quotes
+.fi
+.PP
+.B '>' - greater than:
+will return true if left value is bigger than right value
+.nf
+example: tag -q 'tag>7'
+example: tag -q 'othertag>"I am an other string"'
+note: string values are ranked by alphabetical order
+(with the ASCII table, using strcmp)
+.fi
+.PP
+.B '<' - lesser than:
+will return true if left value is lesser than right value
+.nf
+example: tag -q 'tag<othertag'
+.fi
+.PP
+.B '>=' - greater or equal:
+will return true if left value is greater or equal to right value
+.nf
+example: tag -q 'tag>=42'
+.fi
+.PP
+.B '<=' - lesser ot equal:
+will return true if left value is lesser or equal to right value
+.nf
+example: tag -q '97<=tag'
+.fi
+.SH SEE ALSO
+tagex(1)
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+Yoann Foreau (yoann.foreau@protonmail.com)

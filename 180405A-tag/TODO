@@ -4,10 +4,31 @@ Packaging:
 
 Functionalities:
 	*add a date format to the tag system
-	*clean the output format
+	*clean the output format and create an option to sort output in different ways
+	*maybe add a concept of "virtual tags" wich would be based on already existing
+	metadata, either specific to the file format (mp3 or avi for example), or more
+	generally on things like access rights, creation and modification dates, size,
+	owner, file format, etc... virtual tags couldn't be directly be modified by tag,
+	but they could be turned to the dark si... I mean they could be turned into real
+	tags, which could be used and modified by the tag program and maybe updated when
+	the vitual tag is modified (which would mean create a type of tag linked to the
+	original data)
+	*create a system to differentiate between different types of tags, for example,
+	every tag could maybe begin with a tag type byte (normal, linked), and with a
+	tag format byte (string, number, date) (the format byte seems more useful than
+	the type byte for now...)
 	*add a save and restore function for the tags
 	*add support for symbolic links
 	*code a file explorer on top of tag (tagex)
+		*maybe in tagex:
+		*add functions to automatically create tags based 
+		on the file path (meaning, the name of the folders it's in)
+		either in a relative or absolute fashion
+		with options to delete all or some of the folders once it is done
+		*and also do the reverse operation, create folders based on all or
+		certain tags, in a "biggest tag first" way (the folders are created
+		in descending order, the first one represent the least rare tags),
+		or in a certain specified way, or order 
 	*and a GUI version of tagex (possibly using GTK)
 
 Misc:
