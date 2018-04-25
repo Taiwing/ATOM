@@ -1,0 +1,14 @@
+Packaging:
+	*choose a licence for the program
+	*test packaging on other systems/CPUs
+
+Functionalities:
+	*add a date format to the tag system
+	*clean the output format
+	*add a save and restore function for the tags
+	*add support for symbolic links
+	*code a file explorer on top of tag (tagex)
+	*and a GUI version of tagex (possibly using GTK)
+
+Misc:
+	*write a man page for the program
