@@ -50,7 +50,7 @@ config.status: executing depfiles commands
 configure: WARNING: unrecognized options: --disable-maintainer-mode
    dh_auto_build
 	make -j1
-make[1] : on entre dans le répertoire « /home/attila/ATOM/180405A-tag/tag_package_debian/tag-0.3.0 »
+make[1] : on entre dans le répertoire « /home/attila/Téléchargements/tag-0.3.0 »
 gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.3.0\" -DPACKAGE_STRING=\"tag\ 0.3.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.3.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/build_qtree.o src/build_qtree.c
 gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.3.0\" -DPACKAGE_STRING=\"tag\ 0.3.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.3.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/main.o src/main.c
 gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.3.0\" -DPACKAGE_STRING=\"tag\ 0.3.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.3.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/match.o src/match.c
@@ -63,23 +63,25 @@ gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.3.0\"
 gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.3.0\" -DPACKAGE_STRING=\"tag\ 0.3.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.3.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/tag_set.o src/tag_set.c
 gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.3.0\" -DPACKAGE_STRING=\"tag\ 0.3.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.3.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/utils.o src/utils.c
 gcc  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security  -Wl,-Bsymbolic-functions -Wl,-z,relro -o tag src/build_qtree.o src/main.o src/match.o src/optarg.o src/query_checker.o src/tag_delete.o src/tag_get.o src/tag_list.o src/tag_query.o src/tag_set.o src/utils.o  
-make[1] : on quitte le répertoire « /home/attila/ATOM/180405A-tag/tag_package_debian/tag-0.3.0 »
+make[1] : on quitte le répertoire « /home/attila/Téléchargements/tag-0.3.0 »
    dh_auto_test
  fakeroot debian/rules binary
 dh binary --with autoreconf 
    dh_testroot
    dh_prep
    dh_auto_install
-	make -j1 install DESTDIR=/home/attila/ATOM/180405A-tag/tag_package_debian/tag-0.3.0/debian/tag AM_UPDATE_INFO_DIR=no
-make[1] : on entre dans le répertoire « /home/attila/ATOM/180405A-tag/tag_package_debian/tag-0.3.0 »
-make[2] : on entre dans le répertoire « /home/attila/ATOM/180405A-tag/tag_package_debian/tag-0.3.0 »
- /bin/mkdir -p '/home/attila/ATOM/180405A-tag/tag_package_debian/tag-0.3.0/debian/tag/usr/bin'
-  /usr/bin/install -c tag '/home/attila/ATOM/180405A-tag/tag_package_debian/tag-0.3.0/debian/tag/usr/bin'
-make[2]: rien à faire pour « install-data-am ».
-make[2] : on quitte le répertoire « /home/attila/ATOM/180405A-tag/tag_package_debian/tag-0.3.0 »
-make[1] : on quitte le répertoire « /home/attila/ATOM/180405A-tag/tag_package_debian/tag-0.3.0 »
+	make -j1 install DESTDIR=/home/attila/Téléchargements/tag-0.3.0/debian/tag AM_UPDATE_INFO_DIR=no
+make[1] : on entre dans le répertoire « /home/attila/Téléchargements/tag-0.3.0 »
+make[2] : on entre dans le répertoire « /home/attila/Téléchargements/tag-0.3.0 »
+ /bin/mkdir -p '/home/attila/Téléchargements/tag-0.3.0/debian/tag/usr/bin'
+  /usr/bin/install -c tag '/home/attila/Téléchargements/tag-0.3.0/debian/tag/usr/bin'
+ /bin/mkdir -p '/home/attila/Téléchargements/tag-0.3.0/debian/tag/usr/share/man/man1'
+ /usr/bin/install -c -m 644 doc/tag.1 '/home/attila/Téléchargements/tag-0.3.0/debian/tag/usr/share/man/man1'
+make[2] : on quitte le répertoire « /home/attila/Téléchargements/tag-0.3.0 »
+make[1] : on quitte le répertoire « /home/attila/Téléchargements/tag-0.3.0 »
    dh_installdocs
    dh_installchangelogs
+   dh_installman
    dh_perl
    dh_link
    dh_strip_nondeterminism
@@ -118,10 +120,9 @@ W: tag: copyright-has-url-from-dh_make-boilerplate
 E: tag: section-is-dh_make-template
 W: tag: superfluous-clutter-in-homepage <insert the upstream URL, if relevant>
 W: tag: bad-homepage <insert the upstream URL, if relevant>
-W: tag: binary-without-manpage usr/bin/tag
 Finished running lintian.
 Now signing changes and any dsc files...
  signfile tag_0.3.0-1.dsc attila <yoann.foreau@protonmail.com>
 gpg: « attila <yoann.foreau@protonmail.com> » a été ignorée : la clef secrète n'est pas disponible
-gpg: /tmp/debsign.usZtRpeW/tag_0.3.0-1.dsc: clearsign failed: la clef secrète n'est pas disponible
+gpg: /tmp/debsign.yI0nIBnu/tag_0.3.0-1.dsc: clearsign failed: la clef secrète n'est pas disponible
 debsign: gpg error occurred!  Aborting....

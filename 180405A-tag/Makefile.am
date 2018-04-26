@@ -18,3 +18,4 @@ src/tag_list.c\
 src/tag_query.c\
 src/tag_set.c\
 src/utils.c
+dist_man_MANS = doc/tag.1

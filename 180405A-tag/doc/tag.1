@@ -1,12 +1,35 @@
 .\" Manpage for tag.
 .\" Contact yoann.foreau@protonmail.com to correct errors or typos.
 .TH man 1 "25 April 2018" "0.3.0" "tag man page"
+
 .SH NAME
 tag \- organize and search files by tags
+
 .SH SYNOPSIS
 tag [OPTIONS] [FILES...]
+
 .SH DESCRIPTION
-tag is a program based on the attr package on linux systems, which allows users to tag files. Tags are labels that have a name and eventually a value associated to it. Tags are useful to organize files in a non-hierarchical way. They allow the user to search and use files based on his own classification sytem.
+.PP
+tag is a program which allows users to tag files. Tags are labels that have a name and eventually
+a value associated to it. Tags are useful to organize files in a non-hierarchical way. They allow
+the user to search, display and use files based on his own classification system.
+.PP
+It can be used to classify an ebook library for example. The user can set tags corresponding to the genre
+of the book, to its author or its relesae date. Personnalized tags can be added, such as a 'best' tag to
+easily retrieve favourite books, or a read date to know when a book was read for the last time, etc...
+Although this kind of metadata can already be specified with some file formats, it is closed (meaning that
+the user can't create new labels as he wants to), and non-standardized (different formats will have different
+fields of information available). With tag, a user can assaciotiate any new information to any file.
+So the same can also be done for any type of data, like pictures or music. Even program binaries and
+sytem files can be tagged, if additional information is required by the administrator of the system. For
+example, the administrator could want to keep track of why some programs were installed, and could easely
+tag the binaries to remember it.
+.PP
+tag is based on the attr package. It uses the extended attributes system embedded in ext file systems
+on linux. So when a file is tagged using tag, it isn't modified, only its metadata is changed. The
+attribute-based tagging system has the advantage of not modifying the files, and not having to
+manage an external data base. That's why tag can be used as is, without any index or configuration file.
+
 .SH OPTIONS
 
 .SS "Core Options"
@@ -55,10 +78,8 @@ Print a help text.
 .SS "Usage"
 .PP
 Tag queries do three types of operations. Logical operations, which simply consists of
-.B AND
-,
-.B OR
-,
+.B AND,
+.B OR,
 .B XOR
 and
 .B NOT
@@ -118,9 +139,7 @@ example: tag -q 'tag==othertag'
 .B '!=' - not equal:
 will return true if both sides don't have the same value
 .nf
-example: tag -q 'tag!="hello, I\'m a string"'
-note: anti-slashes can be used to escape certain characters
-such as the logical and relational operators and quotes
+example: tag -q 'tag!="hello, I am a string"'
 .fi
 .PP
 .B '>' - greater than:
