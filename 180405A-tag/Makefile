@@ -102,8 +102,8 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
-am_tag_OBJECTS = src/build_qtree.$(OBJEXT) src/main.$(OBJEXT) \
-	src/match.$(OBJEXT) src/optarg.$(OBJEXT) \
+am_tag_OBJECTS = src/build_qtree.$(OBJEXT) src/format.$(OBJEXT) \
+	src/main.$(OBJEXT) src/match.$(OBJEXT) src/optarg.$(OBJEXT) \
 	src/query_checker.$(OBJEXT) src/tag_delete.$(OBJEXT) \
 	src/tag_get.$(OBJEXT) src/tag_list.$(OBJEXT) \
 	src/tag_query.$(OBJEXT) src/tag_set.$(OBJEXT) \
@@ -301,14 +301,16 @@ top_build_prefix =
 top_builddir = .
 top_srcdir = .
 AUTOMAKE_OPTIONS = foreign subdir-objects
-tag_SOURCES = src/include/main.h\
+tag_SOURCES = src/include/format.h\
+src/include/info.h\
+src/include/main.h\
 src/include/optarg.h\
 src/include/tag.h\
 src/include/tag_query.h\
 src/include/utils.h\
-src/include/info.h\
 src/include/xattr_max.h\
 src/build_qtree.c\
+src/format.c\
 src/main.c\
 src/match.c\
 src/optarg.c\
@@ -408,6 +410,8 @@ src/$(DEPDIR)/$(am__dirstamp):
 	@: > src/$(DEPDIR)/$(am__dirstamp)
 src/build_qtree.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/format.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 src/main.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 src/match.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
 src/optarg.$(OBJEXT): src/$(am__dirstamp) \
@@ -438,6 +442,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 include src/$(DEPDIR)/build_qtree.Po
+include src/$(DEPDIR)/format.Po
 include src/$(DEPDIR)/main.Po
 include src/$(DEPDIR)/match.Po
 include src/$(DEPDIR)/optarg.Po

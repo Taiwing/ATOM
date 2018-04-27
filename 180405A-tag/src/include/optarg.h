@@ -13,6 +13,7 @@
 #include <errno.h>			/*to check errno in filerrck*/
 #include "xattr_max.h"	/*limits of xattr values*/
 #include "utils.h"			/*for get_files*/
+#include "format.h"			/*for check_format*/
 
 #define CMD_LINE_OPTIONS "s:d:glv:raq:tuh"
 #define CMD_LINE_SPEC1 "{-s name} [-v value] files..."

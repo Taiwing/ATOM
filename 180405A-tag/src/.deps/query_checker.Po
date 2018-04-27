@@ -35,7 +35,8 @@ src/query_checker.o: src/query_checker.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
  /usr/include/x86_64-linux-gnu/bits/environments.h \
  /usr/include/x86_64-linux-gnu/bits/confname.h \
- /usr/include/x86_64-linux-gnu/bits/unistd.h src/include/xattr_max.h
+ /usr/include/x86_64-linux-gnu/bits/unistd.h src/include/xattr_max.h \
+ src/include/format.h
 
 /usr/include/stdc-predef.h:
 
@@ -150,3 +151,5 @@ src/include/optarg.h:
 /usr/include/x86_64-linux-gnu/bits/unistd.h:
 
 src/include/xattr_max.h:
+
+src/include/format.h:

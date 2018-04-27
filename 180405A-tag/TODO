@@ -6,6 +6,9 @@ Functionalities:
 	*add a date format to the tag system
 	*maybe think about adding other formats, like URLs or links to files,
 	which could be very useful in a tag explorer
+	*rethink hard about the tag format system, and clear everything in the code
+		*direcly write tag's ass values as the type they are (a floting point
+		number for NB, a struct date for DATE, a string for STR, etc...)
 	*extend the number format to authorize things like exponents and stuff
 	*clean the output format and create an option to sort output in different ways
 	*maybe add a concept of "virtual tags" wich would be based on already existing

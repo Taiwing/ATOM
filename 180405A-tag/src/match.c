@@ -56,7 +56,7 @@ static int do_rel_op(query_node *nd, const char *f)
 			{
 				if(type == NB)
 					nb_val[j] = j == i ? nd->dt[j]->nb : *((double *)val[j]);
-				else
+				else if(type == STR)
 					str_val[j] = j == i ? nd->dt[j]->str : (char *)val[j];
 			}
 		else
@@ -64,10 +64,10 @@ static int do_rel_op(query_node *nd, const char *f)
 			{
 				if(type == NB)
 					nb_val[j] =  *((double *)val[j]);
-				else
+				else if(type == STR)
 					str_val[j] = (char *)val[j];
 			}
-		switch(nd->rel_op)
+		switch(nd->rel_op) /*TODO: add a datecmp function call here*/
 		{
 			case EQ:
 				ret = type == NB ? (nb_val[0] == nb_val[1])
@@ -120,52 +120,48 @@ static int dt_type_match(query_node *nd, int i, const char *f, void *val[2])
 
 	if(i < 2) /*if one of them is a literal value*/
 	{
-		switch(nd->dt_type[i]) /*check if the other is of the same type*/
+		if((l[!i] = getxattr(f, nd->dt[!i]->attr, v[!i], XATTR_SIZE_MAX)) > 0
+		&& nd->dt_type[i] == v[!i][0])
 		{
-			case STR:
-				if((l[!i] = getxattr(f, nd->dt[!i]->attr, v[!i], XATTR_SIZE_MAX)) > 0)
-				{
-					ret = STR;
-					val[!i] = (void *)v[!i];
-				}
-				break;
-			case NB:
-				if((l[!i] = getxattr(f, nd->dt[!i]->attr, v[!i], XATTR_SIZE_MAX)) > 0
-					 && is_numeric(v[!i], l[!i]))
-				{
-					ret = NB;
+			ret = nd->dt_type[i];
+			switch(ret)	/*TODO: add date format*/
+			{
+				case STR: val[!i] = (void *)(v[!i]+1); /*format byte is skipped*/
+					break;
+				case NB:
 					nb[!i] = (double *)salloc(sizeof(double));
-					*(nb[!i]) = atof(v[!i]);
+					*(nb[!i]) = atof(v[!i]+1);
 					val[!i] = (void *)nb[!i];
-				}
-				break;
+					break;
+			}
 		}
 	}
 	else
 	{
 		if((l[0] = getxattr(f, nd->dt[0]->attr, v[0], XATTR_SIZE_MAX)) > 0
-			 && (l[1] = getxattr(f, nd->dt[0]->attr, v[0], XATTR_SIZE_MAX)) > 0)
+		&& (l[1] = getxattr(f, nd->dt[1]->attr, v[1], XATTR_SIZE_MAX)) > 0
+		&& v[0][0] == v[1][0])
 		{
-			if(is_numeric(v[0], l[0]) && is_numeric(v[1], l[1]))
+			ret = v[0][0];
+			switch(ret) /*TODO: add date format*/
 			{
-				ret = NB;
-				for(int j = 0; j < 2; j++)
-				{
-					nb[j] = (double *)salloc(sizeof(double));
-					*(nb[j]) = atof(v[j]);
-					val[j] = (void *)nb[j];
-				}
-			}
-			else
-			{
-				ret = STR;
-				val[0] = (void *)v[0];
-				val[1] = (void *)v[1];
+				case STR:
+					val[0] = (void *)(v[0]+1);
+					val[1] = (void *)(v[1]+1);
+					break;
+				case NB:
+					for(int j = 0; j < 2; j++)
+					{
+						nb[j] = (double *)salloc(sizeof(double));
+						*(nb[j]) = atof(v[j]+1);
+						val[j] = (void *)nb[j];
+					}
+					break;
 			}
 		}
 	}
 
-	if(ret == 0 || ret == NB)
+	if(ret == 0 || ret == NB) /*TODO: add date format*/
 		for(int j = 0; j < 2; j++)
 			free(v[j]);
 	else if(i < 2)

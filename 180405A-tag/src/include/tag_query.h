@@ -20,16 +20,6 @@ extern char *ro_str[];
 
 enum REL_OPS {EQ = 1, NEQ, GEQ, LEQ, GT, LT};
 
-enum DT_TYPES {ATTR, STR, NB, DATE};
-
-typedef union tag_val
-{
-	char *attr;	/*if a tag_value is being compared*/
-	char *str;	/*if it is a string*/
-	double nb;	/*if it is a number*/
-	/*stuct date *dt; if it is a date*/
-} tag_val;
-
 typedef struct query_node
 {
 	int log_op;	/*AND OR XOR NOT 0*/
@@ -37,7 +27,7 @@ typedef struct query_node
 	/*dt will store the name of the attribute*/
 	/*to be tested, if node is a leaf and rel_op == 0*/
 	tag_val *dt[2];	/*only the first one is used if rel_op == 0*/
-	int dt_type[2];	/*stores the type of value in dt*/
+	char dt_type[2];	/*stores the type of value in dt*/
 	struct query_node *left;	/*next lighter node*/
 	struct query_node *right;	/*next heavier node*/
 } query_node;

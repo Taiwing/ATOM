@@ -137,19 +137,16 @@ static void def_rel_val(query_node *nd, char *query, size_t n, char *r)
 			/*revmove quotes from char count*/
 			l[i] -= 2;
 			relelm[i]++;
+			nd->dt_type[i] = check_format(relelm[i], l[i]);
 
 			/*then it is the value*/
-			if(is_numeric(relelm[i], l[i]))
-			{
+			if(nd->dt_type[i] == NB)
 				nd->dt[i]->nb = atof(relelm[i]);
-				nd->dt_type[i] = NB;
-			}
-			else
+			else if(nd->dt_type[i] == STR)
 			{
 				nd->dt[i]->str = strncpy((char *)salloc(l[i]+1), relelm[i], l[i]);
 				nd->dt[i]->str[l[i]] = '\0';
 				rmbs(nd->dt[i]->str, l[i]);
-				nd->dt_type[i] = STR;
 			}
 
 			/*and the other is the attribute*/
@@ -164,7 +161,7 @@ static void def_rel_val(query_node *nd, char *query, size_t n, char *r)
 	/*if none of them is quoted*/
 	for(int i = 0; i < 2; i++)
 	{
-		if(is_numeric(relelm[i], l[i])) /*if one of them is a numerical string*/
+		if(check_format(relelm[i], l[i]) == NB) /*if one of them is a numerical string*/
 		{
 			/*then it is the value*/
 			nd->dt[i]->nb = atof(relelm[i]);

@@ -21,7 +21,6 @@ int cmp(const void *p1, const void *p2);
 void get_files(char *dir, char ***files, int *fc, size_t *size, int r, int a);
 void rmbs(char *str, size_t n);
 int is_quoted(char *str, size_t l);
-int is_numeric(char *str, size_t l);
 
 /*stores 16 pointers on a 64 bits sytem and 32 on a 32 bits*/
 #define CHUNK_SIZE 1024

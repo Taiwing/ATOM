@@ -6,6 +6,7 @@
 #include <attr/xattr.h>			/*for extended attributes functions*/
 #include <ftw.h> 						/*for recursive option*/
 #include "optarg.h"
+#include "format.h"
 
 /*string to add to tag name for setxattr and removexattr*/
 /*and to remove for listxattr, LU being its length*/
