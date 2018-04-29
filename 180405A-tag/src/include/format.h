@@ -1,7 +1,8 @@
 #ifndef FORMAT_H
 #define FORMAT_H
 #include <sys/types.h>			/*for the size_t type*/
-#include <stdint.h>					/*for fixed length integers*/
+#include <inttypes.h>				/*for fixed length integers*/
+#include "read_write.h"
 
 /*TODO:*/
 /*retag every tagged file with the new tag format*/
@@ -14,26 +15,7 @@
 /*easely from one computer to the next, without having to convert anything)*/
 /*and they must all begin with a format byte*/
 
-/*tag values formats*/
-/*ATTR means no format specified (useful in match.c)*/
-/*aside from ATTR, each format is attributed a character*/
-/*which will be appended at the begining of every tag value*/
-enum formats {
-	ATTR = 0,
-	STR = 'S',
-	NB = 'N',
-	DATE = 'D'
-};
-
 /*format structures*/
-typedef uint8_t* W_STR_VAL; /*is always one byte longer than value string*/
-
-typedef struct W_NB_VAL
-{
-	uint8_t format;
-	
-} W_NB_VAL;
-
 typedef struct date
 {
 	int y;		/*Year*/

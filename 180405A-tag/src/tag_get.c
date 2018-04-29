@@ -40,7 +40,25 @@ static void printx(const char *file)
 			printf("%s", splitl[i]+LU); /*prints tag name without "user." prefix*/
 			lv = getxattr(file, splitl[i], (void *)v, XATTR_SIZE_MAX);
 			if(lv)
-				printf(" = \"%s\"", v);
+			{
+				R_TAG val;
+				uint8_t format = read_value(v, lv, &val);
+				switch(format)
+				{
+					case STR:
+						printf(" = \"%s\"", (char *)(val.str));
+						free(val.str);
+						break;
+					case NB:
+						printf(" = %+"PRId64"", val.nb);
+						break;
+					case DATE:
+						printf(" = %"PRIu8"/%"PRIu8"/%+"PRId64"", val.date->day,
+									 val.date->month, val.date->year);
+						free(val.date);
+						break;
+				}
+			}
 			puts("");
 		}
 		free(splitl);

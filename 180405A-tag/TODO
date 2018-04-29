@@ -39,3 +39,10 @@ Functionalities:
 	could be setup to automatically tag files based on certain cues and events
 	in the system, or could prompt the user to enter certain tag values
 	*and a GUI version of tagex (possibly using GTK)
+
+multi-plaform support:
+	*create a fixed-width int based string library (reimplement needed
+	functions such as strlen, strcat, strcpy, strcomp, etc...)
+	*do the same with the custom fixed-width float numbers
+	*then change the number format to include non-int numbers
+	*once all of that is done, make the writing functions endian agnostic

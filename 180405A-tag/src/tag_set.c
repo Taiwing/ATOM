@@ -1,7 +1,8 @@
 #include "include/tag.h"
 
 /*glob var for access in rec_setx function*/
-char *name, *value = NULL;
+char *name;
+void *value = NULL;
 size_t vallen = 0;
 int opt_all;
 
@@ -15,10 +16,8 @@ void tags(glob_optarg *glo)
 	strcat(name, glo->name); /*and the name of the tag*/
 	if(glo->value)
 	{
-		vallen = strlen(glo->value)+1;		/*one byte is added for the format byte*/
-		value = (char *)salloc(vallen+1);		/*one byte is added for the null_byte*/
-		value[0] = check_format(glo->value, vallen-1);	/*format byte is defined*/
-		strcpy(value+1, glo->value);	/*value is copied*/
+		char format = check_format(glo->value, vallen-1); /*format byte is defined*/
+		value = write_value(glo->value, &vallen, format);
 	}
 	opt_all = (glo->flags & OPT_ALL);
 
