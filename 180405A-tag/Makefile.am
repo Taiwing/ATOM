@@ -4,6 +4,7 @@ tag_SOURCES = src/include/format.h\
 src/include/info.h\
 src/include/main.h\
 src/include/optarg.h\
+src/include/read_write.h\
 src/include/tag.h\
 src/include/tag_query.h\
 src/include/utils.h\
@@ -14,6 +15,7 @@ src/main.c\
 src/match.c\
 src/optarg.c\
 src/query_checker.c\
+src/read_write.c\
 src/tag_delete.c\
 src/tag_get.c\
 src/tag_list.c\

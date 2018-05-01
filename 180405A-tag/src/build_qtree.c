@@ -4,6 +4,7 @@ static int weight(char **expr, size_t *n);
 static int get_log_op(char *query, size_t n, char **p, size_t *j);
 static int get_rel_op(char *query, size_t n, char **r);
 static void def_rel_val(query_node *nd, char *query, size_t n, char *r);
+static date_s *read_date(char *str, size_t l);
 
 /*if it is, this one builds the structure for it*/
 query_node *build_qtree(char *query, size_t n)
@@ -33,7 +34,7 @@ query_node *build_qtree(char *query, size_t n)
 		nd->rel_op = get_rel_op(query, n, &r);
 		if(nd->rel_op == 0)
 		{
-			nd->dt[0] = (tag_val *)salloc(sizeof(tag_val));
+			nd->dt[0] = (tag_val*)salloc(sizeof(tag_val));
 			nd->dt[0]->attr = strcpy((char *)salloc(n+LU+1), USER);
 			strncat(nd->dt[0]->attr, query, n);
 			rmbs(nd->dt[0]->attr, n+LU);
@@ -127,8 +128,11 @@ static void def_rel_val(query_node *nd, char *query, size_t n, char *r)
 	char *relelm[2] = {query, &(r[strlen(ro_str[nd->rel_op])])};
 	l[0] = r-query; /*lengh of left string*/
 	l[1] = n-l[0]-strlen(ro_str[nd->rel_op]); /*length of right string*/
-	nd->dt[0] = (tag_val *)salloc(sizeof(tag_val));
-	nd->dt[1] = (tag_val *)salloc(sizeof(tag_val));
+	for(int i = 0; i < 2; i++)
+	{
+		nd->dt[i] = (tag_val*)salloc(sizeof(tag_val));
+		nd->dt[i]->val = (R_TAG *)salloc(sizeof(R_TAG));
+	}
 
 	for(int i = 0; i < 2; i++)
 	{
@@ -137,23 +141,26 @@ static void def_rel_val(query_node *nd, char *query, size_t n, char *r)
 			/*revmove quotes from char count*/
 			l[i] -= 2;
 			relelm[i]++;
-			nd->dt_type[i] = check_format(relelm[i], l[i]);
+			nd->dt[i]->type = check_format(relelm[i], l[i]);
 
 			/*then it is the value*/
-			if(nd->dt_type[i] == NB)
-				nd->dt[i]->nb = atof(relelm[i]);
-			else if(nd->dt_type[i] == STR)
+			if(nd->dt[i]->type == NB)
+				nd->dt[i]->val->nb = (int64_t)atoi(relelm[i]);
+			else if(nd->dt[i]->type == STR)
 			{
-				nd->dt[i]->str = strncpy((char *)salloc(l[i]+1), relelm[i], l[i]);
-				nd->dt[i]->str[l[i]] = '\0';
-				rmbs(nd->dt[i]->str, l[i]);
+				nd->dt[i]->val->str = (uint8_t *)salloc(l[i]+1);
+				strncpy((char *)(nd->dt[i]->val->str), relelm[i], l[i]);
+				nd->dt[i]->val->str[l[i]] = '\0';
+				rmbs((char *)(nd->dt[i]->val->str), l[i]);
 			}
+			else if(nd->dt[i]->type == DATE)
+				nd->dt[i]->val->date = read_date(relelm[i], l[i]);
 
 			/*and the other is the attribute*/
 			nd->dt[!i]->attr = strcpy((char *)salloc(l[!i]+LU+1), USER);
 			strncat(nd->dt[!i]->attr, relelm[!i], l[!i]);
 			rmbs(nd->dt[!i]->attr, l[!i]+LU);
-			nd->dt_type[!i] = ATTR;
+			nd->dt[!i]->type = ATTR;
 			return;
 		}
 	}
@@ -161,17 +168,20 @@ static void def_rel_val(query_node *nd, char *query, size_t n, char *r)
 	/*if none of them is quoted*/
 	for(int i = 0; i < 2; i++)
 	{
-		if(check_format(relelm[i], l[i]) == NB) /*if one of them is a numerical string*/
+		nd->dt[i]->type = check_format(relelm[i], l[i]);
+		if(nd->dt[i]->type != STR) /*if one of them is formatted*/
 		{
 			/*then it is the value*/
-			nd->dt[i]->nb = atof(relelm[i]);
-			nd->dt_type[i] = NB;
+			if(nd->dt[i]->type == NB)
+				nd->dt[i]->val->nb = (int64_t)atoi(relelm[i]);
+			else if(nd->dt[i]->type == DATE)
+				nd->dt[i]->val->date = read_date(relelm[i], l[i]);
 
 			/*and the other is the attribute*/
 			nd->dt[!i]->attr = strcpy((char *)salloc(l[!i]+LU+1), USER);
 			strncat(nd->dt[!i]->attr, relelm[!i], l[!i]);
 			rmbs(nd->dt[!i]->attr, l[!i]+LU);
-			nd->dt_type[!i] = ATTR;
+			nd->dt[!i]->type = ATTR;
 			return;
 		}
 	}
@@ -181,6 +191,41 @@ static void def_rel_val(query_node *nd, char *query, size_t n, char *r)
 	{
 		nd->dt[i]->attr = strcpy((char *)salloc(l[i]+LU+1), USER);
 		strncat(nd->dt[i]->attr, relelm[i], l[i]);
-		nd->dt_type[i] = ATTR;
+		nd->dt[i]->type = ATTR;
 	}
+}
+
+static date_s *read_date(char *str, size_t l)
+{
+	date_s *date = (date_s *)salloc(sizeof(date_s));
+	int hc = 0; 	/*hyphen count*/
+	int dc = 1; 	/*decimal count*/
+
+	date->year = 0;
+	date->month = 0;
+	date->day = 0;
+
+	for(char *p = str+l-1; p >= str; p--)
+	{
+		if(hc < 2 && *p == '-')
+		{
+			dc = 1;
+			hc++;
+		}
+		else
+		{
+			if(hc == 0)
+				date->day += (uint8_t)(((*p)-48)*dc);
+			else if(hc == 1)
+				date->month += (uint8_t)(((*p)-48)*dc);
+			else if(hc == 2 && *p >= '0' && *p <= '9')
+				date->year += (int64_t)(((*p)-48)*dc);
+			else if(hc == 2 && *p == '-')
+				date->year *= -1;
+
+			dc *= 10;
+		}
+	}
+
+	return date;
 }

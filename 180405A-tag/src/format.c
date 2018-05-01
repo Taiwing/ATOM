@@ -1,6 +1,6 @@
 #include "include/format.h"
 
-/*TODO: protect against integer overflow and aberrant date values*/
+/*TODO: protect against integer overflow and rogue date values*/
 
 static int is_numeric(char *str, size_t l);
 static int is_date(char *str, size_t l);

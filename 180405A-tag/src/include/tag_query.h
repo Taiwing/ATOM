@@ -20,14 +20,18 @@ extern char *ro_str[];
 
 enum REL_OPS {EQ = 1, NEQ, GEQ, LEQ, GT, LT};
 
+typedef struct tag_val
+{
+	uint8_t type;
+	char *attr;
+	R_TAG *val;
+} tag_val;
+
 typedef struct query_node
 {
 	int log_op;	/*AND OR XOR NOT 0*/
 	int rel_op;	/*EQ, NEQ, GT, LT, GEQ, LEQ 0*/
-	/*dt will store the name of the attribute*/
-	/*to be tested, if node is a leaf and rel_op == 0*/
-	tag_val *dt[2];	/*only the first one is used if rel_op == 0*/
-	char dt_type[2];	/*stores the type of value in dt*/
+	tag_val *dt[2];	/*stores the tag names and values*/
 	struct query_node *left;	/*next lighter node*/
 	struct query_node *right;	/*next heavier node*/
 } query_node;

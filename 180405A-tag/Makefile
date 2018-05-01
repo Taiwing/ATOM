@@ -104,10 +104,10 @@ PROGRAMS = $(bin_PROGRAMS)
 am__dirstamp = $(am__leading_dot)dirstamp
 am_tag_OBJECTS = src/build_qtree.$(OBJEXT) src/format.$(OBJEXT) \
 	src/main.$(OBJEXT) src/match.$(OBJEXT) src/optarg.$(OBJEXT) \
-	src/query_checker.$(OBJEXT) src/tag_delete.$(OBJEXT) \
-	src/tag_get.$(OBJEXT) src/tag_list.$(OBJEXT) \
-	src/tag_query.$(OBJEXT) src/tag_set.$(OBJEXT) \
-	src/utils.$(OBJEXT)
+	src/query_checker.$(OBJEXT) src/read_write.$(OBJEXT) \
+	src/tag_delete.$(OBJEXT) src/tag_get.$(OBJEXT) \
+	src/tag_list.$(OBJEXT) src/tag_query.$(OBJEXT) \
+	src/tag_set.$(OBJEXT) src/utils.$(OBJEXT)
 tag_OBJECTS = $(am_tag_OBJECTS)
 tag_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
@@ -305,6 +305,7 @@ tag_SOURCES = src/include/format.h\
 src/include/info.h\
 src/include/main.h\
 src/include/optarg.h\
+src/include/read_write.h\
 src/include/tag.h\
 src/include/tag_query.h\
 src/include/utils.h\
@@ -315,6 +316,7 @@ src/main.c\
 src/match.c\
 src/optarg.c\
 src/query_checker.c\
+src/read_write.c\
 src/tag_delete.c\
 src/tag_get.c\
 src/tag_list.c\
@@ -418,6 +420,8 @@ src/optarg.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/query_checker.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/read_write.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 src/tag_delete.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/tag_get.$(OBJEXT): src/$(am__dirstamp) \
@@ -447,6 +451,7 @@ include src/$(DEPDIR)/main.Po
 include src/$(DEPDIR)/match.Po
 include src/$(DEPDIR)/optarg.Po
 include src/$(DEPDIR)/query_checker.Po
+include src/$(DEPDIR)/read_write.Po
 include src/$(DEPDIR)/tag_delete.Po
 include src/$(DEPDIR)/tag_get.Po
 include src/$(DEPDIR)/tag_list.Po

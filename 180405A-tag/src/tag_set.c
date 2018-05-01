@@ -16,7 +16,8 @@ void tags(glob_optarg *glo)
 	strcat(name, glo->name); /*and the name of the tag*/
 	if(glo->value)
 	{
-		char format = check_format(glo->value, vallen-1); /*format byte is defined*/
+		vallen = strlen(glo->value);
+		char format = check_format(glo->value, vallen); /*format byte is defined*/
 		value = write_value(glo->value, &vallen, format);
 	}
 	opt_all = (glo->flags & OPT_ALL);
