@@ -1,0 +1,21 @@
+#!/bin/bash
+#First run "tag -rat PATH > list" on the folder/file`
+
+while IFS= read -r FILE
+do
+	getfattr -d "$FILE" > tmp
+	while IFS= read -r line
+	do
+		if [[ ${line:0:6} != '# file' ]]; then
+			value=${line#*=}   # remove prefix ending with "="
+			if [[ ${value:0:1} = '"' ]]; then
+				name=${line#*.}   # remove prefix ending in "."
+				name=${name%=*}   # remove suffix starting with "="
+				value=${value#*\"}
+				value=${value%\"*}
+				echo "$name: $value";
+				./tag -s $name -v "$value" "$FILE"
+			fi
+		fi
+	done < tmp
+done < list

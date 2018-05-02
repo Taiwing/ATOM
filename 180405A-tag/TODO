@@ -3,14 +3,12 @@ Packaging:
 	*test packaging on other systems/CPUs
 
 Functionalities:
-	*add a date format to the tag system
 	*maybe think about adding other formats, like URLs or links to files,
 	which could be very useful in a tag explorer
-	*rethink hard about the tag format system, and clear everything in the code
-		*direcly write tag's ass values as the type they are (a floting point
-		number for NB, a struct date for DATE, a string for STR, etc...)
+	*create a fixed-width float numbers library
+	*add a float format (or replace W_TAG_INT by a W_TAG_NB), if adding is chosen
+	make it possible to compare tag integers and tag floats as if they were the same
 	*extend the number format to authorize things like exponents and stuff
-	*clean the output format and create an option to sort output in different ways
 	*maybe add a concept of "virtual tags" wich would be based on already existing
 	metadata, either specific to the file format (mp3 or avi for example), or more
 	generally on things like access rights, creation and modification dates, size,
@@ -19,14 +17,9 @@ Functionalities:
 	tags, which could be used and modified by the tag program and maybe updated when
 	the vitual tag is modified (which would mean create a type of tag linked to the
 	original data)
-	*create a system to differentiate between different types of tags, for example,
-	every tag could maybe begin with a tag type byte (normal, linked), and with a
-	tag format byte (string, number, date) (the format byte seems more useful than
-	the type byte for now...)
 	*add a save and restore function for the tags
 	*add support for symbolic links
 	*code a file explorer on top of tag (tagex)
-		*maybe in tagex:
 		*add functions to automatically create tags based 
 		on the file path (meaning, the name of the folders it's in)
 		either in a relative or absolute fashion
@@ -34,15 +27,14 @@ Functionalities:
 		*and also do the reverse operation, create folders based on all or
 		certain tags, in a "biggest tag first" way (the folders are created
 		in descending order, the first one represent the least rare tags),
-		or in a certain specified way, or order 
+		or in a certain specified way, or order
 	*also, once again on top of that, maybe create a autotag utility, which
 	could be setup to automatically tag files based on certain cues and events
 	in the system, or could prompt the user to enter certain tag values
 	*and a GUI version of tagex (possibly using GTK)
 
 multi-plaform support:
-	*create a fixed-width int based string library (reimplement needed
-	functions such as strlen, strcat, strcpy, strcomp, etc...)
-	*do the same with the custom fixed-width float numbers
-	*then change the number format to include non-int numbers
-	*once all of that is done, make the writing functions endian agnostic
+	*make the writing functions endian agnostic
+
+misc:
+	*update the manual with the format concep (date in particular)

@@ -30,8 +30,6 @@ typedef struct W_TAG_DATE
 	uint8_t f_d_m_y[11];	/*format byte, day and month bytes, and 8 byte year*/
 } W_TAG_DATE;
 
-/*the year being a seven bytes integer*/
-/*max absolute value = 2^55-1 = 36.028.797.020.000.000*/
 typedef struct date_s
 {
 	int64_t year;

@@ -5,6 +5,7 @@ int opt_all;
 static void printx(const char *file);
 static int rec_printx(const char *fpath, const struct stat *sb,
 											int tflag, struct FTW *ftwbuf);
+static void print_date(date_s *date);
 
 void tagg(glob_optarg *glo)
 {
@@ -50,11 +51,10 @@ static void printx(const char *file)
 						free(val.str);
 						break;
 					case NB:
-						printf(" = %+"PRId64"", val.nb);
+						printf(" = %"PRId64"", val.nb);
 						break;
 					case DATE:
-						printf(" = %"PRIu8"/%"PRIu8"/%+"PRId64"", val.date->day,
-									 val.date->month, val.date->year);
+						print_date(val.date);
 						free(val.date);
 						break;
 				}
@@ -75,4 +75,23 @@ static int rec_printx(const char *fpath, const struct stat *sb,
 	if(S_ISREG(sb->st_mode) || opt_all)
 		printx(fpath);
 	return 0;
+}
+
+static void print_date(date_s *date)
+{
+	if(date->day < 10)
+		printf(" = 0%"PRIu8"/", date->day);
+	else
+		printf(" = %"PRIu8"/", date->day);
+	if(date->month < 10)
+		printf("0%"PRIu8"/", date->month);
+	else
+		printf("%"PRIu8"/", date->month);
+
+	int64_t abs_year = date->year < 0 ? date->year * (-1) : date->year;
+	if(date->year < 0)
+		printf("-");
+	for(int64_t cmp = 10; (cmp * abs_year) < 1000; cmp *= 10)
+		printf("0");
+	printf("%"PRId64"", abs_year);
 }
