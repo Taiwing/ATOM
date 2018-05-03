@@ -14,9 +14,9 @@ uint8_t read_value(void *raw_val, size_t size, R_TAG *val)
 			for(size_t i = 0; i < size-1; i++)
 				val->str[i] = ((uint8_t *)raw_val)[i+1];
 			break;
-		case NB: /*number*/
+		case INT: /*integer*/
 			for(int i = 0; i < 8; i++)
-				((uint8_t *)&(val->nb))[i] = ((uint8_t *)raw_val)[i+1];
+				((uint8_t *)&(val->inb))[i] = ((uint8_t *)raw_val)[i+1];
 			break;
 		case DATE: /*date*/
 			val->date = (date_s *)salloc(sizeof(date_s));
@@ -40,12 +40,12 @@ void *write_value(char *valstring, size_t *vallen, char format)
 			strcpy((char *)str+1, valstring);
 			return (void *)str;
 			break;
-		case NB:
+		case INT:
 			*vallen = sizeof(W_TAG_INT);
-			W_TAG_INT *nb = (W_TAG_INT *)salloc(sizeof(W_TAG_INT));
-			nb->f_int[0] = format;
-			*((int64_t *)(&(nb->f_int[1]))) = (int64_t)atoi(valstring);
-			return (void *)(nb);
+			W_TAG_INT *inb = (W_TAG_INT *)salloc(sizeof(W_TAG_INT));
+			inb->f_int[0] = format;
+			*((int64_t *)(&(inb->f_int[1]))) = ato64i(valstring, strlen(valstring));
+			return (void *)(inb);
 			break;
 		case DATE:
 			*vallen = sizeof(W_TAG_DATE);
@@ -56,6 +56,23 @@ void *write_value(char *valstring, size_t *vallen, char format)
 			break;
 	}
 	return NULL;
+}
+
+int64_t ato64i(char *val, size_t l)
+{
+	int64_t ret = 0;
+	int64_t dec = 1;
+
+	for(char *p = val+l-1; p >= val; p--)
+	{
+		if((*p >= '0' && *p <= '9'))
+			ret += (int64_t)(((*p)-48)*dec);
+		else if(*p == '-')
+			ret *= -1;
+		dec *= 10;
+	}
+
+	return ret;
 }
 
 static void fetch_date(char *datestring, W_TAG_DATE *dt)

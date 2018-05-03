@@ -2,18 +2,16 @@
 
 /*TODO:*/
 /*protect against integer overflow and rogue date values*/
-/*change is_numeric to is_int and crate an is_float*/
-/*or, enven better, keep is_numeric and make is_int and is float live inside*/
 
-static int is_numeric(char *str, size_t l);
+static int is_integer(char *str, size_t l);
 static int is_date(char *str, size_t l);
 
 char check_format(char *attrval, size_t l)
 {
 	if(is_date(attrval, l))
 		return DATE;
-	else if(is_numeric(attrval, l))
-		return NB;
+	else if(is_integer(attrval, l))
+		return INT;
 	else
 		return STR;
 }
@@ -47,9 +45,69 @@ static int is_date(char *str, size_t l)
 	return 0;
 }
 
-static int is_numeric(char *str, size_t l)
+static int is_integer(char *str, size_t l)
 {
-	int pc = 0; /*point count*/
+	for(char *p = str; p < str+l; p++)
+	{
+		if(p == str && (*p == '-' || *p == '+'))
+			continue;
+		else if(!(*p > 47 && *p < 58))
+			return 0;
+	}
+
+	return 1;
+}
+
+int int64ovf(char *val, size_t l)
+{
+	uint64_t limit = val[0] == '-' ? (uint64_t)(INT64_MAX)+1 : INT64_MAX;
+	uint64_t inb = 0;
+	uint64_t dec = 1;
+
+	if(!(val[0] >= '0' && val[0] <= '9'))
+	{
+		val++;
+		l--;
+	}
+	for(int i = (int)(l-1); i >= 0; i--)
+	{
+		inb += ((uint64_t)(val[i]-48))*dec;
+		if(inb > limit)
+			return 1;
+		dec *= 10;
+	}
+
+	return 0;
+}
+
+int check_date(int64_t y, int m, int d)
+{
+	int ret;
+
+	if(m>=0 && m<=12)
+	{
+		if((d>=0 && d<=31)
+			&& (m== 0 || m==1 || m==3 || m==5 || m==7 || m==8 || m==10 || m==12))
+			ret = 0;
+		else if((d>=0 && d<=30) && (m==4 || m==6 || m==9 || m==11))
+			ret = 0;
+		else if((d>=0 && d<=28) && (m==2))
+			ret = 0;
+		else if(d==29 && m==2 && (y%400==0 ||(y%4==0 && y%100!=0)))
+			ret = 0;
+		else
+			ret = 3;
+	}
+	else
+		ret = 2;
+
+	return 0;
+}
+
+/*uncomplete function*/
+/*static int is_float(char *str, size_t l)
+{
+	int pc = 0; point count
 
 	for(char *p = str; p < str+l; p++)
 	{
@@ -62,4 +120,4 @@ static int is_numeric(char *str, size_t l)
 	}
 
 	return 1;
-}
+}*/

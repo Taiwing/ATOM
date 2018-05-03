@@ -50,8 +50,8 @@ static void printx(const char *file)
 						printf(" = \"%s\"", (char *)(val.str));
 						free(val.str);
 						break;
-					case NB:
-						printf(" = %"PRId64"", val.nb);
+					case INT:
+						printf(" = %"PRId64"", val.inb);
 						break;
 					case DATE:
 						print_date(val.date);
@@ -88,10 +88,11 @@ static void print_date(date_s *date)
 	else
 		printf("%"PRIu8"/", date->month);
 
-	int64_t abs_year = date->year < 0 ? date->year * (-1) : date->year;
+	uint64_t abs_year = date->year < 0 ? (uint64_t)(date->year * (-1))
+																		 : (uint64_t)date->year;
 	if(date->year < 0)
 		printf("-");
-	for(int64_t cmp = 10; (cmp * abs_year) < 1000; cmp *= 10)
+	for(uint64_t cmp = 10; (cmp * abs_year) < 1000; cmp *= 10)
 		printf("0");
-	printf("%"PRId64"", abs_year);
+	printf("%"PRIu64"", abs_year);
 }

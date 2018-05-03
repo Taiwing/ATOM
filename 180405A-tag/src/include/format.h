@@ -5,5 +5,7 @@
 #include "read_write.h"
 
 char check_format(char *attrval, size_t l);
+int int64ovf(char *val, size_t l);
+int check_date(int64_t y, int m, int d);
 
 #endif

@@ -144,8 +144,8 @@ static void def_rel_val(query_node *nd, char *query, size_t n, char *r)
 			nd->dt[i]->type = check_format(relelm[i], l[i]);
 
 			/*then it is the value*/
-			if(nd->dt[i]->type == NB)
-				nd->dt[i]->val->nb = (int64_t)atoi(relelm[i]);
+			if(nd->dt[i]->type == INT)
+				nd->dt[i]->val->inb = (int64_t)atoi(relelm[i]);
 			else if(nd->dt[i]->type == STR)
 			{
 				nd->dt[i]->val->str = (uint8_t *)salloc(l[i]+1);
@@ -172,8 +172,8 @@ static void def_rel_val(query_node *nd, char *query, size_t n, char *r)
 		if(nd->dt[i]->type != STR) /*if one of them is formatted*/
 		{
 			/*then it is the value*/
-			if(nd->dt[i]->type == NB)
-				nd->dt[i]->val->nb = (int64_t)atoi(relelm[i]);
+			if(nd->dt[i]->type == INT)
+				nd->dt[i]->val->inb = (int64_t)atoi(relelm[i]);
 			else if(nd->dt[i]->type == DATE)
 				nd->dt[i]->val->date = read_date(relelm[i], l[i]);
 

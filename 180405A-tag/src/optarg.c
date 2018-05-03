@@ -3,6 +3,7 @@
 static int opterrck(int c, int flags);
 static void help(void);
 static void gloerrck(glob_optarg *glo);
+static void valerrck(char *val);
 static void starf(glob_optarg *glo);
 
 struct option longopts[] = {
@@ -65,6 +66,7 @@ glob_optarg *getoptarg(int argc, char *argv[])
 	glo->files = argv + optind;
 	glo->fc = argc - optind;
 	gloerrck(glo);
+	valerrck(glo->value);
 	if(glo->fc == 0) /*if no path is given, '*' is assumed*/
 		starf(glo);
 
@@ -189,9 +191,58 @@ static void gloerrck(glob_optarg *glo)
 			case 1: fprintf(stderr, "%s: 'value' option provided without 'set'\n",
 										PROGNAME);
 				break;
-			case 2: fprintf(stderr, "%s: attribute name too long\n", PROGNAME);
+			case 2: fprintf(stderr, "%s: tag name too long\n", PROGNAME);
 				break;
-			case 3: fprintf(stderr, "%s: attribute value too long\n", PROGNAME);
+			case 3: fprintf(stderr, "%s: tag value too long\n", PROGNAME);
+				break;
+		}
+		exit(EXIT_FAILURE);
+	}
+}
+
+static void valerrck(char *val) /*TODO: check year int overflow problem*/
+{
+	int err = 0;
+
+	if(val)
+	{
+		size_t l = strlen(val);
+		char *p = NULL;
+		switch(check_format(val, l))
+		{
+			case INT:
+				err = int64ovf(val, l);
+				break;
+			case DATE:
+				for(p = val; *p != '-' || p == val; p++);
+				l = (size_t)(p-val);
+				err = int64ovf(val, l);
+				if(err == 0)
+				{
+					int64_t y = ato64i(val, l);
+					int m = 0, d = 0;
+					for(int i = 0; i < 2; i++)
+						m += (p[i+1]-48)*(i == 0 ? 10 : 1);
+					for(int i = 0; i < 2; i++)
+						d += (p[i+4]-48)*(i == 0 ? 10 : 1);
+					err = check_date(y, m, d);
+				}
+				break;
+		}
+	}
+
+	if(err)
+	{
+		switch(err)
+		{
+			case 1: fprintf(stderr, "%s: value entered caused integer overflow\n",
+										PROGNAME);
+				break;
+			case 2: fprintf(stderr, "%s: month in date value is not valid\n",
+										PROGNAME);
+				break;
+			case 3: fprintf(stderr, "%s: day in date value is not valid\n",
+										PROGNAME);
 				break;
 		}
 		exit(EXIT_FAILURE);

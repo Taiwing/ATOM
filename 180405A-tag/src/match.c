@@ -54,8 +54,8 @@ static int do_rel_op(query_node *nd, const char *f)
 		switch(nd->rel_op)
 		{
 			case EQ:
-				ret = type == NB ?
-						(nd->dt[0]->val->nb == nd->dt[1]->val->nb)
+				ret = type == INT ?
+						(nd->dt[0]->val->inb == nd->dt[1]->val->inb)
 						: type == STR ?
 						(ustrcmp(nd->dt[0]->val->str, nd->dt[1]->val->str) == 0)
 						: type == DATE ?
@@ -63,8 +63,8 @@ static int do_rel_op(query_node *nd, const char *f)
 						: 0;
 				break;
 			case NEQ:
-				ret = type == NB ?
-						(nd->dt[0]->val->nb != nd->dt[1]->val->nb)
+				ret = type == INT ?
+						(nd->dt[0]->val->inb != nd->dt[1]->val->inb)
 						: type == STR ?
 						(ustrcmp(nd->dt[0]->val->str, nd->dt[1]->val->str) != 0)
 						: type == DATE ?
@@ -72,8 +72,8 @@ static int do_rel_op(query_node *nd, const char *f)
 						: 0;
 				break;
 			case GEQ:
-				ret = type == NB ?
-						(nd->dt[0]->val->nb >= nd->dt[1]->val->nb)
+				ret = type == INT ?
+						(nd->dt[0]->val->inb >= nd->dt[1]->val->inb)
 						: type == STR ?
 						(ustrcmp(nd->dt[0]->val->str, nd->dt[1]->val->str) >= 0)
 						: type == DATE ?
@@ -81,8 +81,8 @@ static int do_rel_op(query_node *nd, const char *f)
 						: 0;
 			break;
 			case LEQ:
-				ret = type == NB ?
-						(nd->dt[0]->val->nb <= nd->dt[1]->val->nb)
+				ret = type == INT ?
+						(nd->dt[0]->val->inb <= nd->dt[1]->val->inb)
 						: type == STR ?
 						(ustrcmp(nd->dt[0]->val->str, nd->dt[1]->val->str) <= 0)
 						: type == DATE ?
@@ -90,8 +90,8 @@ static int do_rel_op(query_node *nd, const char *f)
 						: 0;
 				break;
 			case GT:
-				ret = type == NB ?
-						(nd->dt[0]->val->nb > nd->dt[1]->val->nb)
+				ret = type == INT ?
+						(nd->dt[0]->val->inb > nd->dt[1]->val->inb)
 						: type == STR ?
 						(ustrcmp(nd->dt[0]->val->str, nd->dt[1]->val->str) > 0)
 						: type == DATE ?
@@ -99,8 +99,8 @@ static int do_rel_op(query_node *nd, const char *f)
 						: 0;
 				break;
 			case LT:
-				ret = type == NB ?
-						(nd->dt[0]->val->nb < nd->dt[1]->val->nb)
+				ret = type == INT ?
+						(nd->dt[0]->val->inb < nd->dt[1]->val->inb)
 						: type == STR ?
 						(ustrcmp(nd->dt[0]->val->str, nd->dt[1]->val->str) < 0)
 						: type == DATE ?
