@@ -200,7 +200,7 @@ static void gloerrck(glob_optarg *glo)
 	}
 }
 
-static void valerrck(char *val) /*TODO: check year int overflow problem*/
+static void valerrck(char *val)
 {
 	int err = 0;
 

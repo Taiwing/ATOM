@@ -1,8 +1,5 @@
 #include "include/format.h"
 
-/*TODO:*/
-/*protect against integer overflow and rogue date values*/
-
 static int is_integer(char *str, size_t l);
 static int is_date(char *str, size_t l);
 
@@ -72,7 +69,7 @@ int int64ovf(char *val, size_t l)
 	for(int i = (int)(l-1); i >= 0; i--)
 	{
 		inb += ((uint64_t)(val[i]-48))*dec;
-		if(inb > limit)
+		if(inb > limit || (limit/dec) == 0)
 			return 1;
 		dec *= 10;
 	}
@@ -101,7 +98,7 @@ int check_date(int64_t y, int m, int d)
 	else
 		ret = 2;
 
-	return 0;
+	return ret;
 }
 
 /*uncomplete function*/

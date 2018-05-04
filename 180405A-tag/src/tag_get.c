@@ -88,11 +88,16 @@ static void print_date(date_s *date)
 	else
 		printf("%"PRIu8"/", date->month);
 
-	uint64_t abs_year = date->year < 0 ? (uint64_t)(date->year * (-1))
-																		 : (uint64_t)date->year;
-	if(date->year < 0)
-		printf("-");
-	for(uint64_t cmp = 10; (cmp * abs_year) < 1000; cmp *= 10)
-		printf("0");
-	printf("%"PRIu64"", abs_year);
+	if(date->year > 999 || date->year < -999)
+		printf("%"PRId64"", date->year);
+	else
+	{
+		uint64_t abs_year = date->year < 0 ? (uint64_t)(date->year * (-1))
+																			 : (uint64_t)date->year;
+		if(date->year < 0)
+			printf("-");
+		for(uint64_t cmp = 1; (cmp * abs_year) < 1000 && cmp < 1000; cmp *= 10)
+			printf("0");
+		printf("%"PRIu64"", abs_year);
+	}
 }

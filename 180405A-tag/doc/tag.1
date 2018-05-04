@@ -19,16 +19,16 @@ of the book, to its author or its relesae date. Personnalized tags can be added,
 easily retrieve favourite books, or a read date to know when a book was read for the last time, etc...
 Although this kind of metadata can already be specified with some file formats, it is closed (meaning that
 the user can't create new labels as he wants to), and non-standardized (different formats will have different
-fields of information available). With tag, a user can assaciotiate any new information to any file.
+fields of information available). With tag, a user can associate any new information to any file.
 So the same can also be done for any type of data, like pictures or music. Even program binaries and
 sytem files can be tagged, if additional information is required by the administrator of the system. For
 example, the administrator could want to keep track of why some programs were installed, and could easely
 tag the binaries to remember it.
 .PP
-tag is based on the attr package. It uses the extended attributes system embedded in ext file systems
-on linux. So when a file is tagged using tag, it isn't modified, only its metadata is changed. The
-attribute-based tagging system has the advantage of not modifying the files, and not having to
-manage an external data base. That's why tag can be used as is, without any index or configuration file.
+tag is based on the attr package. It uses the extended attributes feature embedded in linux file systems.
+When a file is tagged using tag, it isn't modified, only its metadata is changed. The attribute-based
+tagging system has the advantage of not modifying the files, and not having to manage an external data
+base. That's why tag can be used as is, without any index or configuration file.
 
 .SH OPTIONS
 
@@ -77,17 +77,19 @@ Print a help text.
 
 .SS "Usage"
 .PP
-Tag queries do three types of operations. Logical operations, which simply consists of
+Tag queries can do three types of operations. They can check for the presence or absence of a tag on a particular
+file, they can do logical operations, which simply consists of
 .B AND,
 .B OR,
 .B XOR
 and
 .B NOT
-statements to aticulate the query. Relative operations, that are used to compare tag values (which can be numbers and strings).
-And they can check for the presence or absence of a tag on a particular file. A relative operation can take three forms. It can
-be a comparison between two tags (ex: 'tagA>tagB'), which is done by invoking tags by their name. It can be a comparison between
-a tag and a quoted value (ex: 'tag=="whateverstring"'), that can either be a number or a string. It can also be a comparison
-between a tag and an unquoted number (ex: 'tag<=10'). Strings must obviously be quoted to avoid being taken as a tag name.
+statements to aticulate the query, and relative operations to compare tag values. A relative operation can take three forms.
+It can be a comparison between two tags (ex: 'tagA>tagB'), which is done by invoking tags by their name. In this case, if one
+or both of the tags don't have values, or if their format does not match, the relative operation will return false. It can be
+a comparison between a tag and a quoted value (ex: 'tag=="whateverstring"'), that can either be a number, a string or a date
+(see FORMATS for more informations). It can also be a comparison between a tag and an unquoted value (ex: 'tag<=10'). Strings
+must be quoted to avoid being taken as a tag name.
 .PP
 Parenthesis can be added to isolate and nest some expressions within the query. Individual tag names or relative operations
 can be put between parenthesis but don't need to be. However, superfluous parenthesis, around the entire query or doubled
@@ -168,6 +170,42 @@ will return true if left value is lesser or equal to right value
 .nf
 example: tag -q '97<=tag'
 .fi
+
+.SH TAG FORMATS
+
+.SS "Strings"
+.PP
+This is the default format. If the value entered by the user doesn't correspond to any
+other tag format, it will be written as an ASCII string. Its length is limited by the
+maximum size of an extended attribute value, which is 64k, or 65,536 bytes. Accounting for the
+format byte (the first byte of any tag value stores its format), and the null byte, a tag string
+can be up to 65,534 characters long.
+.nf
+example: tag -s author -v "Stephen King" Misery.epub
+.fi
+
+.SS "Numbers"
+.PP
+Tag numbers can only be integers. The number will be written as a 64 bits signed integer, which means
+that values must be limited to the [−9,223,372,036,854,775,808, +9,223,372,036,854,775,807] range. If
+a value entered is out of this range tag will return an error and won't write anything to avoid integer
+overflow. The string entered by the user must represent the chosen value in a decimal format and can be
+signed (preceeded by a '-' or '+' sign).
+.nf
+example: tag -s watch_count -v 9001 DBZ_ep21.mkv
+.fi
+
+.SS "Dates"
+.PP
+To be interpreted as a date the string entered must have the following format: YYYY-MM-DD, where the Year
+is at least one digit long and can be signed, and the Month and Day must be two digits long. The Year value
+will be stored as a 64 bits signed integer, so it has the same range as the Number format. Month and Day can
+be equal to 00 (if only the year must be stored for example), and must otherwise repesent a possible date in
+the gregorian calender.
+.nf
+example: tag -s date -v 2015-10-21 hoverboard.txt
+.fi
+
 .SH SEE ALSO
 tagex(1)
 .SH BUGS

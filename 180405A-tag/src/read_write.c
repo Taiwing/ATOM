@@ -97,11 +97,11 @@ static void fetch_date(char *datestring, W_TAG_DATE *dt)
 				dt->f_d_m_y[1] += (uint8_t)(((*p)-48)*dc);
 			else if(hc == 1)
 				dt->f_d_m_y[2] += (uint8_t)(((*p)-48)*dc);
-			else if(hc == 2 && *p >= '0' && *p <= '9')
-				*((int64_t *)(&(dt->f_d_m_y[3]))) += (int64_t)(((*p)-48)*dc);
-			else if(hc == 2 && *p == '-')
-				*((int64_t *)(&(dt->f_d_m_y[3]))) *= -1;
-
+			else if(hc == 2)
+			{
+				*((int64_t *)(&(dt->f_d_m_y[3]))) = ato64i(datestring, p-datestring+1);
+					break;
+			}
 			dc *= 10;
 		}
 	}

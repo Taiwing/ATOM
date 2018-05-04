@@ -2,7 +2,7 @@
 /*will be written as tag values on the disk*/
 #ifndef READ_WRITE_H
 #define READ_WRITE_H
-#include <stdint.h>	/*for fixed-width integers*/
+#include <inttypes.h>
 #include "utils.h"
 
 /*tag values formats*/
