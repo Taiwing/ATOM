@@ -46,6 +46,10 @@ static void printx(const char *file)
 				uint8_t format = read_value(v, lv, &val);
 				switch(format)
 				{
+					case LINK:
+						printf(" = %s", (char *)(val.str));
+						free(val.str);
+						break;
 					case STR:
 						printf(" = \"%s\"", (char *)(val.str));
 						free(val.str);

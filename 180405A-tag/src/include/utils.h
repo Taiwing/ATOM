@@ -13,6 +13,7 @@
 void *salloc(size_t size);
 
 int isdir(const char *file);
+int f_exists(const char *file);
 char **split_list(char *list, size_t l);
 void sort_wordtab(char **tab);
 void walloc(void ***buf, size_t *bufsize, int *l);

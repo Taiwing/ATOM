@@ -5,6 +5,7 @@ static int do_rel_op(query_node *nd, const char *f);
 static uint8_t dt_type_match(query_node *nd, int i, const char *f);
 static int64_t dacmp(date_s *date1, date_s *date2, uint8_t flags);
 static int16_t ustrcmp(uint8_t *str1, uint8_t *str2);
+static int lnkcmp(uint8_t *lnk1, uint8_t *lnk2);
 
 int test_node(query_node *nd, char *l, size_t n, const char *file)
 {
@@ -60,6 +61,8 @@ static int do_rel_op(query_node *nd, const char *f)
 						(ustrcmp(nd->dt[0]->val->str, nd->dt[1]->val->str) == 0)
 						: type == DATE ?
 						(dacmp(nd->dt[0]->val->date, nd->dt[1]->val->date, 7) == 0)
+						: type == LINK ?
+						(lnkcmp(nd->dt[0]->val->str, nd->dt[1]->val->str) == 0)
 						: 0;
 				break;
 			case NEQ:
@@ -69,6 +72,8 @@ static int do_rel_op(query_node *nd, const char *f)
 						(ustrcmp(nd->dt[0]->val->str, nd->dt[1]->val->str) != 0)
 						: type == DATE ?
 						(dacmp(nd->dt[0]->val->date, nd->dt[1]->val->date, 7) != 0)
+						: type == LINK ?
+						(lnkcmp(nd->dt[0]->val->str, nd->dt[1]->val->str) != 0)
 						: 0;
 				break;
 			case GEQ:
@@ -112,6 +117,7 @@ static int do_rel_op(query_node *nd, const char *f)
 
 	switch(type)
 	{
+		case LINK:
 		case STR:
 			if(i < 2)
 				free(nd->dt[!i]->val->str);
@@ -188,4 +194,23 @@ static int16_t ustrcmp(uint8_t *str1, uint8_t *str2)
 		return ustrcmp(str1+1, str2+1);
 	else
 		return (int16_t)(*str1 - *str2);
+}
+
+static int lnkcmp(uint8_t *lnk1, uint8_t *lnk2)
+{
+	int ret = 1;
+
+	if(ustrcmp(lnk1, lnk2) == 0)
+		ret = 0;
+	else
+	{
+		struct stat l_stat[2];
+		for(int i = 0; i < 2; i++)
+			if(stat((char *)(i == 0 ? lnk1 : lnk2), &(l_stat[i])) == -1)
+				return ret;
+		if(l_stat[0].st_ino == l_stat[1].st_ino)
+			ret = 0;
+	}
+
+	return ret;
 }

@@ -20,6 +20,16 @@ int isdir(const char *file)
 	return S_ISDIR(file_stat.st_mode);
 }
 
+int f_exists(const char *file)
+{
+	struct stat file_stat;
+
+	if(stat(file, &file_stat) == -1)
+		return 0;
+	else
+		return 1;
+}
+
 char **split_list(char *list, size_t l)
 {
 	unsigned int n = 0, j = 0;

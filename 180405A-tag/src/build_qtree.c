@@ -6,7 +6,6 @@ static int get_rel_op(char *query, size_t n, char **r);
 static void def_rel_val(query_node *nd, char *query, size_t n, char *r);
 static date_s *read_date(char *str, size_t l);
 
-/*if it is, this one builds the structure for it*/
 query_node *build_qtree(char *query, size_t n)
 {
 	query_node *nd = (query_node *)salloc(sizeof(query_node));
@@ -134,18 +133,33 @@ static void def_rel_val(query_node *nd, char *query, size_t n, char *r)
 		nd->dt[i]->val = (R_TAG *)salloc(sizeof(R_TAG));
 	}
 
+	/*if one of them is a litteral value*/
 	for(int i = 0; i < 2; i++)
 	{
-		if(is_quoted(relelm[i], l[i])) /*if one of them is quoted*/
+		int quotes = is_quoted(relelm[i], l[i]);
+		if(quotes) /*revmove quotes from char count*/
 		{
-			/*revmove quotes from char count*/
 			l[i] -= 2;
 			relelm[i]++;
-			nd->dt[i]->type = check_format(relelm[i], l[i]);
+		}
+		nd->dt[i]->type = check_format(relelm[i], l[i]);
 
+		if(nd->dt[i]->type != STR || quotes) /*if one of them is formatted*/
+		{
 			/*then it is the value*/
 			if(nd->dt[i]->type == INT)
 				nd->dt[i]->val->inb = (int64_t)atoi(relelm[i]);
+			else if(nd->dt[i]->type == LINK)
+			{
+				char *lnk = strncpy((char *)salloc(l[i]+1), relelm[i], l[i]);
+				char *path = fetch_path(lnk);
+				size_t pl = strlen(path);
+				nd->dt[i]->val->str = (uint8_t *)salloc(pl+1);
+				strncpy((char *)(nd->dt[i]->val->str), path, pl);
+				nd->dt[i]->val->str[pl] = '\0';
+				free(lnk);
+				free(path);
+			}
 			else if(nd->dt[i]->type == STR)
 			{
 				nd->dt[i]->val->str = (uint8_t *)salloc(l[i]+1);
@@ -153,27 +167,6 @@ static void def_rel_val(query_node *nd, char *query, size_t n, char *r)
 				nd->dt[i]->val->str[l[i]] = '\0';
 				rmbs((char *)(nd->dt[i]->val->str), l[i]);
 			}
-			else if(nd->dt[i]->type == DATE)
-				nd->dt[i]->val->date = read_date(relelm[i], l[i]);
-
-			/*and the other is the attribute*/
-			nd->dt[!i]->attr = strcpy((char *)salloc(l[!i]+LU+1), USER);
-			strncat(nd->dt[!i]->attr, relelm[!i], l[!i]);
-			rmbs(nd->dt[!i]->attr, l[!i]+LU);
-			nd->dt[!i]->type = ATTR;
-			return;
-		}
-	}
-
-	/*if none of them is quoted*/
-	for(int i = 0; i < 2; i++)
-	{
-		nd->dt[i]->type = check_format(relelm[i], l[i]);
-		if(nd->dt[i]->type != STR) /*if one of them is formatted*/
-		{
-			/*then it is the value*/
-			if(nd->dt[i]->type == INT)
-				nd->dt[i]->val->inb = (int64_t)atoi(relelm[i]);
 			else if(nd->dt[i]->type == DATE)
 				nd->dt[i]->val->date = read_date(relelm[i], l[i]);
 

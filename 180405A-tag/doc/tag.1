@@ -184,6 +184,18 @@ can be up to 65,534 characters long.
 example: tag -s author -v "Stephen King" Misery.epub
 .fi
 
+.SS "Links"
+.PP
+A tag can point to a file on the disk. Its path is stored in an ASCII string, so it has the same
+limits as the string format. When a string value is enterd by the user, tag will check if it corresponds
+to an actual file on the disk. If it is the case it will be considered a link. Otherwise, tag will
+interpret the value as a regular string. Tag accepts relative and absolute paths alike, but will store
+the link as an absolute path. Link values can only be compared with the "==" and "!=" operators. Any
+other relative operation on this type of value will always return false.
+.nf
+example: tag -s pal_file -v ./foo bar
+.fi
+
 .SS "Numbers"
 .PP
 Tag numbers can only be integers. The number will be written as a 64 bits signed integer, which means

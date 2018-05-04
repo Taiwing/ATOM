@@ -3,11 +3,10 @@ Packaging:
 	*test packaging on other systems/CPUs
 
 Functionalities:
-	*maybe think about adding other formats, like URLs or links to files,
-	which could be very useful in a tag explorer
-	*add a float format (or replace W_TAG_INT by a W_TAG_NB), if adding is chosen
+	*add other formats, like URLs
+	*maybe add a float format (or replace W_TAG_INT by a W_TAG_NB), if adding is chosen
 	make it possible to compare tag integers and tag floats as if they were the same
-	*extend the number format to authorize things like exponents and stuff
+		*extend the number format to authorize things like exponents and stuff
 		*maybe, to solve the variable-width floating point numbers problem, use
 		a string representation to store floats, and then translate them to the
 		local float/double implementation on runtime
@@ -41,4 +40,4 @@ multi-plaform support:
 	*make the writing functions endian agnostic
 
 misc:
-	*update the manual with the format concep (date in particular)
+	*update the FORMAT section of the manual with info regarding the LINK format

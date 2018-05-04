@@ -181,7 +181,7 @@ static void gloerrck(glob_optarg *glo)
 		err = 1;
 	else if(glo->name && strlen(glo->name) > XATTR_NAME_MAX)
 		err = 2;
-	else if(glo->value && strlen(glo->value) >= XATTR_SIZE_MAX)
+	else if(glo->value && strlen(glo->value) >= XATTR_SIZE_MAX-2)
 		err = 3;
 
 	if(err)

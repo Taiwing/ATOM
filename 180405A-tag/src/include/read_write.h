@@ -2,6 +2,7 @@
 /*will be written as tag values on the disk*/
 #ifndef READ_WRITE_H
 #define READ_WRITE_H
+#define _GNU_SOURCE			/*for canonicalize_file_name()*/
 #include <inttypes.h>
 #include "utils.h"
 
@@ -12,6 +13,7 @@
 enum format {
 	ATTR = 0,
 	STR = 'S',
+	LINK = 'L',
 	INT = 'N',
 	DATE = 'D'
 };
@@ -39,7 +41,7 @@ typedef struct date_s
 
 typedef union R_TAG
 {
-	uint8_t *str;
+	uint8_t *str;		/*stores string, links and URL values*/
 	int64_t inb;
 	date_s *date;
 } R_TAG;
@@ -47,5 +49,6 @@ typedef union R_TAG
 uint8_t read_value(void *raw_val, size_t size, R_TAG *val);
 void *write_value(char *valstring, size_t *vallen, char format);
 int64_t ato64i(char *val, size_t l);
+char *fetch_path(char *valstring);
 
 #endif

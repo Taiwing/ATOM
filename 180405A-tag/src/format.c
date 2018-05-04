@@ -2,6 +2,7 @@
 
 static int is_integer(char *str, size_t l);
 static int is_date(char *str, size_t l);
+static int is_link(char *str, size_t l);
 
 char check_format(char *attrval, size_t l)
 {
@@ -9,6 +10,8 @@ char check_format(char *attrval, size_t l)
 		return DATE;
 	else if(is_integer(attrval, l))
 		return INT;
+	else if(is_link(attrval, l))
+		return LINK;
 	else
 		return STR;
 }
@@ -53,6 +56,16 @@ static int is_integer(char *str, size_t l)
 	}
 
 	return 1;
+}
+
+static int is_link(char *str, size_t l)
+{
+	int ret = 0;
+	char *lnk = strncpy((char *)salloc(l+1), str, l);
+	lnk[l] = '\0';
+	ret = f_exists(lnk);
+	free(lnk);
+	return ret;
 }
 
 int int64ovf(char *val, size_t l)
@@ -100,21 +113,3 @@ int check_date(int64_t y, int m, int d)
 
 	return ret;
 }
-
-/*uncomplete function*/
-/*static int is_float(char *str, size_t l)
-{
-	int pc = 0; point count
-
-	for(char *p = str; p < str+l; p++)
-	{
-		if(p == str && (*p == '-' || *p == '+'))
-			continue;
-		else if(!((*p > 47 && *p < 58) || (*p == '.' && pc < 1)))
-			return 0;
-		else if(*p == '.')
-			pc++;
-	}
-
-	return 1;
-}*/

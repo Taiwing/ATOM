@@ -9,6 +9,7 @@ uint8_t read_value(void *raw_val, size_t size, R_TAG *val)
 
 	switch(format)
 	{
+		case LINK: /*file*/
 		case STR: /*string*/
 			val->str = (uint8_t *)salloc((size-1) * sizeof(uint8_t));
 			for(size_t i = 0; i < size-1; i++)
@@ -33,12 +34,15 @@ void *write_value(char *valstring, size_t *vallen, char format)
 {
 	switch(format)
 	{
+		case LINK:
+			valstring = fetch_path(valstring);
 		case STR:
 			*vallen = strlen(valstring)+2;
 			W_TAG_STR str = salloc(*vallen);
 			str[0] = format;
 			strcpy((char *)str+1, valstring);
-			return (void *)str;
+			if(format == LINK) free(valstring);
+			return (void *)(str);
 			break;
 		case INT:
 			*vallen = sizeof(W_TAG_INT);
@@ -105,4 +109,21 @@ static void fetch_date(char *datestring, W_TAG_DATE *dt)
 			dc *= 10;
 		}
 	}
+}
+
+char *fetch_path(char *valstring)
+{
+	valstring = canonicalize_file_name(valstring);
+	if(valstring == NULL)
+	{
+		perror("canonicalize_file_name");
+		exit(EXIT_FAILURE);
+	}
+	else if(strlen(valstring) > XATTR_SIZE_MAX - 2)
+	{
+		fprintf(stderr, "%s: path too long to be stored as a tag value",
+						PROGNAME);
+		exit(EXIT_FAILURE);
+	}
+	return valstring;
 }
