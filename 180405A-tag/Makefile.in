@@ -107,6 +107,7 @@ am_tag_OBJECTS = src/build_qtree.$(OBJEXT) src/format.$(OBJEXT) \
 	src/query_checker.$(OBJEXT) src/read_write.$(OBJEXT) \
 	src/tag_delete.$(OBJEXT) src/tag_get.$(OBJEXT) \
 	src/tag_list.$(OBJEXT) src/tag_query.$(OBJEXT) \
+	src/tag_restore.$(OBJEXT) src/tag_save.$(OBJEXT) \
 	src/tag_set.$(OBJEXT) src/utils.$(OBJEXT)
 tag_OBJECTS = $(am_tag_OBJECTS)
 tag_LDADD = $(LDADD)
@@ -321,6 +322,8 @@ src/tag_delete.c\
 src/tag_get.c\
 src/tag_list.c\
 src/tag_query.c\
+src/tag_restore.c\
+src/tag_save.c\
 src/tag_set.c\
 src/utils.c
 
@@ -430,6 +433,10 @@ src/tag_list.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/tag_query.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
+src/tag_restore.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
+src/tag_save.$(OBJEXT): src/$(am__dirstamp) \
+	src/$(DEPDIR)/$(am__dirstamp)
 src/tag_set.$(OBJEXT): src/$(am__dirstamp) \
 	src/$(DEPDIR)/$(am__dirstamp)
 src/utils.$(OBJEXT): src/$(am__dirstamp) src/$(DEPDIR)/$(am__dirstamp)
@@ -456,6 +463,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/tag_get.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/tag_list.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/tag_query.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/tag_restore.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/tag_save.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/tag_set.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/$(DEPDIR)/utils.Po@am__quote@
 

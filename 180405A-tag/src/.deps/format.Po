@@ -39,7 +39,7 @@ src/format.o: src/format.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/dirent.h \
  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
- /usr/include/linux/limits.h src/include/info.h
+ /usr/include/linux/limits.h /usr/include/ctype.h src/include/info.h
 
 /usr/include/stdc-predef.h:
 
@@ -154,5 +154,7 @@ src/include/utils.h:
 /usr/include/x86_64-linux-gnu/bits/local_lim.h:
 
 /usr/include/linux/limits.h:
+
+/usr/include/ctype.h:
 
 src/include/info.h:

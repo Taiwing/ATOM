@@ -1,4 +1,4 @@
-src/tag_delete.o: src/tag_delete.c /usr/include/stdc-predef.h \
+src/tag_restore.o: src/tag_restore.c /usr/include/stdc-predef.h \
  src/include/tag.h src/include/utils.h \
  /usr/include/x86_64-linux-gnu/sys/types.h /usr/include/features.h \
  /usr/include/x86_64-linux-gnu/sys/cdefs.h \

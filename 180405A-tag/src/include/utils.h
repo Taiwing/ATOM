@@ -6,7 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <dirent.h>					/*for opendir and readdir*/
+#include <dirent.h>					/*for opendir() and readdir()*/
+#include <ctype.h>					/*for tolower()*/
 #include "info.h"
 
 /*malloc wrapper with pointer checker, and exit on failure*/
@@ -22,6 +23,7 @@ int cmp(const void *p1, const void *p2);
 void get_files(char *dir, char ***files, int *fc, size_t *size, int r, int a);
 void rmbs(char *str, size_t n);
 int is_quoted(char *str, size_t l);
+ssize_t atohx(void **dst, const char *src);
 
 /*stores 16 pointers on a 64 bits sytem and 32 on a 32 bits*/
 #define CHUNK_SIZE 1024

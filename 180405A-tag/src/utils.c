@@ -168,3 +168,25 @@ int is_quoted(char *str, size_t l)
 	else
 		return 0;
 }
+
+ssize_t atohx(void **dst, const char *src)
+{
+	size_t l = strlen(src);
+	if(l%2 == 0)	l /= 2;
+	else					return -1;
+	*dst = salloc(l);
+	char *p = (char *)(*dst);
+
+	for(int hb[2]; *src; src += 2)
+	{
+		for(int i = 0; i < 2; i++)
+		{
+			hb[i] = tolower(src[i]);
+			hb[i] -= isdigit(hb[i]) ? 0x30 : 0x57;
+			if(hb[i] < 0x0 || hb[i] > 0xf) return -1;
+		}
+		*p++ = (char)(hb[1] | (hb[0] << 4));
+	}
+
+	return l;
+}

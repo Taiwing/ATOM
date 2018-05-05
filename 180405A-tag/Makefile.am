@@ -20,6 +20,8 @@ src/tag_delete.c\
 src/tag_get.c\
 src/tag_list.c\
 src/tag_query.c\
+src/tag_restore.c\
+src/tag_save.c\
 src/tag_set.c\
 src/utils.c
 dist_man_MANS = doc/tag.1

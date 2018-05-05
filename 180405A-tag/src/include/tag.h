@@ -18,5 +18,7 @@ void tags(glob_optarg *glo);
 void tagd(glob_optarg *glo);
 void tagg(glob_optarg *glo);
 void tagl(glob_optarg *glo);
+void tag_save(glob_optarg *glo);
+void tag_restore(glob_optarg *glo);
 
 #endif

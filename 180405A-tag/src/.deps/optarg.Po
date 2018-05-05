@@ -45,10 +45,10 @@ src/optarg.o: src/optarg.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/dirent.h \
  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
- /usr/include/linux/limits.h src/include/info.h src/include/format.h \
- /usr/include/inttypes.h /usr/lib/gcc/x86_64-linux-gnu/5/include/stdint.h \
- /usr/include/stdint.h /usr/include/x86_64-linux-gnu/bits/wchar.h \
- src/include/read_write.h
+ /usr/include/linux/limits.h /usr/include/ctype.h src/include/info.h \
+ src/include/format.h /usr/include/inttypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/5/include/stdint.h /usr/include/stdint.h \
+ /usr/include/x86_64-linux-gnu/bits/wchar.h src/include/read_write.h
 
 /usr/include/stdc-predef.h:
 
@@ -179,6 +179,8 @@ src/include/utils.h:
 /usr/include/x86_64-linux-gnu/bits/local_lim.h:
 
 /usr/include/linux/limits.h:
+
+/usr/include/ctype.h:
 
 src/include/info.h:
 

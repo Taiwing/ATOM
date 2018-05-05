@@ -1,4 +1,4 @@
-src/tag_delete.o: src/tag_delete.c /usr/include/stdc-predef.h \
+src/tag_save.o: src/tag_save.c /usr/include/stdc-predef.h \
  src/include/tag.h src/include/utils.h \
  /usr/include/x86_64-linux-gnu/sys/types.h /usr/include/features.h \
  /usr/include/x86_64-linux-gnu/sys/cdefs.h \
@@ -38,7 +38,8 @@ src/tag_delete.o: src/tag_delete.c /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/bits/unistd.h src/include/xattr_max.h \
  src/include/format.h /usr/include/inttypes.h \
  /usr/lib/gcc/x86_64-linux-gnu/5/include/stdint.h /usr/include/stdint.h \
- /usr/include/x86_64-linux-gnu/bits/wchar.h src/include/read_write.h
+ /usr/include/x86_64-linux-gnu/bits/wchar.h src/include/read_write.h \
+ /usr/include/x86_64-linux-gnu/bits/time.h
 
 /usr/include/stdc-predef.h:
 
@@ -165,3 +166,5 @@ src/include/format.h:
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
 
 src/include/read_write.h:
+
+/usr/include/x86_64-linux-gnu/bits/time.h:

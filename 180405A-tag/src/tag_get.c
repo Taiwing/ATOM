@@ -27,7 +27,7 @@ void tagg(glob_optarg *glo)
 static void printx(const char *file)
 {
 	char *list = (char *)salloc(XATTR_LIST_MAX);
-	char *v = (char *)salloc(XATTR_SIZE_MAX);
+	void *v = salloc(XATTR_SIZE_MAX);
 	size_t n = listxattr(file, list, XATTR_LIST_MAX), lv;
 
 	if(n)
@@ -37,9 +37,9 @@ static void printx(const char *file)
 		printf("# file: %s\n", file);
 		for(int i = 0; splitl[i]; i++)
 		{
-			memset((void *)v, 0, XATTR_SIZE_MAX);
+			memset(v, 0, XATTR_SIZE_MAX);
 			printf("%s", splitl[i]+LU); /*prints tag name without "user." prefix*/
-			lv = getxattr(file, splitl[i], (void *)v, XATTR_SIZE_MAX);
+			lv = getxattr(file, splitl[i], v, XATTR_SIZE_MAX);
 			if(lv)
 			{
 				R_TAG val;
