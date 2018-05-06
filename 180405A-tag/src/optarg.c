@@ -54,7 +54,9 @@ glob_optarg *getoptarg(int argc, char *argv[])
 	glo->fc = argc - optind;
 	gloerrck(glo);
 	valerrck(glo->value);
-	if(glo->fc == 0) /*if no path is given, '*' is assumed*/
+
+	/*if no path is given, '*' is assumed*/
+	if(glo->fc == 0 && !(glo->flags & OPT_RESTORE))
 		starf(glo);
 
 	return glo;

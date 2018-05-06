@@ -1,9 +1,5 @@
 #include "include/tag.h"
 
-/*TODO:*/
-/*write this function and test it on the empty 3test/bar*/
-/*with the weird .td file*/
-
 static char *getvalue(char *line, size_t l);
 
 void tag_restore(glob_optarg *glo)

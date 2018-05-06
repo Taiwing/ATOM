@@ -48,6 +48,15 @@ Print every tag and their values for the specified FILES.
 .TP
 .B \-l, --list
 Print a list of every tag on a given PATH.
+.TP
+.B \-S, --save
+List every tag and their values for the specified FILES and save them in a tag_dump file (.td).
+.TP
+.B \-R BACKUP, --restore=BACKUP
+Restore every tag listed in a tag_dump file. If the paths contained in the backup file are relative,
+then the tag command must be called in the directory where these files are located. Otherwise, the
+paths have to be modified to correspond to the actual files. This function doesn't need to be called with
+a search option, or with the '--recusive' and '--all' options, since it simply follows the tag_dump file.
 
 .SS "Search Options"
 .TP
