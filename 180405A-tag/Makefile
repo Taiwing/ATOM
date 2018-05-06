@@ -228,7 +228,7 @@ CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
 CPPFLAGS = 
 CYGPATH_W = echo
-DEFS = -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.3.0\" -DPACKAGE_STRING=\"tag\ 0.3.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.3.0\"
+DEFS = -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\"
 DEPDIR = .deps
 ECHO_C = 
 ECHO_N = -n
@@ -249,15 +249,15 @@ OBJEXT = o
 PACKAGE = tag
 PACKAGE_BUGREPORT = yoann.foreau@protonmail.com
 PACKAGE_NAME = tag
-PACKAGE_STRING = tag 0.3.0
+PACKAGE_STRING = tag 0.5.0
 PACKAGE_TARNAME = tag
 PACKAGE_URL = 
-PACKAGE_VERSION = 0.3.0
+PACKAGE_VERSION = 0.5.0
 PATH_SEPARATOR = :
 SET_MAKE = 
 SHELL = /bin/bash
 STRIP = 
-VERSION = 0.3.0
+VERSION = 0.5.0
 abs_builddir = /home/attila/ATOM/180405A-tag
 abs_srcdir = /home/attila/ATOM/180405A-tag
 abs_top_builddir = /home/attila/ATOM/180405A-tag

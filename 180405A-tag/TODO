@@ -20,7 +20,6 @@ Functionalities:
 	tags, which could be used and modified by the tag program and maybe updated when
 	the vitual tag is modified (which would mean create a type of tag linked to the
 	original data)
-	*add a save and restore function for the tags
 	*add support for symbolic links
 	*code a file explorer on top of tag (tagex)
 		*add functions to automatically create tags based 

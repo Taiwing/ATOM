@@ -2,6 +2,7 @@
 /*will be written as tag values on the disk*/
 #ifndef READ_WRITE_H
 #define READ_WRITE_H
+#define _GNU_SOURCE
 #include <inttypes.h>
 #include "utils.h"
 

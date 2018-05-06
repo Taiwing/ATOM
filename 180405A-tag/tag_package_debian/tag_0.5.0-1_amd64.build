@@ -1,0 +1,132 @@
+ dpkg-buildpackage -rfakeroot -D -us -uc
+dpkg-buildpackage: paquet source tag
+dpkg-buildpackage: version source 0.5.0-1
+dpkg-buildpackage: distribution source UNRELEASED
+dpkg-buildpackage: source changé par Yoann Foreau <yoann.foreau@protonmail.com>
+ dpkg-source --before-build tag-0.5.0
+dpkg-buildpackage: architecture hôte amd64
+ fakeroot debian/rules clean
+dh clean --with autoreconf 
+   dh_testdir
+   dh_auto_clean
+   dh_autoreconf_clean
+   dh_clean
+ dpkg-source -b tag-0.5.0
+dpkg-source: info: utilisation du format source « 3.0 (quilt) »
+dpkg-source: info: construction de tag en utilisant le ./tag_0.5.0.orig.tar.gz existant
+dpkg-source: info: construction de tag dans tag_0.5.0-1.debian.tar.xz
+dpkg-source: info: construction de tag dans tag_0.5.0-1.dsc
+ debian/rules build
+dh build --with autoreconf 
+   dh_testdir
+   dh_update_autotools_config
+   dh_autoreconf
+   dh_auto_configure
+	./configure --build=x86_64-linux-gnu --prefix=/usr --includedir=\${prefix}/include --mandir=\${prefix}/share/man --infodir=\${prefix}/share/info --sysconfdir=/etc --localstatedir=/var --disable-silent-rules --libdir=\${prefix}/lib/x86_64-linux-gnu --libexecdir=\${prefix}/lib/x86_64-linux-gnu --disable-maintainer-mode --disable-dependency-tracking
+configure: WARNING: unrecognized options: --disable-maintainer-mode
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /bin/mkdir -p
+checking for gawk... no
+checking for mawk... mawk
+checking whether make sets $(MAKE)... yes
+checking whether make supports nested variables... yes
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking whether gcc understands -c and -o together... yes
+checking for style of include used by make... GNU
+checking dependency style of gcc... none
+checking that generated files are newer than configure... done
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: executing depfiles commands
+configure: WARNING: unrecognized options: --disable-maintainer-mode
+   dh_auto_build
+	make -j1
+make[1] : on entre dans le répertoire « /home/attila/tmp/tag-0.5.0 »
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/build_qtree.o src/build_qtree.c
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/format.o src/format.c
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/main.o src/main.c
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/match.o src/match.c
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/optarg.o src/optarg.c
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/query_checker.o src/query_checker.c
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/read_write.o src/read_write.c
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/tag_delete.o src/tag_delete.c
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/tag_get.o src/tag_get.c
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/tag_list.o src/tag_list.c
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/tag_query.o src/tag_query.c
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/tag_restore.o src/tag_restore.c
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/tag_save.o src/tag_save.c
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/tag_set.o src/tag_set.c
+gcc -DPACKAGE_NAME=\"tag\" -DPACKAGE_TARNAME=\"tag\" -DPACKAGE_VERSION=\"0.5.0\" -DPACKAGE_STRING=\"tag\ 0.5.0\" -DPACKAGE_BUGREPORT=\"yoann.foreau@protonmail.com\" -DPACKAGE_URL=\"\" -DPACKAGE=\"tag\" -DVERSION=\"0.5.0\" -I.   -Wdate-time -D_FORTIFY_SOURCE=2  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -c -o src/utils.o src/utils.c
+gcc  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security  -Wl,-Bsymbolic-functions -Wl,-z,relro -o tag src/build_qtree.o src/format.o src/main.o src/match.o src/optarg.o src/query_checker.o src/read_write.o src/tag_delete.o src/tag_get.o src/tag_list.o src/tag_query.o src/tag_restore.o src/tag_save.o src/tag_set.o src/utils.o  
+make[1] : on quitte le répertoire « /home/attila/tmp/tag-0.5.0 »
+   dh_auto_test
+ fakeroot debian/rules binary
+dh binary --with autoreconf 
+   dh_testroot
+   dh_prep
+   dh_auto_install
+	make -j1 install DESTDIR=/home/attila/tmp/tag-0.5.0/debian/tag AM_UPDATE_INFO_DIR=no
+make[1] : on entre dans le répertoire « /home/attila/tmp/tag-0.5.0 »
+make[2] : on entre dans le répertoire « /home/attila/tmp/tag-0.5.0 »
+ /bin/mkdir -p '/home/attila/tmp/tag-0.5.0/debian/tag/usr/bin'
+  /usr/bin/install -c tag '/home/attila/tmp/tag-0.5.0/debian/tag/usr/bin'
+ /bin/mkdir -p '/home/attila/tmp/tag-0.5.0/debian/tag/usr/share/man/man1'
+ /usr/bin/install -c -m 644 doc/tag.1 '/home/attila/tmp/tag-0.5.0/debian/tag/usr/share/man/man1'
+make[2] : on quitte le répertoire « /home/attila/tmp/tag-0.5.0 »
+make[1] : on quitte le répertoire « /home/attila/tmp/tag-0.5.0 »
+   dh_installdocs
+   dh_installchangelogs
+   dh_installman
+   dh_perl
+   dh_link
+   dh_strip_nondeterminism
+   dh_compress
+   dh_fixperms
+   dh_strip
+   dh_makeshlibs
+   dh_shlibdeps
+   dh_installdeb
+   dh_gencontrol
+   dh_md5sums
+   dh_builddeb
+dpkg-deb : construction du paquet « tag » dans « ../tag_0.5.0-1_amd64.deb ».
+ dpkg-genchanges  >../tag_0.5.0-1_amd64.changes
+dpkg-genchanges: inclusion du code source original dans l'envoi (« upload »)
+ dpkg-source --after-build tag-0.5.0
+dpkg-buildpackage: envoi complet (inclusion du code source d'origine)
+Now running lintian...
+W: tag source: superfluous-clutter-in-homepage <insert the upstream URL, if relevant>
+W: tag source: bad-homepage <insert the upstream URL, if relevant>
+W: tag source: file-without-copyright-information debian/README.Debian
+W: tag source: file-without-copyright-information debian/changelog
+W: tag source: file-without-copyright-information debian/compat
+W: tag source: file-without-copyright-information debian/control
+W: tag source: file-without-copyright-information debian/copyright
+W: tag source: file-without-copyright-information debian/patches/series
+W: tag source: file-without-copyright-information debian/rules
+W: tag source: file-without-copyright-information debian/source/format
+W: tag source: file-without-copyright-information debian/watch
+W: tag source: missing-license-paragraph-in-dep5-copyright __unknown__ (paragraph at line 5)
+W: tag source: out-of-date-standards-version 3.9.6 (current is 3.9.7)
+W: tag: wrong-bug-number-in-closes l3:#nnnn
+W: tag: new-package-should-close-itp-bug
+E: tag: changelog-is-dh_make-template
+W: tag: copyright-has-url-from-dh_make-boilerplate
+E: tag: section-is-dh_make-template
+W: tag: superfluous-clutter-in-homepage <insert the upstream URL, if relevant>
+W: tag: bad-homepage <insert the upstream URL, if relevant>
+Finished running lintian.
+Now signing changes and any dsc files...
+ signfile tag_0.5.0-1.dsc Yoann Foreau <yoann.foreau@protonmail.com>
+gpg: « Yoann Foreau <yoann.foreau@protonmail.com> » a été ignorée : la clef secrète n'est pas disponible
+gpg: /tmp/debsign.6LidoQCB/tag_0.5.0-1.dsc: clearsign failed: la clef secrète n'est pas disponible
+debsign: gpg error occurred!  Aborting....

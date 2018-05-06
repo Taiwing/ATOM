@@ -1,0 +1,32 @@
+Format: 1.8
+Date: Sun, 06 May 2018 16:29:51 +0200
+Source: tag
+Binary: tag
+Architecture: source amd64
+Version: 0.5.0-1
+Distribution: UNRELEASED
+Urgency: low
+Maintainer: Yoann Foreau <yoann.foreau@protonmail.com>
+Changed-By: Yoann Foreau <yoann.foreau@protonmail.com>
+Description:
+ tag        - auto-generated package by debmake
+Changes:
+ tag (0.5.0-1) UNRELEASED; urgency=low
+ .
+   * Initial release. Closes: #nnnn
+     <nnnn is the bug number of your ITP>
+Checksums-Sha1:
+ cf4b4e3042e495d18b0cda9db05a117d7541c25d 803 tag_0.5.0-1.dsc
+ 37dd514491ea43c1ba55a0da2340306546d7f003 96055 tag_0.5.0.orig.tar.gz
+ 8a32952709ab3d684ab89d52520201b7c94bbb03 1632 tag_0.5.0-1.debian.tar.xz
+ 1446d3e5291363f5343878dc57a67aca0303c518 19270 tag_0.5.0-1_amd64.deb
+Checksums-Sha256:
+ 078555511cf094f8f4af2bd80cbd426b347eeffbdd3b3c2445c01ffb89c92717 803 tag_0.5.0-1.dsc
+ 506f15610f3deb5a1328a1f84fdd979eca57c9e5aef8998a3fa28d01350fbf12 96055 tag_0.5.0.orig.tar.gz
+ 397edd659433fdbd9a8bd8f87d2385d9f16a1575e818dac16298ca3d3b565b75 1632 tag_0.5.0-1.debian.tar.xz
+ 0f023792fd332fb016aa7da6424f3db30e1d6848808e2a5f2f45595396dca8a0 19270 tag_0.5.0-1_amd64.deb
+Files:
+ 6cab459b61f3a8140bd18aafde641916 803 unknown extra tag_0.5.0-1.dsc
+ 88e0025c32e64283fffd7624c340d8dd 96055 unknown extra tag_0.5.0.orig.tar.gz
+ 66f77dd6b05d0e7408aa77c849d18596 1632 unknown extra tag_0.5.0-1.debian.tar.xz
+ 058a81af04abb43478cf55c962abf2e7 19270 unknown extra tag_0.5.0-1_amd64.deb

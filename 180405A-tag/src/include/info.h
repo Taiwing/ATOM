@@ -2,6 +2,6 @@
 #define INFO_H
 
 #define PROGNAME "tag"
-#define VERSION "0.3.0" /*query is working*/
+#define VERSION "0.5.0" /*save and restore options are working*/
 
 #endif
