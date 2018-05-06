@@ -1,7 +1,7 @@
 #ifndef TAG_H
 #define TAG_H
 
-#define _XOPEN_SOURCE 500 	/*required for nftw*/
+#define _XOPEN_SOURCE 700 	/*required for nftw*/
 #include "utils.h"
 #include <attr/xattr.h>			/*for extended attributes functions*/
 #include <ftw.h> 						/*for recursive option*/
