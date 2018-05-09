@@ -1,0 +1,235 @@
+.\" Manpage for tag.
+.\" Contact yoann.foreau@protonmail.com to correct errors or typos.
+.TH man 1 "25 April 2018" "0.3.0" "tag man page"
+
+.SH NAME
+tag \- organize and search files by tags
+
+.SH SYNOPSIS
+tag [OPTIONS] [FILES...]
+
+.SH DESCRIPTION
+.PP
+tag is a program which allows users to tag files. Tags are labels that have a name and eventually
+a value associated to it. Tags are useful to organize files in a non-hierarchical way. They allow
+the user to search, display and use files based on his own classification system.
+.PP
+It can be used to classify an ebook library for example. The user can set tags corresponding to the genre
+of the book, to its author or its relesae date. Personnalized tags can be added, such as a 'best' tag to
+easily retrieve favourite books, or a read date to know when a book was read for the last time, etc...
+Although this kind of metadata can already be specified with some file formats, it is closed (meaning that
+the user can't create new labels as he wants to), and non-standardized (different formats will have different
+fields of information available). With tag, a user can associate any new information to any file.
+So the same can also be done for any type of data, like pictures or music. Even program binaries and
+sytem files can be tagged, if additional information is required by the administrator of the system. For
+example, the administrator could want to keep track of why some programs were installed, and could easely
+tag the binaries to remember it.
+.PP
+tag is based on the attr package. It uses the extended attributes feature embedded in linux file systems.
+When a file is tagged using tag, it isn't modified, only its metadata is changed. The attribute-based
+tagging system has the advantage of not modifying the files, and not having to manage an external data
+base. That's why tag can be used as is, without any index or configuration file.
+
+.SH OPTIONS
+
+.SS "Core Options"
+.TP
+.B \-s NAME, --set=NAME
+Create a tag labeled NAME on the specified FILES.
+.TP
+.B \-v VAL, --value=VAL
+Set the value of a new tag, or modify it if the tag already exists. Must be used with -s option.
+.TP
+.B \-d NAME, --delete=NAME
+Delete the specified tag if it exits.
+.TP
+.B \-g, --get
+Print every tag and their values for the specified FILES.
+.TP
+.B \-l, --list
+Print a list of every tag on a given PATH.
+.TP
+.B \-S, --save
+List every tag and their values for the specified FILES and save them in a tag_dump file (.td).
+.TP
+.B \-R BACKUP, --restore=BACKUP
+Restore every tag listed in a tag_dump file. If the paths contained in the backup file are relative,
+then the tag command must be called in the directory where these files are located. Otherwise, the
+paths have to be modified to correspond to the actual files. This function doesn't need to be called with
+a search option, or with the '--recusive' and '--all' options, since it simply follows the tag_dump file.
+
+.SS "Search Options"
+.TP
+.B \-q EXPR, --query=EXPR
+Search tags and print the results or feed them to --set, --delete, --get or --list options if specified.
+
+EXPR is a formated expression which can be a single tag name or a logical operation between multiple tags and values. In a given expression each member is either a tag name, a comparison between tag values or a nested expression between parenthesis. Each member of a given expression is a test, which can return true or false. For example, if a member is a simple tag name, then it will return true for a given file if the tag is set on this specific file. An expression can be articulated by logical operators and bounded with parenthesis. See QUERY section for more details.
+.TP
+.B \-t, --tagged
+List every tagged file, and print the results or feed them to --set, --delete, --get or --list. This option is useless with --delete and --get, because they already target tagged files only.
+.TP
+.B \-u, --untagged
+List every untagged file, and print the results or feed them to --set, --delete, --get or --list. This option is useless with --delete and --get because they don't target untagged files.
+
+.SS "Other Options"
+.TP
+.B \-r, --recursive
+Execute tag functions recursively.
+.TP
+.B \-a, --all
+Include directories.
+.TP
+.B \-h, --help
+Print a help text.
+
+.SH QUERY
+
+.SS "Usage"
+.PP
+Tag queries can do three types of operations. They can check for the presence or absence of a tag on a particular
+file, they can do logical operations, which simply consists of
+.B AND,
+.B OR,
+.B XOR
+and
+.B NOT
+statements to aticulate the query, and relative operations to compare tag values. A relative operation can take three forms.
+It can be a comparison between two tags (ex: 'tagA>tagB'), which is done by invoking tags by their name. In this case, if one
+or both of the tags don't have values, or if their format does not match, the relative operation will return false. It can be
+a comparison between a tag and a quoted value (ex: 'tag=="whateverstring"'), that can either be a number, a string or a date
+(see FORMATS for more informations). It can also be a comparison between a tag and an unquoted value (ex: 'tag<=10'). Strings
+must be quoted to avoid being taken as a tag name.
+.PP
+Parenthesis can be added to isolate and nest some expressions within the query. Individual tag names or relative operations
+can be put between parenthesis but don't need to be. However, superfluous parenthesis, around the entire query or doubled
+around a single expression for example, will result in an error.
+.PP
+Simple queries consisting of one tag name can be left unquoted, but more complex ones should be quoted with a '' pair to avoid
+the shell from interpreting logical and relative operators.
+
+.SS "Logical Operators"
+.PP
+.B '&' - AND:
+will return true if both sides of the expression are true
+.nf
+example: tag -q 'tag&othertag'
+.fi
+.PP
+.B '|' - OR:
+will return true if at least one side of the expression is true
+.nf
+example: tag -q '(tag>5)|othertag'
+.fi
+.PP
+.B '^' - XOR:
+will return true if exactly one side of the expression
+.nf
+is true, but false if both sides are true or false
+example: tag -q 'tag^(othertag&thirdtag)'
+.fi
+.PP
+.B '!' - NOT:
+will return true if an expression is false
+.nf
+example: tag -q '!tag&othertag'
+example: tag -q 'tag^!(othertag=="yousayyes")'
+note: a NOT operation will return every file for which
+the condition tested is false, even untagged files
+.fi
+
+.SS "Relational Operators"
+.PP
+.B '==' - equal:
+will return true if both sides have the same value
+.nf
+example: tag -q 'tag==5'
+example: tag -q 'tag=="string"'
+example: tag -q 'tag==othertag'
+.fi
+.PP
+.B '!=' - not equal:
+will return true if both sides don't have the same value
+.nf
+example: tag -q 'tag!="hello, I am a string"'
+.fi
+.PP
+.B '>' - greater than:
+will return true if left value is bigger than right value
+.nf
+example: tag -q 'tag>7'
+example: tag -q 'othertag>"I am an other string"'
+note: string values are ranked by alphabetical order
+(with the ASCII table, using strcmp)
+.fi
+.PP
+.B '<' - lesser than:
+will return true if left value is lesser than right value
+.nf
+example: tag -q 'tag<othertag'
+.fi
+.PP
+.B '>=' - greater or equal:
+will return true if left value is greater or equal to right value
+.nf
+example: tag -q 'tag>=42'
+.fi
+.PP
+.B '<=' - lesser ot equal:
+will return true if left value is lesser or equal to right value
+.nf
+example: tag -q '97<=tag'
+.fi
+
+.SH TAG FORMATS
+
+.SS "Strings"
+.PP
+This is the default format. If the value entered by the user doesn't correspond to any
+other tag format, it will be written as an ASCII string. Its length is limited by the
+maximum size of an extended attribute value, which is 64k, or 65,536 bytes. Accounting for the
+format byte (the first byte of any tag value stores its format), and the null byte, a tag string
+can be up to 65,534 characters long.
+.nf
+example: tag -s author -v "Stephen King" Misery.epub
+.fi
+
+.SS "Links"
+.PP
+A tag can point to a file on the disk. Its path is stored in an ASCII string, so it has the same
+limits as the string format. When a string value is enterd by the user, tag will check if it corresponds
+to an actual file on the disk. If it is the case it will be considered a link. Otherwise, tag will
+interpret the value as a regular string. Tag accepts relative and absolute paths alike, but will store
+the link as an absolute path. Link values can only be compared with the "==" and "!=" operators. Any
+other relative operation on this type of value will always return false.
+.nf
+example: tag -s pal_file -v ./foo bar
+.fi
+
+.SS "Numbers"
+.PP
+Tag numbers can only be integers. The number will be written as a 64 bits signed integer, which means
+that values must be limited to the [−9,223,372,036,854,775,808, +9,223,372,036,854,775,807] range. If
+a value entered is out of this range tag will return an error and won't write anything to avoid integer
+overflow. The string entered by the user must represent the chosen value in a decimal format and can be
+signed (preceeded by a '-' or '+' sign).
+.nf
+example: tag -s watch_count -v 9001 DBZ_ep21.mkv
+.fi
+
+.SS "Dates"
+.PP
+To be interpreted as a date the string entered must have the following format: YYYY-MM-DD, where the Year
+is at least one digit long and can be signed, and the Month and Day must be two digits long. The Year value
+will be stored as a 64 bits signed integer, so it has the same range as the Number format. Month and Day can
+be equal to 00 (if only the year must be stored for example), and must otherwise repesent a possible date in
+the gregorian calender.
+.nf
+example: tag -s date -v 2015-10-21 hoverboard.txt
+.fi
+
+.SH SEE ALSO
+tagex(1)
+.SH BUGS
+No known bugs.
+.SH AUTHOR
+Yoann Foreau (yoann.foreau@protonmail.com)

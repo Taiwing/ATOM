@@ -6,12 +6,12 @@ char **file_list;
 int flags, fc;
 size_t size;
 
-static void pors_list(glob_optarg *glo);
+static void pors_list(glob_optarg *glo, tagout *out);
 static void inquiry(const char *file);
 static int rec_inquiry(const char *fpath, const struct stat *sb,
 											int tflag, struct FTW *ftwbuf);
 
-void tagqtu(glob_optarg *glo)
+void tagqtu(glob_optarg *glo, tagout *out)
 {
 	flags = glo->flags;
 	size = 0;
@@ -28,28 +28,33 @@ void tagqtu(glob_optarg *glo)
 			else if(flags & OPT_ALL || !isdir(glo->files[i]))
 				inquiry(glo->files[i]);
 		}
-		else puts("");
+		else if(!(flags & LCALL)) puts("");
 	}
 
-	pors_list(glo);
+	pors_list(glo, out);
 
 	if(flags & OPT_QUERY)
 		free(root);
 }
 
-static void pors_list(glob_optarg *glo) /*print or save list*/
+static void pors_list(glob_optarg *glo, tagout *out) /*print or save list*/
 {
 	qsort(file_list, fc, sizeof(char *), cmp);
 
 	/*if not any core option (s, d, g, l, S or R)*/
-	if(!(flags << (sizeof(int)*8-6)))
+	if(!(flags << (sizeof(int)*8-6)) && !(flags & LCALL))
 		for(int i = 0; i < fc; i++) /*print list*/
 			puts(file_list[i]);
+	else if(!(flags & LCALL)) /*if it is not a lib call*/
+	{
+		glo->fc = fc;
+		glo->files = file_list;
+		glo->flags &= ~OPT_RECURSIVE; /*removes recursive option*/
+	}
 	else
 	{
-		glo->files = file_list;
-		glo->fc = fc;
-		glo->flags &= ~OPT_RECURSIVE; /*removes recursive option*/
+		out->fc = fc;
+		out->file_list = file_list;
 	}
 }
 
