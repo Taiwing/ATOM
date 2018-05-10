@@ -1,6 +1,6 @@
 Packaging:
+	*repackage tag with taglib without the autotools
 	*choose a licence for the program
-	*test packaging on other systems/CPUs
 
 Functionalities:
 	*add other formats, like URLs
