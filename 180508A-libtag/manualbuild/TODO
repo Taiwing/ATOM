@@ -1,0 +1,39 @@
+Packaging:
+	*choose a licence for the program
+	*test packaging on other systems/CPUs
+
+Functionalities:
+	*add other formats, like URLs
+	*maybe add a float format (or replace W_TAG_INT by a W_TAG_NB), if adding is chosen
+	make it possible to compare tag integers and tag floats as if they were the same
+		*extend the number format to authorize things like exponents and stuff
+		*maybe, to solve the variable-width floating point numbers problem, use
+		a string representation to store floats, and then translate them to the
+		local float/double implementation on runtime
+	*create a date option to specify what must be compared if there is a relcomp
+	between dates (also authorize blank XX literal values in dates)	
+	*maybe add a concept of "virtual tags" wich would be based on already existing
+	metadata, either specific to the file format (mp3 or avi for example), or more
+	generally on things like access rights, creation and modification dates, size,
+	owner, file format, etc... virtual tags couldn't be directly be modified by tag,
+	but they could be turned to the dark si... I mean they could be turned into real
+	tags, which could be used and modified by the tag program and maybe updated when
+	the vitual tag is modified (which would mean create a type of tag linked to the
+	original data)
+	*add support for symbolic links
+	*code a file explorer on top of tag (tagex)
+		*add functions to automatically create tags based 
+		on the file path (meaning, the name of the folders it's in)
+		either in a relative or absolute fashion
+		with options to delete all or some of the folders once it is done
+		*and also do the reverse operation, create folders based on all or
+		certain tags, in a "biggest tag first" way (the folders are created
+		in descending order, the first one represent the least rare tags),
+		or in a certain specified way, or order
+	*also, once again on top of that, maybe create an autotag utility, which
+	could be setup to automatically tag files based on certain cues and events
+	in the system, or could prompt the user to enter certain tag values
+	*and a GUI version of tagex (possibly using GTK)
+
+multi-plaform support:
+	*make the writing functions endian agnostic
