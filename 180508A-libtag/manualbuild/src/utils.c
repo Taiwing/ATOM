@@ -169,6 +169,7 @@ int is_quoted(char *str, size_t l)
 		return 0;
 }
 
+/*convert a string to a hex array and returns its length*/
 ssize_t atohx(void **dst, const char *src)
 {
 	size_t l = strlen(src);

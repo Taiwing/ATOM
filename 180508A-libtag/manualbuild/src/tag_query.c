@@ -6,12 +6,12 @@ char **file_list;
 int flags, fc;
 size_t size;
 
-static void pors_list(glob_optarg *glo, tagout *out);
+static void pors_list(glob_optarg *glo, qout *out);
 static void inquiry(const char *file);
 static int rec_inquiry(const char *fpath, const struct stat *sb,
 											int tflag, struct FTW *ftwbuf);
 
-void tagqtu(glob_optarg *glo, tagout *out)
+void tagqtu(glob_optarg *glo, qout *out)
 {
 	flags = glo->flags;
 	size = 0;
@@ -37,7 +37,7 @@ void tagqtu(glob_optarg *glo, tagout *out)
 		free(root);
 }
 
-static void pors_list(glob_optarg *glo, tagout *out) /*print or save list*/
+static void pors_list(glob_optarg *glo, qout *out) /*print or save list*/
 {
 	qsort(file_list, fc, sizeof(char *), cmp);
 

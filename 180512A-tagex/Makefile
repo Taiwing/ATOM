@@ -1,11 +1,17 @@
 #compiler info
 CC = gcc
-CFLAGS = -g -Wall -Wextra -fPIC
+CFLAGS = -g -Wall -Wextra
 
 #source directories
-CDIR = src
+INTERFACE_DIR = src/interface
+CORE_DIR = src/core
 HDIR = src/include
 ODIR = obj
+
+#
+# TODO: modify all this shit
+# to make tagex
+#
 
 #source headers
 _LDEPS = format.h\
@@ -50,8 +56,7 @@ BINNAME = tag
 MAN = doc/tag.1
 
 #install paths
-HEADERS_DIR = $(DESTDIR)/usr/include/tag
-LIB_DIR = $(DESTDIR)/usr/lib
+LIB_DIR =	$(DESTDIR)/usr/lib
 BIN_DIR = $(DESTDIR)/usr/bin
 MAN_DIR = $(DESTDIR)/usr/share/man/man1
 
@@ -67,17 +72,14 @@ $(BINNAME): $(LIBNAME)
 	$(CC) $(CDIR)/$(_BSRC) -o $@  $< $(BDEPS)
 
 install: $(LIBNAME) $(BINNAME)
-	mkdir -p $(HEADERS_DIR)
 	mkdir -p $(LIB_DIR)
 	mkdir -p $(BIN_DIR)
 	mkdir -p $(MAN_DIR)
-	cp $(HDIR)/*.h $(HEADERS_DIR)
 	cp $(LIBNAME) $(LIB_DIR)
 	cp $(BINNAME) $(BIN_DIR)
 	gzip -fc doc/tag.1 > $(MAN_DIR)/tag.1.gz
 
 uninstall:
-	rm -r $(HEADERS_DIR)
 	rm $(LIB_DIR)/$(LIBNAME)
 	rm $(BIN_DIR)/$(BINNAME)
 	rm $(MAN_DIR)/tag.1.gz

@@ -10,7 +10,7 @@ static int rec_getx(const char *fpath, const struct stat *sb,
 static void print_list(void);
 static void print_date(date_s *date);
 
-void tagg(glob_optarg *glo, tagout *out)
+void tagg(glob_optarg *glo, gout *out)
 {
 	opt_all = (glo->flags & OPT_ALL);
 	size = 0;

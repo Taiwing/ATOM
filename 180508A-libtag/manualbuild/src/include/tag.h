@@ -30,26 +30,32 @@ typedef struct gettag
 	R_TAG **values;			/*their values*/
 } gettag;
 
-typedef struct tagout
+/*tag_query*/
+typedef struct qout
 {
-	/*tag_query*/
 	int fc;
 	char **file_list;
+} qout;
 
-	/*tag_list*/
-	int tc;
-	tag **tag_list;
-
-	/*tag_get*/
+/*tag_get*/
+typedef struct gout
+{
 	int gc;
 	gettag **tag_get;
-} tagout;
+} gout;
 
-void tagqtu(glob_optarg *glo, tagout *out);
+/*tag_list*/
+typedef struct lout
+{
+	int tc;
+	tag **taglist;
+} lout;
+
+void tagqtu(glob_optarg *glo, qout *out);
 void tags(glob_optarg *glo);
 void tagd(glob_optarg *glo);
-void tagg(glob_optarg *glo, tagout *out);
-void tagl(glob_optarg *glo, tagout *out);
+void tagg(glob_optarg *glo, gout *out);
+void tagl(glob_optarg *glo, lout *out);
 void tag_save(glob_optarg *glo);
 void tag_restore(glob_optarg *glo);
 
