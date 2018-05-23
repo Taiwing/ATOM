@@ -40,28 +40,64 @@ char *elem_tagvalues[] = {
 	"zzw"
 };
 
-char *commands[] = {
+char *functions[] = {
 	" help ",
 	" options ",
 	" properties ",
-	" query "
+	" query ",
+	" exit "
 };
 
 char *command_buttons[] = {
-	" 1",
-	" 2",
-	" 3",
-	" 4"
+	"F1",
+	"F2",
+	"F3",
+	"F4",
+	"F5"
+};
+
+char *func_panel_help[] = {
+	"help"
+};
+
+char *func_panel_options[] = {
+	"options",
+	"configuration",
+	"color scheme",
+	"sort by",
+	"recursively unfold all tags",
+	"unfold all tags",
+	"unfold tag",
+	"fold all tags",
+	"fold tag"
+};
+
+char *func_panel_properties[] = {
+	"properties",
+	"name",
+	"size",
+	"path",
+	"tags",
+	"add tag(+)",
+	"remove tag(-)",
+	"save"
+};
+
+char *func_panel_query[] = {
+	"query:"
 };
 
 /*global variable for the handle_winch function*/
-WINDOW *win[3]; /*qbar, elem_list, commands and maybe add a command line*/
+WINDOW *win[4]; /*qbar, elem_list, functions, function_panel*/
+/*and maybe add a command line*/
 
 typedef struct tag_status
 {
 	/*interaface variables*/
 	int curwin;																								 /*current window*/
+	int old_curwin;						 /*save curwin when a function panel is displayed*/
 	int hlight;															/*element highlighted on the screen*/
+	int old_hlight;						 /*save hlight when a function panel is displayed*/
 	int choice;																		 /*element chosen by the user*/
 	int c;																												 /*user input*/
 
@@ -72,29 +108,42 @@ typedef struct tag_status
 	/*elem_list*/
 	int elc;																							 /*number of elements*/
 	int attrc;							 /*number of listed attributes (name, size, etc...)*/
+
+	/*function panels*/
+	int func;																				/*currently displayed panel*/
 }	tagst;
 
-void generate_win(WINDOW *win[3]);
+void generate_win(WINDOW *wind[4]);
+void function_panel(WINDOW *wind[4], tagst *ts);
 void handle_winch(int sig);
-void mvhlight(WINDOW *wind, tagst *ts);
-void print_tag_screen(WINDOW *win[3], tagst *ts);
+void mvhlight(tagst *ts);
+void mvhlight_qbar(tagst *ts);
+void mvhlight_elem_list(tagst *ts);
+void mvhlight_funcpanel(tagst *ts);
+void function_input(tagst *ts, int *noexit);
+void print_tag_screen(WINDOW *wind[4], tagst *ts);
 void print_qbar(WINDOW *qbar_win, tagst *ts);
 void print_elem_list(WINDOW *elist_win, tagst *ts);
-void print_command_bar(WINDOW *cmdbar_win, tagst *ts);
+void print_funcbar(WINDOW *funcbar_win, tagst *ts);
+void print_funcpanel(WINDOW *funcpanel, tagst *ts);
 
 int main(void)
 {
 	tagst ts;
+	int noexit = 1;
 	struct sigaction sa;
 
 	/*tag status initialization*/
 	ts.curwin = 0;			/*0 for the example, but on elem_list window by default*/
+	ts.old_curwin = -1;															 /*no old_curwin by default*/
 	ts.hlight = 0;						 /*0 for the example, but no highlight by default*/
+	ts.old_hlight = -1;															 /*no old_hlight bu default*/
 	ts.choice = -1;																							/*no choice yet*/
 	ts.curq = 2;					/*2 for the example, but no query yet (-1) by default*/
 	ts.qbc = 4;														/*4 for the example, but 0 by default*/
 	ts.elc = 4;														/*4 for the example, but 0 by default*/
 	ts.attrc = 3;					/*3 for the example, but 2 by default (name and size)*/
+	ts.func = -1;																/*no panel activated by default*/
 
 	/*sigaction initalization*/
 	memset(&sa, 0, sizeof(struct sigaction));
@@ -107,118 +156,218 @@ int main(void)
 	noecho();																		/*no fucking echo while getch()*/
 	curs_set(0);																		 /*NO FUCKING CURSOR EITHER*/
 	start_color();																		 /*so we can create pairs*/
-	init_pair(1, COLOR_CYAN, COLOR_BLACK);											/*like this one*/
-	init_pair(2, COLOR_MAGENTA, COLOR_BLACK);										 /*and this one*/
+	init_pair(1, COLOR_WHITE, COLOR_BLACK);											/*like this one*/
+	init_pair(2, COLOR_CYAN, COLOR_BLACK);											 /*and this one*/
+	init_pair(3, COLOR_MAGENTA, COLOR_BLACK);										 /*and this one*/
 	generate_win(win);
 
 	print_tag_screen(win, &ts);
 
-	while(1)
+	while(noexit)
 	{
 		ts.c = wgetch(win[ts.curwin]);
-		mvhlight(win[ts.curwin], &ts);
+		function_input(&ts, &noexit);
+		function_panel(win, &ts);
+		mvhlight(&ts);
 		print_tag_screen(win, &ts);
-		if(ts.choice != -1)	/* User did a choice come out of the infinite loop */
-			break;
+		if(ts.choice != -1)
+			noexit = 0;
 	}
 
-	mvprintw(LINES-1, 0,
-					 "You chose choice %d wich is %s and LINES = %d and COLS = %d\n",
-					 ts.choice+1, qbar[ts.choice], LINES, COLS);
-	refresh();
-	getch(); /*pause*/
+	if(ts.choice != -1)
+	{
+		mvprintw(LINES-1, 0,
+			"You chose choice %d wich is %s and LINES = %d and COLS = %d\n",
+			ts.choice+1, qbar[ts.choice], LINES, COLS);
+			refresh();
+			getch(); /*pause*/
+	}
 	endwin();
 
 	return 0;
 }
 
-void generate_win(WINDOW *wind[3])
+void generate_win(WINDOW *wind[4])
 {
-	wind[0] = newwin(1, COLS, 0, 0);					/*qbar*/
-	wind[1] = newwin(LINES-2, COLS, 1, 0);		/*elem_list*/
-	wind[2] = newwin(1, COLS, LINES-1, 0);		/*commands*/
+	wind[0] = newwin(1, COLS, 0, 0);																		 /*qbar*/
+	wind[1] = newwin(LINES-2, COLS, 1, 0);													/*elem_list*/
+	wind[2] = newwin(1, COLS, LINES-1, 0);													/*functions*/
+	wind[3] = NULL;																						 /*function panel*/
 
 	for(int i = 0; i < 3; i++)	/*we get F1, F2, etc... and the arrows*/
 		keypad(wind[i], TRUE);
+}
+
+void function_panel(WINDOW *wind[4], tagst *ts)
+{
+	if(wind[3] && ts->func == -1)
+	{
+		delwin(wind[3]);
+		wind[3] = NULL;
+		ts->curwin = ts->old_curwin;
+		ts->old_curwin = 3;
+		ts->hlight = ts->old_hlight;
+	}
+	else if(wind[3] == NULL && ts->func != -1)
+	{
+		ts->old_curwin = ts->curwin;
+		ts->curwin = 3;
+		ts->old_hlight = ts->hlight;
+		ts->hlight = 0;
+
+		/*generate func_panel*/
+		switch(ts->func)
+		{
+			case 1:	/*help*/
+				wind[3] = newwin(9, 50, (LINES/2)-(9/2), (COLS/2)-(50/2));		 /*TEST*/
+				break;
+			case 2:	/*options*/
+				wind[3] = newwin(10, 32, (LINES/2)-(10/2), (COLS/2)-(32/2));
+				break;
+			case 3:	/*properties*/
+				wind[3] = newwin(9, 18, (LINES/2)-(9/2), (COLS/2)-(18/2));
+				break;
+			case 4:	/*query*/
+				wind[3] = newwin(3, 50, (LINES/2)-(3/2), (COLS/2)-(50/2));
+				break;
+		}
+
+		wattron(wind[3], COLOR_PAIR(3) | A_REVERSE);
+		keypad(wind[3], TRUE);
+	}
 }
 
 void handle_winch(int sig)
 {
 	for(int i = 0; i < 3; i++)
 		delwin(win[i]);
+	if(win[3])
+		delwin(win[3]);
 	endwin();
 	refresh();
 	clear();
 	generate_win(win);
 }
 
-void mvhlight(WINDOW *wind, tagst *ts)
+void mvhlight(tagst *ts)
 {
 	switch(ts->curwin)
 	{
 		case 0:	/*qbar*/
-			switch(ts->c)
-			{
-				case KEY_LEFT:
-					if(ts->hlight == 0)
-						ts->hlight = ts->qbc-1;
-					else
-						(ts->hlight)--;
-					break;
-				case KEY_RIGHT:
-					if(ts->hlight == ts->qbc-1)
-						ts->hlight = 0;
-					else
-						(ts->hlight)++;
-					break;
-				case KEY_DOWN:
-					if(ts->elc != 0)
-					{
-						(ts->curwin)++;
-						ts->hlight = 0;
-					}
-					break;
-				case 10:
-					ts->choice = ts->hlight;
-					break;
-			}
+			mvhlight_qbar(ts);
 			break;
 		case 1:	/*elem_list*/
-			switch(ts->c)
-			{
-				case KEY_UP:
-					if(ts->hlight == 0 && ts->qbc != 0)
-					{
-						(ts->curwin)--;
-						ts->hlight = 0;
-					}
-					else if(ts->hlight > 0)
-						(ts->hlight)--;
-					break;
-				case KEY_DOWN:
-					if(ts->hlight < (ts->elc-1))
-						(ts->hlight)++;
-					break;
-				case 10:
-					ts->choice = ts->hlight;
-					break;
-			}
+			mvhlight_elem_list(ts);
+			break;
+		case 3: /*funcpanel*/
+			mvhlight_funcpanel(ts);
 			break;
 	}
 }
 
-void print_tag_screen(WINDOW *win[3], tagst *ts)
+void mvhlight_qbar(tagst *ts)
 {
-	print_qbar(win[0], ts);
-	print_elem_list(win[1], ts);
-	print_command_bar(win[2], ts);
+	switch(ts->c)
+	{
+		case KEY_LEFT:
+			if(ts->hlight == 0)
+				ts->hlight = ts->qbc-1;
+			else
+				(ts->hlight)--;
+			break;
+		case KEY_RIGHT:
+			if(ts->hlight == ts->qbc-1)
+				ts->hlight = 0;
+			else
+				(ts->hlight)++;
+			break;
+		case KEY_DOWN:
+			if(ts->elc != 0)
+			{
+				(ts->curwin)++;
+				ts->hlight = 0;
+			}
+			break;
+		case 10:
+			ts->choice = ts->hlight;
+			break;
+	}
+}
+
+void mvhlight_elem_list(tagst *ts)
+{
+	switch(ts->c)
+	{
+		case KEY_UP:
+			if(ts->hlight == 0 && ts->qbc != 0)
+			{
+				(ts->curwin)--;
+				ts->hlight = 0;
+			}
+			else if(ts->hlight > 0)
+				(ts->hlight)--;
+			break;
+		case KEY_DOWN:
+			if(ts->hlight < (ts->elc-1))
+				(ts->hlight)++;
+			break;
+		case 10:
+			ts->choice = ts->hlight;
+			break;
+	}
+}
+
+void mvhlight_funcpanel(tagst *ts)
+{
+	if(ts->func == 2 || ts->func == 3)
+		switch(ts->c)
+		{
+			case KEY_UP:
+				if(ts->hlight == 0)
+					ts->hlight = (ts->func == 2 ? 7 : 6);
+				else if(ts->hlight > 0)
+					(ts->hlight)--;
+				break;
+			case KEY_DOWN:
+				if(ts->hlight < (ts->func == 2 ? 7 : 6))
+					(ts->hlight)++;
+				else
+					ts->hlight = 0;
+				break;
+			case 10:
+				ts->choice = ts->hlight;
+				break;
+		}
+}
+
+void function_input(tagst *ts, int *noexit)
+{
+	for(int i = 1; i < 6; i++)
+		if(ts->c == KEY_F(i))
+		{
+			if(ts->func == -1 && i != 5)
+				ts->func = i;
+			else if(ts->func == -1 && i == 5)
+				*noexit = 0;
+			else if(ts->func != -1 && i == 5)
+				ts->func = -1;
+			break;
+		}
+}
+
+void print_tag_screen(WINDOW *wind[4], tagst *ts)
+{
+	print_qbar(wind[0], ts);
+	print_elem_list(wind[1], ts);
+	print_funcbar(wind[2], ts);
+	print_funcpanel(wind[3], ts);
 }
 
 void print_qbar(WINDOW *qbar_win, tagst *ts)
 {
 	int x = 0;
 
-	wattron(qbar_win, COLOR_PAIR(1));
+	wattron(qbar_win, COLOR_PAIR(2));
 	for(int i = 0; i < ts->qbc; i++)
 	{
 		if(ts->curq == i)
@@ -236,7 +385,7 @@ void print_qbar(WINDOW *qbar_win, tagst *ts)
 
 		x += strlen(qbar[i]) + 1;
 	}
-	wattroff(qbar_win, COLOR_PAIR(1));
+	wattroff(qbar_win, COLOR_PAIR(2));
 
 	wrefresh(qbar_win);
 }
@@ -245,6 +394,13 @@ void print_elem_list(WINDOW *elist_win, tagst *ts)
 {
 	int colsize = (COLS-ts->attrc+1)/ts->attrc;
 	int rest = (COLS-ts->attrc+1)%ts->attrc;
+
+	/*redraw the background if a function panel was closed*/
+	if(ts->old_curwin == 3)
+	{
+		wbkgd(elist_win, COLOR_PAIR(1));
+		ts->old_curwin = -1;
+	}
 
 	/*print seperators*/
 	for(int x = colsize+rest; x < COLS; x += colsize+1)
@@ -290,23 +446,74 @@ void print_elem_list(WINDOW *elist_win, tagst *ts)
 	wrefresh(elist_win);
 }
 
-void print_command_bar(WINDOW *cmdbar_win, tagst *ts)
+void print_funcbar(WINDOW *funcbar_win, tagst *ts)
 {
 	int x = 0;
 
-	wattron(cmdbar_win, COLOR_PAIR(2));
-	for(int i = 0; i < 4; i++)
+	wattron(funcbar_win, COLOR_PAIR(3));
+	for(int i = 0; i < 5; i++)
 	{
-		wattron(cmdbar_win, A_BOLD);
-		mvwprintw(cmdbar_win, 0, x, command_buttons[i]);
-		wattroff(cmdbar_win, A_BOLD);
+		wattron(funcbar_win, A_BOLD);
+		mvwprintw(funcbar_win, 0, x, command_buttons[i]);
+		wattroff(funcbar_win, A_BOLD);
 		x+=2;
-		wattron(cmdbar_win, A_REVERSE);
-		mvwprintw(cmdbar_win, 0, x, commands[i]);
-		wattroff(cmdbar_win, A_REVERSE);
-		x+=strlen(commands[i]);
+		wattron(funcbar_win, A_REVERSE);
+		mvwprintw(funcbar_win, 0, x, functions[i]);
+		wattroff(funcbar_win, A_REVERSE);
+		x+=strlen(functions[i]);
 	}
-	wattroff(cmdbar_win, COLOR_PAIR(2));
+	wattroff(funcbar_win, COLOR_PAIR(3));
 
-	wrefresh(cmdbar_win);
+	wrefresh(funcbar_win);
+}
+
+void print_funcpanel(WINDOW *funcpanel, tagst *ts)
+{
+	if(ts->func != -1)
+	{
+		for(int i = 0; i < getmaxy(funcpanel); i++)
+			mvwhline(funcpanel, i, 0, ' ', getmaxx(funcpanel)+1);
+		box(funcpanel, 0, 0);
+	}
+
+	switch(ts->func)
+	{
+		case 1:	/*help*/
+			/*nothing for now*/
+			break;
+		case 2:	/*options*/
+			mvwprintw(funcpanel, 0, (32/2)-((strlen(func_panel_options[0])+1)/2),
+								func_panel_options[0]);
+			for(int y = 1; y < 9; y++)
+				if(ts->hlight == (y-1))
+				{
+					wattroff(funcpanel, A_REVERSE);
+					mvwprintw(funcpanel, y, 2, func_panel_options[y]);
+					wattron(funcpanel, A_REVERSE);
+				}
+				else
+					mvwprintw(funcpanel, y, 2, func_panel_options[y]);
+			break;
+		case 3:	/*properties*/
+			mvwprintw(funcpanel, 0, (18/2)-(strlen(func_panel_properties[0])/2),
+								func_panel_properties[0]);
+			for(int y = 1; y < 8; y++)
+				if(ts->hlight == (y-1))
+				{
+					wattroff(funcpanel, A_REVERSE);
+					mvwprintw(funcpanel, y, 2, func_panel_properties[y]);
+					wattron(funcpanel, A_REVERSE);
+				}
+				else
+					mvwprintw(funcpanel, y, 2, func_panel_properties[y]);
+			break;
+		case 4:	/*query*/
+			/*TODO: add a cursor*/
+			box(funcpanel, 0, 0);
+			mvwprintw(funcpanel, 0, 2, func_panel_query[0]);
+			break;
+	}
+
+	if(ts->func != -1)
+		wrefresh(funcpanel);
 }
