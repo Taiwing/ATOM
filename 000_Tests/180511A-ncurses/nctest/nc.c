@@ -1,11 +1,9 @@
-#include <string.h>
-#include <signal.h>			/*to handle the resizing of the terminal*/
-#include <ncurses.h>
+#include "interface.h"
 
 /*TODO*/
 /*remake the printing functions so they don't need global variables*/
 /*print "tag_folders" in cyan*/
-/*reorganise all this shit, try to reduce the number of variables in tagst*/
+/*REORGANIZE ALL THIS SHIT, try to reduce the number of variables in tagst*/
 
 char *qbar[] = {
 	"tag_adress",
@@ -43,6 +41,8 @@ char *elem_tagvalues[] = {
 
 char *functions[] = {
 	" help ",
+	" fold ",
+	" unfold ",
 	" options ",
 	" properties ",
 	" query ",
@@ -54,11 +54,17 @@ char *command_buttons[] = {
 	"F2",
 	"F3",
 	"F4",
-	"F5"
+	"F5",
+	"F6",
+	"F7"
 };
 
 char *func_panel_help[] = {
 	"help"
+};
+
+char *func_panel_fold[] = {
+	"fold:"
 };
 
 char *func_panel_options[] = {
@@ -68,9 +74,7 @@ char *func_panel_options[] = {
 	"sort by",
 	"recursively unfold all tags",
 	"unfold all tags",
-	"unfold tag",
 	"fold all tags",
-	"fold tag"
 };
 
 char *func_panel_properties[] = {
@@ -81,52 +85,66 @@ char *func_panel_properties[] = {
 	"tags",
 	"add tag(+)",
 	"remove tag(-)",
-	"save"
+	"save",
+	"quit"
 };
 
 char *func_panel_query[] = {
 	"query:"
 };
 
+char *sfunc_panel_configuration[] = {
+	"configuration",
+	"show UNTAGGED [ ]",
+	"fold files with a unique tag [ ]",
+	"save",
+	"quit"
+};
+
+char *sfunc_panel_colorscheme[] = {
+	"color scheme",
+	"black and white [ ]",
+	"query bar and tags:",
+	" text:",
+	"function bar and menus:",
+	" text:",
+	" background:",
+	"main window:",
+	" text:",
+	" background:",
+	"save",
+	"quit"
+};
+
+char *sfunc_panel_sortby[] = {
+	"sort by",
+	"tag value column [ ]", /*ticked by default*/
+	"reverse order [ ]",
+	"mix tags and files [ ]",
+	"show: name, size, tag_value",
+	"hide:",
+	"remove:",
+	"add:",
+	"sort by: name",
+	"save",
+	"quit"
+};
+
 /*global variable for the handle_winch function*/
-WINDOW *win[5]; /*qbar, elem_list, functions, function_panel*/
+WINDOW *win[5]; /*qbar, elem_list, functions, function_panel, subfunc_panel*/
 /*and maybe add a command line*/
-
-typedef struct tag_status
-{
-	/*interaface variables*/
-	int curwin;																								 /*current window*/
-	int old_curwin;						 /*save curwin when a function panel is displayed*/
-	int hlight;															/*element highlighted on the screen*/
-	int old_hlight;						 /*save hlight when a function panel is displayed*/
-	int choice;																		 /*element chosen by the user*/
-	int c;																												 /*user input*/
-	int panel_ev;										 /*signals when a penel is opened or closed*/
-
-	/*qbar*/
-	int qbc;																								/*number of queries*/
-	int curq;													/*current query, if any (else curq == -1)*/
-
-	/*elem_list*/
-	int elc;																							 /*number of elements*/
-	int attrc;							 /*number of listed attributes (name, size, etc...)*/
-
-	/*function panels*/
-	int func;																				/*currently displayed panel*/
-
-	/*subfunction panels*/
-	int sub_func;																 /*currently displayed subpanel*/
-}	tagst;
 
 void generate_win(WINDOW *wind[5]);
 void function_panel(WINDOW *wind[5], tagst *ts);
 void sub_function_panel(WINDOW *wind[5], tagst *ts);
+
 void handle_winch(int sig);
 void mvhlight(tagst *ts);
 void mvhlight_qbar(tagst *ts);
 void mvhlight_elem_list(tagst *ts);
 void mvhlight_funcpanel(tagst *ts);
 void function_input(tagst *ts, int *noexit);
+
 void print_tag_screen(WINDOW *wind[5], tagst *ts);
 void print_qbar(WINDOW *qbar_win, tagst *ts);
 void print_elem_list(WINDOW *elist_win, tagst *ts);
@@ -233,13 +251,16 @@ void function_panel(WINDOW *wind[5], tagst *ts)
 			case 1:	/*help*/
 				wind[3] = newwin(9, 50, (LINES/2)-(9/2), (COLS/2)-(50/2));		 /*TEST*/
 				break;
-			case 2:	/*options*/
-				wind[3] = newwin(10, 32, (LINES/2)-(10/2), (COLS/2)-(32/2));
+			case 2:	/*fold*/
+				wind[3] = newwin(3, 50, (LINES/2)-(3/2), (COLS/2)-(50/2));
 				break;
-			case 3:	/*properties*/
+			case 4:	/*options*/
+				wind[3] = newwin(8, 32, (LINES/2)-(8/2), (COLS/2)-(32/2));
+				break;
+			case 5:	/*properties*/
 				wind[3] = newwin(9, 18, (LINES/2)-(9/2), (COLS/2)-(18/2));
 				break;
-			case 4:	/*query*/
+			case 6:	/*query*/
 				wind[3] = newwin(3, 50, (LINES/2)-(3/2), (COLS/2)-(50/2));
 				break;
 		}
@@ -263,8 +284,17 @@ void sub_function_panel(WINDOW *wind[5], tagst *ts)
 	{
 		(ts->curwin)++;
 
-		switch(ts->sub_func)
+		switch(ts->sub_func)	/*subfunc are only in the options panel for now*/
 		{
+			case 0:	/*configuration*/
+				wind[4] = newwin(6, 36, (LINES/2)-(6/2), (COLS/2)-(36/2));
+				break;
+			case 1:	/*color scheme*/
+				wind[4] = newwin(13, 36, (LINES/2)-(13/2), (COLS/2)-(36/2));
+				break;
+			case 2:	/*sort by*/
+				wind[4] = newwin(12, 42, (LINES/2)-(12/2), (COLS/2)-(42/2));
+				break;
 			default:	/*TEST*/
 				wind[4] = newwin(9, 50, (LINES/2)-(9/2), (COLS/2)-(50/2));
 				break;
@@ -363,28 +393,28 @@ void mvhlight_elem_list(tagst *ts)
 
 void mvhlight_funcpanel(tagst *ts)
 {
-	if(ts->func == 2 || ts->func == 3)
+	if(ts->func == 4 || ts->func == 5)
 		switch(ts->c)
 		{
 			case KEY_UP:
 				if(ts->hlight == 0)
-					ts->hlight = (ts->func == 2 ? 7 : 6);
+					ts->hlight = (ts->func == 4 ? 5 : 6);
 				else if(ts->hlight > 0)
 					(ts->hlight)--;
 				break;
 			case KEY_DOWN:
-				if(ts->hlight < (ts->func == 2 ? 7 : 6))
+				if(ts->hlight < (ts->func == 4 ? 5 : 6))
 					(ts->hlight)++;
 				else
 					ts->hlight = 0;
 				break;
 			case 10:
-				if(ts->func == 2 || ts->func == 3)
+				if(ts->func == 4 || ts->func == 5)
 				{
 					ts->sub_func = ts->hlight;
 					ts->hlight = 0;
 				}
-				else if(ts->func == 3)
+				else if(ts->func == 6)
 				{
 					/*TODO: query validation*/
 				}
@@ -394,16 +424,20 @@ void mvhlight_funcpanel(tagst *ts)
 
 void function_input(tagst *ts, int *noexit)
 {
-	for(int i = 1; i < 6; i++)
+	for(int i = 1; i < 8; i++)
 		if(ts->c == KEY_F(i))
 		{
-			if(ts->func == -1 && i != 5)
+			if(ts->func == -1 && i != 3 && i != 7)
 				ts->func = i;
-			else if(ts->func == -1 && ts->sub_func == -1 && i == 5)
+			else if(ts->func == -1 && ts->sub_func == -1 && i == 3)
+			{
+				//do_unfold(ts); /*TODO*/
+			}
+			else if(ts->func == -1 && ts->sub_func == -1 && i == 7)
 				*noexit = 0;
-			else if(ts->func != -1 && ts->sub_func == -1 && i == 5)
+			else if(ts->func != -1 && ts->sub_func == -1 && i == 7)
 				ts->func = -1;
-			else if(ts->sub_func != -1 && i == 5)
+			else if(ts->sub_func != -1 && i == 7)
 				ts->sub_func = -1;
 			break;
 		}
@@ -509,7 +543,7 @@ void print_funcbar(WINDOW *funcbar_win, tagst *ts)
 	int x = 0;
 
 	wattron(funcbar_win, COLOR_PAIR(3));
-	for(int i = 0; i < 5; i++)
+	for(int i = 0; i < 7; i++)
 	{
 		wattron(funcbar_win, A_BOLD);
 		mvwprintw(funcbar_win, 0, x, command_buttons[i]);
@@ -539,10 +573,14 @@ void print_funcpanel(WINDOW *funcpanel, tagst *ts)
 		case 1:	/*help*/
 			/*nothing for now*/
 			break;
-		case 2:	/*options*/
+		case 2: /*fold*/
+			/*TODO: add a cursor*/
+			mvwprintw(funcpanel, 0, 2, func_panel_fold[0]);
+			break;
+		case 4:	/*options*/
 			mvwprintw(funcpanel, 0, (32/2)-((strlen(func_panel_options[0])+1)/2),
 								func_panel_options[0]);
-			for(int y = 1; y < 9; y++)
+			for(int y = 1; y < 7; y++)
 				if(ts->hlight == (y-1))
 				{
 					wattroff(funcpanel, A_REVERSE);
@@ -552,7 +590,7 @@ void print_funcpanel(WINDOW *funcpanel, tagst *ts)
 				else
 					mvwprintw(funcpanel, y, 2, func_panel_options[y]);
 			break;
-		case 3:	/*properties*/
+		case 5:	/*properties*/
 			mvwprintw(funcpanel, 0, (18/2)-(strlen(func_panel_properties[0])/2),
 								func_panel_properties[0]);
 			for(int y = 1; y < 8; y++)
@@ -565,9 +603,8 @@ void print_funcpanel(WINDOW *funcpanel, tagst *ts)
 				else
 					mvwprintw(funcpanel, y, 2, func_panel_properties[y]);
 			break;
-		case 4:	/*query*/
+		case 6:	/*query*/
 			/*TODO: add a cursor*/
-			box(funcpanel, 0, 0);
 			mvwprintw(funcpanel, 0, 2, func_panel_query[0]);
 			break;
 	}
@@ -584,8 +621,20 @@ void print_subfuncpanel(WINDOW *subfunc, tagst *ts)
 
 	switch(ts->sub_func)
 	{
+		case 0:	/*configuration*/
+			mvwprintw(subfunc, 0, (36/2)-(strlen(sfunc_panel_configuration[0])/2),
+								sfunc_panel_configuration[0]);
+			break;
+		case 1:	/*color scheme*/
+			mvwprintw(subfunc, 0, (36/2)-(strlen(sfunc_panel_colorscheme[0])/2),
+								sfunc_panel_colorscheme[0]);
+			break;
+		case 2:	/*sort by*/
+			mvwprintw(subfunc, 0, (42/2)-(strlen(sfunc_panel_sortby[0])/2),
+								sfunc_panel_sortby[0]);
+			break;
 		default:	/*TEST*/
-			mvwprintw(subfunc, 0, 23, "TEST");
+			mvwprintw(subfunc, 0, ((getmaxx(subfunc)+1)/2)-2, "TEST");
 			break;
 	}
 
