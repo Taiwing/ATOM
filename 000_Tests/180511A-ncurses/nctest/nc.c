@@ -60,11 +60,13 @@ char *command_buttons[] = {
 };
 
 char *func_panel_help[] = {
-	"help"
+	"help",
+	NULL
 };
 
 char *func_panel_fold[] = {
-	"fold:"
+	"fold:",
+	NULL
 };
 
 char *func_panel_options[] = {
@@ -75,6 +77,7 @@ char *func_panel_options[] = {
 	"recursively unfold all tags",
 	"unfold all tags",
 	"fold all tags",
+	NULL
 };
 
 char *func_panel_properties[] = {
@@ -86,11 +89,13 @@ char *func_panel_properties[] = {
 	"add tag(+)",
 	"remove tag(-)",
 	"save",
-	"quit"
+	"quit",
+	NULL
 };
 
 char *func_panel_query[] = {
-	"query:"
+	"query:",
+	NULL
 };
 
 char *sfunc_panel_configuration[] = {
@@ -98,7 +103,8 @@ char *sfunc_panel_configuration[] = {
 	"show UNTAGGED [ ]",
 	"fold files with a unique tag [ ]",
 	"save",
-	"quit"
+	"quit",
+	NULL
 };
 
 char *sfunc_panel_colorscheme[] = {
@@ -113,7 +119,8 @@ char *sfunc_panel_colorscheme[] = {
 	" text:",
 	" background:",
 	"save",
-	"quit"
+	"quit",
+	NULL
 };
 
 char *sfunc_panel_sortby[] = {
@@ -127,17 +134,20 @@ char *sfunc_panel_sortby[] = {
 	"add:",
 	"sort by: name",
 	"save",
-	"quit"
+	"quit",
+	NULL
 };
 
 /*global variable for the handle_winch function*/
 WINDOW *win[5]; /*qbar, elem_list, functions, function_panel, subfunc_panel*/
 /*and maybe add a command line*/
 
+/*windows generation*/
 void generate_win(WINDOW *wind[5]);
 void function_panel(WINDOW *wind[5], tagst *ts);
 void sub_function_panel(WINDOW *wind[5], tagst *ts);
 
+/*user input*/
 void handle_winch(int sig);
 void mvhlight(tagst *ts);
 void mvhlight_qbar(tagst *ts);
@@ -145,6 +155,7 @@ void mvhlight_elem_list(tagst *ts);
 void mvhlight_funcpanel(tagst *ts);
 void function_input(tagst *ts, int *noexit);
 
+/*display*/
 void print_tag_screen(WINDOW *wind[5], tagst *ts);
 void print_qbar(WINDOW *qbar_win, tagst *ts);
 void print_elem_list(WINDOW *elist_win, tagst *ts);
@@ -322,20 +333,13 @@ void handle_winch(int sig)
 
 void mvhlight(tagst *ts)
 {
-	switch(ts->curwin)
+	if(ts->curwin == 0)
+		mvhlight_qbar(ts);
+	else if(ts->curwin == 1)
+		mvhlight_elem_list(ts);
+	else
 	{
-		case 0:	/*qbar*/
-			mvhlight_qbar(ts);
-			break;
-		case 1:	/*elem_list*/
-			mvhlight_elem_list(ts);
-			break;
-		case 3: /*funcpanel*/
-			mvhlight_funcpanel(ts);
-			break;
-		case 4: /*subfuncpanel*/
-			//TODO: mvhlight_subfuncpanel(ts);
-			break;
+		/*LOLOLOL*/
 	}
 }
 
