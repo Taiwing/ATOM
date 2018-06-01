@@ -39,5 +39,6 @@ void set_panel_interactions(panel *pan, int *tickboxes, int *fields,
 void display_panel(tagst *ts, panel *pan); 					 /*display selected panel*/
 void load_panel(panel *pan);				/*create a window when panel is displayed*/
 void panel_input(tagst *ts, panel *pan);									/*handle user input*/
+void do_interaction(tagst *ts, panel *pan);		 /*execute selected interaction*/
 
 #endif

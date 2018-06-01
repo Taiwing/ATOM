@@ -136,6 +136,7 @@ void panel_input(tagst *ts, panel *pan)
 	}
 }
 
+/*TODO: make this multiplke functions and put them into an other file*/
 void display_panel(tagst *ts, panel *pan)
 {
 	/*background*/
@@ -163,6 +164,52 @@ void display_panel(tagst *ts, panel *pan)
 		else
 			mvwprintw(pan->win, i+1, 2, pan->items[i]);
 
+	/*tickboxes*/
+	if(pan->tickboxes)
+		for(int i = 0; i < pan->n_items; i++)
+			if(pan->tickboxes[i] != -1)
+			{
+				if(ts->hlight == i)
+				{
+					wattroff(pan->win, A_REVERSE);
+					mvwprintw(pan->win, i+1, 2+strlen(pan->items[i])+1,
+									 (pan->tickboxes[i] == 0 ? "[ ]" : "[x]"));
+					wattron(pan->win, A_REVERSE);
+				}
+				else
+					mvwprintw(pan->win, i+1, 2+strlen(pan->items[i])+1,
+									 (pan->tickboxes[i] == 0 ? "[ ]" : "[x]"));
+			}
+
+	/*fields*/	/*TODO: ADD CURSOR*/
+	if(pan->fieldw)
+		for(int i = 0; i < pan->n_items; i++)
+			if(pan->fieldw[i] != -1)
+			{
+				if(ts->hlight == i)
+				{
+					wattroff(pan->win, A_REVERSE);
+					mvwhline(pan->win, i+1, 2+strlen(pan->items[i])+1, 0,
+									(pan->fieldw[i] == 0 ? 10 : pan->fieldw[i]));
+					wattron(pan->win, A_UNDERLINE);
+					mvwprintw(pan->win, i+1, 2+strlen(pan->items[i])+1,
+									 (pan->fields[i] ? pan->fields[i] : "\0"));
+					wattroff(pan->win, A_UNDERLINE);
+					wattron(pan->win, A_REVERSE);
+				}
+				else
+				{
+					mvwhline(pan->win, i+1, 2+strlen(pan->items[i])+1, 0,
+									(pan->fieldw[i] == 0 ? 10 : pan->fieldw[i]));
+					wattron(pan->win, A_UNDERLINE);
+					mvwprintw(pan->win, i+1, 2+strlen(pan->items[i])+1,
+									 (pan->fields[i] ? pan->fields[i] : "\0"));
+					wattroff(pan->win, A_UNDERLINE);
+				}
+			}
+
+	/*lists*/ /*TODO*/
+
 	/*save_quit*/
 	if(pan->save_quit)
 		for(int i = 0; i < 2; i++)
@@ -179,4 +226,9 @@ void display_panel(tagst *ts, panel *pan)
 		}
 
 	wrefresh(pan->win);
+}
+
+void do_interaction(tagst *ts, panel *pan)
+{
+	
 }
