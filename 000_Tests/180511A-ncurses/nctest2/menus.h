@@ -23,5 +23,6 @@ enum menus_list {
 };
 
 MENU **init_men(void);
+MENU *genmen(int mennb, WINDOW *mainwin, void *data);
 
 #endif
