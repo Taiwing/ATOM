@@ -1,0 +1,2 @@
+run on a macOS system
+chmod -h 755 test6 && touch -h test6 -d "2018-06-01 22:20:00" && tar -cf exo.tar *
