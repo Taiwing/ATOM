@@ -6,6 +6,11 @@ OBJ = ft_putchar.o\
 ex06/ft_print_alphabet.o\
 ex07/ft_print_numbers.o\
 ex08/ft_is_negative.o\
+ex09/ft_ft.o\
+ex10/ft_swap.o\
+ex11/ft_div_mod.o\
+ex12/ft_iterative_factorial.o\
+ex13/ft_recursive_factorial.o\
 
 all: $(NAME) test
 
