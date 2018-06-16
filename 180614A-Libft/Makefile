@@ -7,6 +7,7 @@ ODIR = obj
 
 LFT = libf4.h
 SRC = ft_strlen.c\
+ft_strdup.c\
 ft_memalloc.c\
 ft_memdel.c\
 ft_strnew.c\
@@ -21,6 +22,11 @@ ft_strnequ.c\
 ft_strsub.c\
 ft_strjoin.c\
 ft_strtrim.c\
+ft_strsplit.c\
+ft_itoa.c\
+ft_putchar.c\
+ft_putstr.c\
+ft_putendl.c\
 
 OBJ = $(addprefix $(ODIR)/, $(SRC:.c=.o))
 

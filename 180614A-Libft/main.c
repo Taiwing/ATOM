@@ -36,6 +36,10 @@ int		main(void)
 	char lol[] = "lol";
 	printf("ft_strlen TEST:\nlol: %li\n\n", ft_strlen(lol));
 
+	/*ft_strdup TEST*/
+	char *dup = ft_strdup(lol);
+	printf("ft_strdup TEST:\nlol: %s\n\n", dup);
+
 	/*ft_memalloc TEST*/
 	char *str = (char *)ft_memalloc(12);
 	printf("ft_memalloc TEST:\n12: ");
@@ -133,5 +137,56 @@ int		main(void)
 	ft_strdel(&trim);
 	trim = ft_strtrim(" ");
 	printf("\"%s\": \"%s\"\n", " ", trim ? trim : "NULL");
+
+	/*ft_strsplit TEST*/
+	printf("ft_strsplit TEST:\n");
+	char tospl[] = "*salut*les***etudiants*";
+	char **split = ft_strsplit(tospl, '*');
+	printf("\"%s\"\nsplit:\n", tospl);
+	for (int i = 0; split[i]; i++)
+		printf("%s\n", split[i]);
+	char tospl2[] = "the###first#byte######is#good#";
+	ft_memdel((void **)&split);
+	split = ft_strsplit(tospl2, '#');
+	printf("\"%s\"\nsplit:\n", tospl2);
+	for (int i = 0; split[i]; i++)
+		printf("%s\n", split[i]);
+	char normal[] = "Hello, I'm a string!";
+	ft_memdel((void **)&split);
+	split = ft_strsplit(normal, '~');
+	printf("\"%s\"\nsplit:\n", normal);
+	for (int i = 0; split[i]; i++)
+		printf("%s\n", split[i]);
+	printf("\"%s\"\nsplit:\n", "empty string");
+	ft_memdel((void **)&split);
+	split = ft_strsplit("", '~');
+	for (int i = 0; split[i]; i++)
+		printf("%s\n", split[i]);
+	printf("\n");
+
+	/*ft_itoa TEST*/
+	printf("ft_itoa TEST\n");
+	char *nbr = ft_itoa(42);
+	printf("%d: %s\n", 42, nbr);
+	ft_strdel(&nbr);
+	nbr = ft_itoa(-725058);
+	printf("%d: %s\n", -725058, nbr);
+	ft_strdel(&nbr);
+	nbr = ft_itoa(0);
+	printf("%d: %s\n\n", 0, nbr);
+
+	/*ft_putchar TEST*/
+	printf("ft_putchar TEST:\n");
+	char ptch[] = "Hello, I'm a string!\n";
+	for (int i = 0; ptch[i]; i++)
+		ft_putchar(ptch[i]);
+	ft_putchar('\n');
+
+	/*ft_putstr TEST*/
+	ft_putstr("ft_putstr TEST:\n\n");
+
+	/*ft_putendl TEST*/
+	ft_putendl("ft_putendl TEST:\n");
+
 	return 0;
 }

@@ -1,25 +1,5 @@
 #include "libf4.h"
 
-char	**ft_strsplit(char const *s, char c)
-{
-	static size_t	size = 0;
-	char			**split;
-	size_t			l;
-
-	l = 0;
-	while (*s == c)
-		s++;
-	while (s[l] && s[l] != c)
-		l++;
-	if (l)
-	{
-		size++;
-		split = s[l] ? ft_strsplit(s+l, c) : (char **)malloc(size * sizeof(char *));
-		
-	}
-
-}
-
 char    **ft_strsplit(char const *s, char c)
 {
 	char	**split;
@@ -29,7 +9,7 @@ char    **ft_strsplit(char const *s, char c)
 
 	size = 0;
 	l = ft_strlen(s);
-	copy = ft_strsub(s, 0, l);	/*TODO: replace by strcpy*/
+	copy = ft_strdup(s);
 	while (l--)
 	{
 		copy[l] = copy[l] == c ? 0 : copy[l];
@@ -37,6 +17,11 @@ char    **ft_strsplit(char const *s, char c)
 	}
 	split = (char **)ft_memalloc((size+1) * sizeof(char *));
 	l = ft_strlen(s);
-	
-
+	while (l--)
+	{
+		if ((!copy[l] && copy[l+1]) || (!l && copy[l]))
+			split[--size] = ft_strdup(copy + (!l && copy[l] ? l : l+1));
+	}
+	free(copy);
+	return split;
 }
