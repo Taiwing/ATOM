@@ -1,0 +1,4 @@
+libft will temporarly be named libf4 to avoid trouble with the already
+installed libft. The c files will have to be modify in the same way as
+for libf3. Although, maybe this one will really become the new libft so
+it could replace or merge with the old one.

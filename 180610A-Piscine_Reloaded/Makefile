@@ -11,6 +11,14 @@ ex10/ft_swap.o\
 ex11/ft_div_mod.o\
 ex12/ft_iterative_factorial.o\
 ex13/ft_recursive_factorial.o\
+ex14/ft_sqrt.o\
+ex15/ft_putstr.o\
+ex16/ft_strlen.o\
+ex17/ft_strcmp.o\
+ex20/ft_strdup.o\
+ex21/ft_range.o\
+ex25/ft_foreach.o\
+ex26/ft_count_if.o\
 
 all: $(NAME) test
 
