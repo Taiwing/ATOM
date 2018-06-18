@@ -32,6 +32,100 @@ char	ft_rcmodalpha(unsigned int i, char c)
 
 int		main(void)
 {
+	/*ft_memset TEST*/
+	char *mems = ft_strdup("Hello, I'm a string!");
+	printf("ft_memset TEST:\n\"%s\": ", mems);
+	printf("\"%s\"\n\n", (char *)ft_memset((void *)mems, 'a', 13));
+
+	/*ft_bzero TEST*/
+	printf("ft_bzero TEST:\n");
+	ft_bzero((void *)mems, 13);
+	for (int i = 0; i < 21; i++)
+		printf("%c", (mems[i] ? mems[i] : '0'));
+	printf("\n\n");
+
+	/*ft_memcpy TEST*/
+	printf("ft_memcpy TEST:\n");
+	printf("\"%s\"\n\n", (char *)ft_memcpy((void *)mems, (void *)(mems+13), 7));
+
+	/*memccpy TEST*/
+	printf("memccpy TEST:\n");
+	char *memcc = strdup("Hello, I'm a string!");
+	char *dest = ft_strnew(20);
+	char *res = memccpy(dest, memcc, 'a', 6);
+	printf("\"%s\": \"%s\" \"%s\"\n", memcc, dest, res);
+	ft_strclr(dest);
+	res = memccpy(dest, memcc, 'a', 15);
+	printf("\"%s\": \"%s\" \"%s\"\n", memcc, dest, res);
+	ft_strclr(dest);
+	dest[12] = 'L';
+	dest[13] = 'O';
+	dest[14] = 'L';
+	res = memccpy(dest, memcc, 'a', 15);
+	printf("\"%s\": \"%s\" \"%s\"\n", memcc, dest, res);
+	ft_memset((void *)dest, 0, 12);
+	res = memccpy(dest, memcc, 'a', 12);
+	printf("\"%s\": \"%s\" \"%s\"\n", memcc, dest, res);
+	ft_strdel(&dest);
+	dest = ft_strnew(12);
+	res = memccpy(dest, memcc, 'a', 12);
+	printf("\"%s\": \"%s\" \"%s\"\n\n", memcc, dest, res);
+
+	/*ft_memccpy TEST*/
+	printf("ft_memccpy TEST:\n");
+	char *memcc2 = strdup("Hello, I'm a string!");
+	char *dest2 = ft_strnew(20);
+	char *res2 = ft_memccpy(dest2, memcc2, 'a', 6);
+	printf("\"%s\": \"%s\" \"%s\"\n", memcc2, dest2, res2);
+	ft_strclr(dest2);
+	res2 = ft_memccpy(dest2, memcc2, 'a', 15);
+	printf("\"%s\": \"%s\" \"%s\"\n", memcc2, dest2, res2);
+	ft_strclr(dest2);
+	dest2[12] = 'L';
+	dest2[13] = 'O';
+	dest2[14] = 'L';
+	res2 = ft_memccpy(dest2, memcc2, 'a', 15);
+	printf("\"%s\": \"%s\" \"%s\"\n", memcc2, dest2, res2);
+	ft_memset((void *)dest2, 0, 12);
+	res2 = ft_memccpy(dest2, memcc2, 'a', 12);
+	printf("\"%s\": \"%s\" \"%s\"\n", memcc2, dest2, res2);
+	ft_strdel(&dest2);
+	dest2 = ft_strnew(12);
+	res2 = ft_memccpy(dest2, memcc2, 'a', 12);
+	printf("\"%s\": \"%s\" \"%s\"\n\n", memcc2, dest2, res2);
+
+	/*memmove TEST*/
+	char *memm = strdup("Hello, I'm a string!");
+	printf("memmove TEST:\n");
+	printf("NO OVERLAP: \"%s\": ", memm);
+	printf("\"%s\"\n", (char *)memmove((void *)memm, (void *)memm+13, 6));
+	printf("OVERLAP:    \"%s\": ", memm);
+	printf("\"%s\"\n\n", (char *)memmove((void *)memm, (void *)memm+5, 10));
+
+	/*ft_memmove TEST*/
+	printf("ft_memmove TEST:\n");
+	printf("NO OVERLAP: \"%s\": ", memcc);
+	printf("\"%s\"\n", (char *)ft_memmove((void *)memcc, (void *)memcc+13, 6));
+	printf("OVERLAP:    \"%s\": ", memcc);
+	printf("\"%s\"\n\n", (char *)ft_memmove((void *)memcc, (void *)memcc+5, 10));
+
+	/*memchr TEST*/
+	printf("memchr TEST:\n");
+	char *memch = ft_strdup("Hello, I'm a string!");
+	printf("\"%s\":\n", memch);
+	printf("a: %s\n", (char *)memchr((void *)memch, 'a', 42));
+	printf("z: %s\n", (char *)memchr((void *)memch, 'z', 42));
+	printf("I (n = 8): %s\n", (char *)memchr((void *)memch, 'I', 8));
+	printf("I (n = 7): %s\n\n", (char *)memchr((void *)memch, 'I', 7));
+
+	/*ft_memchr TEST*/
+	printf("ft_memchr TEST:\n");
+	printf("\"%s\":\n", memch);
+	printf("a: %s\n", (char *)ft_memchr((void *)memch, 'a', 42));
+	printf("z: %s\n", (char *)ft_memchr((void *)memch, 'z', 42));
+	printf("I (n = 8): %s\n", (char *)ft_memchr((void *)memch, 'I', 8));
+	printf("I (n = 7): %s\n\n", (char *)ft_memchr((void *)memch, 'I', 7));
+
 	/*ft_strlen TEST*/
 	char lol[] = "lol";
 	printf("ft_strlen TEST:\nlol: %li\n\n", ft_strlen(lol));
@@ -187,6 +281,22 @@ int		main(void)
 
 	/*ft_putendl TEST*/
 	ft_putendl("ft_putendl TEST:\n");
+
+	/*ft_putnbr TEST*/
+	ft_putendl("ft_putnbr TEST:");
+	ft_putstr("42: ");
+	ft_putnbr(42);
+	ft_putstr("\n-45902: ");
+	ft_putnbr(-45902);
+	ft_putstr("\n0: ");
+	ft_putnbr(0);
+	ft_putstr("\n\n");
+
+	/*ft_put_fd TEST*/
+	ft_putstr_fd("ft_put_fd TEST:\n", 2);
+	ft_putendl_fd("ERROR (Ironically, it means it works)", 2);
+	ft_putnbr_fd(42424242, 2);
+	ft_putstr_fd("\n\n", 2);
 
 	return 0;
 }

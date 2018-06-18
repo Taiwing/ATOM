@@ -6,7 +6,13 @@ CFLAGS = -Wall -Wextra -Werror
 ODIR = obj
 
 LFT = libf4.h
-SRC = ft_strlen.c\
+SRC = ft_memset.c\
+ft_bzero.c\
+ft_memcpy.c\
+ft_memccpy.c\
+ft_memmove.c\
+ft_memchr.c\
+ft_strlen.c\
 ft_strdup.c\
 ft_memalloc.c\
 ft_memdel.c\
@@ -27,6 +33,11 @@ ft_itoa.c\
 ft_putchar.c\
 ft_putstr.c\
 ft_putendl.c\
+ft_putnbr.c\
+ft_putchar_fd.c\
+ft_putstr_fd.c\
+ft_putendl_fd.c\
+ft_putnbr_fd.c\
 
 OBJ = $(addprefix $(ODIR)/, $(SRC:.c=.o))
 
