@@ -7,6 +7,8 @@
 
 # define ABS(val) (val < 0 ? -val : val)
 
+typedef unsigned char t_uchar;
+
 void	*ft_memset(void *s, int c, size_t n);
 void	ft_bzero(void *s, size_t n);
 void	*ft_memcpy(void *dest, const void *src, size_t n);

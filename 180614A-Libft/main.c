@@ -116,7 +116,9 @@ int		main(void)
 	printf("a: %s\n", (char *)memchr((void *)memch, 'a', 42));
 	printf("z: %s\n", (char *)memchr((void *)memch, 'z', 42));
 	printf("I (n = 8): %s\n", (char *)memchr((void *)memch, 'I', 8));
-	printf("I (n = 7): %s\n\n", (char *)memchr((void *)memch, 'I', 7));
+	printf("I (n = 7): %s\n", (char *)memchr((void *)memch, 'I', 7));
+	printf("I (n = 6): %s\n", (char *)memchr((void *)memch, 'I', 6));
+	printf("H (n = 0): %s\n\n", (char *)memchr((void *)memch, 'H', 0));
 
 	/*ft_memchr TEST*/
 	printf("ft_memchr TEST:\n");
@@ -124,7 +126,28 @@ int		main(void)
 	printf("a: %s\n", (char *)ft_memchr((void *)memch, 'a', 42));
 	printf("z: %s\n", (char *)ft_memchr((void *)memch, 'z', 42));
 	printf("I (n = 8): %s\n", (char *)ft_memchr((void *)memch, 'I', 8));
-	printf("I (n = 7): %s\n\n", (char *)ft_memchr((void *)memch, 'I', 7));
+	printf("I (n = 7): %s\n", (char *)ft_memchr((void *)memch, 'I', 7));
+	printf("I (n = 6): %s\n", (char *)ft_memchr((void *)memch, 'I', 6));
+	printf("H (n = 0): %s\n\n", (char *)ft_memchr((void *)memch, 'H', 0));
+
+	/*memcmp TEST*/
+	printf("memcmp TEST:\n");
+	char *memcm = strdup("Hello, I'm a sOT A STRING!!!!!! AHAHAHAH");
+	printf("cmp: \"%s\" \"%s\"\n", memch, memcm);
+	printf("n = 42: %d\n", memcmp((void *)memch, (void *)memcm, 42));
+	printf("n = 0: %d\n", memcmp((void *)memch, (void *)memcm, 0));
+	printf("n = 13: %d\n", memcmp((void *)memch, (void *)memcm, 13));
+	printf("n = 14: %d\n", memcmp((void *)memch, (void *)memcm, 14));
+	printf("n = 15: %d\n\n", memcmp((void *)memch, (void *)memcm, 15));
+
+	/*ft_memcmp TEST*/
+	printf("ft_memcmp TEST:\n");
+	printf("cmp: \"%s\" \"%s\"\n", memch, memcm);
+	printf("n = 42: %d\n", ft_memcmp((void *)memch, (void *)memcm, 42));
+	printf("n = 0: %d\n", ft_memcmp((void *)memch, (void *)memcm, 0));
+	printf("n = 13: %d\n", ft_memcmp((void *)memch, (void *)memcm, 13));
+	printf("n = 14: %d\n", ft_memcmp((void *)memch, (void *)memcm, 14));
+	printf("n = 15: %d\n\n", ft_memcmp((void *)memch, (void *)memcm, 15));
 
 	/*ft_strlen TEST*/
 	char lol[] = "lol";
@@ -133,6 +156,93 @@ int		main(void)
 	/*ft_strdup TEST*/
 	char *dup = ft_strdup(lol);
 	printf("ft_strdup TEST:\nlol: %s\n\n", dup);
+
+	/*ft_strcpy TEST*/
+	char *scpy = (char *)malloc(ft_strlen(memch)+1);
+	printf("ft_strcpy TEST:\n%s\n\n", ft_strcpy(scpy, memch));
+
+	/*ft_strncpy TEST*/
+	free(scpy);
+	scpy = (char *)malloc(42);
+	printf("ft_strncpy TEST:\n");
+	printf("n = 42: %s\n", ft_strncpy(scpy, memch, 42));
+	ft_memset((void *)scpy, '6', 41);
+	scpy[41] = 0;
+	printf("ft_memset scpy: %s\n", scpy);
+	printf("n = strlen(memch): %s\n\n", ft_strncpy(scpy, memch, ft_strlen(memch)));
+
+	/*ft_strcat TEST*/
+	bzero((void *)scpy+ft_strlen(memch), 42-ft_strlen(memch));
+	printf("ft_strcat TEST:\n");
+	printf("\"%s\" + \" lol\" =\n", scpy);
+	printf("\"%s\"\n\n", ft_strcat(scpy, " lol"));
+
+	/*ft_strncat TEST*/
+	printf("ft_strncat TEST:\n");
+	char adds[] = " #metoo!";
+	printf("\"%s\" + \"%s\" =\n", scpy, adds);
+	printf("n = 8: \"%s\"\n", ft_strncat(scpy, adds, 8));
+	bzero((void *)scpy+ft_strlen(memch), 42-ft_strlen(memch));
+	printf("\"%s\" + \"%s\" =\n", scpy, adds);
+	printf("n = 4: \"%s\"\n", ft_strncat(scpy, adds, 4));
+	bzero((void *)scpy+ft_strlen(memch), 42-ft_strlen(memch));
+	printf("n = 12: \"%s\"\n\n", ft_strncat(scpy, adds, 12));
+
+	/*ft_strlcat TEST*/
+	bzero((void *)scpy+ft_strlen(memch), 42-ft_strlen(memch));
+	char cat[] = " I'm a Tail!";
+	printf("ft_strlcat TEST:\n");
+	printf("\"%s\" + \"%s\" =\n", memch, cat);
+	size_t ret = ft_strlcat(scpy, cat, 42);
+	printf("\"%s\"\nlength = %li\n", scpy, ret);
+	char *end = (char *)malloc(11);
+	memset((void *)end, 42, 10);
+	end[10] = 0;
+	printf("TEST: scpy = %li && end = %li\n", ft_strlen(scpy), ft_strlen(end));
+	printf("TEST: end = \"%s\"\n", end);
+	ret = ft_strlcat(scpy, end, 42);
+	printf("\"%s\"\nlength = %li\n\n", scpy, ret);
+
+	/*ft_strchr TEST*/
+	printf("ft_strchr TEST:\n");
+	char hell[] = "Hello, I'm a string!";
+	ft_putendl(hell);
+	printf("I: %s\n", ft_strchr(hell, 'I'));
+	printf("z: %s\n\n", ft_strchr(hell, 'z'));
+
+	/*ft_strrchr TEST*/
+	printf("ft_strrchr TEST:\n");
+	ft_putendl(hell);
+	printf("' ': %s\n", ft_strrchr(hell, ' '));
+	printf("z: %s\n\n", ft_strrchr(hell, 'z'));
+
+	/*ft_strstr TEST*/
+	printf("ft_strstr TEST:\n");
+	char first[] = "string";
+	char second[] = "string!";
+	char third[] = "lol";
+	char fourth[] = "strink";
+	ft_putendl(hell);
+	printf("\"%s\": \"%s\"\n", first, ft_strstr(hell, first));
+	printf("\"%s\": \"%s\"\n", second, ft_strstr(hell, second));
+	printf("\"%s\": \"%s\"\n", third, ft_strstr(hell, third));
+	printf("\"%s\": \"%s\"\n\n", fourth, ft_strstr(hell, fourth));
+
+	/*ft_strnstr TEST*/
+	printf("ft_strnstr TEST:\n");
+	char nsecond[] = "string";
+	char nthird[] = "string!";
+	char nfourth[] = "strink";
+	ft_putendl((char const *)hell);
+	printf("len = 18 \"%s\": \"%s\"\n", nsecond, ft_strnstr(hell, nsecond, 18));
+	printf("len = 19 \"%s\": \"%s\"\n", nsecond, ft_strnstr(hell, nsecond, 19));
+	printf("len = 20 \"%s\": \"%s\"\n", nsecond, ft_strnstr(hell, nsecond, 20));
+	printf("len = 19 \"%s\": \"%s\"\n", nthird, ft_strnstr(hell, nthird, 19));
+	printf("len = 20 \"%s\": \"%s\"\n", nthird, ft_strnstr(hell, nthird, 20));
+	printf("len = 21 \"%s\": \"%s\"\n", nthird, ft_strnstr(hell, nthird, 21));
+	printf("len = 18 \"%s\": \"%s\"\n", nfourth, ft_strnstr(hell, nfourth, 18));
+	printf("len = 19 \"%s\": \"%s\"\n", nfourth, ft_strnstr(hell, nfourth, 19));
+	printf("len = 20 \"%s\": \"%s\"\n\n", nfourth, ft_strnstr(hell, nfourth, 20));
 
 	/*ft_memalloc TEST*/
 	char *str = (char *)ft_memalloc(12);
@@ -280,7 +390,12 @@ int		main(void)
 	ft_putstr("ft_putstr TEST:\n\n");
 
 	/*ft_putendl TEST*/
-	ft_putendl("ft_putendl TEST:\n");
+	char lite[] = "Hello, I'm a literal string!";
+	char *alls = ft_strdup("Hello, I'm an allocated string!");
+	ft_putendl("ft_putendl TEST:");
+	ft_putendl(lite);
+	ft_putendl(alls);
+	ft_putchar('\n');
 
 	/*ft_putnbr TEST*/
 	ft_putendl("ft_putnbr TEST:");

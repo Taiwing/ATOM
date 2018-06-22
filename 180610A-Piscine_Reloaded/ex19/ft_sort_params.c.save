@@ -1,0 +1,18 @@
+#include <libf3.h>
+
+int	main(int argc, char *argv[])
+{
+	int		i;
+	char	*arg;
+	char	*s1;
+	char	*s2;
+
+	i = 1;
+	while (argc)
+	{
+		arg = argv[i++];
+		while (*arg)
+			ft_putchar(*arg++);
+		ft_putchar('\n');
+	}
+}
