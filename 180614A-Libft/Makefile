@@ -25,6 +25,15 @@ ft_strrchr.c\
 ft_strstr.c\
 ft_strnstr.c\
 ft_strcmp.c\
+ft_strncmp.c\
+ft_atoi.c\
+ft_isalpha.c\
+ft_isdigit.c\
+ft_isalnum.c\
+ft_isascii.c\
+ft_isprint.c\
+ft_toupper.c\
+ft_tolower.c\
 ft_memalloc.c\
 ft_memdel.c\
 ft_strnew.c\
@@ -49,6 +58,12 @@ ft_putchar_fd.c\
 ft_putstr_fd.c\
 ft_putendl_fd.c\
 ft_putnbr_fd.c\
+ft_lstnew.c\
+ft_lstdelone.c\
+ft_lstdel.c\
+ft_lstadd.c\
+ft_lstiter.c\
+ft_lstmap.c\
 
 OBJ = $(addprefix $(ODIR)/, $(SRC:.c=.o))
 

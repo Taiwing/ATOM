@@ -244,6 +244,31 @@ int		main(void)
 	printf("len = 19 \"%s\": \"%s\"\n", nfourth, ft_strnstr(hell, nfourth, 19));
 	printf("len = 20 \"%s\": \"%s\"\n\n", nfourth, ft_strnstr(hell, nfourth, 20));
 
+	/*ft_strcmp TEST*/
+	printf("ft_strcmp TEST:\n");
+	char strf[] = "YEAH DUDE, BEST MOTHERFUCKING STRING EVER!";
+	char *strs = strdup(strf);
+	char strff[] = "YEAH DUDE, BEST MOTHERFUCKING STRING EVER";
+	char strfs[] = "YEAH DUDE, BEST MOTHERFUCKING STRING EVER ";
+	char strft[] = "YEAH DUDE, BEST MOTHERFUCKING STRING EVER! ";
+	printf("strcmp\n\"%s\"\n\"%s\"\n%d\n", strf, strs, ft_strcmp(strf, strs));
+	printf("strcmp\n\"%s\"\n\"%s\"\n%d\n", strf, strff, ft_strcmp(strf, strff));
+	printf("strcmp\n\"%s\"\n\"%s\"\n%d\n", strf, strfs, ft_strcmp(strf, strfs));
+	printf("strcmp\n\"%s\"\n\"%s\"\n%d\n\n", strf, strft, ft_strcmp(strf, strft));
+
+	/*ft_strncmp TEST*/
+	printf("ft_strncmp TEST:\n");
+	printf("strncmp 100\n\"%s\"\n\"%s\"\n%d\n", strf, strs, ft_strncmp(strf, strs, 100));
+	printf("strncmp 41\n\"%s\"\n\"%s\"\n%d\n", strf, strff, ft_strncmp(strf, strff, 41));
+	printf("strncmp 42\n\"%s\"\n\"%s\"\n%d\n", strf, strfs, ft_strncmp(strf, strfs, 42));
+	printf("strncmp 42\n\"%s\"\n\"%s\"\n%d\n\n", strf, strft, ft_strncmp(strf, strft, 42));
+
+	/*ft_atoi TEST*/
+	printf("ft_atoi TEST:\n");
+	printf("42: %d\n", ft_atoi("42"));
+	printf("-306: %d\n", ft_atoi("-306"));
+	printf("-0000923: %d\n\n", ft_atoi("-0000923"));
+
 	/*ft_memalloc TEST*/
 	char *str = (char *)ft_memalloc(12);
 	printf("ft_memalloc TEST:\n12: ");
