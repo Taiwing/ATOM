@@ -1,0 +1,112 @@
+ft_atoi: turn a string into an int
+
+ft_bzero: set a portion of memory to 0
+
+ft_isalnum:	test if a character is a letter or a digit
+
+ft_isalpha: test if a character is a letter
+
+ft_isascii: test if a character is in the ascii table
+
+ft_isdigit: test if a character is a digit
+
+ft_isprint: test if a character is printable
+
+ft_itoa: turn an int into a string
+
+ft_lstadd: add an element to the begining of a list 
+
+ft_lstdel: delete every element of a list
+
+ft_lstdelone: delete an element of a list
+
+ft_lstiter: apply a function f (which takes an elem ptr) to every element of a list
+
+ft_lstmap: apply a function f to every element of a list and return a new list
+
+ft_lstnew: create a new list element
+
+ft_memalloc: allocate a portion of memory and set it to 0 (returns a void ptr)
+
+ft_memccpy: copy up to n number of bytes while the character c is not encountered, if
+it is, the character is copied and the new byte chain is returned. if the function
+goes past n characters without encountering c, NULL is returned
+
+ft_memchr: search the c character in up to n bytes (returns a pointer to the first
+occurance of the character if it is found)
+
+ft_memcmp: test if the n first byte of a memory area are the same
+
+ft_memcpy: copy up to n bytes of data from src to dest
+
+ft_memdel: free a memory area and set its pointer to NULL
+
+ft_memmove: copy an area of memory to an other one (the two areas can overlap)
+
+ft_memset: set up to n bytes of memory to c
+
+ft_putchar: write a character in the terminal
+
+ft_putchar_fd: whrite a character to fd (file descriptor)
+
+ft_strcat: add the string src to the end of dest
+
+ft_strchr: return the first occurance of c in a string, or NULL if c is not found
+
+ft_strclr: set every byte of a string to 0
+
+ft_strcmp: compare two strings (0 if '=', >0 if 's1 > s2', <0 if 's2 > s1')
+
+ft_strcpy: copy src to dest
+
+ft_strequ: return 1 if two strings are equal up to n bytes and 0 if it is not
+
+ft_striter: apply a function f to every character of a string
+
+ft_striteri: apply a function f to every character of a string that also take the
+index i in input
+
+ft_strjoin: concatenate two strings into a new one
+
+ft_strlcat: add src at the end of dest with size as the number of bytes of the return
+string (NULL excluded). strlcat should return size, if it is not, an error has occured 
+
+ft_strlen: return the size of a string (every character, NULL byte excluded)
+
+ft_strmap: create a new string by applying a function to every character of the input
+string and return it
+
+ft_strmapi: create a new string by applying a function to every character of the input
+string (that takes the index of the character) and return it
+
+ft_strncat: add up to n characters from src to the end of dest. if the NULL byte is
+not found, strncat adds it at the end of dest
+
+ft_strncmp: compare up to n characters in two strings
+
+ft_strncpy: copy up to n characters from src to dest
+
+ft_strnequ: compare the n first characters of two strings, return 1 if they are equal,
+else return 0
+
+ft_strnew: allocate a fresh string of size characters (counting NULL), and set it all
+to 0. return a ptr to the new string
+
+ft_strnstr: search the string needle in the first len characters of the string
+haystack, and return its first occurance, else return NULL
+
+ft_strrchr: return the last occurance of the character c in a string, or NULL if c is
+not fiund in the string
+
+ft_strsplit: split a string into an array of substrings separated by the character c
+
+ft_strstr: return the first occurance of the array needle in haystack. if needle is
+not found, return NULL
+
+ft_strsub: copy a substring of len characters in s from start and return it
+
+ft_strtrim: remove white characters at the start and end of a string
+
+ft_tolower: if c is in upper case, return the lower case equivalent, else return c
+
+ft_toupper: if c is in lower case, return the upper case equivalent, else return c 
