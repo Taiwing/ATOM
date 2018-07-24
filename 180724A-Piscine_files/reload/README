@@ -1,0 +1,8 @@
+libf3 is a temporary library for the piscine realoaded exercises
+libf3_hearder (link to libf3.h) and the Makefile are to be edited
+at each new exercise (the main.c also, for testing purposes)
+then it is to be removed (make remove) when the exercise is over
+also, replace "#include <libf3.h>" by "#include <libft.h>" when done 
+
+header libf3.h is installed in /usr/local/include/
+static library file is in /usr/local/lib/

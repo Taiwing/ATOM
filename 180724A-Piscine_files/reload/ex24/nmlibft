@@ -1,0 +1,17 @@
+
+ft_putchar.o:
+0000000000000000 T ft_putchar
+                 U write
+
+ft_putstr.o:
+                 U ft_putchar
+0000000000000000 T ft_putstr
+
+ft_strcmp.o:
+0000000000000000 T ft_strcmp
+
+ft_strlen.o:
+0000000000000000 T ft_strlen
+
+ft_swap.o:
+0000000000000000 T ft_swap

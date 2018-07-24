@@ -1,0 +1,11 @@
+#include "libft/libft.h"
+#include "ft_swap.h"
+
+void ft_swap(int *a, int *b)
+{
+  int c;
+
+  c = *a;
+  *a = *b;
+  *b = c;
+}

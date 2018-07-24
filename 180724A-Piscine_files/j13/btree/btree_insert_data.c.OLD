@@ -1,0 +1,24 @@
+#include "ft_btree.h"
+
+void btree_insert_data(t_btree **root, void *item, int (*cmpf)(void *, void *))
+{
+  int ret;
+  t_btree *new;
+
+  ret = (*cmpf)(item, (*root)->item);
+
+  if(!ret)
+  {
+    new = btree_create_node(item);
+    new->right = (*root)->right;
+    (*root)->right = new;
+  }
+  else if(ret < 0 && (*root)->left)
+    btree_insert_data(&((*root)->left), item, cmpf);
+  else if(ret < 0 && !(*root)->left)
+    (*root)->left = btree_create_node(item);
+  else if(ret > 0 && (*root)->right)
+    btree_insert_data(&((*root)->right), item, cmpf);
+  else if(ret > 0 && !(*root)->right)
+    (*root)->right = btree_create_node(item);
+}
