@@ -19,22 +19,22 @@ void								ft_print_combn(int n)
 		dn = 0;
 		while (dn < n)
 			ft_putchar(bank[c][dn++] + 48);
-		ft_putchar(',');	/*TEMP*/
-		ft_putchar(' ');	/*TEMP*/
 		c++;
 		if (loaded(ammo))
+		{
+			ft_putchar(',');
+			ft_putchar(' ');
 			get_next_comb(ammo, bank, c, n);
+		}
 		else
 			break;
 	}
 }
 
-static void	load_ammo(int ammo[10], int bank[255][10], int n) /*TEMP: OK*/
+static void	load_ammo(int ammo[10], int bank[255][10], int n)
 {
 	int	d;
 	int load;
-
-	/*TEST*/ int n2 = n;
 
 	if (n == 2 || n == 9)
 		load = 9;
@@ -55,15 +55,6 @@ static void	load_ammo(int ammo[10], int bank[255][10], int n) /*TEMP: OK*/
 		ammo[n]--;
 		bank[0][n] = n;
 	}
-
-	/*TEST*/
-	printf("ammo: ");
-	for(int i = 0; i < 10; i++)
-		printf("%d ", ammo[i]);
-	printf("\nbank[0]: ");
-	for(int i = 0; i < n2; i++)
-		printf("%d ", bank[0][i]);
-	printf("\n");
 }
 
 static int		loaded(int ammo[10])
@@ -83,12 +74,17 @@ static void	get_next_comb(int ammo[10], int bank[255][10], int c, int n)
 {
 	int d;
 
+	d = n;
+	while (d-- > 0)
+		bank[c][d] = bank[c-1][d];
+
 	while (1)
 	{
-		d = n;
-		while (bank[c-1][--d] == 9)
-			bank[c][d] = 0;
-		bank[c][d] = bank[c-1][d] + 1;
+		d = n-1;
+		while (d >= 0 && bank[c][d] == 9)
+			bank[c][d--] = 0;
+		bank[c][d]++;
+
 		if (check_comb(ammo, bank, c, n))
 		{
 			while (n--)
