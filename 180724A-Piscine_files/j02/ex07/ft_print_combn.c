@@ -96,6 +96,65 @@ static void	get_next_comb(int ammo[10], int bank[255][10], int c, int n)
 
 static int	check_comb(int ammo[10], int bank[255][10], int c, int n)
 {
+	int ret;
+	int i[4]; /*i0 and i1 are dn, i2 is dc, i3 is eq*/
+
+	ret = 1;
+	i[0] = n;
+	while ((i[1] = --i[0]) && ret)
+	{
+		ret = (ammo[bank[c][i[0]]] != 0); /*ammo test*/
+		while (i[1]-- && ret)	/*digit redundancy test*/
+			ret = (bank[c][i[0]] != bank[c][i[1]]);
+	}
+	i[2] = c;
+	while (i[2]-- && ret)	/*bank test*/
+	{
+		i[3] = 0;
+		i[0] = n;
+		while (i[0]-- && ret)
+		{
+			i[1] = n;
+			while (i[1]--)
+				i[3] += (bank[c][i[0]] == bank[i[2]][i[1]]);
+			ret = (i[3] != n);
+		}
+	}
+	return ret;
+}
+
+/*static int	check_comb(int ammo[10], int bank[255][10], int c, int n)
+{
+	int i[4]; i0 and i1 are dn, i2 is dc, i3 is eq
+
+	i[0] = n;
+	while ((i[1] = --i[0]))
+	{
+		while (i[1]--)	digit redundancy test and ammo test
+		{
+			if (bank[c][i[0]] == bank[c][i[1]] || ammo[bank[c][i[0]]] == 0)
+				return 0;
+		}
+	}
+	i[2] = c;
+	while (i[2]--)	bank test
+	{
+		i[3] = 0;
+		i[0] = n;
+		while (i[0]--)
+		{
+			i[1] = n;
+			while (i[1]--)
+				i[3] += (bank[c][i[0]] == bank[i[2]][i[1]]);
+			if (i[3] == n)
+				return 0;
+		}
+	}
+	return 1;
+}*/
+
+/*static int	check_comb(int ammo[10], int bank[255][10], int c, int n)
+{
 	int eq;
 	int	dc;
 	int	dn[2];
@@ -105,15 +164,15 @@ static int	check_comb(int ammo[10], int bank[255][10], int c, int n)
 	while (dn[0]--)
 	{
 		dn[1] = dn[0];
-		if (ammo[bank[c][dn[0]]] == 0)
+		if (ammo[bank[c][dn[0]]] == 0) ammo test
 			return 0;
-		while (dn[1]--)
+		while (dn[1]--)	digit redundancy test
 		{
 			if (bank[c][dn[0]] == bank[c][dn[1]])
 				return 0;
 		}
 	}
-	while (dc--)
+	while (dc--)	bank test
 	{
 		eq = 0;
 		dn[0] = n;
@@ -128,4 +187,4 @@ static int	check_comb(int ammo[10], int bank[255][10], int c, int n)
 	}
 
 	return 1;
-}
+}*/
