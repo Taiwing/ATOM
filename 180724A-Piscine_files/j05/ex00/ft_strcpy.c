@@ -3,15 +3,11 @@
 
 char *ft_strcpy(char *dest, char *src)
 {
-  int i;
+	char	*ptr;
 
-  while(1)
-  {
-    dest[i] = src[i];
-    if(dest[i] == '\0')
-      break;
-    i++;
-  }
-
-  return dest;
+	ptr = dest;
+	while (*src)
+		*ptr++ = *src++;
+	*ptr = *src;
+	return dest;
 }

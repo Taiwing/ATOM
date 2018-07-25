@@ -13,9 +13,7 @@ int main(int argc, char **argv)
 
   char cpy[100];
 
-  ft_strncpy(cpy, argv[1], 10);
-
-  printf("copy: %s\n", cpy);
+  printf("copy: %s\n", ft_strncpy(cpy, argv[1], 10));
 
   return EXIT_SUCCESS;
 }

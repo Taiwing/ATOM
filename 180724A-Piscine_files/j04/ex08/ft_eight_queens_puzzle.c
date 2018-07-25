@@ -12,10 +12,7 @@ int ft_eight_queens_puzzle(void)
   nbr = 0;
   i = 0;
   while(i < 8)
-  {
-    queens[i] = 0;
-    i++;
-  }
+    queens[i++] = 0;
 
   ft_bt(queens, &nbr);
 

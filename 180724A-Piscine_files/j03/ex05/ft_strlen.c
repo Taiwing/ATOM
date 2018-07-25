@@ -3,14 +3,9 @@
 
 int ft_strlen(char *str)
 {
-  int i;
+  int n;
 
-  i = 0;
-
-  while(str[i] != '\0')
-  {
-    i++;
-  }
-
-  return i;
+  n = -1;
+  while(str[++n]);
+  return n;
 }

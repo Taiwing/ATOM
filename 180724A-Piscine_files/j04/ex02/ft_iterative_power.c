@@ -3,22 +3,15 @@
 
 int ft_iterative_power(int nb, int power)
 {
-  if(power < 0)
-    return 0;
-  else
-  {
-    int iter;
-    int i;
+	int iter;
 
-    i = 0;
-    iter = 1;
-
-    while(i < power)
-    {
-      iter *= nb;
-      i++;
-    }
-
-    return iter;
-  }
+	if(power < 0)
+		return 0;
+	else
+	{
+		iter = 1;
+		while(power--)
+			iter *= nb;
+		return iter;
+	}
 }

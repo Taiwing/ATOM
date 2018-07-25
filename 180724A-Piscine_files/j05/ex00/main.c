@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "libft/libft.h"
+#include <stdlib.h>
 #include "ft_strcpy.h"
 
 int main(int argc, char **argv)
@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 
   ft_strcpy(cpy, argv[1]);
 
-  printf("copy: %s\n", cpy);
+  printf("copy: %s\n", ft_strcpy(cpy, argv[1]));
 
   return EXIT_SUCCESS;
 }
