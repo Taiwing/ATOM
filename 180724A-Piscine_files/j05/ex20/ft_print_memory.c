@@ -1,45 +1,41 @@
 #include "libft/libft.h"
 #include "ft_print_memory.h"
 
-static void ft_print_addr(int addrVal);
+static void ft_print_addr(long long int addrVal);
 static void ft_print_hex(char *ptr, int l);
 static void ft_print_char(char *ptr, int l);
+static void	print_hexnb(long long int nbr, char *base);
 
 void *ft_print_memory(void *addr, unsigned int size)
 {
   int i;
-  int j;
   int l;
   char *ptr;
 
   i = 0;
   ptr = addr;
-
   while(i < size)
   {
     l = (size-1) - i >= 16 ? 16 : (size-1) - i;
-    ft_print_addr(*(int *)&ptr[i]);
+    ft_print_addr((long long int)(ptr+i));
     ft_print_hex(&ptr[i], l);
     ft_print_char(&ptr[i], l);
     i += 16;
   }
-
   return addr;
 }
 
-static void ft_print_addr(int addrVal)
+static void ft_print_addr(long long int addrVal)
 {
-  int p;
+  long long int p;
 
-  p = 8;
-
-  while(addrVal < ft_pow(16, p-1))
+  p = 0x10000000;
+	while(addrVal < p)
   {
     ft_putchar('0');
-    p--;
+    p >>= 4;
   }
-
-  ft_putnbr_base(addrVal, "0123456789abcdef");
+	print_hexnb(addrVal, "0123456789abcdef");
   ft_putchar(':');
   ft_putchar(' ');
 }
@@ -47,17 +43,15 @@ static void ft_print_addr(int addrVal)
 static void ft_print_hex(char *ptr, int l)
 {
   int i;
-  int p;
 
   i = 0;
-
   while(i < 16)
   {
     if(i < l)
     {
       if(ptr[i] < 16)
         ft_putchar('0');
-      ft_putnbr_base(ptr[i], "0123456789abcdef");
+      print_hexnb((long long int)ptr[i], "0123456789abcdef");
     }
     else
     {
@@ -75,9 +69,7 @@ static void ft_print_char(char *ptr, int l)
   int i;
 
   i = 0;
-
   ft_putchar(' ');
-
   while(i < l)
   {
     if(ptr[i] > 31 && ptr[i] < 127)
@@ -86,6 +78,12 @@ static void ft_print_char(char *ptr, int l)
       ft_putchar('.');
     i++;
   }
-
   ft_putchar('\n');
+}
+
+static void	print_hexnb(long long int nbr, char *base)
+{
+	if (nbr/16 != 0)
+		print_hexnb(nbr/16, base);
+	ft_putchar(base[nbr%16]);
 }

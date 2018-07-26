@@ -1,64 +1,46 @@
 #include "libft/libft.h"
-#include <string.h>
 
-static void ft_sort_params(int c, char *v[], char *max);
-static void ft_print_param(char *arg);
-static char *ft_find_max(int c, char *v[], char *top);
+static int	locstrcmp(char *s1, char *s2);
+static void	sort_argv(char **argv);
 
-int main(int argc, char *argv[])
+int	main(int argc, char **argv)
 {
-  if(argc > 1)
-    ft_sort_params(argc - 1, &argv[1], 0);
-
-  return 1;
+	sort_argv(argv+1);
+	while (*++argv)
+	{
+		while (**argv)
+			ft_putchar(*(*argv)++);
+		ft_putchar('\n');
+	}
+	return 1;
 }
 
-static void ft_sort_params(int c, char *v[], char *max)
+static int	locstrcmp(char *s1, char *s2)
 {
-  max = ft_find_max(c, v, max);
-
-  if(!max)
-    return;
-  else
-    ft_sort_params(c, v, max);
-
-  if(max)
-    ft_print_param(max);
+	return (*s1 && *s2 && *s1 == *s2 ? locstrcmp(s1+1, s2+1) : *s1 - *s2);
 }
 
-static void ft_print_param(char *arg)
+static void	sort_argv(char **argv)
 {
-  int i;
+	char	*sptr;
+	char	**min;
+	char	**vptr;
 
-  i = 0;
-
-  while(arg[i])
-  {
-    ft_putchar(arg[i]);
-    i++;
-  }
-  ft_putchar('\n');
-}
-
-static char *ft_find_max(int c, char *v[], char *top)
-{
-  int i;
-  char *max;
-
-  i = 0;
-  max = !top ? v[0] : 0;
-
-  while(i < c)
-  {
-    if(!top || ft_strcmp(top, v[i]) > 0)
-    {
-      if(!max)
-        max = v[i];
-      else if(ft_strcmp(v[i], max) > 0)
-        max = v[i];
-    }
-    i++;
-  }
-
-  return max;
+	while (*argv)
+	{
+		min = 0;
+		vptr = argv;
+		while (*++vptr)
+		{
+			if (locstrcmp(*argv, *vptr) > 0)
+				min = vptr;
+		}
+		if (min)
+		{
+			sptr = *argv;
+			*argv = *min;
+			*min = sptr;
+		}
+		argv++;
+	}
 }
