@@ -1,63 +1,44 @@
 #include "libft/libft.h"
 #include "ft_putnbr_base.h"
 
-static int ft_is_base_valid(char *base);
-static void ft_print_nb(int nbr, char *base, int b);
+static int	is_base_valid(char *base, int *b);
+static void	print_nb(int nbr, char *base, int b);
 
-void ft_putnbr_base(int nbr, char *base)
+void				ft_putnbr_base(int nbr, char *base)
 {
-  int b;
+	int b;
 
-  b = ft_is_base_valid(base);
-
-  if(!b)
-    return;
-  else
-  {
-    if(nbr < 0)
-    {
-      ft_putchar('-');
-      nbr *= -1;
-    }
-    ft_print_nb(nbr, base, b);
-    ft_putchar('\n');
-  }
+	if(is_base_valid(base, &b))
+	{
+		if (nbr < 0)
+		{
+			ft_putchar('-');
+			nbr *= -1;
+		}
+		print_nb(nbr, base, b);
+		ft_putchar('\n');
+	}
 }
 
-static int ft_is_base_valid(char *base)
+static int	is_base_valid(char *base, int *b)
 {
-  int b;
-  int i;
-  int err;
+	char	*ptr;
 
-  b = 0;
-  i = 0;
-  err = 0;
-
-  while(base[b] && !err)
-  {
-    i = 0;
-    while(i <= b && !err)
-    {
-      err = (base[i]==base[b] && i!=b) || base[i]==43 || base[i]==45 ? 1 : 0;
-      i++;
-    }
-    b++;
-  }
-
-  if(b <= 1 || err)
-    return 0;
-  else
-    return b;
+	*b = 0;
+	while (*b >= 0 && base[*b])
+	{
+		ptr = base;
+		while (*ptr && (*ptr != base[*b] || ptr == &base[*b])
+					&& *ptr != 43 && *ptr != 45)
+			ptr++;
+		*b = *ptr ? -1 : *b+1;
+	}
+	return (*b > 1);
 }
 
-static void ft_print_nb(int nbr, char *base, int b)
+static void	print_nb(int nbr, char *base, int b)
 {
-  if(nbr/b == 0)
-    ft_putchar(base[nbr%b]);
-  else
-  {
-    ft_print_nb(nbr/b, base, b);
-    ft_putchar(base[nbr%b]);
-  }
+	if (nbr/b != 0)
+		print_nb(nbr/b, base, b);
+	ft_putchar(base[nbr%b]);
 }

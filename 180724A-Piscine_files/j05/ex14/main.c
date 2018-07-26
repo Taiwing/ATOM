@@ -17,12 +17,12 @@ int main(int argc, char **argv)
 
   while(i < 7)
   {
-    dest[i] = '0';
+    dest[i] = i + 48;
     i++;
   }
   dest[i] = '\0';
 
-  printf("ft_strncat: %s\n", ft_strncat(dest, argv[1], 0));
+  printf("ft_strncat: %s\n", ft_strncat(dest, argv[1], 10));
 
   return EXIT_SUCCESS;
 }

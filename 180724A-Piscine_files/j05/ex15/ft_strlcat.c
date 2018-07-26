@@ -3,24 +3,16 @@
 
 unsigned int ft_strlcat(char *dest, char *src, unsigned int size)
 {
-  int i;
-  int j;
+	int	l[3];
 
-  i = 0;
-  j = 0;
-
-  while(dest[i])
-    i++;
-
-  while(j+i < size-1 && src[j])
-  {
-    dest[i+j] = src[j];
-    j++;
-  }
-  dest[i+j] = '\0';
-
-  while(src[j])
-    j++;
-
-  return i+j;
+	l[0] = -1;
+	while (dest[++l[0]]);
+	l[1] = -1;
+	while (src[++l[1]]);
+	l[2] = (int)size;
+	while (*src && l[2]--)
+		*((dest++) + l[0]) = *src++;
+	*dest = l[2] > 0 ? '\0': *dest;
+	return (unsigned int)(l[0]+l[1]);
 }
+

@@ -1,113 +1,77 @@
 #include "libft/libft.h"
 #include "ft_atoi_base.h"
 
-static int ft_is_nbr_valid(char *str, char *base);
-static int ft_is_base_valid(char *base);
-static int ft_conversion(char *str, int l, char *base, int b);
-static int ft_pow(int a, int b);
+static int	is_nbr_valid(char *str, char *base, int *l);
+static int	is_base_valid(char *base, int *b);
+static int	conversion(char *str, int l, char *base, int b);
+static int	powaaa(int a, int b);
 
-int ft_atoi_base(char *str, char *base)
+int					ft_atoi_base(char *str, char *base)
 {
-  int b;
-  int l;
+	int b;
+	int l;
 
-  b = ft_is_base_valid(base);
-  l = ft_is_nbr_valid(str, base);
-
-  if(!b || !l)
-    return 0;
-  else
-    return ft_conversion(str, l, base, b);
+	if (is_base_valid(base, &b) && is_nbr_valid(str, base, &l))
+		return conversion(str, l, base, b);
+	else
+		return 0;
 }
 
-static int ft_is_nbr_valid(char *str, char *base)
+static int is_nbr_valid(char *str, char *base, int *l)
 {
-  int i;
-  int j;
-  int err;
+	char	*ptr;
 
-  i = 0;
-  err = 0;
-
-  while(str[i])
-  {
-    j = 0;
-    while(base[j])
-    {
-      err = str[i]==base[j]||(str[i]==43 && i==0)||(str[i]==45 && i==0) ? 0 : 1;
-      if(!err)
-        break;
-      j++;
-    }
-    if(err)
-      break;
-    i++;
-  }
-
-  err = !err ? i : 0;
-
-  return err;
+	*l = 0;
+	while(*l >= 0 && str[*l])
+	{
+		ptr = base;
+		while (*ptr && !(str[*l] == *ptr
+					|| (str[*l] == 43 && *l == 0) || (str[*l] == 45 && *l == 0)))
+			ptr++;
+		*l = *ptr ? *l + 1 : -1;
+	}
+	return (*l > 0);
 }
 
-static int ft_is_base_valid(char *base)
+static int	is_base_valid(char *base, int *b)
 {
-  int b;
-  int i;
-  int err;
+	char	*ptr;
 
-  b = 0;
-  i = 0;
-  err = 0;
-
-  while(base[b] && !err)
-  {
-    i = 0;
-    while(i <= b && !err)
-    {
-      err = (base[i]==base[b] && i!=b) || base[i]==43 || base[i]==45 ? 1 : 0;
-      i++;
-    }
-    b++;
-  }
-
-  if(b <= 1 || err)
-    return 0;
-  else
-    return b;
+	*b = 0;
+	while (*b >= 0 && base[*b])
+	{
+		ptr = base;
+		while (*ptr && (*ptr != base[*b] || ptr == &base[*b])
+					&& *ptr != 43 && *ptr != 45)
+			ptr++;
+		*b = *ptr ? -1 : *b+1;
+	}
+	return (*b > 1);
 }
 
-static int ft_conversion(char *str, int l, char *base, int b)
+static int conversion(char *str, int l, char *base, int b)
 {
-  int i;
-  int j;
-  int nbr;
+	int d;
+	int	p;
+	int	nbr;
 
-  i = l-1;
-  nbr = 0;
-
-  while(i >= 0)
-  {
-    j = 0;
-    while(base[j])
-    {
-      if(str[i] == base[j])
-        break;
-      j++;
-    }
-    if(j < b)
-      nbr += j * ft_pow(b, l-(i+1));
-    else if(str[i] == 45)
-      nbr *= -1;
-    i--;
-  }
-
-  return nbr;
+	p = l;
+	nbr = 0;
+	while (p--)
+	{
+		d = 0;
+		while (str[p] != base[d] && str[p] != 43 && str[p] != 45)
+			d++;
+		if (str[p] == 43 || str[p] == 45)
+			nbr *= str[p] == 45 ? -1 : 1;
+		else
+			nbr += d * powaaa(b, l-p-1);
+	}
+	return nbr;
 }
 
-static int ft_pow(int a, int b)
+
+static int powaaa(int a, int b)
 {
-  if(!b)
-    return 1;
-  else
-    return a * ft_pow(a, b-1);
+	return (b ? a * powaaa(a, b-1) : 1);
 }

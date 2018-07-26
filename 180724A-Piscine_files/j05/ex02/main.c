@@ -15,7 +15,7 @@ int main(int argc, char **argv)
 
   str = ft_strstr(argv[1], "yoann");
 
-  if(str[0] != '\0')
+  if(str)
     printf("str: %s\n", str);
   else
     printf("no match\n");

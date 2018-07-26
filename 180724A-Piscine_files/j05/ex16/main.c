@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 
   char dest[15];
 
-  printf("sizeof(dest): %d\n", sizeof(dest));
+  printf("sizeof(dest): %lu\n", sizeof(dest));
   printf("ft_strlcpy: %d\n", ft_strlcpy(dest, argv[1], sizeof(dest)));
   printf("result: %s\n", dest);
 
