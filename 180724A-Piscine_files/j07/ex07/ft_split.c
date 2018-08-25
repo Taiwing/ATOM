@@ -2,97 +2,46 @@
 #include "ft_split.h"
 #include <stdlib.h>
 
-static char **ft_fill_tab(char *str, char* charset, int *size);
-static int ft_get_strpos(char *str, char *charset, int *l);
-static void ft_get_string(char *elem, char *str, int cur, int l);
-static int ft_separator(char *str, char *charset, int l);
+static void	cutstr(char *str, char ***split, int size, char *charset);
+static int	is_sepchar(char c, char *charset);
 
 char **ft_split(char *str, char *charset)
 {
-  int size;
-  char **tab;
+	char	**split;
 
-  size = 0;
-  tab = ft_fill_tab(str, charset, &size);
-  tab[size] = 0;
-
-  return tab;
+	split = NULL;
+	cutstr(str, &split, 0, charset);
+	return split;
 }
 
-static char **ft_fill_tab(char *str, char* charset, int *size)
+static void	cutstr(char *str, char ***split, int size, char *charset)
 {
-  int i;
-  int l;
-  int cur;
-  char *elem;
-  char **tab;
+	int		i;
+	char	*ptr;
 
-  cur = ft_get_strpos(str, charset, &l);
-
-  if(cur < 0)
-    return (char **)malloc((*size)+1 * sizeof(char*));
-  else
-  {
-    (*size)++;
-    i = (*size)-1;
-    elem = (char *)malloc(l+1);
-    ft_get_string(elem, str, cur, l);
-    tab = ft_fill_tab(&str[cur+l], charset, size);
-    tab[i] = elem;
-    return tab;
-  }
+	ptr = 0;
+	while (*str && is_sepchar(*str, charset))
+		str++;
+	if (*str)
+	{
+		i = 0;
+		while (str[i] && str[i] != 9 && str[i] != 10 && str[i] != 32)
+			i++;
+		ptr = (char *)malloc((i+1) * sizeof(char));
+		i = 0;
+		while (*str && !is_sepchar(*str, charset))
+			ptr[i++] = *str++;
+		ptr[i] = '\0';
+		cutstr(str, split, size+1, charset);
+	}
+	else
+		*split = (char **)malloc((size+1) * sizeof(char *));
+	(*split)[size] = ptr;
 }
 
-static int ft_get_strpos(char *str, char *charset, int *l)
+static int	is_sepchar(char c, char *charset)
 {
-  int i;
-  int cur;
-  int sepl;
-
-  i = 0;
-  sepl = 0;
-
-  while(charset[sepl])
-    sepl++;
-
-  while(str[i] && ft_separator(&str[i], charset, sepl))
-    i+=sepl;
-
-  cur = !str[i] ? -1 : i;
-
-  while(str[i] && !ft_separator(&str[i], charset, sepl))
-    i++;
-
-  *l = i-cur;
-
-  return cur;
-}
-
-static int ft_separator(char *str, char *charset, int l)
-{
-  int i;
-
-  i = 0;
-
-  while(i < l)
-  {
-    if(str[i] != charset[i])
-      return 0;
-    i++;
-  }
-
-  return 1;
-}
-
-static void ft_get_string(char *elem, char *str, int cur, int l)
-{
-  int i;
-
-  i = 0;
-
-  while(i <= l)
-  {
-    elem[i] = (i == l) ? '\0' : str[cur+i];
-    i++;
-  }
+	while (*charset && *charset != c)
+		charset++;
+	return *charset;
 }

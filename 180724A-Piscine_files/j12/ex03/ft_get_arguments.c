@@ -8,7 +8,6 @@ int ft_get_arguments(int *C, int *fc, char **fv, char **av)
   i = 1;
   ac = *fc;
   *fc = 0;
-
   while(i < ac)
   {
     if(ft_is_C_option(av[i]))
@@ -22,7 +21,6 @@ int ft_get_arguments(int *C, int *fc, char **fv, char **av)
     }
     i++;
   }
-
   return 1;
 }
 
@@ -31,14 +29,9 @@ int ft_is_C_option(char *str)
   int i;
 
   i = 0;
-
   while(str[i])
     i++;
-
-  if(i == 2 && str[0] == '-' && str[1] == 'C')
-    return 1;
-  else
-    return 0;
+  return (i == 2 && str[0] == '-' && str[1] == 'C');
 }
 
 int ft_does_file_exist(char *file)
@@ -47,9 +40,5 @@ int ft_does_file_exist(char *file)
 
   fd = open(file, O_RDONLY);
   close(fd);
-
-  if(fd < 0)
-    return 0;
-  else
-    return 1;
+	return (fd > 0);
 }

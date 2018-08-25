@@ -12,7 +12,7 @@ int main(int argc, char **argv)
   i = 0;
   concat = ft_concat_params(argc, argv);
   ft_strcpy(buffer, concat);
-  ft_strcat(buffer, "\n\n\n\n\n\n\0");
+  //ft_strcat(buffer, "\n\n\n\n\n\n\0");
   split = ft_split_whitespaces(buffer);
 
   while(split[i])

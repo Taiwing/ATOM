@@ -2,48 +2,32 @@
 #include "ft_param_to_tab.h"
 #include "ft_stock_par.h"
 
-struct s_stock_par ft_fill_tab(char *arg);
+struct s_stock_par 	fill_tab(char *arg);
 
-struct s_stock_par *ft_param_to_tab(int ac, char **av)
+struct s_stock_par	*ft_param_to_tab(int ac, char **av)
 {
-  int i;
-  t_stock_par *tab;
+	t_stock_par *tab;
 
-  i = 0;
-  tab = (t_stock_par *)malloc(sizeof(t_stock_par) * (ac+1));
-
-  while(i < ac+1)
-  {
-    tab[i] = i == ac ? ft_fill_tab(0) : ft_fill_tab(av[i]);
-    i++;
-  }
-
-  return tab;
+	tab = (t_stock_par *)malloc(sizeof(t_stock_par) * (ac+1));
+	tab[ac] = fill_tab(0);
+	while (ac--)
+		tab[ac] = fill_tab(av[ac]);
+	return tab;
 }
 
-struct s_stock_par ft_fill_tab(char *arg)
+struct s_stock_par	fill_tab(char *arg)
 {
-  int i;
-  t_stock_par elem;
+	int i;
+	t_stock_par elem;
 
-  i = 0;
-
-  while(arg && arg[i])
-    i++;
-
-  elem.copy = (char *)malloc(i);
-  elem.size_param = i;
-  i = 0;
-
-  while(i < elem.size_param && elem.size_param)
-  {
-    elem.copy[i] = arg[i];
-    i++;
-  }
-
-  elem.str = arg;
-  elem.tab = elem.size_param ? ft_split_whitespaces(elem.copy) : elem.tab;
-  elem.size_param--;
-
-  return elem;
+	i = -1;
+	while(arg && arg[++i]);
+	elem.copy = (char *)malloc(i);
+	elem.size_param = arg ? i - 1 : 0;
+	elem.str = arg;
+	i = 0;
+	while(arg && i < elem.size_param + 1)
+		elem.copy[i++] = *arg++;
+	elem.tab = elem.size_param > 0 ? ft_split_whitespaces(elem.copy) : elem.tab;
+	return elem;
 }

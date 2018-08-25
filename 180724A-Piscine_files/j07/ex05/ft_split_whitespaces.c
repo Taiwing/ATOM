@@ -2,103 +2,38 @@
 #include "libft/libft.h"
 #include <stdlib.h>
 
-static int ft_get_split_size(char *str);
-static char *ft_cut_string(char *str, int *cur);
-static int ft_get_cut_size(char *str, int *start);
+static void	cutstr(char *str, char ***split, int size);
 
-char **ft_split_whitespaces(char *str)
+char		**ft_split_whitespaces(char *str)
 {
-  int i;
-  int cur;
-  int size;
-  char **split;
+	char	**split;
 
-  i = 0;
-  cur = 0;
-  size = ft_get_split_size(str);
-  split = malloc(sizeof(char*) * size);
-  
-  while(i < size)
-  {
-    split[i] = ft_cut_string(&str[cur], &cur);
-    i++;
-  }
-
-  return split;
+	split = NULL;
+	cutstr(str, &split, 0);
+	return split;
 }
 
-static int ft_get_split_size(char *str)
+static void	cutstr(char *str, char ***split, int size)
 {
-  int i;
-  int size;
-  int white;
+	int		i;
+	char	*ptr;
 
-  i = 0;
-  size = 0;
-  white = 1;
-
-  while(str[i])
-  {
-    white = ((str[i] > 8 && str[i] < 12) || str[i] == 32) ? 1 : 0;
-    size = (!white) ? size+1 : size;
-    while(str[i] && !white)
-    {
-      i++;
-      white = ((str[i] > 8 && str[i] < 12) || str[i] == 32) ? 1 : 0;
-    }
-    i++;
-  }
-
-  return size+1;
-}
-
-static char *ft_cut_string(char *str, int *cur)
-{
-  int i;
-  int size;
-  int start;
-  char *cut;
-
-  i = 0;
-  size = ft_get_cut_size(str, &start);
-  cut = (size == 1) ? 0 : (char *)malloc(size);
-
-  while(i < size && cut != 0)
-  {
-    cut[i] = i == size-1 ? '\0' : str[start+i];
-    i++;
-  }
-
-  *cur += (start+size-1);
-
-  return cut;
-}
-
-static int ft_get_cut_size(char *str, int *start)
-{
-  int i;
-  int size;
-  int white;
-
-  i = 0;
-  size = 0;
-  white = 1;
-
-  while(str[i] && white)
-  {
-    white = ((str[i] > 8 && str[i] < 12) || str[i] == 32) ? 1 : 0;
-    size = white || str[i] == 0 ? 0 : 1;
-    i++;
-  }
-
-  *start = i-1;
-
-  while(str[i] && !white)
-  {
-    white = ((str[i] > 8 && str[i] < 12) || str[i] == 32) ? 1 : 0;
-    size = (!white) ? size+1 : size;
-    i++;
-  }
-
-  return size+1;
+	ptr = 0;
+	while (*str && (*str == 9 || *str == 10 || *str == 32))
+		str++;
+	if (*str)
+	{
+		i = 0;
+		while (str[i] && str[i] != 9 && str[i] != 10 && str[i] != 32)
+			i++;
+		ptr = (char *)malloc((i+1) * sizeof(char));
+		i = 0;
+		while (*str && *str != 9 && *str != 10 && *str != 32)
+			ptr[i++] = *str++;
+		ptr[i] = '\0';
+		cutstr(str, split, size+1);
+	}
+	else
+		*split = (char **)malloc((size+1) * sizeof(char *));
+	(*split)[size] = ptr;
 }

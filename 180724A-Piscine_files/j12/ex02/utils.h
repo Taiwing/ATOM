@@ -1,12 +1,10 @@
 #ifndef UTILS_H
-#define UTILS_H
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
+# define UTILS_H
 
-int ft_get_startX(char *file, int c);
-int ft_get_startL(char *file, int *l);
-void ft_add_line_byte(int lc, int byte, int lineBytes[11]);
-void ft_print_name(char *name, int c);
+# include <unistd.h>
+
+int	ft_strcmp(char *s1, char *s2);
+int	ft_atoi(char *str);
+void ft_putstr(char *str);
 
 #endif

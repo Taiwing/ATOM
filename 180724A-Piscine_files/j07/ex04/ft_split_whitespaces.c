@@ -18,6 +18,7 @@ static void	cutstr(char *str, char ***split, int size)
 	int		i;
 	char	*ptr;
 
+	ptr = 0;
 	while (*str && (*str == 9 || *str == 10 || *str == 32))
 		str++;
 	if (*str)
@@ -34,5 +35,5 @@ static void	cutstr(char *str, char ***split, int size)
 	}
 	else
 		*split = (char **)malloc((size+1) * sizeof(char *));
-	(*split)[size] = *str ? ptr : 0;
+	(*split)[size] = ptr;
 }

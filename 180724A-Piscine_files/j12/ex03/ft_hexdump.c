@@ -8,12 +8,10 @@ void ft_hexdump(int C, int fc, char **fv)
   i[0] = 0;
   i[2] = 16;
   i[3] = 0;
-
   if(C)
     ft_hexmem_ASCII(fc, fv, i, buffer);
   else
     ft_hexmem(fc, fv, i, buffer);
-
   ft_putchar('\n');
 }
 

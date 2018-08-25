@@ -1,25 +1,17 @@
+#include "utils.h"
+#include "error.h"
 #include "ft_tail.h"
-#include "ft_get_arguments.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-  int c;
-  int fc;
-  char **fv;
+	int	c;
 
-  c = 0;
-  fc = argc;
-  fv = (char **)malloc(argc * sizeof(char *));
-
-  if(!ft_get_arguments(&c, &fc, fv, argv))
-  {
-    write(1, "error: wrong arguments\n", 23);
-    return 1;
-  }
-
-  ft_tail(c, fc, fv);
-
-  free(fv);
-
-  return 0;
+	c = 0;
+	if (argc < 4 || ft_strcmp(argv[1], "-c") || !(c = ft_atoi(argv[2])))
+	{
+		print_arg_error(argc, argv);
+		return (1);
+	}
+	ft_tail(argc - 3, argv + 3, c);
+	return (0);
 }

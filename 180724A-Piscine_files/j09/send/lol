@@ -1,0 +1,134 @@
+#include "ft_bouton.h"
+
+int ft_bouton(int i, int j, int k)
+{
+  if((i > j && i < k) || (i > k && i < j))
+    return i;
+  if((j > i && j < k) || (j > k && j < i))
+    return j;
+  if((k > i && k < j) || (k > j && k < i))
+    return k;
+
+  return 0;
+}
+#include "ft_collatz_conjecture.h"
+
+unsigned int ft_collatz_conjecture(unsigned int base)
+{
+  if(base == 2)
+    return 1;
+  else
+  {
+    base = base%2 ? 3*base+1 : base/2;
+    return ft_collatz_conjecture(base);
+  }
+}
+#include "ft_destroy.h"
+
+void ft_destroy(char ***factory)
+{
+  free(factory);
+}
+#include "ft_generic.h"
+
+void ft_generic(void)
+{
+  write(1, "Tu tu tu tu ; Tu tu tu tu\n", 26);
+}
+#include "ft_rot42.h"
+
+char *ft_rot42(char *str)
+{
+	int i;
+
+	i = -1;
+	while(str[++i])
+	{
+		if((str[i] > 64 && str[i] < 75) || (str[i] > 96 && str[i] < 107))
+			str[i] += 16;
+		else
+			str[i] = str[i] < 91 ? 64+(16-(90-str[i])) : 96+(16-(122-str[i]));
+	}
+	return str;
+}
+#include <unistd.h>
+#include <libft/libft.h>
+#define LOW(C) (C > 64 && C < 91 ? C + 32 : C)
+#define WHITE(C) (C == 0 || C == 9 || C == 10 || C == 32 ? 1 : 0)
+
+int spy(char **v);
+int find_word(char *to_find, char *str);
+
+int main(int argc, char **argv)
+{
+	if(spy(++argv))
+		write(1, "Alert!!!\n", 9);
+
+	return 0;
+}
+
+int spy(char **v)
+{
+	while(*v)
+	{
+		if(find_word("president", *v) || find_word("attack", *v)
+			|| find_word("powers", *v))
+			return 1;
+		v++;
+	}
+
+	return 0;
+}
+
+int find_word(char *to_find, char *str)
+{
+	char	*ptr;
+
+	/*TEST*/
+	ft_putstr("TEST 1 (to_find): ");
+	ft_putstr(to_find);
+	ft_putchar('\n');
+	ft_putstr("TEST 1 (str): ");
+	ft_putstr(str);
+	ft_putchar('\n');
+
+	ptr = str;
+	while (*ptr && (LOW(*ptr)) != *to_find)
+		ptr++;
+	if ((LOW(*ptr)) == *to_find && (ptr == str || (WHITE(*(ptr-1)))))
+	{
+		while (*ptr && *to_find && (LOW(*ptr)) == *to_find)
+		{
+			to_find++;
+			ptr++;
+		}
+	}
+
+	/*TEST*/
+	ft_putstr("TEST 2 (to_find): ");
+	ft_putstr(*to_find ? to_find : "NULL");
+	ft_putchar('\n');
+	ft_putstr("TEST 2 (ptr): ");
+	ft_putstr(*ptr ? ptr : "NULL");
+	ft_putchar('\n');
+
+	return (*to_find == 0 && (WHITE(*ptr)));
+}
+#include "ft_takes_place.h"
+
+void ft_takes_place(int hour)
+{
+  int hour2;
+  char ap[2];
+
+  ap[0] = hour > 11 ? 'P' : 'A';
+  if(hour == 11 || hour == 23)
+    ap[1] = ap[0] == 'P' ? 'A' : 'P';
+  else
+    ap[1] = ap[0];
+  hour = hour > 12 ? hour-12 : hour;
+  hour = hour == 0 ? 12 : hour;
+  hour2 = hour == 12 ? 1 : hour+1;
+
+  printf("THE FOLLOWING TAKES PLACE BETWEEN %d.00 %c.M. AND %d.00 %c.M.\n", hour, ap[0], hour2, ap[1]);
+}

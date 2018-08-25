@@ -1,9 +1,13 @@
 #ifndef FT_TAIL_H
-#define FT_TAIL_H
-#include "utils.h"
+# define FT_TAIL_H
 
-void ft_tail(int c, int fc, char **fv);
-void ft_get_X_last_bytes(int c, int fc, char **fv);
-void ft_get_10_last_lines(int fc, char **fv);
+# include <fcntl.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <errno.h>
+# include "error.h"
+# include "utils.h"
+
+void ft_tail(int fc, char **fv, int c);
 
 #endif
