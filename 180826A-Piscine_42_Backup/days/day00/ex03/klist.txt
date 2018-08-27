@@ -1,0 +1,5 @@
+Credentials cache: API:9A7AC710-E133-4114-B7D3-8AD7E8026C4E
+        Principal: yforeau@42.FR
+
+  Issued                Expires               Principal
+Jul 30 13:19:48 2018  Aug  6 13:19:33 2018  krbtgt/42.FR@42.FR
