@@ -1,9 +1,39 @@
-#!/bin/sh
+#!/bin/bash
+
+ping -q -c 1 server_ip_address > /dev/null
+DOWN=$?
+
+if [ $DOWN -gt 0 ]
+then
+	echo "server is down"
+fi
+
 cd /path/of/directory/to/save/
-git add * 
+git add *
 git commit -an -m `date "+%y%m%d_backup"`
 git push -u origin master
-rsync -e 'ssh -p 22' -avzp --delete /path/of/directory/to/save/ user@example.com:/path/of/backup/folder/
-rsync -e 'ssh -p 22' -avzp --delete /path/of/an/other/directory/to/save/ user@example.com:/path/of/backup/folder/
-ssh -n user@example.com rsync -avzp --delete /path/of/backup/folder/ /path/of/second/backup/folder/
 
+if [ $DOWN -gt 0 ]
+then
+	echo "booting server..."
+	sudo etherwake -i ethernet_interface server_mac_address
+	for i in {0..21}
+	do
+		echo "trying to reach server... ["$i"]"
+		ping -q -c 1 server_ip_address > /dev/null
+		if [ $? -eq 0 ]
+		then
+			echo "success !"
+			break
+		fi
+	done
+fi
+
+rsync -e 'ssh -p 22' -avz --delete /path/of/directory/to/save/ user@example.com:/path/of/backup/folder/
+rsync -e 'ssh -p 22' -avz --delete /path/of/an/other/directory/to/save/ user@example.com:/path/of/backup/folder/
+ssh -n user@example.com rsync -avz --delete /path/of/backup/folder/ /path/of/second/backup/folder/
+
+if [ $DOWN -gt 0 ]
+then
+	ssh -n user@server_ip_address shutdown now
+fi
