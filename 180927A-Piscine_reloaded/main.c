@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "ex22/ft_abs.h"
 
 void	ft_print_alphabet(void);
 void	ft_print_numbers(void);
@@ -12,6 +14,20 @@ int		ft_sqrt(int nb);
 void	ft_putstr(char *str);
 int		ft_strlen(char *str);
 int		ft_strcmp(char *s1, char *s2);
+char	*ft_strdup(char *src);
+int		*ft_range(int min, int max);
+void	ft_foreach(int *tab, int length, void(*f)(int));
+int		ft_count_if(char **tab, int(*f)(char*));
+
+void	putint(int nb)
+{
+	printf("%d\n", nb);
+}
+
+int		isyoyo(char *str)
+{
+	return (!ft_strcmp(str, "yoann"));
+}
 
 int	main(void)
 {
@@ -59,5 +75,25 @@ int	main(void)
 	printf("ft_strcmp(%s, %s) = %d\n", y, y2, ft_strcmp(y, y2));
 	printf("ft_strcmp(%s, %s) = %d\n", y, y3, ft_strcmp(y, y3));
 	printf("ft_strcmp(%s, %s) = %d\n", y2, y3, ft_strcmp(y2, y3));
+	printf("ft_strdup(y) = %s\n", ft_strdup(y));
+	printf("ft_strdup(\"\\0\") = %s\n", ft_strdup("\0"));
+	printf("ft_strdup(NULL) = %s\n", ft_strdup(NULL));
+	int *tab;
+	for (int min = -5, max = 6; min != 2; min++, max--)
+	{
+		tab = ft_range(min, max);
+		printf("min = %d\nmax = %d\n", min, max);
+		ft_foreach(tab, max - min, &putint);
+		if (!tab)
+			printf("NULL\n");
+		else
+			free(tab);
+		printf("\n");
+	}
+	printf("%d\n", ABS(-12));
+	printf("%d\n", ABS(0));
+	printf("%d\n", ABS(15));
+	char *names[] = {"yoann", "john", "robert", "yoann", "jean-claude", "yoann", NULL};
+	printf("%d\n", ft_count_if(names, &isyoyo));
 	return (0);
 }
