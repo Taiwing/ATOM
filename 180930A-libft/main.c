@@ -2,7 +2,13 @@
 
 /*TEST includes*/
 #include <stdio.h>
-#include <string.h>
+
+/*TEST strncmp*/
+int strnequ(char const *s1, char const *s2, size_t n)
+{
+    return (strncmp(s1, s2, n) == 0);
+}
+
 
 /*TEST function for ft_striter*/
 void	from_42(char *och)
@@ -337,6 +343,7 @@ int		main(void)
 	printf("9: \"%s\" %s \"%s\"\n", foo, ft_strnequ(foo, bar, 9) ? "=" : "!=", bar);
 	printf("10: \"%s\" %s \"%s\"\n", foo, ft_strnequ(foo, bar, 10) ? "=" : "!=", bar);
 	printf("100: \"%s\" %s \"%s\"\n\n", foo, ft_strnequ(foo, bar, 100) ? "=" : "!=", bar);
+
 
 	/*ft_strsub TEST*/
 	printf("ft_strsub TEST:\n");

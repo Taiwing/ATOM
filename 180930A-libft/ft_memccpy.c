@@ -5,9 +5,13 @@ void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
 	char		*d;
 	const char	*s;
 
-	d = (char *)dest;
-	s = (const char *)src;
-	while (n-- && *s != c)
+	s = src;
+	d = dest;
+	while (n--)
+	{
 		*d++ = *s++;
-	return (dest);
+		if (*(d - 1) == c)
+			return ((void *)d);
+	}
+	return (NULL);
 }

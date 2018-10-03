@@ -2,12 +2,12 @@
 
 char	*ft_strtrim(char const *s)
 {
-	size_t	l;
+	size_t	sz;
 
-	while (*s == 32 || (*s > 8 && *s < 11))
+	while (*s == ' ' || *s == '\n' || *s == '\t')
 		s++;
-	l = 0;
-	while (s[l] && !(s[l] == 32 || (s[l] > 8 && s[l] < 11)))
-		l++;
-	return (ft_strncpy(ft_strnew(l + 1), s, l));
+	sz = *s ? ft_strlen(s) - 1 : 0;
+	while (s[sz] == ' ' || s[sz] == '\n' || s[sz] == '\t')
+		sz--;
+	return (ft_strsub(s, 0, sz + 1));
 }
