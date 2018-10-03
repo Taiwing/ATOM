@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS= -c -Wall -Wextra -Werror
+CFLAGS= -g -c -Wall -Wextra -Werror
 HFLAGS= -I libft/includes
 LFLAGS= -L libft/ -lft
 NAME=test_gnl
@@ -11,7 +11,7 @@ LIB=libft.a
 all: $(NAME)
 
 $(NAME): $(OBJ) $(LIB)
-	$(CC) -o $@ $(OBJ) $(HFLAGS) $(LFLAGS)
+	$(CC) -g -o $@ $(OBJ) $(HFLAGS) $(LFLAGS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) $< $(HFLAGS)

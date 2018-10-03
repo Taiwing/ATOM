@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS= -c -Wall -Wextra -Werror -I includes/
+CFLAGS= -g -c -Wall -Wextra -Werror -I includes/
 NAME=libft.a
 SRC=ft_atoi.c\
 ft_bzero.c\
