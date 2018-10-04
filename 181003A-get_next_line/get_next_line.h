@@ -3,7 +3,12 @@
 
 # define BUFF_SIZE 32
 # include "libft.h"
-# include <unistd.h>
+
+typedef struct	s_gnl
+{
+	int		fd;
+	char	*trail;
+}				t_gnl;
 
 int	get_next_line(const int fd, char **line);
 

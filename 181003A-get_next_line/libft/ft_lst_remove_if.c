@@ -2,26 +2,27 @@
 
 void	ft_lst_remove_if(t_list **lst, void *content_ref, int (*cmp)())
 {
-	static t_list	*prev = 0;
-	t_list			*next;
-	t_list			*cur;
+	t_list  *prev;
+	t_list	*cur;
+	t_list	*next;
 
-	if (!lst || !*lst || !content_ref || !cmp)
+	if (!lst || !*lst || !cmp)
 		return ;
+	prev = NULL;
 	cur = *lst;
-	next = cur->next;
-	if ((*cmp)(content_ref, cur->content) == 0)
+	next = cur ? cur->next : NULL;
+	while (cur)
 	{
-		free(cur);
-		cur = 0;
-		if (prev)
-			prev->next = next;
-		else
-			*lst = next;
+		if (!cmp(content_ref, cur->content))
+		{
+			ft_memdel((void **)&cur);
+			if (prev)
+				prev->next = next;
+			else
+				*lst = next;
+		}
+		prev = cur ? cur : prev;
+		cur = next;
+		next = cur ? cur->next : next;
 	}
-	prev = cur ? cur : prev;
-	if (next)
-		ft_lst_remove_if(&next, content_ref, cmp);
-	else
-		prev = 0;
 }
