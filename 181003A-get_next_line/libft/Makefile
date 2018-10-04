@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS= -g -c -Wall -Wextra -Werror -I includes/
+CFLAGS= -c -Wall -Wextra -Werror -I includes/
 NAME=libft.a
 SRC=ft_atoi.c\
 ft_bzero.c\
@@ -9,6 +9,19 @@ ft_isascii.c\
 ft_isdigit.c\
 ft_isprint.c\
 ft_itoa.c\
+ft_lst_at.c\
+ft_lst_find.c\
+ft_lst_foreach.c\
+ft_lst_foreach_if.c\
+ft_lst_last.c\
+ft_lst_merge.c\
+ft_lst_push_back.c\
+ft_lst_push_front.c\
+ft_lst_push_params.c\
+ft_lst_remove_if.c\
+ft_lst_reverse.c\
+ft_lst_size.c\
+ft_lst_sort.c\
 ft_lstadd.c\
 ft_lstdel.c\
 ft_lstdelone.c\
@@ -68,7 +81,7 @@ $(NAME): $(OBJ)
 	ar rc $@ $^
 	ranlib $@
 
-%.o: %.c
+%.o: %.c libft.h	
 	$(CC) $(CFLAGS) $<
 
 clean:

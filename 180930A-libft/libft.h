@@ -68,6 +68,21 @@ void	ft_putstr_fd(char const *s, int fd);
 void	ft_putendl_fd(char const *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 
+t_list	*ft_lst_at(t_list *lst, unsigned int nbr);
+t_list	*ft_lst_find(t_list *lst, void *content_ref, int (*cmp)());
+void	ft_lst_foreach(t_list *lst, void (*f)(void *));
+void	ft_lst_foreach_if(t_list *lst, void (*f)(void *),
+		void *content_ref, int (*cmp)());
+t_list	*ft_lst_last(t_list *lst);
+void	ft_lst_merge(t_list **lst1, t_list *lst2);
+void	ft_lst_push_back(t_list **lst, void *content, size_t content_size);
+void	ft_lst_push_front(t_list **lst, void *content, size_t content_size);
+t_list	*ft_lst_push_params(int ac, char **av);
+void	ft_lst_remove_if(t_list **lst, void *content_ref, int (*cmp)());
+void	ft_lst_reverse(t_list **lst);
+int		ft_lst_size(t_list *lst);
+void	ft_lst_sort(t_list **lst, int (*cmp)());
+
 t_list  *ft_lstnew(void const *content, size_t content_size);
 void    ft_lstdelone(t_list **alst, void (*del)(void *, size_t));
 void    ft_lstdel(t_list **alst, void (*del)(void *, size_t));
