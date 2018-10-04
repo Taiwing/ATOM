@@ -19,6 +19,8 @@ static t_gnl	*ft_get_trail(int fd, t_list **lst)
 		ft_lst_push_front(lst, (void *)new, sizeof(t_gnl));
 		ptr = *lst;	
 	}
+	/*else if (*lst != ptr)
+		ft_lst_move_front(lst, ptr)*/
 	return ((t_gnl *)ptr->content);
 }
 
@@ -30,6 +32,18 @@ static char		*ft_strcut(char **s, size_t start, size_t l)
 	ft_memdel((void **)s);
 	return (cut);
 }
+
+static char		*ft_stradd(char **base, char *str, size_t l)
+{
+	char	*new;
+
+	new = ft_strcpy(ft_strnew(ft_strlen(*base) + l + 1), *base);
+	ft_strncat(new, str, l);
+	ft_memdel((void **)base);
+	return (new);
+}
+
+//static int		ft_read_file(int fd, t_gnl *cur)
 
 int	get_next_line(const int fd, char **line)
 {
@@ -48,13 +62,14 @@ int	get_next_line(const int fd, char **line)
 	else if ((r = read(fd, buf, BUFF_SIZE)) == -1)
 		return (-1);
 	else if (r == 0)
+	{
 		*line = ft_strcut(&(cur->trail), 0, ft_strlen(cur->trail));
+		if (!*line)
+			ft_lst_remove_if(&lst, (void *)&fd, ft_isfd);
+	}
 	else
 	{
-		eol = ft_strcpy(ft_strnew(ft_strlen(cur->trail) + r + 1), cur->trail);
-		ft_strncat(eol, buf, r);
-		ft_memdel((void **)&(cur->trail));
-		cur->trail = eol;
+		cur->trail = ft_stradd(&(cur->trail), buf, r);
 		return (get_next_line(fd, line));
 	}
 	return (*line != NULL);
