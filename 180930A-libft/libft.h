@@ -90,4 +90,7 @@ void    ft_lstadd(t_list **alst, t_list *new);
 void    ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list  *ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 
+char	*ft_stradd(char **base, char *str, size_t l);
+char	*ft_strcut(char **s, size_t start, size_t l);
+
 #endif
