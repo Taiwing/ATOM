@@ -10,7 +10,7 @@ void	ft_lst_remove_if(t_list **lst, void *content_ref, int (*cmp)())
 		return ;
 	prev = NULL;
 	cur = *lst;
-	next = cur ? cur->next : NULL;
+	next = cur->next;
 	while (cur)
 	{
 		if (!cmp(content_ref, cur->content))

@@ -24,7 +24,7 @@ static t_gnl	*ft_get_trail(int fd, t_list **lst)
 	return ((t_gnl *)ptr->content);
 }
 
-static int		ft_read_file(t_gnl *cur, char **line, t_list *lst)
+static int		ft_read_file(t_gnl *cur, char **line, t_list **lst)
 {
 	int		r;
 	char	buf[BUFF_SIZE];
@@ -33,8 +33,8 @@ static int		ft_read_file(t_gnl *cur, char **line, t_list *lst)
 	{
 		*line = ft_strcut(&(cur->trail), 0, ft_strlen(cur->trail));
 		(void)lst;
-		//if (!*line)
-			//ft_lst_remove_if(&lst, (void *)&(cur->fd), ft_isfd);
+		if (!*line)
+			ft_lst_remove_if(lst, (void *)&(cur->fd), ft_isfd);
 	}
 	else if (r > 0)
 		cur->trail = ft_stradd(&(cur->trail), buf, r);
@@ -56,7 +56,7 @@ int	get_next_line(const int fd, char **line)
 		*line = ft_strsub(cur->trail, 0, l);
 		cur->trail = ft_strcut(&(cur->trail), l + 1, ft_strlen(eol) - 1);
 	}
-	else if ((r = ft_read_file(cur, line, lst)) == -1)
+	else if ((r = ft_read_file(cur, line, &lst)) == -1)
 		return (-1);
 	else if (r > 0)
 		return (get_next_line(fd, line));
