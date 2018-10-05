@@ -32,8 +32,9 @@ static int		ft_read_file(t_gnl *cur, char **line, t_list *lst)
 	if (!(r = read(cur->fd, buf, BUFF_SIZE)))
 	{
 		*line = ft_strcut(&(cur->trail), 0, ft_strlen(cur->trail));
-		if (!*line)
-			ft_lst_remove_if(&lst, (void *)&(cur->fd), ft_isfd);
+		(void)lst;
+		//if (!*line)
+			//ft_lst_remove_if(&lst, (void *)&(cur->fd), ft_isfd);
 	}
 	else if (r > 0)
 		cur->trail = ft_stradd(&(cur->trail), buf, r);
