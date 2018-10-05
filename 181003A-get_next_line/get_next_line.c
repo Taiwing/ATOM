@@ -19,8 +19,8 @@ static t_gnl	*ft_get_trail(int fd, t_list **lst)
 		ft_lst_push_front(lst, (void *)new, sizeof(t_gnl));
 		ptr = *lst;	
 	}
-	/*else if (*lst != ptr)
-		ft_lst_move_front(lst, ptr)*/ /*TODO*/
+	else if (*lst != ptr)
+		ft_lst_move_front(lst, ptr);
 	return ((t_gnl *)ptr->content);
 }
 

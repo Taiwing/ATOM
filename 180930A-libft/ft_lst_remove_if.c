@@ -15,7 +15,7 @@ void	ft_lst_remove_if(t_list **lst, void *content_ref, int (*cmp)())
 	{
 		if (!cmp(content_ref, cur->content))
 		{
-			ft_memdel(&cur);
+			ft_memdel((void **)&cur);
 			if (prev)
 				prev->next = next;
 			else

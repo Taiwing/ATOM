@@ -15,6 +15,7 @@ ft_lst_foreach.c\
 ft_lst_foreach_if.c\
 ft_lst_last.c\
 ft_lst_merge.c\
+ft_lst_move_front.c\
 ft_lst_push_back.c\
 ft_lst_push_front.c\
 ft_lst_push_params.c\
