@@ -19,7 +19,7 @@ static t_gnl	*ft_get_trail(int fd, t_list **lst)
 		ft_lst_push_front(lst, (void *)new, sizeof(t_gnl));
 		ptr = *lst;	
 	}
-	else if (*lst != ptr)
+	else
 		ft_lst_move_front(lst, ptr);
 	return ((t_gnl *)ptr->content);
 }
@@ -34,7 +34,10 @@ static int		ft_read_file(t_gnl *cur, char **line, t_list **lst)
 		*line = ft_strcut(&(cur->trail), 0, ft_strlen(cur->trail));
 		(void)lst;
 		if (!*line)
+		{
 			ft_lst_remove_if(lst, (void *)&(cur->fd), ft_isfd);
+			free(cur);
+		}
 	}
 	else if (r > 0)
 		cur->trail = ft_stradd(&(cur->trail), buf, r);

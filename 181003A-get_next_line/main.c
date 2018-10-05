@@ -44,7 +44,10 @@ int		main(int argc, char **argv)
 	if (argc < 2)
 	{
 		while (get_next_line(0, &line) > 0)
+		{
 			printf("\"%s\"\n", line);
+			ft_memdel((void **)&line);
+		}
 		return (0);
 	}
 	srand(time(NULL));
@@ -62,8 +65,13 @@ int		main(int argc, char **argv)
 		{
 			printf("\n%s: r = %d, i = %d, nb = %d\n", argv[i], rs[i], i, nb);
 			while (nb-- && (rs[i] = get_next_line(fds[i], &line)) > 0)
+			{
 				printf("\"%s\"\n", line);
+				ft_memdel((void **)&line);
+			}
 		}
 	}
+	free(rs);
+	free(fds);
 	return (0);
 }
