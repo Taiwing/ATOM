@@ -24,7 +24,11 @@ int		reading(int *rs, int l)
 
 	r = 0;
 	while (l--)
+	{
+		if (rs[l] < 0)
+			return (0);
 		r += rs[l];
+	}
 	return (r);
 }
 
@@ -38,7 +42,11 @@ int		main(int argc, char **argv)
 	char	*line;
 
 	if (argc < 2)
-		return (1);
+	{
+		while (get_next_line(0, &line) > 0)
+			printf("\"%s\"\n", line);
+		return (0);
+	}
 	srand(time(NULL));
 	l = argc - 1;
 	fds = get_fds(l, ++argv);
@@ -50,10 +58,10 @@ int		main(int argc, char **argv)
 	{
 		i = rand() % l;
 		nb = (rand() % 6) + 1;
-		if (rs[i])
+		if (rs[i] > 0)
 		{
 			printf("\n%s: r = %d, i = %d, nb = %d\n", argv[i], rs[i], i, nb);
-			while (nb-- && (rs[i] = get_next_line(fds[i], &line)))
+			while (nb-- && (rs[i] = get_next_line(fds[i], &line)) > 0)
 				printf("\"%s\"\n", line);
 		}
 	}
