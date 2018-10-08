@@ -85,6 +85,7 @@ int			solve(int t, t_data *d)
 int			get_square(int tc, int *tetros, char ***square)
 {
 	t_data	*d;
+	int		i;
 	int		l;
 
 	d = (t_data *)malloc(sizeof(t_data));
@@ -93,6 +94,9 @@ int			get_square(int tc, int *tetros, char ***square)
 	build_square(d->tc * 4, d);
 	while (!solve(0, d))
 	{
+		i = -1;
+		while (++i < d->l)
+			free(d->square[i]);
 		free(d->square);
 		build_square(d->l * d->l + 1, d);
 	}

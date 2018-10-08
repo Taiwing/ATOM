@@ -1,8 +1,6 @@
 #include "main.h"
 #include "libft.h"
 
-#include <stdio.h> /*TEST*/
-
 void	print_square(int l, char **square)
 {
 	int	i;
@@ -21,6 +19,7 @@ void	print_square(int l, char **square)
 int	main(int argc, char **argv)
 {
 	int		l;
+	int		i;
 	int		tc;
 	int		*tetros;
 	char	**square;
@@ -31,11 +30,11 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	tc = get_tetros(argv[1], &tetros);
-	printf("tc = %d\nlist: ", tc);
-	for (int i = 0; i < tc; i++)
-		printf("%d%s", tetros[i], i < tc - 1 ? ", " : "\n");
 	l = get_square(tc, tetros, &square);
 	print_square(l, square);
+	i = -1;
+	while (++i < l)
+		free(square[i]);
 	free(square);
 	return (0);
 }
