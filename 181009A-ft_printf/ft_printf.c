@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 18:25:41 by yforeau           #+#    #+#             */
-/*   Updated: 2018/10/17 20:27:32 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/10/19 19:26:20 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	ft_printf(const char *format, ...)
 	while (*fmt)
 	{
 		str = parser(&fmt, cur, ref);
-		print_fstr(str);
+		putfstr(str);
 		n += str->len;
-		del_fstr(str);
+		delfstr(&str);
 	}
 	va_end(cur);
 	va_end(ref);

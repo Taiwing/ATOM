@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   convert.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/09 18:26:09 by yforeau           #+#    #+#             */
-/*   Updated: 2018/10/19 19:07:38 by yforeau          ###   ########.fr       */
+/*   Created: 2018/10/29 20:55:40 by yforeau           #+#    #+#             */
+/*   Updated: 2018/10/29 20:55:43 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-
+#ifndef CONVERT_H
+# define CONVERT_H
 # include <stdarg.h>
-# include "parser.h"
+# include "params.h"
 # include "fstr.h"
 
-int	ft_printf(const char *format, ...);
+void	convert(t_fstr *s, va_list cur, va_list ref, t_params *conv);
 
 #endif

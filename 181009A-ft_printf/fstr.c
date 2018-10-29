@@ -1,41 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   fstr.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/10/29 20:57:24 by yforeau           #+#    #+#             */
+/*   Updated: 2018/10/29 20:57:27 by yforeau          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fstr.h"
 
-t_fstr		*init_fstr(void)
+t_fstr	*initfstr(void)
 {
-	t_fstr	*new;
+	t_fstr	*s;
 
-	if (!(new = (t_fstr *)malloc(sizeof(t_fstr *))))
-		return (NULL);
-	new->str = NULL;
-	new->wstr = NULL;
-	new->minus = 0;
-	new->len = 0;
-	new->field_width = 0;
-	return (new);
+	s = (t_fstr *)malloc(sizeof(t_fstr));
+	s->len = 0;
+	s->str = NULL;
+	return (s);
 }
 
-
-void		del_fstr(t_fstr *str)
+void	putfstr(t_fstr *s)
 {
-	if (str->str)
-		free(str->str);
-	if (str->wstr)
-		free(str->wstr);
-	free(str);
+	if (s->len)
+		write(1, s->str, s->len);
 }
 
-static void	padding(int l, int fw)
+void	delfstr(t_fstr **s)
 {
-	while (l++ < fw)
-		write(1, " ", 1);
-}
-
-void		print_fstr(t_fstr *str)
-{
-	if (!str->minus)
-		padding(str->len, str->field_width);
-	if (str->len && str->str)
-		write(1, str->str, str->len);
-	if (str->len && str->wstr)	
-		
+	if (*s && (*s)->str)
+		free((*s)->str);
+	if (*s)
+		free(*s);
+	*s = NULL;
 }

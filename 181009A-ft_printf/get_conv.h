@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   get_conv.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/09 18:26:09 by yforeau           #+#    #+#             */
-/*   Updated: 2018/10/19 19:07:38 by yforeau          ###   ########.fr       */
+/*   Created: 2018/10/29 20:53:49 by yforeau           #+#    #+#             */
+/*   Updated: 2018/10/29 20:53:52 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
-
+#ifndef GET_CONV_H
+# define GET_CONV_H
 # include <stdarg.h>
-# include "parser.h"
-# include "fstr.h"
+# include "params.h"
+# include "get_type_cast.h"
 
-int	ft_printf(const char *format, ...);
+void	get_conv(char **fmt, va_list cur, va_list ref, t_params *conv);
 
 #endif
