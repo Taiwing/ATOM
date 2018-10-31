@@ -47,7 +47,7 @@ void	get_val(va_list tmp, int cast, void *ptr)
 	else if (cast == T_CHAR)
 		*(char *)ptr = va_arg(tmp, char);
 	else if (cast == T_CHAR | C_UNSIGNED)
-		*(unsigned char *)ptr = va_arg(tmp, unsigned char);
+		*(t_uchar *)ptr = va_arg(tmp, t_uchar);
 	else if (cast == T_SIZE_T)
 		*(ssize_t *)ptr = va_arg(tmp, ssize_t);
 	else if (cast == T_SIZE_T | C_UNSIGNED)
@@ -69,17 +69,17 @@ void	cast_int(va_list, int cast, void *ptr)
 	if (cast == T_INT)
 		*(int *)ptr = va_arg(tmp, int);
 	else if (cast == T_INT | C_UNSIGNED)
-		*(unsigned int *)ptr = va_arg(tmp, unsigned int);
+		*(t_uint *)ptr = va_arg(tmp, t_uint);
 	else if (cast == T_INT | C_SHORT)
-		*(short int *)ptr = va_arg(tmp, short int);
+		*(t_shint *)ptr = va_arg(tmp, t_shint);
 	else if (cast == T_INT | C_SHORT | C_UNSIGNED)
-		*(unsigned short int *)ptr = va_arg(tmp, unsigned short int);
+		*(t_ushint *)ptr = va_arg(tmp, t_ushint);
 	else if (cast == T_INT | C_LONG)
-		*(long int *)ptr = va_arg(tmp, long int);
+		*(t_lint *)ptr = va_arg(tmp, t_lint);
 	else if (cast == T_INT | C_LONG | C_UNSIGNED)
-		*(unsigned long int *)ptr = va_arg(tmp, unsigned long int);
+		*(t_ulint *)ptr = va_arg(tmp, t_ulint);
 	else if (cast == T_INT | C_LONG_LONG)
-		*(long long int *)ptr = va_arg(tmp, long long int);
+		*(t_llint *)ptr = va_arg(tmp, t_llint);
 	else if (cast == T_INT | C_LONG_LONG | C_UNSIGNED)
-		*(unsigned long long int *)ptr = va_arg(tmp, unsigned long long int);
+		*(t_ullint *)ptr = va_arg(tmp, t_ullint);
 }

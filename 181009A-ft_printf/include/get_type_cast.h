@@ -4,5 +4,6 @@
 
 char	*get_type(char *f, t_params *conv);
 char	*get_cast(char *f, t_params *conv);
+int		check_type_cast(t_params *conv);
 
 #endif
