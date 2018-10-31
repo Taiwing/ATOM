@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:54:02 by yforeau           #+#    #+#             */
-/*   Updated: 2018/10/29 22:04:44 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/10/31 16:08:18 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,19 @@
 
 void	get_conv(char **fmt, va_list cur, va_list ref, t_params *conv)
 {
-	int		nb;
 	char	*eof;
 
-	nb = 0;
 	(*fmt)++;
 	conv->soc = *fmt;
 	conv->eoc = get_type(*fmt, conv);
-	eof = conv->eoc ? get_cast(conv->eoc, conv) : NULL;
-	if (check_type_cast(conv))
-		eof = get_flags(fmt, eof, conv);
+	eof = *(conv->eoc) ? get_cast(conv->eoc, conv) : NULL;
+	if (check_type_cast(conv) && conv->soc <= eof && conv->type != '%')
+	{
+		if (!get_flags(eof, cur, ref, conv))
+		{
+			conv->soc = conv->soc - 1;
+			conv->type = 0;
+		}
+	}
+	*fmt = conv->eoc + 1;
 }

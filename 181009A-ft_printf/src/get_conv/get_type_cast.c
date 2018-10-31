@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:54:12 by yforeau           #+#    #+#             */
-/*   Updated: 2018/10/29 20:54:15 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/10/31 16:27:02 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ char	*get_type(char *f, t_params *conv)
 		conv->type = *f == 'p' ? 'x' : 'X';
 	}
 	else if (*f)
-		conv->type = *f;
-	return (*f ? f : NULL);	
+		conv->type = *f == 'i' ? 'd' : *f;
+	return (f);	
 }
 
 char	*get_cast(char *f, t_params *conv)
@@ -49,23 +49,49 @@ char	*get_cast(char *f, t_params *conv)
 			conv->cast |= C_SHORT;
 		else if (*f == 'h')
 		{
-			conv->cast |= C_CHAR;
-			conv->cast ^= C_SHORT;
+			conv->cast |= T_CHAR;
+			conv->cast &= ~C_SHORT;
 		}
 		else if (*f == 'l' && conv->cast | C_LONG == 0)
 			conv->cast |= C_LONG;
 		else if (*f == 'l')
 		{
 			conv->cast |= C_LONG_LONG;
-			conv->cast ^= C_LONG;
+			conv->cast &= ~C_LONG;
 		}
 		else if (*f == 'j')
-			conv->cast |= C_INTMAX_T;
+			conv->cast |= T_INTMAX_T;
 		else if (*f == 'z')
-			conv->cast |= C_SIZE_T;
+			conv->cast |= T_SIZE_T;
 		f--;
 	}
 	return (f);
 }
 
+int		check_type_cast(t_params *conv)
+{
+	char	c;
 
+	conv->cast ^= !conv->cast || !(conv->cast ^ C_UNSIGNED) ? C_DEFAULT : 0;
+	c = conv->cast & ~C_UNSIGNED;
+	if (conv->type == 'c' || conv->type == 's')
+	{
+		conv->type = conv->cast == C_LONG ? conv->type - 32 : conv->type;
+		if (conv->cast == C_LONG || conv->cast == C_DEFAULT)
+			return (1);
+	}
+	else if ((conv->type == 'C' || conv->type == 'S') && conv->cast == C_DEFAULT)
+		return (1);
+	else if ((conv->type && conv->type != '%' && conv->type != 'C'
+			&& conv->type != 'S') && (c == C_DEFAULT || c == C_SHORT || c == C_LONG
+			|| c == C_LONG_LONG || c == T_SIZE_T || c == T_INTMAX_T
+			|| c == C_CHAR))
+		return (1);
+	else if (conv->type == '%' && conv->soc == conv->eoc)
+		return (1);
+	if (conv->type == '%' || !*(conv->eoc))
+		conv->eoc = conv->eoc - 1;
+	conv->soc = conv->soc - 1;
+	conv->type = 0;
+	return (0);
+}
