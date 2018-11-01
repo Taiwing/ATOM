@@ -1,5 +1,7 @@
 #include "ft_itoa_cast.h"
 
+char	g_bstr[2][17] = {"0123456789abcdef", "0123456789ABCDEF"};
+
 char	*ft_itoa_cast(va_list cur, va_list ref, t_params *conv)
 {
     int     cast;
@@ -93,7 +95,7 @@ static char	*ft_itoa_base(va_list cur, va_list ref, t_params *conv, int cast)
 	if (cast == T_INT | C_UNSIGNED)
 		str = ft_itoa_base_uint(*(t_uint *)n, base, conv->type == 'X');
 	else if (cast == T_INT | C_SHORT | C_UNSIGNED)
-		str = ft_itoa_base_ushint(*(t_shuint *)n, base, conv->type == 'X');
+		str = ft_itoa_base_ushint(*(t_ushint *)n, base, conv->type == 'X');
 	else if (cast == T_INT | C_LONG | C_UNSIGNED)
 		str = ft_itoa_base_ulint(*(t_ulint *)n, base, conv->type == 'X');
 	else if (cast == T_INT | C_LONG_LONG | C_UNSIGNED)

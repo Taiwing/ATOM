@@ -3,7 +3,6 @@
 
 char	*ft_itoa_base(int value, int base)
 {
-	static int	l = 0;
 	char		*str;
 	char		c;
 	char		bstr[] = "0123456789ABCDEF";
