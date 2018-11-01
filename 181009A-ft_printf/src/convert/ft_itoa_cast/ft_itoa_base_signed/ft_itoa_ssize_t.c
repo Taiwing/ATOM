@@ -1,6 +1,6 @@
 #include "ft_itoa_cast.h"
 
-char	*ft_itoa_int(int n)
+char	*ft_itoa_ssize_t(ssize_t n)
 {
 	int		i;
 	int		size;
