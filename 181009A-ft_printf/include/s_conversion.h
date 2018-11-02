@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert.h                                          :+:      :+:    :+:   */
+/*   s_conversion.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/29 20:55:40 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/02 20:17:55 by yforeau          ###   ########.fr       */
+/*   Created: 2018/11/01 21:22:45 by yforeau           #+#    #+#             */
+/*   Updated: 2018/11/01 21:23:01 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONVERT_H
-# define CONVERT_H
+#ifndef S_CONVERSION_H
+# define S_CONVERSION_H
 # include <stdarg.h>
-# include "ft_itoa_cast.h"
-# include "c_conversion.h"
-# include "format_str.h"
+# include "libft.h"
 # include "params.h"
-# include "fstr.h"
+# include "fetch.h"
 
-void	convert(t_fstr *s, va_list cur, va_list ref, t_params *conv);
+char	*s_conversion(va_list cur, va_list ref, t_params *conv);
 
 #endif

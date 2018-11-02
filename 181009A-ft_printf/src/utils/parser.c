@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:53:39 by yforeau           #+#    #+#             */
-/*   Updated: 2018/10/29 21:33:30 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/02 20:22:24 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ t_fstr	*parser(char **fmt, va_list cur, va_list ref)
 	perc = ft_strchr(*fmt, '%');
 	if (perc != *fmt)
 	{
-		s->len = perc ? perc - *fmt : ft_strlen(*fmt);
-		s->str = ft_strsub(*fmt, 0, s->len);
-		(*fmt) += s->len;
+		s->l_total = perc ? perc - *fmt : ft_strlen(*fmt);
+		s->str = ft_strsub(*fmt, 0, s->l_total);
+		(*fmt) += s->l_total;
 	}
 	else
 	{

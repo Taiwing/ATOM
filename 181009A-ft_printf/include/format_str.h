@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert.h                                          :+:      :+:    :+:   */
+/*   format_str.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/29 20:55:40 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/02 20:17:55 by yforeau          ###   ########.fr       */
+/*   Created: 2018/11/02 20:12:47 by yforeau           #+#    #+#             */
+/*   Updated: 2018/11/02 20:15:23 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONVERT_H
-# define CONVERT_H
-# include <stdarg.h>
-# include "ft_itoa_cast.h"
-# include "c_conversion.h"
-# include "format_str.h"
+#ifndef FORMAT_STR_H
+# define FORMAT_STR_H
+# include "libft.h"
 # include "params.h"
 # include "fstr.h"
 
-void	convert(t_fstr *s, va_list cur, va_list ref, t_params *conv);
+void	format_str(t_fstr *s, t_params *conv);
 
 #endif
