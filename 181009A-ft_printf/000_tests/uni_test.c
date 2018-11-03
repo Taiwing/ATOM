@@ -26,5 +26,10 @@ int		main(void)
 	printf("short cast: %hd\n", (short)123456789);
 	printf("int cast:   %hd\n",   (int)123456789);
 	printf("char cast:  %hd\n",  (char)123456789);
+	
+	int	p = 0;
+	while (p < 10)
+		printf("cust : %.*S\n", p++, NULL);
+
 	return (0);
 }

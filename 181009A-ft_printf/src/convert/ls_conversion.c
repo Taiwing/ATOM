@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/02 14:12:35 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/03 12:24:03 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/04 00:36:32 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@ static int		byte_len(wchar_t c)
 {
 	int	l;
 
-	l = 1;
-	if (c > 0x7f)
+	l = 0;
+	if (c < 0x80)
+		l = 1;
+	else if (c < 0x800)
 		l = 2;
-	else if (c > 0x7ff)
+	else if (c < 0x10000)
 		l = 3;
-	else if (c > 0xffff)
+	else if (c < 0x200000)
 		l = 4;
 	return (l);
 }
@@ -55,11 +57,13 @@ char			*ls_conversion(va_list cur, va_list ref, t_params *conv)
 	char		*str;
 
 	if (!conv->arg)
-		fetch(cur, 0, T_WINT_T, (void *)(&wstr));
+		fetch(cur, 0, T_WCHAR_T_P, (void *)(&wstr));
 	else
-		fetch(ref, conv->arg, T_WINT_T, (void *)(&wstr));
-	if (!wstr)
+		fetch(ref, conv->arg, T_WCHAR_T_P, (void *)(&wstr));
+	if (!wstr && (conv->precision > 5 || conv->precision == -1))
 		return (ft_strdup("(null)"));
+	else if (!wstr)
+		return (ft_strdup(""));
 	b = conv->precision;
 	str = ft_strnew(b == -1 ? (wstr_len(wstr) * 4) + 1 : b + 1);
 	i = 0;
