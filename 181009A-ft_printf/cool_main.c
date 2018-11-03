@@ -12,5 +12,6 @@ int		main(void)
 	ft_printf("simple %%s test: %s\n", "Coconut");
 	ft_printf("MINE-> $1: %1$s\n", hel);
 	printf("ORIG-> $1: %1$s\n", hel);
+	ft_printf("MINE>\t[%*d]\n", 999);
 	return (0);
 }
