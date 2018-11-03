@@ -18,5 +18,7 @@ int		main(void)
 	printf("\nret = %d\nc: ", ret);
 	ret = printf("%lc", (wint_t)0x1f34c);
 	printf("\nret = %d\n", ret);
+	ret = printf("%ls\n", (wchar_t *)NULL);
+	printf("ret = %d\n", ret);
 	return (0);
 }
