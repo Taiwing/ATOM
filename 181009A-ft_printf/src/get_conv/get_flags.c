@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/31 16:32:21 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/02 21:43:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/03 16:56:07 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static int	add_flag(char c, t_params *conv)
 static int	star_sign(char **f, long int *ptr, va_list cur, va_list ref)
 {
 	int	nb;
+	int	value;
 
 	nb = -1;
 	if (**f == '*')
@@ -50,10 +51,12 @@ static int	star_sign(char **f, long int *ptr, va_list cur, va_list ref)
 		{
 			if (!(nb = ft_atoi_forward(f)))
 				return (-1);
-			fetch(ref, nb, C_LONG | T_INT, (void *)ptr);
+			fetch(ref, nb, T_INT, (void *)&value);
+			(*f)++;
 		}
 		else
-			fetch(cur, 0, C_LONG | T_INT, (void *)ptr);
+			fetch(cur, 0, T_INT, (void *)&value);
+		*ptr = (long int)value;
 	}
 	else if (**f > 47 && **f < 58)
 		*ptr = (long int)ft_atoi_forward(f);
@@ -68,11 +71,11 @@ int			get_flags(char *eof, va_list cur, va_list ref, t_params *conv)
 	char	*f;
 
 	f = conv->soc;
-	conv->precision = -1;
 	if (doll_sign(f))
 	{
 		if (!(conv->arg = ft_atoi_forward(&f)))
-			return (0); /*NOT TESTED (previously set_error)*/
+			return (0);
+		f++;
 	}
 	while (add_flag(*f, conv))
 		f++;

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:53:39 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/03 02:17:06 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/03 15:29:59 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_params	*init_conv(void)
 	conv->arg = 0;
 	conv->flags = 0;
 	conv->fw = 0;
-	conv->precision = 0;
+	conv->precision = -1;
 	conv->soc = NULL;
 	conv->eoc = NULL;
 	return (conv);
