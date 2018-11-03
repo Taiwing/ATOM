@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/01 00:40:37 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/01 14:38:52 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/02 22:26:49 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 # define FT_ITOA_CAST_H
 # include <stdarg.h>
 # include <stdlib.h>
+# include <inttypes.h>
 # include "params.h"
 # include "libft.h"
+# include "fetch.h"
+# include "ft_strrev.h"
 
 extern char	g_bstr[2][17];
 

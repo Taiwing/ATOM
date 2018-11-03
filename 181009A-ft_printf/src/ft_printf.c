@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 18:25:41 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/01 22:29:48 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/02 21:01:40 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_printf(const char *format, ...)
 	va_list	ref;
 
 	n = 0;
-	fmt = format;
+	fmt = (char *)format;
 	va_start(cur, format);
 	va_copy(ref, cur);
 	while (*fmt)

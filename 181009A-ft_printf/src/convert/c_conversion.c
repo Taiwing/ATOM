@@ -6,11 +6,11 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/01 20:55:29 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/01 22:08:03 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/02 22:25:23 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "c_convsersion.h"
+#include "c_conversion.h"
 
 char	*c_conversion(va_list cur, va_list ref, t_params *conv)
 {
@@ -19,9 +19,9 @@ char	*c_conversion(va_list cur, va_list ref, t_params *conv)
 	char		*str;
 
 	if (!conv->arg)
-		fetch(cur, 0, T_CHAR | T_UNSIGNED, (void *)(&nb));
+		fetch(cur, 0, T_CHAR | C_UNSIGNED, (void *)(&nb));
 	else
-		fetch(ref, conv->arg, T_CHAR | T_UNSIGNED, (void *)(&nb));
+		fetch(ref, conv->arg, T_CHAR | C_UNSIGNED, (void *)(&nb));
 	l = nb < 0x80 ? 2 : 3;
 	str = (char *)malloc(sizeof(char) * l);
 	if (l == 2)

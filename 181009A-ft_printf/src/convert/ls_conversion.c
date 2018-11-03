@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/02 14:12:35 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/02 15:26:21 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/02 21:47:55 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ static int		byte_len(wchar_t c)
 	int	l;
 
 	l = 1;
-	if (nb > 0x7f)
+	if (c > 0x7f)
 		l = 2;
-	else if (nb > 0x7ff)
+	else if (c > 0x7ff)
 		l = 3;
-	else if (nb > 0xffff)
+	else if (c > 0xffff)
 		l = 4;
 	return (l);
 }
@@ -36,9 +36,9 @@ static void		conv_wchar(char *str, int l, wchar_t c)
 	}
 }
 
-static size_t	wstr_len(wchar_t *ws)
+static int		wstr_len(wchar_t *ws)
 {
-	size_t	l;
+	int	l;
 
 	l = 0;
 	while (*ws++)

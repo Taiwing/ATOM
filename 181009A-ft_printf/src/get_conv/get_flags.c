@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/31 16:32:21 by yforeau           #+#    #+#             */
-/*   Updated: 2018/10/31 17:50:31 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/02 21:43:00 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,14 @@ int			get_flags(char *eof, va_list cur, va_list ref, t_params *conv)
 	if (doll_sign(f))
 	{
 		if (!(conv->arg = ft_atoi_forward(&f)))
-			return (set_error(conv));
+			return (0); /*NOT TESTED (previously set_error)*/
 	}
 	while (add_flag(*f, conv))
 		f++;
-	if (star_sign(&f, &(conv->field_width), cur, ref) < 0)
+	if (star_sign(&f, &(conv->fw), cur, ref) < 0)
 		return (0);
-	conv->flags |= conv->field_width < 0 ? F_MINUS : 0;
-	conv->fw *= conv->field_width < 0 ? -1 : 1;
+	conv->flags |= conv->fw < 0 ? F_MINUS : 0;
+	conv->fw *= conv->fw < 0 ? -1 : 1;
 	if (*f == '.')
 	{
 		f++;

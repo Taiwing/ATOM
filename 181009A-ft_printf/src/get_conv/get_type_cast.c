@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:54:12 by yforeau           #+#    #+#             */
-/*   Updated: 2018/10/31 16:27:02 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/02 21:37:32 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ char	*get_cast(char *f, t_params *conv)
 	f--;
 	while (*f == 'h' || *f == 'l' || *f == 'j' || *f == 'z')
 	{
-		if (*f == 'h' && conv->cast | C_SHORT == 0)
+		if (*f == 'h' && ((conv->cast | C_SHORT) == 0))
 			conv->cast |= C_SHORT;
 		else if (*f == 'h')
 		{
 			conv->cast |= T_CHAR;
 			conv->cast &= ~C_SHORT;
 		}
-		else if (*f == 'l' && conv->cast | C_LONG == 0)
+		else if (*f == 'l' && ((conv->cast | C_LONG) == 0))
 			conv->cast |= C_LONG;
 		else if (*f == 'l')
 		{
@@ -70,7 +70,7 @@ char	*get_cast(char *f, t_params *conv)
 
 int		check_type_cast(t_params *conv)
 {
-	char	c;
+	unsigned char	c;
 
 	conv->cast ^= !conv->cast || !(conv->cast ^ C_UNSIGNED) ? C_DEFAULT : 0;
 	c = conv->cast & ~C_UNSIGNED;
@@ -85,7 +85,7 @@ int		check_type_cast(t_params *conv)
 	else if ((conv->type && conv->type != '%' && conv->type != 'C'
 			&& conv->type != 'S') && (c == C_DEFAULT || c == C_SHORT || c == C_LONG
 			|| c == C_LONG_LONG || c == T_SIZE_T || c == T_INTMAX_T
-			|| c == C_CHAR))
+			|| c == T_CHAR))
 		return (1);
 	else if (conv->type == '%' && conv->soc == conv->eoc)
 		return (1);

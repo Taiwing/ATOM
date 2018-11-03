@@ -1,6 +1,6 @@
 #include "ft_itoa_cast.h"
 
-char	*ft_itoa_uintmax_t(uintmax_t n, int base, int maj)
+char	*ft_itoa_base_uintmax_t(uintmax_t n, int base, int maj)
 {
 	static int	l = 0;
 	char		*str;
@@ -9,7 +9,7 @@ char	*ft_itoa_uintmax_t(uintmax_t n, int base, int maj)
 	l++;
 	c = g_bstr[maj][n % base];
 	if (n / base)
-		str = ft_itoa_uintmax_t(n / base);
+		str = ft_itoa_base_uintmax_t(n / base, base, maj);
 	else
 	{
 		str = (char *)malloc(l + 1);

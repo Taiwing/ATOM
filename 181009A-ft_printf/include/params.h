@@ -6,11 +6,10 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:53:30 by yforeau           #+#    #+#             */
-/*   Updated: 2018/10/31 23:24:58 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/02 21:39:04 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARAMS_H
 #ifndef PARAMS_H
 # define PARAMS_H
 
@@ -49,7 +48,7 @@ typedef struct					s_params
 		char					cast;
 		int						arg;
 		int						flags;
-		t_lint					field_width;
+		t_lint					fw;
 		t_lint					precision;
 		char					*soc;
 		char					*eoc;

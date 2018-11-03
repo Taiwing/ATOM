@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:55:25 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/02 18:57:47 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/02 21:06:58 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct		s_fstr
 	int				l_total;
 	int				space_pad;
 	const char		*hex;
-	const char		sign;
+	char			sign;
 	int				zero_pad;
 	int				l_str;
 	char			*str;

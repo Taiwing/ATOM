@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/01 22:30:45 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/02 12:22:10 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/02 21:49:18 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 char	*lc_conversion(va_list cur, va_list ref, t_params *conv)
 {
-	size_t		l;
-	wint_t		nb;
-	char		*str;
+	int		l;
+	wint_t	nb;
+	char	*str;
 
 	if (!conv->arg)
 		fetch(cur, 0, T_WINT_T, (void *)(&nb));
 	else
 		fetch(ref, conv->arg, T_WINT_T, (void *)(&nb));
-	l = nb && nb < 0x80 ? 1 : 0;
+	l = (nb && nb < 0x80);
 	if (nb < 0x800)
 		l = 2;
 	else if (nb < 0x10000)
