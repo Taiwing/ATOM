@@ -20,5 +20,8 @@ int		main(void)
 	printf("\nret = %d\n", ret);
 	ret = printf("%ls\n", (wchar_t *)NULL);
 	printf("ret = %d\n", ret);
+	printf("%hhp\n", (void *)printf);
+	printf("%hhhp\n", (void *)printf);
+	printf("neg pointer: %p\n", (void *)-345);
 	return (0);
 }

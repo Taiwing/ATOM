@@ -11,6 +11,8 @@ src/utils/fetch.c\
 src/get_conv/get_type_cast.c\
 src/get_conv/get_flags.c\
 src/get_conv/get_conv.c\
+src/convert/p_conversion.c\
+src/convert/lp_conversion.c\
 src/convert/s_conversion.c\
 src/convert/ls_conversion.c\
 src/convert/lc_conversion.c\

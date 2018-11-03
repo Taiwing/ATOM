@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:54:12 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/02 21:37:32 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/03 13:03:37 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,6 @@ char	*get_type(char *f, t_params *conv)
 	{
 		conv->cast |= C_UNSIGNED;
 		conv->type = *f;
-	}
-	else if (*f == 'p' || *f == 'P')
-	{
-		conv->cast |= (C_LONG | C_UNSIGNED);
-		conv->flags |= F_HASH;
-		conv->type = *f == 'p' ? 'x' : 'X';
 	}
 	else if (*f)
 		conv->type = *f == 'i' ? 'd' : *f;

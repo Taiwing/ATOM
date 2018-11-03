@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:53:30 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/02 21:39:04 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/03 14:37:23 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef unsigned char			t_uchar;
 typedef struct					s_params
 {
 		char					type;
-		char					cast;
+		t_uchar					cast;
 		int						arg;
 		int						flags;
 		t_lint					fw;

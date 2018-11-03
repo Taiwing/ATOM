@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   convert.h                                          :+:      :+:    :+:   */
+/*   lp_conversion.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/29 20:55:40 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/03 13:37:15 by yforeau          ###   ########.fr       */
+/*   Created: 2018/11/03 13:35:45 by yforeau           #+#    #+#             */
+/*   Updated: 2018/11/03 14:03:36 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONVERT_H
-# define CONVERT_H
-# include <stdarg.h>
-# include "ft_itoa_cast.h"
-# include "p_conversion.h"
-# include "lp_conversion.h"
-# include "c_conversion.h"
-# include "lc_conversion.h"
-# include "s_conversion.h"
-# include "ls_conversion.h"
-# include "format_str.h"
-# include "params.h"
-# include "fstr.h"
+#include "lp_conversion.h"
 
-void	convert(t_fstr *s, va_list cur, va_list ref, t_params *conv);
+char	*lp_conversion(va_list cur, va_list ref, t_params *conv)
+{
+	t_ulint	ptr;
 
-#endif
+	if (!conv->arg)
+		fetch(cur, 0, T_INT | C_LONG | C_UNSIGNED, (void *)(&ptr));
+	else
+		fetch(ref, conv->arg, T_INT | C_LONG | C_UNSIGNED, (void *)(&ptr));
+	if (!ptr)
+	{
+		conv->type = 's';
+		return (ft_strdup("(nil)"));
+	}
+	return (ft_itoa_base_ulint(ptr, 16, 1));
+}

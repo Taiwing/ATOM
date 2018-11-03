@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:57:24 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/02 19:16:57 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/03 14:01:22 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ void	putfstr(t_fstr *s)
 		write(1, " ", 1);
 		s->space_pad--;
 	}
-	if (s->hex)
-		write(1, s->hex, 2);
 	if (s->sign)
 		write(1, &(s->sign), 1);
+	if (s->hex)
+		write(1, s->hex, 2);
 	while (s->zero_pad > 0)
 	{
 		write(1, "0", 1);
