@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:54:12 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/03 15:20:07 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/03 17:42:28 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ char	*get_cast(char *f, t_params *conv)
 	f--;
 	while (*f == 'h' || *f == 'l' || *f == 'j' || *f == 'z')
 	{
-		if (*f == 'h' && ((conv->cast | C_SHORT) == 0))
+		if (*f == 'h' && ((conv->cast & C_SHORT) == 0))
 			conv->cast |= C_SHORT;
 		else if (*f == 'h')
 		{
 			conv->cast |= T_CHAR;
 			conv->cast &= ~C_SHORT;
 		}
-		else if (*f == 'l' && ((conv->cast | C_LONG) == 0))
+		else if (*f == 'l' && ((conv->cast & C_LONG) == 0))
 			conv->cast |= C_LONG;
 		else if (*f == 'l')
 		{

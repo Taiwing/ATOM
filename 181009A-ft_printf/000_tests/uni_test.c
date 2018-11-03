@@ -23,5 +23,8 @@ int		main(void)
 	printf("%hhp\n", (void *)printf);
 	printf("%hhhp\n", (void *)printf);
 	printf("neg pointer: %p\n", (void *)-345);
+	printf("short cast: %hd\n", (short)123456789);
+	printf("int cast:   %hd\n",   (int)123456789);
+	printf("char cast:  %hd\n",  (char)123456789);
 	return (0);
 }
