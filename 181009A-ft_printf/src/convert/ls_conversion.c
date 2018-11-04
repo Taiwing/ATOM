@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/02 14:12:35 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/04 00:36:32 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/04 19:10:41 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char			*ls_conversion(va_list cur, va_list ref, t_params *conv)
 		fetch(cur, 0, T_WCHAR_T_P, (void *)(&wstr));
 	else
 		fetch(ref, conv->arg, T_WCHAR_T_P, (void *)(&wstr));
-	if (!wstr && (conv->precision > 5 || conv->precision == -1))
+	if (!wstr && (conv->precision > 5 || conv->precision < 0))
 		return (ft_strdup("(null)"));
 	else if (!wstr)
 		return (ft_strdup(""));

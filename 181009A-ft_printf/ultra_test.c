@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/03 18:35:34 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/04 17:55:52 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/04 19:28:29 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -5327,63 +5327,63 @@ int main(void)
 	//setbuf(stdout, NULL);
 	//Start Conv_s
 	printf("=======> Conv_s <======= OK\n");
-	//test_s();
+	test_s();
 
 	//Start
 	printf("=======> Conv_S <======= OK\n");
-	//test_ls();
+	test_ls();
 
 	//Start conv_p
 	printf("=======> Conv_p <======= OK\n");
-	 //test_p();
+	test_p();
 
 	printf("=======> Conv_d <======= MEH\n");
-	// test_d();
+	test_d();
 
 	printf("=======> Conv_D <======= MEEEEEEEH\n");
-	// test_ld();
+	test_ld();
 
 	printf("=======> Conv_i <======= OK\n");
-	// test_i();
+	test_i();
 
 	printf("=======> Conv_o <======= OK\n");
-	 //test_o();
+	test_o();
 
 	printf("=======> Conv_O <======= MEEEEEEEH\n");
-	 //test_lo();
+	test_lo();
 
 	printf("=======> Conv_u <======= OK\n");
-	 //test_u();
+	test_u();
 
 	printf("=======> Conv_lu <======= MEEEEEEH\n");
-	  //test_lu();
+	test_lu();
 
 	printf("=======> Conv_x <======= OK\n");
-	 //test_x();
+	test_x();
 
 	printf("=======> Conv_lx <======= OK\n");
-	 //test_lx();
+	test_lx();
 
-	printf("=======> Conv_c <======= MEH\n");
-	  //test_c();
+	printf("=======> Conv_c <======= OK\n");
+	test_c();
 	//Start conv_lc
 	printf("=======> Conv_lc <======= MEH\n");
-	 // test_lc();
+	test_lc();
 
 	printf("=======> Conv_%% <======= MEEEEEEEH\n");
-	 //test_modulo();
+	test_modulo();
 
 	printf("=======> Conv_b <======= NOT IMP\n");
 	// test_b();
 
 	printf("=======> Conv_null <======= MEH\n");
-	 //test_null();
+	test_null();
 
 	printf("=======> Pitch_Star <======= OK\n");
-	 //test_pitch_star();
+	test_pitch_star();
 
 	printf("=======> Width_Star <======= MEH\n");
-	 //test_width_star();
+	test_width_star();
 
 	//Start Mutants
 	printf("=======> Mutant_Test <======= MEH\n");

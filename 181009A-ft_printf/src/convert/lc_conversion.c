@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/01 22:30:45 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/04 17:36:38 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/04 19:22:27 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*lc_conversion(va_list cur, va_list ref, t_params *conv)
 	else
 		fetch(ref, conv->arg, T_WINT_T, (void *)(&nb));
 	l = byte_len(nb);
-	str = (char *)malloc(sizeof(char) * (l + 1));
+	str = ft_strnew(sizeof(char) * (l + 1));
 	str[l] = 0;
 	conv_wint(str, l, nb);
 	return (str);

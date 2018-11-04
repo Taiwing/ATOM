@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/01 20:55:29 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/02 22:25:23 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/04 19:21:01 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*c_conversion(va_list cur, va_list ref, t_params *conv)
 	else
 		fetch(ref, conv->arg, T_CHAR | C_UNSIGNED, (void *)(&nb));
 	l = nb < 0x80 ? 2 : 3;
-	str = (char *)malloc(sizeof(char) * l);
+	str = ft_strnew(sizeof(char) * l);
 	if (l == 2)
 		*str = (char)nb;
 	else
