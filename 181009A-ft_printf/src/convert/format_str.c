@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/02 15:43:42 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/03 23:35:00 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/04 17:14:27 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,19 @@
 
 static void	apply_precision(t_fstr *s, t_params *conv)
 {
-	s->zero_pad = conv->precision - s->l_str - (s->str[0] == '-');
+	s->zero_pad = conv->precision - s->l_str;
 	if (s->str[0] == '-')
 	{
 		s->sign = '-';
 		s->str[0] = '0';
+		s->l_total++;
 	}
 	s->l_total += s->zero_pad;
 }
 
 static void	apply_hash(t_fstr *s, char t)
 {
-	if (t == 'o' && !s->zero_pad && s->str[0] != '0')
+	if (t == 'o' && !s->zero_pad && (s->str[0] != '0' || !s->l_str))
 	{
 		s->zero_pad++;
 		s->l_total++;

@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/03 18:35:34 by yforeau           #+#    #+#             */
-/*   Updated: 2018/11/03 23:45:33 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/04 17:55:52 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -5326,76 +5326,76 @@ int main(void)
 {
 	//setbuf(stdout, NULL);
 	//Start Conv_s
-	printf("=======> Conv_s <=======\n");
+	printf("=======> Conv_s <======= OK\n");
 	//test_s();
 
 	//Start
-	printf("=======> Conv_S <=======\n");
-	test_ls();
+	printf("=======> Conv_S <======= OK\n");
+	//test_ls();
 
 	//Start conv_p
-	printf("=======> Conv_p <=======\n");
-	// test_p();
+	printf("=======> Conv_p <======= OK\n");
+	 //test_p();
 
-	printf("=======> Conv_d <=======\n");
-	 //test_d();
+	printf("=======> Conv_d <======= MEH\n");
+	// test_d();
 
-	printf("=======> Conv_D <=======\n");
-	 //test_ld();
+	printf("=======> Conv_D <======= MEEEEEEEH\n");
+	// test_ld();
 
-	printf("=======> Conv_i <=======\n");
-	 //test_i();
+	printf("=======> Conv_i <======= OK\n");
+	// test_i();
 
-	printf("=======> Conv_o <=======\n");
+	printf("=======> Conv_o <======= OK\n");
 	 //test_o();
 
-	printf("=======> Conv_O <=======\n");
-	// test_lo();
+	printf("=======> Conv_O <======= MEEEEEEEH\n");
+	 //test_lo();
 
-	printf("=======> Conv_u <=======\n");
+	printf("=======> Conv_u <======= OK\n");
 	 //test_u();
 
-	printf("=======> Conv_lu <=======\n");
-	 // test_lu();
+	printf("=======> Conv_lu <======= MEEEEEEH\n");
+	  //test_lu();
 
-	printf("=======> Conv_x <=======\n");
+	printf("=======> Conv_x <======= OK\n");
 	 //test_x();
 
-	printf("=======> Conv_lx <=======\n");
+	printf("=======> Conv_lx <======= OK\n");
 	 //test_lx();
 
-	printf("=======> Conv_c <=======\n");
+	printf("=======> Conv_c <======= MEH\n");
 	  //test_c();
 	//Start conv_lc
-	printf("=======> Conv_lc <=======\n");
-	  //test_lc();
+	printf("=======> Conv_lc <======= MEH\n");
+	 // test_lc();
 
-	printf("=======> Conv_%% <=======\n");
+	printf("=======> Conv_%% <======= MEEEEEEEH\n");
 	 //test_modulo();
 
-	printf("=======> Conv_b <=======\n");
+	printf("=======> Conv_b <======= NOT IMP\n");
 	// test_b();
 
-	printf("=======> Conv_null <=======\n");
-	// test_null();
+	printf("=======> Conv_null <======= MEH\n");
+	 //test_null();
 
-	printf("=======> Pitch_Star <=======\n");
-	// test_pitch_star();
+	printf("=======> Pitch_Star <======= OK\n");
+	 //test_pitch_star();
 
-	printf("=======> Width_Star <=======\n");
-	// test_width_star();
+	printf("=======> Width_Star <======= MEH\n");
+	 //test_width_star();
 
 	//Start Mutants
-	printf("=======> Mutant_Test <=======\n");
-	 //mutant_test();
+	printf("=======> Mutant_Test <======= MEH\n");
+	//mutant_test();
 
-	printf("=======> Conv_e <=======\n");
+	printf("=======> Conv_e <======= NOT IMP\n");
 	//test_e();
 
-	printf("=======> Conv_E <=======\n");
+	printf("=======> Conv_E <======= NOT IMP\n");
 	// mutant_test();
 
-	printf("=======> Conv_f <=======\n");
+	printf("=======> Conv_f <======= NOT IMP\n");
 	// test_f();
 
 	printf("=======> Conv_g <=======\n");
