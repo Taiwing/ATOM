@@ -1,0 +1,6 @@
+- watch for incongruencies in the get_conv functions with wrong casts
+- find out how printf handles its errors (for now I am under the impression
+  that it stops at the first non-valid character and that it prints the rest
+  of the string from this character included and with a '%' symbol before it)
+- make it pass the tests (42FileChecker among other)
+- add bonuses like the ' flag and "aAeEfFgG" conversions, and custom ones like "b"

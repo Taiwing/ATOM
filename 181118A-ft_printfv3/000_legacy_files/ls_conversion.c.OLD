@@ -1,0 +1,71 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ls_conversion.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: yforeau <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/11/16 21:13:49 by yforeau           #+#    #+#             */
+/*   Updated: 2018/11/18 17:30:39 by yforeau          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "conversions.h"
+#include "fetch.h"
+
+static int		byte_len(wchar_t c)
+{
+	int	l;
+
+	l = 0;
+	if (c < 0x80)
+		l = 1;
+	else if (c < 0x800)
+		l = 2;
+	else if (c < 0x10000)
+		l = 3;
+	else if (c < 0x200000)
+		l = 4;
+	return (l);
+}
+
+static void		conv_wchar(char *str, int l, wchar_t c)
+{
+	str[0] = l > 1 ? 0xf0 << (4 - l) : 0;
+	while (--l > -1)
+	{
+		str[l] |= !l ? c : 0x80 | (c & 0x3f);
+		c >>= 6;
+	}
+}
+
+void			ls_conversion(t_pdata *loc, va_list cur,
+								va_list ref, t_params *conv)
+{
+	int			l;
+	int			b;
+	int			i;
+	wchar_t		*wstr;
+
+	if (!conv->arg)
+		fetch(cur, 0, C_WCHAR_T_P, (void *)(&wstr));
+	else
+		fetch(ref, conv->arg, C_WCHAR_T_P, (void *)(&wstr));
+	if (!wstr && (conv->prec > 5 || conv->prec < 0))
+		add_to_buf(loc, "(null)", 0, 6);
+	else if (wstr)
+	{
+		b = conv->prec;
+		i = 0;
+		while (*wstr && (i < b || b == -1))
+		{
+			l = byte_len(*wstr);
+			if (b == -1 || (i + l) <= b)
+			{
+				add_to_buf(loc, NULL, 0, l);
+				conv_wchar(loc->buf + loc->n - l, l, *wstr++);
+			}
+			i += l;
+		}
+	}
+}

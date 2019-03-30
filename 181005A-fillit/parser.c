@@ -6,7 +6,7 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:27:22 by yforeau           #+#    #+#             */
-/*   Updated: 2018/10/09 01:27:25 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/12 13:38:54 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,7 @@
 #include <stdlib.h>
 #include "libft.h"
 #include "tetros.h"
-
-static void	print_error(void)
-{
-	ft_putstr("error\n");
-	exit(1);
-}
+#include "error.h"
 
 static int	check_tetro(int tetro[4][2])
 {
@@ -88,7 +83,9 @@ static int	*read_file(int fd, int it, int *tc)
 	if ((i = read(fd, &end, 1)) < 0 || (i && end != 10))
 		print_error();
 	(*tc)++;
-	tetros = i ? read_file(fd, it + 1, tc) : (int *)malloc(*tc * sizeof(int));
+	if (!(tetros = i ? read_file(fd, it + 1, tc)
+		: (int *)malloc(*tc * sizeof(int))))
+		print_error();
 	tetros[it] = tid;
 	return (tetros);
 }

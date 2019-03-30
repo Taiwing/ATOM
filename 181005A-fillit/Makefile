@@ -5,7 +5,8 @@ NAME=fillit
 SRC=main.c\
 parser.c\
 solver.c\
-tetros.c
+tetros.c\
+error.c\
 OBJ=$(SRC:.c=.o)
 
 all: $(NAME)

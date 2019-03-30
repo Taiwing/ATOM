@@ -1,0 +1,33 @@
+BEFORE optind = 1
+AFTER opt n:
+optind = 1
+optarg = (null)
+
+BEFORE optind = 1
+AFTER opt n:
+optind = 1
+optarg = (null)
+
+BEFORE optind = 1
+AFTER opt n:
+optind = 2
+optarg = (null)
+
+BEFORE optind = 2
+AFTER opt t:
+optind = 3
+optarg = t
+
+BEFORE optind = 3
+tttttt... it is a bit shit what youre giving me boy: '-' is not a valid option
+AFTER opt -:
+optind = 3
+optarg = (null)
+
+BEFORE optind = 3
+AFTER opt t:
+optind = 5
+optarg = 12
+
+BEFORE optind = 5
+flags=1; tfnd=1; nsecs=12; optind=5

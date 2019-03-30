@@ -6,13 +6,14 @@
 /*   By: yforeau <yforeau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 01:25:37 by yforeau           #+#    #+#             */
-/*   Updated: 2018/10/09 01:25:42 by yforeau          ###   ########.fr       */
+/*   Updated: 2018/11/12 13:42:17 by yforeau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "solver.h"
 #include "tetros.h"
 #include "libft.h"
+#include "error.h"
 
 static void	build_square(int b, t_data *d)
 {
@@ -23,11 +24,13 @@ static void	build_square(int b, t_data *d)
 	while (i * i < b)
 		i++;
 	d->l = i;
-	d->square = (char **)malloc(d->l * sizeof(char *));
+	if (!(d->square = (char **)malloc(d->l * sizeof(char *))))
+		print_error();
 	i = -1;
 	while (++i < d->l)
 	{
-		d->square[i] = (char *)malloc(d->l);
+		if (!(d->square[i] = (char *)malloc(d->l)))
+			print_error();
 		j = -1;
 		while (++j < d->l)
 			d->square[i][j] = '.';
@@ -100,7 +103,8 @@ int			get_square(int tc, int *tetros, char ***square)
 	int		i;
 	int		l;
 
-	d = (t_data *)malloc(sizeof(t_data));
+	if (!(d = (t_data *)malloc(sizeof(t_data))))
+		print_error();
 	d->tc = tc;
 	d->tetros = tetros;
 	build_square(d->tc * 4, d);

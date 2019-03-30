@@ -1,0 +1,6 @@
+fix this shit:
+
+MINE [MINE [%-25s] >> %#.*Lg   ] >> 0.008
+ORIG [ORIG [%-25s] >> %#.*Lg   ] >> 0.00800000
+
+(./fl 6 "#" 0.008)

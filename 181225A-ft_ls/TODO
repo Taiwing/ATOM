@@ -1,0 +1,7 @@
+- update this version with the little norme changes made in the pushed version
+- fix -t time sort (and uUS) by creating a version of get_file_data_one and
+  get_file_data_columns with a lstat call in it (this is an optimization error
+  that was introduced in commit 40f1d6d "Remove stat when necessary")
+- check the all thing with 42fileChecker
+- don't forget to manually add libft.a so that it doesn't relink
+- renormify this shit

@@ -1,0 +1,24 @@
+File type:                regular file
+block device: 24576
+char device: 8192
+directory: 16384
+FIFO/pipe: 4096
+symlink: 40960
+regular file: 32768
+socket: 49152
+I-node number:            612898
+Mode:                     100755 (octal)
+Link count:               1
+Ownership:                UID=31658   GID=4260
+Ownership:                User=yforeau   Group=2018_paris
+Preferred I/O block size: 4096 bytes
+File size:                8864 bytes
+Blocks allocated:         24
+Last status change:       Sat Jan 26 19:16:15 2019
+Last file access:         Sat Jan 26 19:16:15 2019
+Last file modification:   Sat Jan 26 19:16:15 2019
+File creation:   	Sat Jan 26 19:16:15 2019
+birthtimensec:		1548526575
+birthtimensec:		1548526575
+
+EXIT: 0x7fffaf4301a8

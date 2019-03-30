@@ -1,0 +1,13 @@
+basic_conversions.c:		fetch(cur, 0, C_CHAR | C_UNSIGNED, (void *)(&nb));
+basic_conversions.c:		fetch(ref, conv->arg, C_CHAR | C_UNSIGNED, (void *)(&nb));
+basic_conversions.c:		fetch(cur, 0, T_CHAR_P, (void *)(&str));
+basic_conversions.c:		fetch(ref, conv->arg, T_CHAR_P, (void *)(&str));
+basic_conversions.c:		fetch(cur, 0, T_INT | C_LONG | C_UNSIGNED, (void *)(&ptr));
+basic_conversions.c:		fetch(ref, conv->arg, T_INT | C_LONG | C_UNSIGNED, (void *)(&ptr));
+get_flags.c:** TODO: remake the fetch function
+get_flags.c:			//fetch(ref, nb, T_INT, (void *)&value);
+get_flags.c:			//fetch(cur, 0, T_INT, (void *)&value);
+lc_conversion.c:		fetch(cur, 0, T_WINT_T, (void *)(&nb));
+lc_conversion.c:		fetch(ref, conv->arg, T_WINT_T, (void *)(&nb));
+ls_conversion.c:		fetch(cur, 0, T_WCHAR_T_P, (void *)(&wstr));
+ls_conversion.c:		fetch(ref, conv->arg, T_WCHAR_T_P, (void *)(&wstr));

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+make re
+make clean
+make -C libft/ clean
+valgrind --leak-check=full -v ./test_gnl libft/*.c
